@@ -140,7 +140,6 @@ if(defined $opt_e && $opt_e ne ""){
   @exportTypes = sort {$a cmp $b} keys %typeHash;
 }
 
-
 my $textFile;
 if($isXmlInput){ # extracting text from Omnipage XML output
   $textFile = "/tmp/". newTmpFile();
