@@ -25,10 +25,10 @@ BEGIN
 use lib "$path/../../lib";
 use SectLabel::PreProcess;
 
-### USER customizable section
+# USER customizable section
 $0 =~ /([^\/]+)$/; my $progname = $1;
 my $outputVersion = "1.0";
-### END user customizable section
+# END user customizable section
 
 sub License 
 {
@@ -50,101 +50,125 @@ sub Help
 	print STDERR "\t-tag tagFile: count XML tags/values for statistics purpose\n";
 }
 
-my $QUIET = 0;
-my $HELP = 0;
-my $outFile = undef;
-my $inFile = undef;
+my $QUIET 			= 0;
+my $HELP 			= 0;
+my $outFile 		= undef;
+my $inFile 			= undef;
 
-my $isXmlFeature = 0;
-my $isDecode = 0;
+my $isXmlFeature	= 0;
+my $isDecode 		= 0;
 
-my $isMarkup = 0;
+my $isMarkup 		= 0;
 my $isParaDelimiter = 0;
 
-my $tagFile = "";
-my $isAllowEmpty = 0;
-my $isDebug = 1;
-$HELP = 1 unless GetOptions('in=s' => \$inFile,
-			 'out=s' => \$outFile,
-			 'decode' => \$isDecode,
-			 'xmlFeature' => \$isXmlFeature,
+my $tagFile 		= "";
+my $isAllowEmpty 	= 0;
+my $isDebug 		= 1;
 
-			 'tag=s' => \$tagFile,
-			 'allowEmptyLine' => \$isAllowEmpty,
-			 'markup' => \$isMarkup,
+$HELP = 1 unless GetOptions('in=s' 				=> \$inFile,
+			 				'out=s' 			=> \$outFile,
+			 				'decode' 			=> \$isDecode,
+			 				'xmlFeature' 		=> \$isXmlFeature,
 
-			 'para' => \$isParaDelimiter,
-			 'log' => \$isDebug,
-			 'h' => \$HELP,
-			 'q' => \$QUIET);
+			 				'tag=s' 			=> \$tagFile,
+			 				'allowEmptyLine'	=> \$isAllowEmpty,
+			 				'markup' 			=> \$isMarkup,
 
-if ($HELP || !defined $inFile || !defined $outFile) {
+			 				'para' 				=> \$isParaDelimiter,
+			 				'log' 				=> \$isDebug,
+			 				'h' 				=> \$HELP,
+			 				'q' 				=> \$QUIET);
+
+if ($HELP || !defined $inFile || !defined $outFile) 
+{
 	Help();
 	exit(0);
 }
 
-if (!$QUIET) {
+if (!$QUIET) 
+{
 	License();
 }
 
-### Untaint ###
-$inFile = untaintPath($inFile);
-$outFile = untaintPath($outFile);
-$tagFile = untaintPath($tagFile);
+# Untaint
+$inFile		 = untaintPath($inFile);
+$outFile 	 = untaintPath($outFile);
+$tagFile 	 = untaintPath($tagFile);
 $ENV{'PATH'} = '/bin:/usr/bin:/usr/local/bin';
-### End untaint ###
+# End untaint
 
-### Mark page, para, line, word
-my %gPageHash = ();
+# Mark page, para, line, word
+my %gPageHash	= ();
 
-### Mark paragraph
-my @gPara = ();
+# Mark paragraph
+my @gPara		= ();
 
-### XML features ###
+# XML features
 # locFeature
-my @gPosHash = (); my $gMinPos = 1000000; my $gMaxPos = 0;
-my @gAlign = (); # alignFeature
-my @gBold = (); # bold feature
-my @gItalic = (); # italic feature
+my @gPosHash	= (); 
+my $gMinPos 	= 1000000; 
+my $gMaxPos 	= 0;
 
-# font size feature
-my %gFontSizeHash = (); my @gFontSize = ();
-# font face feature
-my %gFontFaceHash = (); my @gFontFace = ();
+# alignFeature
+my @gAlign 		= (); 
 
-my @gPic = (); # pic feature
-my @gTable = (); # table feature
-my @gBullet = (); # bullet feature
+# boldFeature
+my @gBold 		= ();
 
-# space feature
-#my %gSpaceHash = (); my @gSpace = ();
-### End XML features ###
+# italicFeature
+my @gItalic 	= (); 
+
+# fontSizeFeature
+my %gFontSizeHash	= (); 
+my @gFontSize 		= ();
+
+# fontFaceFeature
+my %gFontFaceHash	= (); 
+my @gFontFace 		= ();
+
+# picFeature
+my @gPic			= (); 
+
+# tableFeature
+my @gTable			= ();
+
+# bulletFeature
+my @gBullet 		= (); 
+
+# spaceFeature
+#my %gSpaceHash		= (); 
+#my @gSpace			= ();
+# End XML features
 
 my %tags = ();
 
-if($isDebug){
+if ($isDebug)
+{
 	print STDERR "\n# Processing file $inFile & output to $outFile\n";
 }
 
-my $markupOutput = "";
-my $allText = processFile($inFile, $outFile, \%tags);
+my $markupOutput	= "";
+my $allText 		= processFile($inFile, $outFile, \%tags);
 
 # Find header part
-my @lines = split(/\n/, $allText);
+my @lines	 = split(/\n/, $allText);
 my $numLines = scalar(@lines);
-my ($headerLength, $bodyLength, $bodyStartId) =
-	SectLabel::PreProcess::findHeaderText(\@lines, 0, $numLines);
+my ($headerLength, $bodyLength, $bodyStartId) =	SectLabel::PreProcess::findHeaderText(\@lines, 0, $numLines);
 
 # Output
-if($isMarkup){
+if ($isMarkup)
+{
 	open(OF, ">:utf8", "$outFile") || die"#Can't open file \"$outFile\"\n";
 	print OF "$markupOutput";
 	close OF;
-} else {
+} 
+else 
+{
 	output(\@lines, $outFile);
 }
 
-if($tagFile ne ""){
+if ($tagFile ne "")
+{
 	printTagInfo(\%tags, $tagFile);
 }
 
@@ -403,36 +427,52 @@ sub output
 	close OF;
 }
 
-sub getDifferentialFeatures {
+sub getDifferentialFeatures 
+{
 	my ($id) = @_;
 
 	# alignChange feature
 	my $alignDiff = "bi_xmlA_";
-	if($id == 0){
+	if ($id == 0)
+	{
 		$alignDiff .= $gAlign[$id];
-	} elsif($gAlign[$id] eq $gAlign[$id-1]){
+	} 
+	elsif ($gAlign[$id] eq $gAlign[$id-1])
+	{
 		$alignDiff .= "continue";
-	} else {
+	} 
+	else 
+	{
 		$alignDiff .= $gAlign[$id];
 	}
 	
 	# fontFaceChange feature
 	my $fontFaceDiff = "bi_xmlF_";
-	if($id == 0){
+	if ($id == 0)
+	{
 		$fontFaceDiff .= "new";
-	} elsif($gFontFace[$id] eq $gFontFace[$id-1]){
+	} 
+	elsif ($gFontFace[$id] eq $gFontFace[$id-1])
+	{
 		$fontFaceDiff .= "continue";
-	} else {
+	} 
+	else 
+	{
 		$fontFaceDiff .= "new";
 	}
 
 	# fontSizeChange feature
 	my $fontSizeDiff = "bi_xmlS_";
-	if($id == 0){
+	if ($id == 0)
+	{
 		$fontSizeDiff .= "new";
-	} elsif($gFontSize[$id] == $gFontSize[$id-1]){
+	} 
+	elsif ($gFontSize[$id] == $gFontSize[$id-1])
+	{
 		$fontSizeDiff .= "continue";
-	} else {
+	} 
+	else 
+	{
 		$fontSizeDiff .= "new";
 	}  
 	
