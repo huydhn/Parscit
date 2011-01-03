@@ -167,7 +167,7 @@ if (defined $opt_e && $opt_e ne "")
 my $textFile;
 
 # Extracting text from Omnipage XML output
-if ($isXmlInput
+if ($isXmlInput)
 { 
 	$textFile = "/tmp/". newTmpFile();
 	my $cmd = "$FindBin::Bin/sectLabel/processOmniXML.pl -q -in $in -out $textFile -decode";
