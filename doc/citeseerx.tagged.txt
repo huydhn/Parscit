@@ -198,4 +198,3 @@
 <author> Spreitzer, G.M., </author> <date> 1996. </date> <title> "Social Structural Characteristics of Psychological Empowerment", </title> <journal> Academy of Management Journal, </journal> <volume> Vol. 39, </volume> <pages> pp.483—504. </pages>
 <author> D. H. Ping, K. Hono, H. Kanekiyo, and S. Hirosawa, </author> <title> Mechanism of grain size refinement of Fe 3B/Nd 2Fe 14B nanocomposite permanent magnet by Cu addition, </title> <journal> J. Appl. Phys. </journal> <date> (1999), </date> <note> in press. </note>
 <author> R. Ferrer-i-Cancho and R.V. Sole. </author> <date> 2001. </date> <title> The small world of human language. </title> <booktitle> Proceedings of The Royal Society of London. Series B, Biological Sciences, </booktitle> <volume> 268(1482) </volume> <pages> :2261-2265 </pages>
-

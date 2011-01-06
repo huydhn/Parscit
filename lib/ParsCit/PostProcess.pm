@@ -1,23 +1,24 @@
 package ParsCit::PostProcess;
-#
+
+###
 # Utilities for normalizing the output of CRF++ into standard
 # representations.
 #
 # Isaac Councill, 07/20/07
-#
+###
 
-use strict;
 use utf8;
+use strict;
 use CSXUtil::SafeText qw(cleanXML);
 
-##
-# Main normalization subroutine.  Reads in a CRF++ output file
-# and normalizes each field of individual citations.  An intermediate
+###
+# Main normalization subroutine.  Reads in a CRF++ output file and 
+# normalizes each field of individual citations.  An intermediate
 # XML representation is used to keep track of the tags discovered by
 # the model.  Returns a reference to the raw XML (may not be encoded
 # safely) and a reference to a list of hashes containing the normalized
 # citation subfields, keyed by tag name.
-##
+###
 sub readAndNormalize {
     my ($inFile) = @_;
 
