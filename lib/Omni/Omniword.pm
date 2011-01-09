@@ -1,15 +1,10 @@
-package Omni::Omnidoc;
+package Omni::Omniword;
 
 # Configuration
 use strict;
 
 # Local libraries
 use Omni::Config;
-use Omni::Omniword;
-use Omni::Omnirun;
-use Omni::Omniline;
-use Omni::Omnipara;
-use Omni::Omnipage;
 
 # Extern libraries
 use XML::Twig;
@@ -21,25 +16,28 @@ my $att_list = $Omni::Config::att_list;
 
 # Temporary variables
 my $tmp_content 	= undef;
-my @tmp_pages		= ();
+my $tmp_bottom		= undef;
+my $tmp_top			= undef;
+my $tmp_left		= undef;
+my $tmp_right		= undef;
 
 ###
-# A whole document object in Omnipage xml: a document contains many pages 
+# A word object in Omnipage xml: basic blocks of the xml
 #
-# Do Hoang Nhat Huy, 09 Jan 2011
+# Do Hoang Nhat Huy, 07 Jan 2011
 ###
 # Initialization
 sub new
 {
 	my ($class) = @_;
 
-	# Lines: a paragraph can have multiple lines
-	my @pages	= ();
-
 	# Class members
 	my $self = {	'_raw'			=> undef,
 					'_content'		=> undef,
-					'_pages'		=> \@pages	};
+					'_bottom'		=> undef,
+					'_top'			=> undef,
+					'_left'			=> undef,
+					'_right'		=> undef	};
 
 	bless $self, $class;
 	return $self;
@@ -50,12 +48,12 @@ sub set_raw
 {
 	my ($self, $raw) = @_;
 
-	# Save the raw xml <para> ... </para>
+	# Save the raw xml <wd> ... </wd>
 	$self->{ '_raw' }	= $raw;
 
 	# Parse the raw string
-	my $twig_roots		= { $tag_list->{ 'DOCUMENT' }	=> 1 };
-	my $twig_handlers 	= { $tag_list->{ 'DOCUMENT' }	=> \&parse};
+	my $twig_roots		= { $tag_list->{ 'WORD' }	=> 1 };
+	my $twig_handlers 	= { $tag_list->{ 'WORD' }	=> \&parse};
 
 	# XML::Twig 
 	my $twig = new XML::Twig(	twig_roots 		=> $twig_roots,
@@ -67,9 +65,10 @@ sub set_raw
 	$twig->purge;
 
 	# Copy information from temporary variables to class members
-
-	# Copy all pages
-	@{$self->{ '_pages' } }	= @tmp_pages;
+	$self->{ '_bottom' }	= $tmp_bottom;
+	$self->{ '_top' }		= $tmp_top;
+	$self->{ '_left' }		= $tmp_left;
+	$self->{ '_right' } 	= $tmp_right;
 	
 	# Copy content
 	$self->{ '_content' }	= $tmp_content;
@@ -85,40 +84,44 @@ sub parse
 {
 	my ($twig, $node) = @_;
 
-	# At first, content is blank
-	$tmp_content 		= "";
-	# because there's no pages
-	@tmp_pages			= ();
-
-	# Get <document> node attributes
-
-	# Check if there's any para
-	my @all_pages = $node->descendants( $tag_list->{ 'PAGE' } );
-	foreach my $pg (@all_pages)
-	{
-		my $page = new Omni::Omnipage();
-
-		# Set raw content
-		$page->set_raw($pg->sprint());
-
-		# Update page list
-		push @tmp_pages, $page;
-
-		# Update content
-		$tmp_content = $tmp_content . $page->get_content() . "\n";
-	}
-}
-
-sub get_pages_ref
-{
-	my ($self) = @_;
-	return $self->{ '_pages' };
+	# Get <run> node attributes
+	$tmp_bottom		= GetNodeAttr($node, $att_list->{ 'BOTTOM' });
+	$tmp_top		= GetNodeAttr($node, $att_list->{ 'TOP' });
+	$tmp_left		= GetNodeAttr($node, $att_list->{ 'LEFT' });
+	$tmp_right		= GetNodeAttr($node, $att_list->{ 'RIGHT' });
+	
+	# Get the word's content
+	$tmp_content 	= GetNodeText($node);
 }
 
 sub get_content
 {
 	my ($self) = @_;
 	return $self->{ '_content' };
+}
+
+sub get_bottom_pos
+{
+	my ($self) = @_;
+	return $self->{ '_bottom' };
+}
+
+sub get_top_pos
+{
+	my ($self) = @_;
+	return $self->{ '_top' };
+}
+
+sub get_left_pos
+{
+	my ($self) = @_;
+	return $self->{ '_left' };
+}
+
+sub get_right_pos
+{
+	my ($self) = @_;
+	return $self->{ '_right' };
 }
 
 # Support functions

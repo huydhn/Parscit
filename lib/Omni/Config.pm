@@ -1,6 +1,6 @@
 package Omni::Config;
 
-my %omni_tag_list	=	(	'DOCUMENT'		=> 'document',
+%omni_tag_list	=		(	'DOCUMENT'		=> 'document',
 		 	  				'PAGE'			=> 'page',
 		   					'DESC'			=> 'description',
 			   				'SRC'			=> 'source',
@@ -27,10 +27,12 @@ my %omni_tag_list	=	(	'DOCUMENT'		=> 'document',
 							'LEFT-CELL'		=> 'leftBorder',
 							'RIGHT-CELL'	=> 'rightBorder',
 							'PICTURE'		=> 'picture',
-							'NEWLINE'		=> 'nl'
+							'NEWLINE'		=> 'nl',
+							'TAB'			=> 'tab'
 						);
+$tag_list = \%omni_tag_list;
 
-my $omni_att_list	=	(	'ALIGN'			=> 'alignment',
+%omni_att_list	=		(	'ALIGN'			=> 'alignment',
 							'FONTFACE'		=> 'fontFace',
 							'FONTFAMILY'	=> 'fontFamily',
 							'FONTPITCH'		=> 'fontPitch',
@@ -43,9 +45,10 @@ my $omni_att_list	=	(	'ALIGN'			=> 'alignment',
 							'LEFT'			=> 'l',
 							'RIGHT'			=> 'r',
 							'LANGUAGE'		=> 'language',
-							'SUPERSCRIPT'	=> 'subsuperscript',
+							'SUSCRIPT'		=> 'subsuperscript',
 							'BASELINE'		=> 'baseline',
 							'BOLD'			=> 'bold'
-						};
+						);
+$att_list = \%omni_att_list;
 
 1;
