@@ -47,7 +47,8 @@ $tag_list = \%omni_tag_list;
 							'LANGUAGE'		=> 'language',
 							'SUSCRIPT'		=> 'subsuperscript',
 							'BASELINE'		=> 'baseline',
-							'BOLD'			=> 'bold'
+							'BOLD'			=> 'bold',
+							'ITALIC'		=> 'italic'
 						);
 $att_list = \%omni_att_list;
 

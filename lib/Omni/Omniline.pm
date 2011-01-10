@@ -48,6 +48,7 @@ sub new
 					'_top'			=> undef,
 					'_left'			=> undef,
 					'_right'		=> undef,
+					'_bullet'		=> undef,
 					'_runs'			=> \@runs	};
 
 	bless $self, $class;
@@ -120,6 +121,7 @@ sub parse
 	my $tmp_su_script	= GetNodeAttr($node, $att_list->{ 'SUSCRIPT' });	# sub-script or super-script
 	my $tmp_underline	= GetNodeAttr($node, $att_list->{ 'UNDERLINE' });
 	my $tmp_bold		= GetNodeAttr($node, $att_list->{ 'BOLD' });
+	my $tmp_italic		= GetNodeAttr($node, $att_list->{ 'ITALIC' });
 
 	# Check if there's any run
 	my @all_runs = $node->descendants( $tag_list->{ 'RUN' });
@@ -138,7 +140,8 @@ sub parse
 							$att_list->{ 'SPACING' } 	=> $tmp_spacing,
 							$att_list->{ 'SUSCRIPT' } 	=> $tmp_su_script,
 							$att_list->{ 'UNDERLINE' } 	=> $tmp_underline,
-							$att_list->{ 'BOLD' }		=> $tmp_bold	);
+							$att_list->{ 'BOLD' }		=> $tmp_bold,
+							$att_list->{ 'ITALIC' }		=> $tmp_italic	);
 
 		# Get the inner line content
 		$writer->raw( $node->xml_string() );
@@ -173,6 +176,18 @@ sub parse
 			$tmp_content = $tmp_content . $run->get_content();
 		}
 	}
+}
+
+sub get_bullet
+{
+	my ($self) = @_;
+	return $self->{ '_bullet' };
+}
+
+sub set_bullet
+{
+	my ($self, $bullet) = @_;
+	$self->{ '_bullet' } = $bullet;		
 }
 
 sub get_runs_ref

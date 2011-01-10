@@ -123,6 +123,27 @@ sub parse
 		# Set raw content
 		$line->set_raw($ln->sprint());
 
+		# Check if there's any bullet
+		my $prev = $ln->prev_sibling();
+		if (defined $prev)
+		{
+			my $bullet		 = $tag_list->{ 'BULLET' };
+			my $prev_content = $prev->sprint();
+			# Has bullet
+			if ($prev_content =~ m/^<$bullet/) 
+			{ 
+				$line->set_bullet('true');
+			}
+			else
+			{
+				$line->set_bullet('false');
+			}
+		}
+		else
+		{
+			$line->set_bullet('false');
+		}
+
 		# Update line list
 		push @tmp_lines, $line;
 

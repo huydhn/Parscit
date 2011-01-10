@@ -55,10 +55,14 @@ sub prepDataUnmarked
       	return;
     }
 
-	# Calculate the average length in character and in word of the whole cite text
 	my $total_ln = 0;
+	# Calculate the average length in character and in word of the whole cite text
 	my $avg_char = 0;
 	my $avg_word = 0;
+	# Calculate the average font size
+	my $avg_font_size	= 0;
+	# Calculate the average line starting point
+	my $avg_start_point	= 0;
 	foreach my $line (@{ $rcite_lines })
 	{
 		# Get content
@@ -71,25 +75,37 @@ sub prepDataUnmarked
 		if ($ln =~ m/^\s*$/) { next; }
 
 		# Total length in char
-		$avg_char += length($ln);
+		$avg_char	+= length($ln);
 
 		# All words in a line
 		my @tokens	= split(/ +/, $ln);
 
 		# Total length in word
-		$avg_word += scalar(@tokens);
+		$avg_word	+= scalar(@tokens);
+
+		my $xml_runs = $line->get_runs_ref();
+		# Font size
+		$avg_font_size	 += ($xml_runs->[ 0 ]->get_font_size() eq '') ? 0 : $xml_runs->[ 0 ]->get_font_size();
+		# Line starting point
+		$avg_start_point += ($line->get_left_pos() eq '') ? 0 : $line->get_left_pos();
 
 		# Total number of non-blank line
 		$total_ln++;
 	}
-	# Calculate the average
+	# Calculate the average length
 	$avg_char = ($total_ln != 0) ? ($avg_char / $total_ln) : 0;
 	$avg_word = ($total_ln != 0) ? ($avg_word / $total_ln) : 0;
 
-	# A line which has length Less than 0.7 * average is likely to be the end of a reference
-	my $ln_ratio = 0.8;
+	# Calculate the average font size
+	$avg_font_size	 = ($total_ln != 0) ? ($avg_font_size / $total_ln) : 0;
+	# Calculate the average line starting point
+	$avg_start_point = ($total_ln != 0) ? ($avg_start_point / $total_ln) : 0;
 
-	foreach my $line (@content)
+	# A line which has length Less than 0.8 * average is likely to be the end of a reference
+	my $lower_ratio = 0.8;
+	my $upper_ratio = 1.2;
+
+	foreach my $line (@{ $rcite_lines })
 	{
 		# Get content
 		my $ln = $line->get_content();
@@ -118,7 +134,7 @@ sub prepDataUnmarked
 		$current++;
 
 		# Length
-		push @feats, ((length($ln) > 0.8 * $avg_char) ? "normal" : "short");
+		push @feats, ((length($ln) > $lower_ratio * $avg_char) ? "normal" : "short");
 		$current++;
 
 		# Line has year number
@@ -214,8 +230,60 @@ sub prepDataUnmarked
 		prepDataUnmarkedToken($last_word, \@feats, \$current);
 	
 		# XML features
-		# First word format: bold, italic, font size
+		# Bullet
+		my $bullet = $line->get_bullet();
+		if ((defined $bullet) && ($bullet eq 'true'))
+		{
+			push @feats, 'xmlBullet_yes';	
+		}
+		else
+		{
+			push @feats, 'xmlBullet_no';
+		}
+		$current++;
 
+		# First word format: bold, italic, font size
+		my $xml_runs = $line->get_runs_ref();
+
+		# First word format: bold
+		my $bold = $xml_runs->[ 0 ]->get_bold();
+		if ((defined $bold) && ($bold eq 'true'))
+		{
+			push @feats, 'xmlBold_yes'; 
+		}
+		else
+		{
+			push @feats, 'xmlBold_no';	
+		}
+		$current++;
+
+		# First word format: italic
+		my $italic = $xml_runs->[ 0 ]->get_italic();
+		if ((defined $italic) && ($italic eq 'true'))
+		{
+			push @feats, 'xmlItalic_yes'; 
+		}
+		else
+		{
+			push @feats, 'xmlItalic_no';	
+		}
+		$current++;
+
+		# First word format: font size
+		my $font_size = $xml_runs->[ 0 ]->get_font_size();
+		if ($font_size > $avg_font_size * $upper_ratio)
+		{
+			push @feats, 'xmlFontSize_large';
+		}
+		elsif ($font_size < $avg_font_size * $lower_ratio)
+		{
+			push @feats,  'xmlFontSize_small';
+		}
+		else
+		{
+			push @feats,  'xmlFontSize_normal';
+		}
+		$current++;
 	}
 }
 

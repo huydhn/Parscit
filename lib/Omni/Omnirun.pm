@@ -25,6 +25,7 @@ my $tmp_spacing		= undef;
 my $tmp_su_script	= undef;	# sub-script or super-script
 my $tmp_underline	= undef;
 my $tmp_bold		= undef;
+my $tmp_italic		= undef;
 my @tmp_words		= ();
 
 ###
@@ -51,6 +52,7 @@ sub new
 					'_su_script'	=> undef,	# sub-script or super-script
 					'_underline'	=> undef,
 					'_bold'			=> undef,
+					'_italic'		=> undef,
 					'_words'		=> \@words	};
 
 	bless $self, $class;
@@ -87,6 +89,7 @@ sub set_raw
 	$self->{ '_su_script' }		= $tmp_su_script;
 	$self->{ '_underline' }		= $tmp_underline;
 	$self->{ '_bold' }			= $tmp_bold;
+	$self->{ '_italic' }		= $tmp_italic;
 	
 	# Copy all words
 	@{ $self->{ '_words' } }	= @tmp_words;
@@ -114,6 +117,7 @@ sub parse
 	$tmp_su_script		= GetNodeAttr($node, $att_list->{ 'SUSCRIPT' });	# sub-script or super-script
 	$tmp_underline		= GetNodeAttr($node, $att_list->{ 'UNDERLINE' });
 	$tmp_bold			= GetNodeAttr($node, $att_list->{ 'BOLD' });
+	$tmp_italic			= GetNodeAttr($node, $att_list->{ 'ITALIC' });
 
 	# At first, content is blank
 	$tmp_content 		= "";
@@ -241,6 +245,12 @@ sub get_bold
 {
 	my ($self) = @_;
 	return $self->{ '_bold' };
+}
+
+sub get_italic
+{
+	my ($self) = @_;
+	return $self->{ '_italic' };
 }
 
 # Support functions
