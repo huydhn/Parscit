@@ -387,6 +387,17 @@ sub splitCitationsByMarker
 }
 
 ###
+# Replace heuristics rules with crf++ model based on both textual
+# and XML features from Omnipage.
+#
+# HISTORY: Added in 100111 by Huy Do
+###
+sub splitUnmarkedCitations2
+{
+
+}
+
+###
 # Uses several heuristics to decide where individual citations
 # begin and end based on the length of previous lines, strings
 # that look like author lists, and punctuation.  Returns a

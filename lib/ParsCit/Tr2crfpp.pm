@@ -35,6 +35,364 @@ $model_file		= "$FindBin::Bin/../$model_file";
 ###
 my %dict = ();
 
+###
+# Huydhn: prepare data for trfpp, segmenting unmarked reference
+###
+sub prepDataUnmarked
+{
+	my ($rcite_lines) = @_;
+
+	# Generate a temporary file
+	my $tmpfile	= buildTmpFile("");
+
+	# Fetch te dictionary
+	readDict($dict_file);
+
+	# Open the temporary file, prepare to write
+	unless (open(TMP, ">:utf8", $tmpfile)) 
+	{
+		fatal("Could not open tmp file " . $tmp_dir . "/" . $tmpfile . " for writing.");
+      	return;
+    }
+
+	# Calculate the average length in character and in word of the whole cite text
+	my $total_ln = 0;
+	my $avg_char = 0;
+	my $avg_word = 0;
+	foreach my $line (@{ $rcite_lines })
+	{
+		# Get content
+		my $ln = $line->get_content();
+
+		# Trim line
+		$ln	=~ s/^\s+|\s+$//g;
+
+		# Skip blank lines
+		if ($ln =~ m/^\s*$/) { next; }
+
+		# Total length in char
+		$avg_char += length($ln);
+
+		# All words in a line
+		my @tokens	= split(/ +/, $ln);
+
+		# Total length in word
+		$avg_word += scalar(@tokens);
+
+		# Total number of non-blank line
+		$total_ln++;
+	}
+	# Calculate the average
+	$avg_char = ($total_ln != 0) ? ($avg_char / $total_ln) : 0;
+	$avg_word = ($total_ln != 0) ? ($avg_word / $total_ln) : 0;
+
+	# A line which has length Less than 0.7 * average is likely to be the end of a reference
+	my $ln_ratio = 0.8;
+
+	foreach my $line (@content)
+	{
+		# Get content
+		my $ln = $line->get_content();
+
+		# Trim line
+		$ln	=~ s/^\s+|\s+$//g;
+
+		# Skip blank lines
+		if ($ln =~ m/^\s*$/) { next; }
+
+		# All words in a line
+		my @tokens	= split(/ +/, $ln);
+
+		# Features will be stored here
+		my @feats	= ();
+
+		# Current feature
+		my $current = 0;
+
+		# The first one is the whole line, separate by |||
+		push @feats, $tokens[ 0 ];
+		for (my $i = 1; $i < scalar(@tokens); $i++)
+		{
+			$feats[ $current ] = $feats[ $current ] . "|||" . $tokens[ $i ];
+		}
+		$current++;
+
+		# Length
+		push @feats, ((length($ln) > 0.8 * $avg_char) ? "normal" : "short");
+		$current++;
+
+		# Line has year number
+		if ($ln =~ m/\b\(?[1-2][0-9]{3}[\p{IsLower}]?[\)?\s,\.]*(\s|\b)/s)
+		{
+			push @feats, "hasYear";
+		}
+		else
+		{
+			push @feats, "noYear";
+		}
+		$current++;
+
+		# The line contains many authors and doesn't has number
+		if ($ln =~ m/\d/) 
+		{ 
+			push @feats, "noLongAuthorLine";
+		}
+		else
+		{
+			$_			= $ln;
+			my $n_sep	= s/([,;])/\1/g;
+
+			# Have enough author, this line is a long author line
+			if ($n_sep >= 3)
+			{
+				push @feats, "isLongAuthorLine";		
+			}
+			else
+			{
+				push @feats, "noLongAuthorLine";	
+			}
+		}
+		$current++;
+
+		# Ending punctuation
+		my $last_word		= $tokens[ scalar(@tokens) - 1 ];
+		# Last character
+		my @last_word_chars	= split(//, $last_word);
+		my $last_char		= $last_word_chars[ scalar(@last_word_chars) - 1 ];
+		# Last char is a dot
+		if ($last_char eq ".")
+		{
+			push @feats, "period";
+		}
+		elsif ($last_char eq ",")
+		{
+			push @feats, "comma";
+		}
+		elsif ($last_char eq ";")
+		{
+			push @feats, "semicolon";
+		}
+		elsif ($last_char eq ":")
+		{
+			push @feats, "colon";
+		}
+		elsif ($last_char eq "?")
+		{
+			push @feats, "question";
+		}
+		elsif ($last_char eq "!")
+		{
+			push @feats, "exclamation";
+		}
+		elsif (($last_char eq ")") || ($last_char eq "]") || ($last_char eq "}"))
+		{
+			push @feats, "cbracket";
+		}
+		elsif (($last_char eq ")") || ($last_char eq "]") || ($last_char eq "}"))
+		{
+			push @feats, "obracket";
+		}
+		elsif ($last_char eq "-")
+		{
+			push @feats, "hyphen";
+		}
+		else
+		{
+			push @feats, "other";
+		}
+		$current++;
+
+		# First word
+		my $first_word		= $tokens[ 0 ];
+		prepDataUnmarkedToken($first_word, \@feats, \$current);
+
+		# Second word
+		my $second_word		= (scalar(@tokens) > 1) ? $tokens[ 1 ] : "EMPTY";
+		prepDataUnmarkedToken($second_word, \@feats, \$current);
+
+		# Last word
+		prepDataUnmarkedToken($last_word, \@feats, \$current);
+	
+		# XML features
+		# First word format: bold, italic, font size
+
+	}
+}
+
+###
+# Huydhn: prepare data for trfpp, segmenting unmarked reference, token level
+###
+sub prepDataUnmarkedToken
+{
+	my ($token, $feats, $current) = @_;
+	
+	# No punctuation
+	my $token_np	= $token;
+   	$token_np		=~ s/[^\w]//g;
+
+	# and in lower case
+	my $token_lc_np	= lc($token_np);    
+
+	push @{ $feats }, "TOKEN-" . $token;
+	$$current++;
+
+	# Characters
+	my @token_chars = split(//, $token);
+		
+	# First char
+	push @{ $feats }, $token_chars[ 0 ];
+	$$current++;
+		
+	# First 2 chars
+	push @{ $feats }, join("", @token_chars[0..1]));
+	$$current++;
+
+	# First 3 chars
+	push @{ $feats }, join("", @token_chars[0..2]));
+	$$current++;
+
+	# First 4 chars
+    push @{ $feats }, join("", @token_chars[0..3]));
+	$$current++;
+			
+	# Last char
+    push @{ $feats }, $token_chars[-1];
+	$$current++;
+			
+	# Last 2 chars
+    push @{ $feats }, join("", @token_chars[-2..-1]));
+	$$current++;
+
+	# Last 3 chars
+    push @{ $feats }, join("", @token_chars[-3..-1]));
+	$$current++;
+
+	# Last 4 chars
+	push @{ $feats }, join("", @token_chars[-4..-1]));
+	$$current++;
+
+	# Caption
+	if ($token_np eq "")
+	{
+		push @{ $feats }, "other";
+	}
+	else
+	{
+		my $ortho =	($token_np =~ /^[\p{IsUpper}]$/)				? "singleCap"	:				
+					($token_np =~ /^[\p{IsUpper}][\p{IsLower}]+/)	? "InitCap"		: 
+					($token_np =~ /^[\p{IsUpper}]+$/)				? "AllCap"		: "others";
+    	push @{ $feats }, $ortho;
+	}
+	$$current++;
+
+	# Numbers
+   	my $num =	($token_np	=~ /^(19|20)[0-9][0-9]$/)	? "year"		 :
+				($token		=~ /[0-9]\-[0-9]/)			? "possiblePage" :
+				($token		=~ /[0-9]\([0-9]+\)/)		? "possibleVol"	 :
+				($token_np	=~ /^[0-9]$/)				? "1dig"		 :
+				($token_np	=~ /^[0-9][0-9]$/)			? "2dig"		 :
+				($token_np	=~ /^[0-9][0-9][0-9]$/)		? "3dig"		 :
+				($token_np	=~ /^[0-9]+$/)				? "4+dig"		 :
+				($token_np	=~ /^[0-9]+(th|st|nd|rd)$/)	? "ordinal"		 :
+				($token_np	=~ /[0-9]/)					? "hasDig"		 : "nonNum";
+	push @{ $feats }, $num;
+	$$current++;
+
+	# Gazetteer (names)
+	my $dict_status	= (defined $dict{ $token_lc_np }) ? $dict{ $token_lc_np } : 0;
+	my $is_in_dict	= $dict_status;
+
+	my ($publisher_name, $place_name, $month_name, $last_name, $female_name, $male_name) = undef;
+
+   	if ($dict_status >= 32) 
+	{
+		$dict_status	-= 32;
+		$publisher_name	= "publisherName";
+   	} 
+	else 
+	{
+		$publisher_name	= "no";
+   	}
+	
+	if ($dict_status >= 16) 
+	{
+		$dict_status	-= 16;
+		$place_name		= "placeName";
+	} 
+	else 
+	{
+		$place_name		= "no";
+	}
+
+   	if ($dict_status >= 8) 
+	{
+		$dict_status	-= 8;
+		$month_name		= "monthName";
+   	} 
+	else 
+	{
+		$month_name		= "no";
+   	}
+
+	if ($dict_status >= 4) 
+	{
+		$dict_status	-= 4;
+		$last_name		= "lastName";
+	} 
+	else 
+	{
+		$last_name		= "no";
+	}
+
+   	if ($dict_status >= 2) 
+	{
+		$dict_status	-= 2;
+		$female_name	= "femaleName";
+   	} 
+	else 
+	{
+		$female_name	= "no";
+   	}
+			
+	if ($dict_status >= 1) 
+	{
+		$dict_status	-= 1;
+		$male_name		= "maleName";
+   	} 
+	else 
+	{
+		$male_name		= "no";
+   	}
+
+	# Name status
+   	push @{ $feats }, $is_in_dict;
+	$$current++;
+
+	# Male name
+	push @{ $feats }, $male_name;
+	$$current++;
+
+	# Female name
+	push @{ $feats }, $female_name;
+	$$current++;
+			
+	# Last name
+	push @{ $feats }, $last_name;
+	$$current++;
+
+	# Month name
+	push @{ $feats }, $month_name;
+	$$current++;
+
+	# Place name
+	push @{ $feats }, $place_name;
+	$$current++;
+			
+	# Publisher name
+ 	push @{ $feats }, $publisher_name;
+	$$current++;
+}
+
 # Prepare data for trfpp
 sub prepData 
 {
@@ -42,8 +400,6 @@ sub prepData
 
 	# Generate a temporary file
     my $tmpfile = buildTmpFile($filename);
-
-	print $tmpfile, "\n";
 
 	###
 	# Thang Mar 10: move inside the method, only load when running
