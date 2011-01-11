@@ -2,6 +2,7 @@ package Omni::Config;
 
 %omni_tag_list	=		(	'DOCUMENT'		=> 'document',
 		 	  				'PAGE'			=> 'page',
+							'COLUMN'		=> 'column',
 		   					'DESC'			=> 'description',
 			   				'SRC'			=> 'source',
 							'LANGUAGE' 		=> 'language',

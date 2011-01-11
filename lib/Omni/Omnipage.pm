@@ -9,6 +9,7 @@ use Omni::Omniword;
 use Omni::Omnirun;
 use Omni::Omniline;
 use Omni::Omnipara;
+use Omni::Omnicol;
 
 # Extern libraries
 use XML::Twig;
@@ -20,10 +21,10 @@ my $att_list = $Omni::Config::att_list;
 
 # Temporary variables
 my $tmp_content 	= undef;
-my @tmp_paras		= ();
+my @tmp_cols		= ();
 
 ###
-# A page object in Omnipage xml: a page contains zero or many collums or sections with many paragraphs
+# A page object in Omnipage xml: a page contains zero or many collums
 #
 # Do Hoang Nhat Huy, 09 Jan 2011
 ###
@@ -32,13 +33,13 @@ sub new
 {
 	my ($class) = @_;
 
-	# Lines: a paragraph can have multiple lines
-	my @paras	= ();
+	# Page: a page can have many columns
+	my @cols	= ();
 
 	# Class members
 	my $self = {	'_raw'			=> undef,
 					'_content'		=> undef,
-					'_paras'		=> \@paras	};
+					'_cols'			=> \@cols	};
 
 	bless $self, $class;
 	return $self;
@@ -67,8 +68,8 @@ sub set_raw
 
 	# Copy information from temporary variables to class members
 
-	# Copy all paragraphs
-	@{$self->{ '_paras' } }	= @tmp_paras;
+	# Copy all columns 
+	@{$self->{ '_cols' } }	= @tmp_cols;
 	
 	# Copy content
 	$self->{ '_content' }	= $tmp_content;
@@ -85,33 +86,33 @@ sub parse
 	my ($twig, $node) = @_;
 
 	# At first, content is blank
-	$tmp_content 		= "";
-	# because there's no paragraph
-	@tmp_paras			= ();
+	$tmp_content	= "";
+	# because there's no column
+	@tmp_cols		= ();
 
 	# Get <page> node attributes
 
-	# Check if there's any para
-	my @all_paras = $node->descendants( $tag_list->{ 'PARA' } );
-	foreach my $pr (@all_paras)
+	# Check if there's any column 
+	my @all_cols = $node->descendants( $tag_list->{ 'COLUMN' } );
+	foreach my $cl (@all_cols)
 	{
-		my $para = new Omni::Omnipara();
+		my $column = new Omni::Omnicol();
 
 		# Set raw content
-		$para->set_raw($pr->sprint());
+		$column->set_raw($cl->sprint());
 
-		# Update paragraph list
-		push @tmp_paras, $para;
+		# Update column list
+		push @tmp_cols, $column;
 
 		# Update content
-		$tmp_content = $tmp_content . $para->get_content() . "\n";
+		$tmp_content = $tmp_content . $column->get_content() . "\n";
 	}
 }
 
-sub get_paras_ref
+sub get_cols_ref
 {
 	my ($self) = @_;
-	return $self->{ '_paras' };
+	return $self->{ '_cols' };
 }
 
 sub get_content

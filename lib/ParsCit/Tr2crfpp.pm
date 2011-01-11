@@ -40,7 +40,7 @@ my %dict = ();
 ###
 sub prepDataUnmarked
 {
-	my ($rcite_lines) = @_;
+	my ($omnidoc, $ref_start_line, $ref_end_line) = @_;
 
 	# Generate a temporary file
 	my $tmpfile	= buildTmpFile("");
@@ -49,12 +49,13 @@ sub prepDataUnmarked
 	readDict($dict_file);
 
 	# Open the temporary file, prepare to write
-	unless (open(TMP, ">:utf8", $tmpfile)) 
+	my $output_tmp = undef;
+	unless (open($output_tmp, ">:utf8", $tmpfile)) 
 	{
 		fatal("Could not open tmp file " . $tmp_dir . "/" . $tmpfile . " for writing.");
       	return;
     }
-
+	
 	my $total_ln = 0;
 	# Calculate the average length in character and in word of the whole cite text
 	my $avg_char = 0;
@@ -63,6 +64,44 @@ sub prepDataUnmarked
 	my $avg_font_size	= 0;
 	# Calculate the average line starting point
 	my $avg_start_point	= 0;
+
+	# Get all pages
+	my $pages		= $omnidoc->get_pages_ref();
+	my $start_page	= $ref_start_line->{ 'PAGE' };
+	my $end_page	= $ref_end_line->{ 'PAGE' };
+
+	for (my $x = $start_page; $x <= $end_page; $x++)
+	{
+		my $columns 	 = $pages->[ $x ]->get_cols_ref();
+		my $start_column =	($x == $ref_start_line->{ 'PAGE' })	? 
+							$ref_start_line->{ 'COLUMN' }	: 0;
+		my $end_column	 =	($x == $ref_end_line->{ 'PAGE' })	? 
+							$ref_end_line->{ 'COLUMN' }	: (scalar(@{ $columns }) - 1);
+
+		for (my $y = $start_column; $y <= $end_column; $y++)
+		{
+			my $paras		= $columns->[ $y ]->get_paras_ref();
+			my $start_para	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }))	? 
+								$ref_start_line->{ 'PARA' }	: 0;
+			my $end_para	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }))		? 
+								$ref_end_line->{ 'PARA' }	: (scalar(@{ $paras }) - 1);
+
+			for (my $z = $start_para; $z <= $end_para; $z++)
+			{
+				my $lines = $paras->[ $z ]->get_lines_ref();
+
+				my $start_line	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }) && ($z == $ref_start_line->{ 'PARA' }))	? 
+									$ref_start_line->{ 'LINE' }	: 0;
+				my $end_line	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }) && ($z == $ref_end_line->{ 'PARA' }))			? 
+									$ref_end_line->{ 'LINE' }		: (scalar(@{ $lines }) - 1);
+				for (my $t = $start_line; $t <= $end_line; $t++)
+				{
+					# Do smth	
+				}
+			}
+		}
+	}
+
 	foreach my $line (@{ $rcite_lines })
 	{
 		# Get content
@@ -92,6 +131,7 @@ sub prepDataUnmarked
 		# Total number of non-blank line
 		$total_ln++;
 	}
+
 	# Calculate the average length
 	$avg_char = ($total_ln != 0) ? ($avg_char / $total_ln) : 0;
 	$avg_word = ($total_ln != 0) ? ($avg_word / $total_ln) : 0;
@@ -105,6 +145,9 @@ sub prepDataUnmarked
 	my $lower_ratio = 0.8;
 	my $upper_ratio = 1.2;
 
+	# Current Line
+	my $c_line = 0;
+
 	foreach my $line (@{ $rcite_lines })
 	{
 		# Get content
@@ -114,7 +157,11 @@ sub prepDataUnmarked
 		$ln	=~ s/^\s+|\s+$//g;
 
 		# Skip blank lines
-		if ($ln =~ m/^\s*$/) { next; }
+		if ($ln =~ m/^\s*$/) 
+		{ 
+			$c_line++;
+			next; 
+		}
 
 		# All words in a line
 		my @tokens	= split(/ +/, $ln);
@@ -284,7 +331,37 @@ sub prepDataUnmarked
 			push @feats,  'xmlFontSize_normal';
 		}
 		$current++;
-	}
+
+		# First word format: starting point, left alignment
+		my $start_point = $line->get_left_pos();
+		if ($start_point > $avg_start_point * $upper_ratio)
+		{
+			push @feats, 'xmlBeginLine_right';
+		}
+		elsif ($start_point < $avg_start_point * $lower_ratio)
+		{
+			push @feats, 'xmlBeginLine_left';
+		}
+		else
+		{
+			push @feats, 'xmlBeginLine_normal';
+		}
+		$current++;
+
+		# Output tag
+		push @feats, $tags->[ $c_line ];
+		$current++;
+
+		# Export output: print
+		print $output_tmp $feats[ 0 ];
+		for (my $i = 1; $i < scalar(@feats); $i++) { print $output_tmp " " . $feats[ $i ]; }
+		print $output_tmp "\n";
+    }
+
+	close $output_tmp;
+
+	# Finish preparing data
+    return $tmpfile;
 }
 
 ###
@@ -312,15 +389,15 @@ sub prepDataUnmarkedToken
 	$$current++;
 		
 	# First 2 chars
-	push @{ $feats }, join("", @token_chars[0..1]));
+	push @{ $feats }, join("", @token_chars[0..1]);
 	$$current++;
 
 	# First 3 chars
-	push @{ $feats }, join("", @token_chars[0..2]));
+	push @{ $feats }, join("", @token_chars[0..2]);
 	$$current++;
 
 	# First 4 chars
-    push @{ $feats }, join("", @token_chars[0..3]));
+    push @{ $feats }, join("", @token_chars[0..3]);
 	$$current++;
 			
 	# Last char
@@ -328,15 +405,15 @@ sub prepDataUnmarkedToken
 	$$current++;
 			
 	# Last 2 chars
-    push @{ $feats }, join("", @token_chars[-2..-1]));
+    push @{ $feats }, join("", @token_chars[-2..-1]);
 	$$current++;
 
 	# Last 3 chars
-    push @{ $feats }, join("", @token_chars[-3..-1]));
+    push @{ $feats }, join("", @token_chars[-3..-1]);
 	$$current++;
 
 	# Last 4 chars
-	push @{ $feats }, join("", @token_chars[-4..-1]));
+	push @{ $feats }, join("", @token_chars[-4..-1]);
 	$$current++;
 
 	# Caption
