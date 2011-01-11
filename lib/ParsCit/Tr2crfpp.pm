@@ -56,14 +56,13 @@ sub prepDataUnmarked
       	return;
     }
 	
-	my $total_ln = 0;
 	# Calculate the average length in character and in word of the whole cite text
-	my $avg_char = 0;
-	my $avg_word = 0;
+	my @avg_chars = ();
+	my @avg_words = ();
 	# Calculate the average font size
-	my $avg_font_size	= 0;
+	my @avg_font_sizes	 = ();
 	# Calculate the average line starting point
-	my $avg_start_point	= 0;
+	my @avg_start_points = ();
 
 	# Get all pages
 	my $pages		= $omnidoc->get_pages_ref();
@@ -94,52 +93,61 @@ sub prepDataUnmarked
 									$ref_start_line->{ 'LINE' }	: 0;
 				my $end_line	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }) && ($z == $ref_end_line->{ 'PARA' }))			? 
 									$ref_end_line->{ 'LINE' }		: (scalar(@{ $lines }) - 1);
+			
+				# Total number of line in the paragraph
+				my $total_ln	= 0;
+				# Average per paragraph
+				my $avg_char	= 0;
+				my $avg_word	= 0;
+				my $avg_font_size	= 0;
+				my $avg_start_point	= 0;
+
 				for (my $t = $start_line; $t <= $end_line; $t++)
 				{
-					# Do smth	
+					# Get content
+					my $ln = $lines->[ $t ]->get_content();
+
+					# Trim line
+					$ln	=~ s/^\s+|\s+$//g;
+					# Skip blank lines
+					if ($ln =~ m/^\s*$/) { next; }
+
+					# Total length in char
+					$avg_char	+= length($ln);
+
+					# All words in a line
+					my @tokens	= split(/ +/, $ln);
+
+					# Total length in word
+					$avg_word	+= scalar(@tokens);
+
+					my $xml_runs = $line->get_runs_ref();
+					# Font size
+					$avg_font_size	 += ($xml_runs->[ 0 ]->get_font_size() eq '') ? 0 : $xml_runs->[ 0 ]->get_font_size();
+					# Line starting point
+					$avg_start_point += ($line->get_left_pos() eq '') ? 0 : $line->get_left_pos();
+
+					# Total number of non-blank line
+					$total_ln++;
 				}
+
+				# Calculate the average length
+				$avg_char = ($total_ln != 0) ? ($avg_char / $total_ln) : 0;
+				$avg_word = ($total_ln != 0) ? ($avg_word / $total_ln) : 0;
+
+				# Calculate the average font size
+				$avg_font_size	 = ($total_ln != 0) ? ($avg_font_size / $total_ln) : 0;
+				# Calculate the average line starting point
+				$avg_start_point = ($total_ln != 0) ? ($avg_start_point / $total_ln) : 0;
+
+				# Save the average
+				push @avg_chars, $avg_char;
+				push @avg_words, $avg_word;
+				push @avg_font_sizes, $avg_font_size;
+				push @avg_start_points, $avg_start_point;
 			}
 		}
 	}
-
-	foreach my $line (@{ $rcite_lines })
-	{
-		# Get content
-		my $ln = $line->get_content();
-
-		# Trim line
-		$ln	=~ s/^\s+|\s+$//g;
-
-		# Skip blank lines
-		if ($ln =~ m/^\s*$/) { next; }
-
-		# Total length in char
-		$avg_char	+= length($ln);
-
-		# All words in a line
-		my @tokens	= split(/ +/, $ln);
-
-		# Total length in word
-		$avg_word	+= scalar(@tokens);
-
-		my $xml_runs = $line->get_runs_ref();
-		# Font size
-		$avg_font_size	 += ($xml_runs->[ 0 ]->get_font_size() eq '') ? 0 : $xml_runs->[ 0 ]->get_font_size();
-		# Line starting point
-		$avg_start_point += ($line->get_left_pos() eq '') ? 0 : $line->get_left_pos();
-
-		# Total number of non-blank line
-		$total_ln++;
-	}
-
-	# Calculate the average length
-	$avg_char = ($total_ln != 0) ? ($avg_char / $total_ln) : 0;
-	$avg_word = ($total_ln != 0) ? ($avg_word / $total_ln) : 0;
-
-	# Calculate the average font size
-	$avg_font_size	 = ($total_ln != 0) ? ($avg_font_size / $total_ln) : 0;
-	# Calculate the average line starting point
-	$avg_start_point = ($total_ln != 0) ? ($avg_start_point / $total_ln) : 0;
 
 	# A line which has length Less than 0.8 * average is likely to be the end of a reference
 	my $lower_ratio = 0.8;
