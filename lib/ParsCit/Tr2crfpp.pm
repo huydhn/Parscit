@@ -121,11 +121,11 @@ sub prepDataUnmarked
 					# Total length in word
 					$avg_word	+= scalar(@tokens);
 
-					my $xml_runs = $line->get_runs_ref();
+					my $xml_runs = $lines->[ $t ]->get_runs_ref();
 					# Font size
 					$avg_font_size	 += ($xml_runs->[ 0 ]->get_font_size() eq '') ? 0 : $xml_runs->[ 0 ]->get_font_size();
 					# Line starting point
-					$avg_start_point += ($line->get_left_pos() eq '') ? 0 : $line->get_left_pos();
+					$avg_start_point += ($lines->[ $t ]->get_left_pos() eq '') ? 0 : $lines->[ $t ]->get_left_pos();
 
 					# Total number of non-blank line
 					$total_ln++;
@@ -153,218 +153,259 @@ sub prepDataUnmarked
 	my $lower_ratio = 0.8;
 	my $upper_ratio = 1.2;
 
-	# Current Line
-	my $c_line = 0;
+	# Get all pages
+	$pages		= $omnidoc->get_pages_ref();
+	$start_page	= $ref_start_line->{ 'PAGE' };
+	$end_page	= $ref_end_line->{ 'PAGE' };
 
-	foreach my $line (@{ $rcite_lines })
+	for (my $x = $start_page; $x <= $end_page; $x++)
 	{
-		# Get content
-		my $ln = $line->get_content();
+		my $columns 	 = $pages->[ $x ]->get_cols_ref();
+		my $start_column =	($x == $ref_start_line->{ 'PAGE' })	? 
+							$ref_start_line->{ 'COLUMN' }	: 0;
+		my $end_column	 =	($x == $ref_end_line->{ 'PAGE' })	? 
+							$ref_end_line->{ 'COLUMN' }	: (scalar(@{ $columns }) - 1);
 
-		# Trim line
-		$ln	=~ s/^\s+|\s+$//g;
-
-		# Skip blank lines
-		if ($ln =~ m/^\s*$/) 
-		{ 
-			$c_line++;
-			next; 
-		}
-
-		# All words in a line
-		my @tokens	= split(/ +/, $ln);
-
-		# Features will be stored here
-		my @feats	= ();
-
-		# Current feature
-		my $current = 0;
-
-		# The first one is the whole line, separate by |||
-		push @feats, $tokens[ 0 ];
-		for (my $i = 1; $i < scalar(@tokens); $i++)
+		for (my $y = $start_column; $y <= $end_column; $y++)
 		{
-			$feats[ $current ] = $feats[ $current ] . "|||" . $tokens[ $i ];
-		}
-		$current++;
-
-		# Length
-		push @feats, ((length($ln) > $lower_ratio * $avg_char) ? "normal" : "short");
-		$current++;
-
-		# Line has year number
-		if ($ln =~ m/\b\(?[1-2][0-9]{3}[\p{IsLower}]?[\)?\s,\.]*(\s|\b)/s)
-		{
-			push @feats, "hasYear";
-		}
-		else
-		{
-			push @feats, "noYear";
-		}
-		$current++;
-
-		# The line contains many authors and doesn't has number
-		if ($ln =~ m/\d/) 
-		{ 
-			push @feats, "noLongAuthorLine";
-		}
-		else
-		{
-			$_			= $ln;
-			my $n_sep	= s/([,;])/\1/g;
-
-			# Have enough author, this line is a long author line
-			if ($n_sep >= 3)
+			my $paras		= $columns->[ $y ]->get_paras_ref();
+			my $start_para	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }))	? 
+								$ref_start_line->{ 'PARA' }	: 0;
+			my $end_para	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }))		? 
+								$ref_end_line->{ 'PARA' }	: (scalar(@{ $paras }) - 1);
+			
+			my $prev_para	= (-1);
+			for (my $z = $start_para; $z <= $end_para; $z++)
 			{
-				push @feats, "isLongAuthorLine";		
-			}
-			else
-			{
-				push @feats, "noLongAuthorLine";	
-			}
-		}
-		$current++;
+				my $lines = $paras->[ $z ]->get_lines_ref();
 
-		# Ending punctuation
-		my $last_word		= $tokens[ scalar(@tokens) - 1 ];
-		# Last character
-		my @last_word_chars	= split(//, $last_word);
-		my $last_char		= $last_word_chars[ scalar(@last_word_chars) - 1 ];
-		# Last char is a dot
-		if ($last_char eq ".")
-		{
-			push @feats, "period";
-		}
-		elsif ($last_char eq ",")
-		{
-			push @feats, "comma";
-		}
-		elsif ($last_char eq ";")
-		{
-			push @feats, "semicolon";
-		}
-		elsif ($last_char eq ":")
-		{
-			push @feats, "colon";
-		}
-		elsif ($last_char eq "?")
-		{
-			push @feats, "question";
-		}
-		elsif ($last_char eq "!")
-		{
-			push @feats, "exclamation";
-		}
-		elsif (($last_char eq ")") || ($last_char eq "]") || ($last_char eq "}"))
-		{
-			push @feats, "cbracket";
-		}
-		elsif (($last_char eq ")") || ($last_char eq "]") || ($last_char eq "}"))
-		{
-			push @feats, "obracket";
-		}
-		elsif ($last_char eq "-")
-		{
-			push @feats, "hyphen";
-		}
-		else
-		{
-			push @feats, "other";
-		}
-		$current++;
+				my $start_line	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }) && ($z == $ref_start_line->{ 'PARA' }))	? 
+									$ref_start_line->{ 'LINE' }	: 0;
+				my $end_line	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }) && ($z == $ref_end_line->{ 'PARA' }))			? 
+									$ref_end_line->{ 'LINE' }		: (scalar(@{ $lines }) - 1);
 
-		# First word
-		my $first_word		= $tokens[ 0 ];
-		prepDataUnmarkedToken($first_word, \@feats, \$current);
+				# Average value
+				my $avg_char	= shift(@avg_chars);
+				my $avg_word	= shift(@avg_words);
+				my $avg_font_size	= shift(@avg_font_sizes);
+				my $avg_start_point	= shift(@avg_start_points);
 
-		# Second word
-		my $second_word		= (scalar(@tokens) > 1) ? $tokens[ 1 ] : "EMPTY";
-		prepDataUnmarkedToken($second_word, \@feats, \$current);
+				for (my $t = $start_line; $t <= $end_line; $t++)
+				{
+					# Get content
+					my $ln = $lines->[ $t ]->get_content();
 
-		# Last word
-		prepDataUnmarkedToken($last_word, \@feats, \$current);
+					# Trim line
+					$ln	=~ s/^\s+|\s+$//g;
+					# Skip blank lines
+					if ($ln =~ m/^\s*$/) { next; }
+
+					# All words in a line
+					my @tokens	= split(/ +/, $ln);
+				
+					# Features will be stored here
+					my @feats	= ();
+					# Current feature
+					my $current = 0;
+
+					# The first one is the whole line, separate by |||
+					push @feats, $tokens[ 0 ];
+					for (my $i = 1; $i < scalar(@tokens); $i++)
+					{
+						$feats[ $current ] = $feats[ $current ] . "|||" . $tokens[ $i ];
+					}
+					$current++;
+
+					# Length in characters
+					push @feats, ((length($ln) > $lower_ratio * $avg_char) ? "normal" : "short");
+					$current++;
+
+					# Line has year number
+					if ($ln =~ m/\b\(?[1-2][0-9]{3}[\p{IsLower}]?[\)?\s,\.]*(\s|\b)/s)
+					{
+						push @feats, "hasYear";
+					}
+					else
+					{
+						push @feats, "noYear";
+					}
+					$current++;
+
+					# The line contains many authors and doesn't has number
+					if ($ln =~ m/\d/) 
+					{ 
+						push @feats, "noLongAuthorLine";
+					}
+					else
+					{
+						$_			= $ln;
+						my $n_sep	= s/([,;])/\1/g;
+
+						# Have enough author, this line is a long author line
+						if ($n_sep >= 3)
+						{
+							push @feats, "isLongAuthorLine";		
+						}
+						else
+						{
+							push @feats, "noLongAuthorLine";	
+						}
+					}
+					$current++;
+
+					# Ending punctuation
+					my $last_word		= $tokens[ scalar(@tokens) - 1 ];
+					# Last character
+					my @last_word_chars	= split(//, $last_word);
+					my $last_char		= $last_word_chars[ scalar(@last_word_chars) - 1 ];
+					# Last char is a dot					
+					if ($last_char eq ".")
+					{
+						push @feats, "period";
+					}
+					elsif ($last_char eq ",")
+					{
+						push @feats, "comma";
+					}
+					elsif ($last_char eq ";")
+					{
+						push @feats, "semicolon";
+					}
+					elsif ($last_char eq ":")
+					{
+						push @feats, "colon";
+					}
+					elsif ($last_char eq "?")
+					{
+						push @feats, "question";
+					}
+					elsif ($last_char eq "!")
+					{
+						push @feats, "exclamation";
+					}
+					elsif (($last_char eq ")") || ($last_char eq "]") || ($last_char eq "}"))
+					{
+						push @feats, "cbracket";
+					}
+					elsif (($last_char eq ")") || ($last_char eq "]") || ($last_char eq "}"))
+					{
+						push @feats, "obracket";
+					}
+					elsif ($last_char eq "-")
+					{
+						push @feats, "hyphen";
+					}
+					else
+					{
+						push @feats, "other";
+					}
+					$current++;
+
+					# First word
+					my $first_word		= $tokens[ 0 ];
+					prepDataUnmarkedToken($first_word, \@feats, \$current);
+					# Second word
+					my $second_word		= (scalar(@tokens) > 1) ? $tokens[ 1 ] : "EMPTY";
+					prepDataUnmarkedToken($second_word, \@feats, \$current);
+					# Last word
+					prepDataUnmarkedToken($last_word, \@feats, \$current);
 	
-		# XML features
-		# Bullet
-		my $bullet = $line->get_bullet();
-		if ((defined $bullet) && ($bullet eq 'true'))
-		{
-			push @feats, 'xmlBullet_yes';	
-		}
-		else
-		{
-			push @feats, 'xmlBullet_no';
-		}
-		$current++;
+					# XML features
+					# Bullet
+					my $bullet = $lines->[ $t ]->get_bullet();
+					if ((defined $bullet) && ($bullet eq 'true'))
+					{
+						push @feats, 'xmlBullet_yes';	
+					}
+					else
+					{
+						push @feats, 'xmlBullet_no';
+					}
+					$current++;
 
-		# First word format: bold, italic, font size
-		my $xml_runs = $line->get_runs_ref();
+					# First word format: bold, italic, font size
+					my $xml_runs = $lines->[ $t ]->get_runs_ref();
+			
+					# First word format: bold
+					my $bold = $xml_runs->[ 0 ]->get_bold();
+					if ((defined $bold) && ($bold eq 'true'))
+					{	
+						push @feats, 'xmlBold_yes'; 
+					}
+					else
+					{
+						push @feats, 'xmlBold_no';	
+					}
+					$current++;
 
-		# First word format: bold
-		my $bold = $xml_runs->[ 0 ]->get_bold();
-		if ((defined $bold) && ($bold eq 'true'))
-		{
-			push @feats, 'xmlBold_yes'; 
-		}
-		else
-		{
-			push @feats, 'xmlBold_no';	
-		}
-		$current++;
+					# First word format: italic
+					my $italic = $xml_runs->[ 0 ]->get_italic();
+					if ((defined $italic) && ($italic eq 'true'))
+					{
+						push @feats, 'xmlItalic_yes'; 
+					}	
+					else
+					{
+						push @feats, 'xmlItalic_no';	
+					}
+					$current++;
 
-		# First word format: italic
-		my $italic = $xml_runs->[ 0 ]->get_italic();
-		if ((defined $italic) && ($italic eq 'true'))
-		{
-			push @feats, 'xmlItalic_yes'; 
-		}
-		else
-		{
-			push @feats, 'xmlItalic_no';	
-		}
-		$current++;
+					# First word format: font size
+					my $font_size = $xml_runs->[ 0 ]->get_font_size();
+					if ($font_size > $avg_font_size * $upper_ratio)
+					{
+						push @feats, 'xmlFontSize_large';
+					}
+					elsif ($font_size < $avg_font_size * $lower_ratio)
+					{
+						push @feats,  'xmlFontSize_small';
+					}
+					else
+					{
+						push @feats,  'xmlFontSize_normal';
+					}
+					$current++;
 
-		# First word format: font size
-		my $font_size = $xml_runs->[ 0 ]->get_font_size();
-		if ($font_size > $avg_font_size * $upper_ratio)
-		{
-			push @feats, 'xmlFontSize_large';
-		}
-		elsif ($font_size < $avg_font_size * $lower_ratio)
-		{
-			push @feats,  'xmlFontSize_small';
-		}
-		else
-		{
-			push @feats,  'xmlFontSize_normal';
-		}
-		$current++;
+					# First word format: starting point, left alignment
+					my $start_point = $lines->[ $t ]->get_left_pos();
+					if ($start_point > $avg_start_point * $upper_ratio)
+					{
+						push @feats, 'xmlBeginLine_right';
+					}
+					elsif ($start_point < $avg_start_point * $lower_ratio)
+					{
+						push @feats, 'xmlBeginLine_left';
+					}
+					else
+					{
+						push @feats, 'xmlBeginLine_normal';
+					}
+					$current++;
 
-		# First word format: starting point, left alignment
-		my $start_point = $line->get_left_pos();
-		if ($start_point > $avg_start_point * $upper_ratio)
-		{
-			push @feats, 'xmlBeginLine_right';
-		}
-		elsif ($start_point < $avg_start_point * $lower_ratio)
-		{
-			push @feats, 'xmlBeginLine_left';
-		}
-		else
-		{
-			push @feats, 'xmlBeginLine_normal';
-		}
-		$current++;
+					# Paragraph
+					if ($z != $prev_para)
+					{
+						push @feats, 'xmlPara_new';
+						$prev_para = $z;
+					}
+					else
+					{
+						push @feats, 'xmlPara_continue';
+					}
+					$current++;
 
-		# Output tag
-		push @feats, $tags->[ $c_line ];
-		$current++;
+					# Output tag
+					push @feats, "unknown";
+					$current++;
 
-		# Export output: print
-		print $output_tmp $feats[ 0 ];
-		for (my $i = 1; $i < scalar(@feats); $i++) { print $output_tmp " " . $feats[ $i ]; }
-		print $output_tmp "\n";
-    }
+					# Export output: print
+					print $output_tmp $feats[ 0 ];
+					for (my $i = 1; $i < scalar(@feats); $i++) { print $output_tmp " " . $feats[ $i ]; }
+					print $output_tmp "\n";
+				}
+			}
+		}
+	}
 
 	close $output_tmp;
 

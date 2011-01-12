@@ -21,6 +21,198 @@ my %marker_types =	(	'SQUARE'		=> '\\[.+?\\]',
 					);
 
 ###
+# Huydhn: similar to findCitationText, find the citation portion using regular expression.
+# However the input is an omnipage xml document object, not the raw text
+###
+sub findCitationTextXML
+{
+	my ($doc, $pos_array) = @_;
+
+	# Start and end of a reference
+	my $start_found	= 0;
+	my %start_ref	= ();
+	my $end_found	= 0;
+	my %end_ref		= ();
+
+	# All pages in the document
+	my $pages		= $doc->get_pages_ref();	
+	# Foreach line in the document, check if it is the beginning of a reference using regular expression
+	for (my $x = scalar(@{ $pages }) - 1; $x >= 0; $x--)
+	{
+		# All columns in one page
+		my $columns	= $pages->[ $x ]->get_cols_ref();
+
+		for (my $y = scalar(@{ $columns }) - 1; $y >= 0; $y--)
+		{
+			# All paragraphs in one column
+			my $paras = $columns->[ $y ]->get_paras_ref();
+
+			for (my $z = scalar(@{ $paras }) - 1; $z >= 0; $z--)
+			{
+				# All lines in one paragraph
+				my $lines = $paras->[ $z ]->get_lines_ref();
+
+				for (my $t = scalar(@{ $lines }) - 1; $t >= 0; $t--)
+				{
+					my $ln_content = $lines->[ $t ]->get_content();
+
+					# Is it the beginning of a reference
+    				if ($ln_content =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?):?\s*\n+/)
+					{
+						$start_ref{ 'PAGE' }	= $x;
+						$start_ref{ 'COLUMN' }	= $y;
+						$start_ref{ 'PARA' }	= $z;
+						$start_ref{ 'LINE' }	= $t;
+
+						$start_found = 1;
+						last;
+					}
+				}
+
+				if ($start_found == 1) { last; }
+			}
+			
+			if ($start_found == 1) { last; }
+		}
+
+		if ($start_found == 1) { last; }
+	}
+
+	# Reference not found
+	if (! exists $start_ref{ 'PAGE' }) { return (\%start_ref, \%end_ref); }
+
+	# Reference length
+	my $reference_length = 0;
+
+	# Foreach line in the document after the start of the reference, check if it is the end of a reference using regular expression
+	for (my $x = $start_ref{ 'PAGE' }; $x < scalar(@{ $pages }); $x++)
+	{
+		# All columns in one page
+		my $columns	= $pages->[ $x ]->get_cols_ref();
+
+		for (my $y = $start_ref{ 'COLUMN' }; $y < scalar(@{ $columns }); $y++)
+		{
+			# All paragraphs in one column
+			my $paras = $columns->[ $y ]->get_paras_ref();
+
+			for (my $z = $start_ref{ 'PARA' }; $z < scalar(@{ $paras }); $z++)
+			{
+				# All lines in one paragraph
+				my $lines = $paras->[ $z ]->get_lines_ref();
+
+				for (my $t = $start_ref{ 'LINE' }; $t < scalar(@{ $lines }); $t++)
+				{
+					my $ln_content = $lines->[ $t ]->get_content();
+
+					# Just a temporary variable
+					my $tmp = undef;
+					# Is it the end?					
+					if ($ln_content =~ m/^([\s\d\.]+)?(Acknowledge?ments?|Autobiographical|Tables?|Appendix|Exhibit|Annex|Fig|Notes?)(.*?)\n+/)
+					{
+						# Then save its location
+						if ($t == 0)
+						{
+							if ($z == 0)
+							{
+								if ($y == 0)
+								{
+									if ($x == 0)
+									{
+										# What the heck, the end is at the beginning of the document.
+									}
+									else
+									{
+										$end_ref{ 'PAGE' }	 = $x - 1;
+									
+										$tmp = $pages->[ $x - 1 ]->get_cols_ref();
+										$end_ref{ 'COLUMN' } = scalar(@{ $tmp }) - 1;
+									
+										$tmp = $tmp->[ -1 ]->get_paras_ref();
+										$end_ref{ 'PARA' }	 = scalar(@{ $tmp }) - 1;
+									
+										$tmp = $tmp->[ -1 ]->get_lines_ref();
+										$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;	
+									}
+								}
+								else
+								{
+									$end_ref{ 'PAGE' }	 = $x;
+									$end_ref{ 'COLUMN' } = $y - 1;
+									
+									$tmp = $columns->[ $y - 1 ]->get_paras_ref();
+									$end_ref{ 'PARA' }	 = scalar(@{ $tmp }) - 1;
+									
+									$tmp = $tmp->[ -1 ]->get_lines_ref();
+									$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;
+								}
+							}
+							else
+							{
+								$end_ref{ 'PAGE' }	 = $x;
+								$end_ref{ 'COLUMN' } = $y;
+								$end_ref{ 'PARA' }	 = $z - 1;
+							
+								$tmp = $paras->[ $z - 1 ]->get_lines_ref();
+								$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;
+							}
+						}
+						else
+						{
+							$end_ref{ 'PAGE' }	 = $x;
+							$end_ref{ 'COLUMN' } = $y;
+							$end_ref{ 'PARA' }	 = $z;
+							$end_ref{ 'LINE' }	 = $t - 1;
+						}
+
+						$end_found = 1;
+						last;
+					}
+					
+					$reference_length += length($ln_content);
+				}
+
+				if ($end_found == 1) { last; }
+			}
+
+			if ($end_found == 1) { last; }
+		}
+
+		if ($end_found == 1) { last; }
+	}
+
+	# End of the reference not found, asume that it's the end of the document
+	if (! exists $end_ref{ 'PAGE' })
+	{
+		# Just a temporary variable
+		my $tmp = undef;
+
+		$end_ref{ 'PAGE' }	 = scalar(@{ $pages }) - 1;
+
+		$tmp = $pages->[ -1 ]->get_cols_ref();
+		$end_ref{ 'COLUMN' } = scalar(@{ $tmp }) - 1;
+
+		$tmp = $tmp->[ -1 ]->get_paras_ref();
+		$end_ref{ 'PARA' }	 = scalar(@{ $tmp }) - 1;
+
+		$tmp = $tmp->[ -1 ]->get_lines_ref();
+		$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;
+	}
+
+	# Odd case: when citation is longer than the content itself, what should we do?
+    if (1.8 * $reference_length >= 0.8 * length($doc->get_content())) 
+	{
+		print STDERR "Citation text longer than article body: ignoring\n";
+
+		%start_ref = (); %end_ref = ();
+		return (\%start_ref, \%end_ref);
+    }
+
+	# Now we have the citation text
+	return (\%start_ref, \%end_ref);
+	return (normalizeCiteText(\$citetext), normalizeBodyText(\$bodytext, $pos_array), \$bodytext);
+}
+
+###
 # Looks for reference section markers in the supplied text and
 # separates the citation text from the body text based on these
 # indicators.  If it looks like there is a reference section marker

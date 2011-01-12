@@ -185,7 +185,7 @@ my $text_file = undef;
 
 # Extracting text from Omnipage XML output
 if ($is_xml_input)
-{ 
+{
 	$text_file	= "/tmp/" . newTmpFile();
 	my $cmd		= "$FindBin::Bin/sectLabel/processOmniXML.pl -q -in $in -out $text_file -decode";
 	system($cmd);
@@ -232,10 +232,14 @@ if (($mode & $PARSHED) == $PARSHED)
 if (($mode & $PARSCIT) == $PARSCIT) 
 {
 	use ParsCit::Controller;
-	my $pc_xml	= ParsCit::Controller::extractCitations($text_file, $is_xml_input);
+
+	###
+	# Huydhn: add xml features to parscit in case of unmarked reference
+	###
+	my $pc_xml = ParsCit::Controller::extractCitations($text_file, $in, $is_xml_input);
 
 	# Remove first line <?xml/> 
-	$rxml		.= removeTopLines($$pc_xml, 1) . "\n";
+	$rxml .= removeTopLines($$pc_xml, 1) . "\n";
 
 	# Thang v100901: call to BiblioScript
 	if (scalar(@export_types) != 0) { biblioScript(\@export_types, $$pc_xml, $out); }

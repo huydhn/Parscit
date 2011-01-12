@@ -53,6 +53,11 @@ sub set_raw
 	# Save the raw xml <para> ... </para>
 	$self->{ '_raw' }	= $raw;
 
+	# At first, content is blank
+	$tmp_content 		= "";
+	# because there's no document
+	@tmp_pages			= ();
+
 	# Parse the raw string
 	my $twig_roots		= { $tag_list->{ 'DOCUMENT' }	=> 1 };
 	my $twig_handlers 	= { $tag_list->{ 'DOCUMENT' }	=> \&parse};
@@ -84,11 +89,6 @@ sub get_raw
 sub parse
 {
 	my ($twig, $node) = @_;
-
-	# At first, content is blank
-	$tmp_content 		= "";
-	# because there's no pages
-	@tmp_pages			= ();
 
 	# Get <document> node attributes
 

@@ -21,6 +21,8 @@ use ParsCit::Tr2crfpp;
 use ParsCit::PreProcess;
 use ParsCit::PostProcess;
 use ParsCit::CitationContext;
+# Omnipage libraries
+use Omni::Omnidoc;
 # Dependencies
 use CSXUtil::SafeText qw(cleanXML);
 
@@ -33,10 +35,10 @@ use CSXUtil::SafeText qw(cleanXML);
 # Extract citations from text
 sub extractCitations 
 {
-    my ($text_file) = @_;
+    my ($text_file, $org_file, $is_xml) = @_;
 
 	# Real works are in there
-    my ($status, $msg, $citations, $body_text) = extractCitationsImpl($text_file);
+    my ($status, $msg, $citations, $body_text) = extractCitationsImpl($text_file, $org_file, $is_xml);
 
 	# Check the result status
     if ($status > 0) 
@@ -184,46 +186,80 @@ sub printArray
 ###
 sub extractCitationsImpl 
 {
-    my ($textfile, $bwrite_split) = @_;
+    my ($textfile, $orgfile, $is_xml, $bwrite_split) = @_;
 
     if (! defined $bwrite_split) { $bwrite_split = $ParsCit::Config::bWriteSplit; }
 
 	# Status and error message initialization
     my ($status, $msg) = (1, "");
-
-    if (! open(IN, "<:utf8", $textfile)) { return (-1, "Could not open text file " . $textfile . ": " . $!); }
-
-    my $text;
-    {
-		local $/	= undef;
-		$text		= <IN>;
-    }
-    close IN;
-
-	###
-    # Thang May 2010
-    # Map each position in norm_body_text to a position in body_text, scalar(@pos_array) = number of tokens in norm_body_text
+	
+	# NOTE: What are their purpose?
+	my ($citefile, $bodyfile) = ("", "");
+	# NOTE: What is its purpose?
 	my @pos_array = (); 
-	# TODO: Switch this function to sectlabel module
-    my ($rcite_text, $rnorm_body_text, $rbody_text) = ParsCit::PreProcess::findCitationText(\$text, \@pos_array);
+	# Reference text, boby text, and normalize body text
+	my ($rcite_text, $rnorm_body_text, $rbody_text) = undef;
+	# Reference to an array of single reference
+	my $rraw_citations = undef;
 
-    my @norm_body_tokens	= split(/\s+/, $$rnorm_body_text);
-    my @body_tokens			= split(/\s+/, $$rbody_text);
+	# Find and separate reference
+	if ($is_xml)
+	{
+		###
+		# Huydhn: input is xml from Omnipage
+		###
+		if (! open(IN, "<:utf8", $orgfile)) { return (-1, "Could not open xml file " . $orgfile . ": " . $!); }
+		my $xml = do { local $/; <IN> };
+		close IN;
 
-	my $size	= scalar(@norm_body_tokens);
-    my $size1	= scalar(@pos_array);
+		###
+		# Huydhn
+		# NOTE: the omnipage xml is not well constructed (concatenated multiple xml files).
+		# This merged xml need to be fixed first before pass it to xml processing libraries, e.g. xml::twig
+		###
+		# Remove <?xml version="1.0" encoding="UTF-8"?>
+		$xml =~ s/<\?xml.+?>\n//g;
+		# Remove <!--XML document generated using OCR technology from ScanSoft, Inc.-->
+		$xml =~ s/<\!\-\-XML.+?>\n//g; 
+		# Add the root tag
+		$xml = "<root>" . "\n" . $xml . "\n" . "</root>";
 
-    if($size != $size1) { die "ParsCit::Controller::extractCitationsImpl: normBodyText size $size != posArray size $size1\n"; }
-    # End Thang May 2010
-	###
+		# New document
+		my $doc = new Omni::Omnidoc();
+		$doc->set_raw($xml);
+		
+		print $doc->get_content(); 
+		die;
+	}
+	else
+	{
+		if (! open(IN, "<:utf8", $textfile)) { return (-1, "Could not open text file " . $textfile . ": " . $!); }
+		my $text = do { local $/; <IN> };
+		close IN;
 
-	# Filename initialization
-    my ($citefile, $bodyfile) = ("", "");
-    if ($bwrite_split > 0) { ($citefile, $bodyfile) = writeSplit($textfile, $rcite_text, $rbody_text); }
+		###
+    	# Thang May 2010
+	    # Map each position in norm_body_text to a position in body_text, scalar(@pos_array) = number of tokens in norm_body_text
+		# TODO: Switch this function to sectlabel module
+    	($rcite_text, $rnorm_body_text, $rbody_text) = ParsCit::PreProcess::findCitationText(\$text, \@pos_array);
 
-	# Extract citations from citation text
-	# TODO: Train a new model to segment the citation without marker
-    my $rraw_citations	= ParsCit::PreProcess::segmentCitations($rcite_text);
+	    my @norm_body_tokens	= split(/\s+/, $$rnorm_body_text);
+    	my @body_tokens			= split(/\s+/, $$rbody_text);
+
+		my $size	= scalar(@norm_body_tokens);
+    	my $size1	= scalar(@pos_array);
+
+	    if($size != $size1) { die "ParsCit::Controller::extractCitationsImpl: normBodyText size $size != posArray size $size1\n"; }
+    	# End Thang May 2010
+		###
+
+		# Filename initialization
+    	if ($bwrite_split > 0) { ($citefile, $bodyfile) = writeSplit($textfile, $rcite_text, $rbody_text); }
+
+		# Extract citations from citation text
+		# TODO: Train a new model to segment the citation without marker
+	    $rraw_citations	= ParsCit::PreProcess::segmentCitations($rcite_text);
+	}
 
 	my @citations		= ();
     my @valid_citations	= ();
