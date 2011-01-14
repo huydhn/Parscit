@@ -228,8 +228,28 @@ sub extractCitationsImpl
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
 		
-		print $doc->get_content(); 
-		die;
+		# Extract the reference portion from the XML
+		my ($start_ref, $end_ref, $rcite_text_from_xml) = ParsCit::PreProcess::findCitationTextXML($doc);
+		# Extract the reference portion from the text. 
+		# TODO: NEED TO BE REMOVED FROM HERE
+    	($rcite_text, $rnorm_body_text, $rbody_text) = ParsCit::PreProcess::findCitationText($doc->get_content(), \@pos_array);
+		my @norm_body_tokens	= split(/\s+/, $$rnorm_body_text);
+    	my @body_tokens			= split(/\s+/, $$rbody_text);
+
+		my $size	= scalar(@norm_body_tokens);
+    	my $size1	= scalar(@pos_array);
+
+	    if($size != $size1) { die "ParsCit::Controller::extractCitationsImpl: normBodyText size $size != posArray size $size1\n"; }
+		# TODO: TO HERE
+		
+		# Filename initialization
+    	if ($bwrite_split > 0) { ($citefile, $bodyfile) = writeSplit($textfile, $rcite_text_from_xml, $rbody_text); }
+
+		# Prepare to split unmarked reference portion
+		my $tmp_file = ParsCit::Tr2crfpp::prepDataUnmarked($doc, $start_ref, $end_ref);
+
+		# Extract citations from citation text
+	    $rraw_citations	= ParsCit::PreProcess::segmentCitationsXML($rcite_text_from_xml, $tmp_file);
 	}
 	else
 	{
@@ -257,7 +277,6 @@ sub extractCitationsImpl
     	if ($bwrite_split > 0) { ($citefile, $bodyfile) = writeSplit($textfile, $rcite_text, $rbody_text); }
 
 		# Extract citations from citation text
-		# TODO: Train a new model to segment the citation without marker
 	    $rraw_citations	= ParsCit::PreProcess::segmentCitations($rcite_text);
 	}
 

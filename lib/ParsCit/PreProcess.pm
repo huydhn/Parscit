@@ -26,7 +26,7 @@ my %marker_types =	(	'SQUARE'		=> '\\[.+?\\]',
 ###
 sub findCitationTextXML
 {
-	my ($doc, $pos_array) = @_;
+	my ($doc) = @_;
 
 	# Start and end of a reference
 	my $start_found	= 0;
@@ -57,12 +57,40 @@ sub findCitationTextXML
 					my $ln_content = $lines->[ $t ]->get_content();
 
 					# Is it the beginning of a reference
-    				if ($ln_content =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?):?\s*\n+/)
+    				if ($ln_content =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?):?\s*$/)
 					{
-						$start_ref{ 'PAGE' }	= $x;
-						$start_ref{ 'COLUMN' }	= $y;
-						$start_ref{ 'PARA' }	= $z;
-						$start_ref{ 'LINE' }	= $t;
+						if (($t + 1) < scalar(@{ $lines }))
+						{
+							$start_ref{ 'LINE' }	= $t + 1;
+							$start_ref{ 'PARA' }	= $z;
+							$start_ref{ 'COLUMN' }	= $y;
+							$start_ref{ 'PAGE' }	= $x;
+						}
+						elsif (($z + 1) < scalar(@{ $paras }))
+						{
+							$start_ref{ 'LINE' }	= 0;
+							$start_ref{ 'PARA' }	= $z + 1;	
+							$start_ref{ 'COLUMN' }	= $y;
+							$start_ref{ 'PAGE' }	= $x;
+						}
+						elsif (($y + 1) < scalar(@{ $columns }))
+						{
+							$start_ref{ 'LINE' }	= 0;
+							$start_ref{ 'PARA' }	= 0;	
+							$start_ref{ 'COLUMN' }	= $y + 1;
+							$start_ref{ 'PAGE' }	= $x;
+						}
+						elsif (($x + 1) < scalar(@{ $pages }))
+						{
+							$start_ref{ 'LINE' }	= 0;
+							$start_ref{ 'PARA' }	= 0;	
+							$start_ref{ 'COLUMN' }	= 0;
+							$start_ref{ 'PAGE' }	= $x + 1;
+						}
+						else
+						{
+							# What the heck, the beginning is at the end of the document.
+						}						
 
 						$start_found = 1;
 						last;
@@ -78,11 +106,13 @@ sub findCitationTextXML
 		if ($start_found == 1) { last; }
 	}
 
-	# Reference not found
-	if (! exists $start_ref{ 'PAGE' }) { return (\%start_ref, \%end_ref); }
-
 	# Reference length
 	my $reference_length = 0;
+	# Citation
+	my $reference_text	 = "";
+
+	# Reference not found
+	if (! exists $start_ref{ 'PAGE' }) { return (\%start_ref, \%end_ref, \$reference_text); }
 
 	# Foreach line in the document after the start of the reference, check if it is the end of a reference using regular expression
 	for (my $x = $start_ref{ 'PAGE' }; $x < scalar(@{ $pages }); $x++)
@@ -107,7 +137,7 @@ sub findCitationTextXML
 					# Just a temporary variable
 					my $tmp = undef;
 					# Is it the end?					
-					if ($ln_content =~ m/^([\s\d\.]+)?(Acknowledge?ments?|Autobiographical|Tables?|Appendix|Exhibit|Annex|Fig|Notes?)(.*?)\n+/)
+					if ($ln_content =~ m/^([\s\d\.]+)?(Acknowledge?ments?|Autobiographical|Tables?|Appendix|Exhibit|Annex|Fig|Notes?)(.*?)$/)
 					{
 						# Then save its location
 						if ($t == 0)
@@ -169,6 +199,7 @@ sub findCitationTextXML
 					}
 					
 					$reference_length += length($ln_content);
+					$reference_text	  .= $ln_content . "\n";
 				}
 
 				if ($end_found == 1) { last; }
@@ -203,13 +234,12 @@ sub findCitationTextXML
 	{
 		print STDERR "Citation text longer than article body: ignoring\n";
 
-		%start_ref = (); %end_ref = ();
-		return (\%start_ref, \%end_ref);
+		%start_ref = (); %end_ref = (); $reference_text = "";
+		return (\%start_ref, \%end_ref, \$reference_text);
     }
 
 	# Now we have the citation text
-	return (\%start_ref, \%end_ref);
-	return (normalizeCiteText(\$citetext), normalizeBodyText(\$bodytext, $pos_array), \$bodytext);
+	return (\%start_ref, \%end_ref, \$reference_text);
 }
 
 ###
@@ -226,7 +256,7 @@ sub findCitationText
     my ($rtext, $pos_array) = @_;
 
 	# Save the text
-	my $text		= $$rtext;
+	my $text		= $rtext;
     my $bodytext	= '0';
     my $citetext	= '0';
 
@@ -507,7 +537,6 @@ sub segmentCitations
     return $rcitations;
 }
 
-
 ###
 # Segments citations that have explicit markers in the
 # reference section.  Whenever a new line starts with an
@@ -578,16 +607,6 @@ sub splitCitationsByMarker
     return \@citations;
 }
 
-###
-# Replace heuristics rules with crf++ model based on both textual
-# and XML features from Omnipage.
-#
-# HISTORY: Added in 100111 by Huy Do
-###
-sub splitUnmarkedCitations2
-{
-
-}
 
 ###
 # Uses several heuristics to decide where individual citations
@@ -724,6 +743,111 @@ sub splitUnmarkedCitations
 
 	# And then from nothing came everything
     return \@citations;
+}
+
+###
+# Controls the process by which citations are segmented.
+# Input includes XML information.
+# Returns a reference to a list of citation objects.
+#
+# Added by Huydhn, 13 Jan 2011
+###
+sub segmentCitationsXML
+{
+    my ($rcite_text_from_xml, $tmp_file) = @_;
+
+	# TODO: Need to be removed
+    my $marker_type = guessMarkerType($rcite_text_from_xml);
+
+    my $rcitations = undef;
+    if ($marker_type ne 'UNKNOWN') 
+	{
+		# TODO: Need to be removed
+		$rcitations = splitCitationsByMarker($rcite_text_from_xml, $marker_type);
+    } 
+	else 	
+	{
+		# Huydhn: split reference using crf++ model
+		$rcitations = splitUnmarkedCitations2($tmp_file);
+    }
+
+    return $rcitations;
+}
+
+###
+# Replace heuristics rules with crf++ model based on both textual
+# and XML features from Omnipage.
+#
+# HISTORY: Added in 100111 by Huy Do
+###
+sub splitUnmarkedCitations2
+{
+	my ($infile) = @_;	
+
+	# Citation list
+	my @citations = ();
+
+	# Run the crf++
+	my $outfile = $infile . "_split.dec";
+    if (ParsCit::Tr2crfpp::splitReference($infile, $outfile))
+	{
+		my $file_handle = undef;
+		unless(open($file_handle, "<:utf8", $outfile))
+		{
+			fatal("Could not open file: $!");
+			return;
+    	}
+    
+		# Read all lines
+		my @lines = ();
+		while(<$file_handle>) 
+		{
+			chomp();
+			push @lines, $_;
+	    }
+    	close $file_handle;
+		
+		my $cit_str = "";
+    	for (my $i = 0; $i < scalar(@lines); $i++) 
+		{
+			# Get the class of the file: "beginRef", "inRef", or "endRef"
+			my @tokens	= split " +", $lines[$i];
+			my $class	= $tokens[ $#tokens ];
+
+			# Line content
+			my $ln_con	= undef;
+			$ln_con		= $tokens[ 0 ];
+			# Replace the ||| sequence with \s
+			$ln_con		=~ s/|||/ /g; 
+
+			# Beginning of a citation
+			if ($class eq "beginRef")
+			{
+				# Save the previous citation
+				if ($cit_str ne "") 
+				{
+					my $citation = new ParsCit::Citation();
+					$citation->setString($cit_str);
+					push @citations, $citation; 
+				} 
+
+				# Create new citation
+				$cit_str = $ln_con;
+			}
+			# Inside a citation
+			else
+			{
+				$cit_str = $cit_str . " " . $ln_con;
+			}
+		}
+
+	}
+
+	unlink($infile);
+	unlink($outfile);
+
+	# Our work here is done
+	return \@citations;
 }
 
 ###

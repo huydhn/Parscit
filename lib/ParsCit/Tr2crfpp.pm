@@ -28,6 +28,9 @@ $crf_test		= "$FindBin::Bin/../$crf_test";
 
 my $model_file	= $ParsCit::Config::modelFile;
 $model_file		= "$FindBin::Bin/../$model_file";
+
+my $split_model_file	= $ParsCit::Config::splitModelFile;
+$split_model_file		= "$FindBin::Bin/../$split_model_file";
 ### END user customizable section
 
 ###
@@ -878,6 +881,80 @@ sub fatal
     print STDERR "Fatal Exception: $msg\n";
 }
 
+###
+# Huydhn: split the reference portion using crf++ model
+###
+sub splitReference
+{
+	my ($infile, $outfile) = @_;
+
+	unless (open(PIPE, "$crf_test -m $split_model_file $infile |")) 
+	{
+		fatal("Could not open pipe from crf call: $!");
+		return;
+    }
+
+	my $output;
+    {
+		local $/ = undef;
+		$output = <PIPE>;
+    }
+    close PIPE;
+
+    unless(open(IN, "<:utf8", $infile)) 
+	{
+		fatal("Could not open input file: $!");
+		return;
+    }
+    
+	my @code_lines = ();
+
+	while(<IN>) 
+	{
+		chomp();
+		push @code_lines, $_;
+    }
+    close IN;
+
+    my @output_lines = split "\n", $output;
+    for (my $i = 0; $i <= $#output_lines; $i++) 
+	{
+		# Remove blank line
+		if ($output_lines[$i] =~ m/^\s*$/) { next; }
+	
+		my @output_tokens	= split " +", $output_lines[$i];
+		my $class			= $output_tokens[ $#output_tokens ];
+		my @code_tokens		= split " +", $code_lines[ $i ];
+
+		if ($#code_tokens < 0) { next; }
+
+		$code_tokens[ $#code_tokens ] = $class;
+		@code_lines[$i]	= join " ", @code_tokens;
+    }
+
+    unless (open(OUT, ">:utf8", $outfile)) 
+	{
+		fatal("Could not open crf output file for writing: $!");
+		return;
+    }
+
+    foreach my $line (@code_lines) 
+	{
+		###
+		# Thang v100401: add this to avoid double decoding
+		###
+      	if (!Encode::is_utf8($line))
+		{
+			print OUT Encode::decode_utf8($line), "\n";
+		} 
+		else 
+		{
+			print OUT $line, "\n";
+      	}
+    }
+    close OUT;
+	return 1;
+}
 
 sub decode 
 {
@@ -948,7 +1025,6 @@ sub decode
       	}
     }
     close OUT;
-
 	return 1;
 }
 
