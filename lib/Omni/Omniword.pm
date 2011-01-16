@@ -92,6 +92,7 @@ sub parse
 	
 	# Get the word's content
 	$tmp_content 	= GetNodeText($node);
+	$tmp_content	=~ s/^\s+|\s+$//g;
 }
 
 sub get_content

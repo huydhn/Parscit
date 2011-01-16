@@ -124,67 +124,89 @@ sub parse
 	# because there's no word
 	@tmp_words			= ();
 
-	# Get every word in the <run>
-	my $wd = $node->first_child( $tag_list->{ 'WORD' }) ;
-	while (defined $wd)
+	# Check if there's any child
+	my $child = $node->first_child();
+
+	# Has some child
+	if ((defined $child) && ($child->path() =~ m/#PCDATA$/))
 	{
-		my $word = new Omni::Omniword();
+		my $content = undef;
+		$content	= GetNodeText($node);
+		$content	=~ s/^\s+|\s+$//g;
 
-		# Set raw content
-		$word->set_raw($wd->sprint);
-
-		# Update word list
-		push @tmp_words, $word;
-
-		# Check separator
-		my $sep = $wd->next_sibling();
-
-		# No space, tab, nothing 
-		if (! defined $sep)
+		# Save the content
+		$tmp_content = $tmp_content . $content;
+	}
+	else
+	{
+		# Get every word in the <run>
+		my $wd = $node->first_child( $tag_list->{ 'WORD' }) ;
+		while (defined $wd)
 		{
-			$tmp_content = $tmp_content . $word->get_content;
-		}
-		else
-		{
-			my $sep_content	= $sep->sprint;
+			my $word = new Omni::Omniword();
 
-			# Some type of separator
-			my $space	= $tag_list->{ 'SPACE' };
-			my $tab		= $tag_list->{ 'TAB' };
-			my $newline	= $tag_list->{ 'NEWLINE' };
+			# Set raw content
+			$word->set_raw($wd->sprint);
 
-			# Space
-			if ($sep_content =~ m/<($space)/)
+			# Update word list
+			push @tmp_words, $word;
+
+			# Check separator
+			my $sep = $wd->next_sibling();
+
+			# No space, tab, nothing 
+			if (! defined $sep)
 			{
-				$tmp_content = $tmp_content . $word->get_content . " ";	
+				$tmp_content = $tmp_content . $word->get_content;
 			}
-			# Tab
-			elsif ($sep_content =~ m/<($tab)/)
-			{
-				$tmp_content = $tmp_content . $word->get_content . "\t";	
-			}
-			# Newline
-			elsif ($sep_content =~ m/<($newline)/)
-			{
-				$tmp_content = $tmp_content . $word->get_content . "\n";
-			}
-			# Strange separator
 			else
 			{
-				$tmp_content = $tmp_content . $word->get_content;					
+				my $sep_content	= $sep->sprint;
+	
+				# Some type of separator
+				my $space	= $tag_list->{ 'SPACE' };
+				my $tab		= $tag_list->{ 'TAB' };
+				my $newline	= $tag_list->{ 'NEWLINE' };
+
+				# Space
+				if ($sep_content =~ m/<($space)/)
+				{
+					$tmp_content = $tmp_content . $word->get_content . " ";	
+				}
+				# Tab
+				elsif ($sep_content =~ m/<($tab)/)
+				{
+					$tmp_content = $tmp_content . $word->get_content . "\t";	
+				}
+				# Newline
+				elsif ($sep_content =~ m/<($newline)/)
+				{
+					$tmp_content = $tmp_content . $word->get_content . "\n";
+				}
+				# Strange separator
+				else
+				{
+					$tmp_content = $tmp_content . $word->get_content;					
+				}
+			}
+
+			# Little brother
+			if ($wd->is_last_child) 
+			{ 
+				last; 
+			}
+			else
+			{
+				$wd = $wd->next_sibling( $tag_list->{ 'WORD' } );
 			}
 		}
-
-		# Little brother
-		if ($wd->is_last_child) 
-		{ 
-			last; 
-		}
-		else
-		{
-			$wd = $wd->next_sibling( $tag_list->{ 'WORD' } );
-		}
 	}
+}
+
+sub add_word
+{
+	my ($self, $word) = @_;
+	push @{ $self->{ '_words' } }, $word;
 }
 
 sub get_words_ref

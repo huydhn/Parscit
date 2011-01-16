@@ -232,7 +232,8 @@ sub extractCitationsImpl
 		my ($start_ref, $end_ref, $rcite_text_from_xml) = ParsCit::PreProcess::findCitationTextXML($doc);
 		# Extract the reference portion from the text. 
 		# TODO: NEED TO BE REMOVED FROM HERE
-    	($rcite_text, $rnorm_body_text, $rbody_text) = ParsCit::PreProcess::findCitationText($doc->get_content(), \@pos_array);
+		my $content = $doc->get_content();
+		($rcite_text, $rnorm_body_text, $rbody_text) = ParsCit::PreProcess::findCitationText(\$content, \@pos_array);
 		my @norm_body_tokens	= split(/\s+/, $$rnorm_body_text);
     	my @body_tokens			= split(/\s+/, $$rbody_text);
 

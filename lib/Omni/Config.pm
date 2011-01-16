@@ -29,7 +29,8 @@ package Omni::Config;
 							'RIGHT-CELL'	=> 'rightBorder',
 							'PICTURE'		=> 'picture',
 							'NEWLINE'		=> 'nl',
-							'TAB'			=> 'tab'
+							'TAB'			=> 'tab',
+							'DD'			=> 'dd'
 						);
 $tag_list = \%omni_tag_list;
 

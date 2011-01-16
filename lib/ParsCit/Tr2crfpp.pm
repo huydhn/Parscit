@@ -156,6 +156,10 @@ sub prepDataUnmarked
 	my $lower_ratio = 0.8;
 	my $upper_ratio = 1.2;
 
+	# Line start point ratio
+	my $start_lower_ratio = 0.98;
+	my $start_upper_ratio = 1.02;
+
 	# Get all pages
 	$pages		= $omnidoc->get_pages_ref();
 	$start_page	= $ref_start_line->{ 'PAGE' };
@@ -204,7 +208,7 @@ sub prepDataUnmarked
 					if ($ln =~ m/^\s*$/) { next; }
 
 					# All words in a line
-					my @tokens	= split(/ +/, $ln);
+					my @tokens	= split(/\s+/, $ln);
 				
 					# Features will be stored here
 					my @feats	= ();
@@ -242,7 +246,7 @@ sub prepDataUnmarked
 					else
 					{
 						$_			= $ln;
-						my $n_sep	= s/([,;])/\1/g;
+						my $n_sep	= s/([,;])/$1/g;
 
 						# Have enough author, this line is a long author line
 						if ($n_sep >= 3)
@@ -371,11 +375,11 @@ sub prepDataUnmarked
 
 					# First word format: starting point, left alignment
 					my $start_point = $lines->[ $t ]->get_left_pos();
-					if ($start_point > $avg_start_point * $upper_ratio)
+					if ($start_point > $avg_start_point * $start_upper_ratio)
 					{
 						push @feats, 'xmlBeginLine_right';
 					}
-					elsif ($start_point < $avg_start_point * $lower_ratio)
+					elsif ($start_point < $avg_start_point * $start_lower_ratio)
 					{
 						push @feats, 'xmlBeginLine_left';
 					}
@@ -398,7 +402,7 @@ sub prepDataUnmarked
 					$current++;
 
 					# Output tag
-					push @feats, "unknown";
+					push @feats, "parsCit_unknown";
 					$current++;
 
 					# Export output: print
@@ -922,14 +926,14 @@ sub splitReference
 		# Remove blank line
 		if ($output_lines[$i] =~ m/^\s*$/) { next; }
 	
-		my @output_tokens	= split " +", $output_lines[$i];
+		my @output_tokens	= split(/\s+/, $output_lines[$i]);
 		my $class			= $output_tokens[ $#output_tokens ];
-		my @code_tokens		= split " +", $code_lines[ $i ];
+		my @code_tokens		= split(/\s+/, $code_lines[ $i ]);
 
 		if ($#code_tokens < 0) { next; }
 
 		$code_tokens[ $#code_tokens ] = $class;
-		@code_lines[$i]	= join " ", @code_tokens;
+		$code_lines[$i]	= join " ", @code_tokens;
     }
 
     unless (open(OUT, ">:utf8", $outfile)) 
@@ -994,14 +998,14 @@ sub decode
 		# Remove blank line
 		if ($output_lines[$i] =~ m/^\s*$/) { next; }
 	
-		my @output_tokens	= split " +", $output_lines[$i];
+		my @output_tokens	= split(/\s+/, $output_lines[$i]);
 		my $class			= $output_tokens[ $#output_tokens ];
-		my @code_tokens		= split "\t", $code_lines[ $i ];
+		my @code_tokens		= split(/\s+/, $code_lines[ $i ]);
 
 		if ($#code_tokens < 0) { next; }
 
 		$code_tokens[ $#code_tokens ] = $class;
-		@code_lines[$i]	= join "\t", @code_tokens;
+		$code_lines[$i]	= join "\t", @code_tokens;
     }
 
     unless (open(OUT, ">:utf8", $outfile)) 
@@ -1034,7 +1038,7 @@ sub readDict
 
   	my $mode = 0;
   	open (DATA, "<:utf8", $dict_file_loc) || die "Could not open dict file $dict_file_loc: $!";
-	
+
 	while (<DATA>) 
 	{
     	if		(/^\#\# Male/) 		{ $mode = 1; }		# male names
@@ -1062,7 +1066,7 @@ sub readDict
 			# not yet tagged
       		else 
 			{ 
-				$dict{$key} += $mode; 
+				$dict{ $key } += $mode; 
 			}
     	}
   	}

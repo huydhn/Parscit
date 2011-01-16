@@ -57,7 +57,7 @@ sub findCitationTextXML
 					my $ln_content = $lines->[ $t ]->get_content();
 
 					# Is it the beginning of a reference
-    				if ($ln_content =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?):?\s*$/)
+    				if ($ln_content =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?|LITERATURE?\s+CITED?):?\s*$/)
 					{
 						if (($t + 1) < scalar(@{ $lines }))
 						{
@@ -119,18 +119,24 @@ sub findCitationTextXML
 	{
 		# All columns in one page
 		my $columns	= $pages->[ $x ]->get_cols_ref();
+	
+		my $start_column = ($x == $start_ref{ 'PAGE' }) ? $start_ref{ 'COLUMN' } : 0;
 
-		for (my $y = $start_ref{ 'COLUMN' }; $y < scalar(@{ $columns }); $y++)
+		for (my $y = $start_column; $y < scalar(@{ $columns }); $y++)
 		{
 			# All paragraphs in one column
 			my $paras = $columns->[ $y ]->get_paras_ref();
 
-			for (my $z = $start_ref{ 'PARA' }; $z < scalar(@{ $paras }); $z++)
+			my $start_para = (($x == $start_ref{ 'PAGE' }) && ($y == $start_ref{ 'COLUMN' })) ? $start_ref{ 'PARA' } : 0;
+
+			for (my $z = $start_para; $z < scalar(@{ $paras }); $z++)
 			{
 				# All lines in one paragraph
 				my $lines = $paras->[ $z ]->get_lines_ref();
 
-				for (my $t = $start_ref{ 'LINE' }; $t < scalar(@{ $lines }); $t++)
+				my $start_line = (($x == $start_ref{ 'PAGE' }) && ($y == $start_ref{ 'COLUMN' }) && ($z == $start_ref{ 'PARA' })) ? $start_ref{ 'LINE' } : 0;
+
+				for (my $t = $start_line; $t < scalar(@{ $lines }); $t++)
 				{
 					my $ln_content = $lines->[ $t ]->get_content();
 
@@ -256,7 +262,7 @@ sub findCitationText
     my ($rtext, $pos_array) = @_;
 
 	# Save the text
-	my $text		= $rtext;
+	my $text		= $$rtext;
     my $bodytext	= '0';
     my $citetext	= '0';
 
@@ -265,7 +271,12 @@ sub findCitationText
 	# while ($text =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCE?\s+CITED|REFERENCES?\s+AND\s+NOTES?):?\s*\n+/sg) 
 	# {
 	###
-    while ($text =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?):?\s*\n+/sg) 
+	###
+	# Corrected by Huy Do, 15 Jan 2011
+    # while ($text =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?):?\s*\n+/sg)
+	# {
+	###
+    while ($text =~ m/\b(References?|REFERENCES?|Bibliography|BIBLIOGRAPHY|References?\s+and\s+Notes?|References?\s+Cited|REFERENCES?\s+CITED|REFERENCES?\s+AND\s+NOTES?|LITERATURE?\s+CITED?):?\s*\n+/sg) 
 	{
 		$bodytext = substr $text, 0, pos $text;
 		$citetext = substr $text, pos $text unless (pos $text < 1);
@@ -393,8 +404,8 @@ sub expandBracketMarker
     	}
     	$newline .= $match;
     
-		my @tokens	= split(/\s+/, $match);
-		my $length	= scalar(@tokens);
+		@tokens	= split(/\s+/, $match);
+		$length	= scalar(@tokens);
 		
 		for(my $i=0; $i < $length; $i++)
 		{
@@ -675,7 +686,7 @@ sub splitUnmarkedCitations
 						if ($content[ $j ] =~ m/\d/) { last; }
 			
 						$_			= $content[ $j ];
-						my $n_sep	= s/([,;])/\1/g;
+						my $n_sep	= s/([,;])/$1/g;
 
 						if ($n_sep >= 3) 
 						{
@@ -810,24 +821,29 @@ sub splitUnmarkedCitations2
 		my $cit_str = "";
     	for (my $i = 0; $i < scalar(@lines); $i++) 
 		{
-			# Get the class of the file: "beginRef", "inRef", or "endRef"
-			my @tokens	= split " +", $lines[$i];
+			# Get the class of the file: "parsCit_begin", "parsCit_continue", or "parsCit_end"
+			my @tokens	= split(/\s+/, $lines[$i]);
 			my $class	= $tokens[ $#tokens ];
 
 			# Line content
 			my $ln_con	= undef;
 			$ln_con		= $tokens[ 0 ];
 			# Replace the ||| sequence with \s
-			$ln_con		=~ s/|||/ /g; 
+			$ln_con		=~ s/\|\|\|/ /g; 
 
 			# Beginning of a citation
-			if ($class eq "beginRef")
+			if ($class eq "parsCit_begin")
 			{
 				# Save the previous citation
 				if ($cit_str ne "") 
 				{
 					my $citation = new ParsCit::Citation();
-					$citation->setString($cit_str);
+
+					# Clean up the citation text first
+					my $one_cit_str = mergeLines($cit_str);
+
+					# Save the citation
+					$citation->setString($one_cit_str);
 					push @citations, $citation; 
 				} 
 
@@ -835,12 +851,24 @@ sub splitUnmarkedCitations2
 				$cit_str = $ln_con;
 			}
 			# Inside a citation
-			else
+			elsif ($class ne "parsCit_unknown")
 			{
-				$cit_str = $cit_str . " " . $ln_con;
+				$cit_str = $cit_str . "\n" . $ln_con;
 			}
 		}
 
+		# Last citation
+		if ($cit_str ne "")
+		{
+			my $citation = new ParsCit::Citation();
+
+			# Clean up the citation text first
+			my $one_cit_str = mergeLines($cit_str);
+
+			# Save the citation
+			$citation->setString($one_cit_str);
+			push @citations, $citation; 			
+		}
 	}
 
 	unlink($infile);

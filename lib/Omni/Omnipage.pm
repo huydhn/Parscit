@@ -87,25 +87,155 @@ sub parse
 
 	# At first, content is blank
 	$tmp_content	= "";
-	# because there's no column
+	# because there's no column or dd, what the heck is dd
 	@tmp_cols		= ();
 
 	# Get <page> node attributes
 
-	# Check if there's any column 
+	my $child = undef;
+	# Get the body text
+	$child = $node->first_child( $tag_list->{ 'BODY' } );
+	# Page with no body, return
+	if (! defined $child) { return; }
+
+	# Get the first child in the body text
+	$child = $child->first_child();
+
+	# Some type of child
+	my $section_tag	= $tag_list->{ 'SECTION' };
+	my $column_tag	= $tag_list->{ 'COL' };
+	my $dd_tag		= $tag_list->{ 'DD' };
+
+	# Check if there's any column or dd, what the heck is dd 
+	while (defined $child)
+	{
+		my $xpath = $child->path();
+
+		# if this child is <section>
+		if ($xpath =~ m/\/$section_tag$/)
+		{
+			# Get the first grand child
+			my $grand_child = $child->first_child();
+
+			# Subloop
+			while (defined $grand_child)
+			{
+				my $grand_xpath = $grand_child->path();	
+
+				# if this child is <column>
+				if ($grand_xpath =~ m/\/$column_tag$/)
+				{
+					my $column = new Omni::Omnicol();
+	
+					# Set raw content
+					$column->set_raw($grand_child->sprint());
+
+					# Update column list
+					push @tmp_cols, $column;
+
+					# Update content
+					$tmp_content = $tmp_content . $column->get_content() . "\n";
+				}
+				# if this child is <dd>
+				elsif ($grand_xpath =~ m/\/$dd_tag$/)
+				{
+					# Create the fake <column>
+					my $output = XML::Writer::String->new();
+					my $writer = new XML::Writer(OUTPUT => $output, UNSAFE => 'true');
+
+					$writer->startTag(	"column", 
+										$att_list->{ 'BOTTOM' } 	=> GetNodeAttr($grand_child, $att_list->{ 'BOTTOM' }),
+										$att_list->{ 'TOP' }		=> GetNodeAttr($grand_child, $att_list->{ 'TOP' }),
+										$att_list->{ 'LEFT' } 		=> GetNodeAttr($grand_child, $att_list->{ 'LEFT' }),
+										$att_list->{ 'RIGHT' } 		=> GetNodeAttr($grand_child, $att_list->{ 'RIGHT' })	);
+
+					$writer->raw( $grand_child->xml_string() );
+					$writer->endTag("column");
+					$writer->end();
+
+					# Save the fake <column>
+					my $column = new Omni::Omnicol();
+
+					# Set raw content
+					$column->set_raw( $output->value() );
+
+					# Update column list
+					push @tmp_cols, $column;
+
+					# Update content
+					$tmp_content = $tmp_content . $column->get_content() . "\n";
+				}
+
+				# Little brother
+				if ($grand_child->is_last_child) 
+				{ 
+					last; 
+				}
+				else
+				{
+					$grand_child = $grand_child->next_sibling();
+				}
+			}
+		}
+		# if this child is <column>
+		elsif ($xpath =~ m/\/$column_tag$/)
+		{
+			my $column = new Omni::Omnicol();
+
+			# Set raw content
+			$column->set_raw($child->sprint());
+
+			# Update column list
+			push @tmp_cols, $column;
+
+			# Update content
+			$tmp_content = $tmp_content . $column->get_content() . "\n";
+		}
+		# if this child is <dd>
+		elsif ($xpath =~ m/\/$dd_tag$/)
+		{
+			# Create the fake <column>
+			my $output = XML::Writer::String->new();
+			my $writer = new XML::Writer(OUTPUT => $output, UNSAFE => 'true');
+
+			$writer->startTag(	"column", 
+								$att_list->{ 'BOTTOM' } 	=> GetNodeAttr($child, $att_list->{ 'BOTTOM' }),
+								$att_list->{ 'TOP' }		=> GetNodeAttr($child, $att_list->{ 'TOP' }),
+								$att_list->{ 'LEFT' } 		=> GetNodeAttr($child, $att_list->{ 'LEFT' }),
+								$att_list->{ 'RIGHT' } 		=> GetNodeAttr($child, $att_list->{ 'RIGHT' })	);
+
+			$writer->raw( $child->xml_string() );
+			$writer->endTag("column");
+			$writer->end();
+
+			# Save the fake <column>
+			my $column = new Omni::Omnicol();
+
+			# Set raw content
+			$column->set_raw( $output->value() );
+
+			# Update column list
+			push @tmp_cols, $column;
+
+			# Update content
+			$tmp_content = $tmp_content . $column->get_content() . "\n";
+		}
+
+		# Little brother
+		if ($child->is_last_child) 
+		{ 
+			last; 
+		}
+		else
+		{
+			$child = $child->next_sibling();
+		}
+	}
+
 	my @all_cols = $node->descendants( $tag_list->{ 'COLUMN' } );
 	foreach my $cl (@all_cols)
 	{
-		my $column = new Omni::Omnicol();
-
-		# Set raw content
-		$column->set_raw($cl->sprint());
-
-		# Update column list
-		push @tmp_cols, $column;
-
-		# Update content
-		$tmp_content = $tmp_content . $column->get_content() . "\n";
+		
 	}
 }
 
