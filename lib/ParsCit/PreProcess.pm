@@ -263,8 +263,8 @@ sub findCitationText
 
 	# Save the text
 	my $text		= $$rtext;
-    my $bodytext	= '0';
-    my $citetext	= '0';
+    my $bodytext	= "";
+    my $citetext	= "";
 
 	###
 	# Corrected by Cheong Chi Hong <chcheong@cse.cuhk.edu.hk> 2 Feb 2010
@@ -282,12 +282,18 @@ sub findCitationText
 		$citetext = substr $text, pos $text unless (pos $text < 1);
     }
 
+	# No citation
+	if ($citetext eq "")
+	{
+		print STDERR "Citation text cannot be found: ignoring", "\n";
+		return \$citetext, normalizeBodyText(\$bodytext), \$bodytext;
+	}
+
 	# Odd case: when citation is longer than the content itself, what should we do?
     if (length($citetext) >= 0.8 * length($bodytext)) 
 	{
-		$citetext = "";
 		print STDERR "Citation text longer than article body: ignoring\n";
-		return \$citetext, \normalizeBodyText(\$bodytext), \$bodytext;
+		return \$citetext, normalizeBodyText(\$bodytext), \$bodytext;
     }
 
 	# Citation stops when another section starts
@@ -480,7 +486,7 @@ sub normalizeBodyText
     	my @tmp_pos_array		= ();
 		($line, $token_count)	= expandBracketMarker($line, \@tmp_pos_array, $token_count); # Thang May 2010
 		my @tokens				= split(/\s+/, $line);
-		
+
 		if(scalar(@tokens) != scalar(@tmp_pos_array))
 		{
       		die "scalar(@tokens) != scalar(@tmp_pos_array)\n$line\n";
@@ -488,7 +494,7 @@ sub normalizeBodyText
 		#$line =~ s/\[(\d+[,;] *)*((\d+)-(\d+))([,;] *\d+)*\]/"[".$1.transformMarker($3,$4).$5."]"/e;
     
 		if ($line =~ m/^\s*$/) { next; }
-    
+  
 		###
     	# Modified by Artemy Kolchinsky (v090625)
     	# !!! merge without removing "-" if preceeded by numbers...

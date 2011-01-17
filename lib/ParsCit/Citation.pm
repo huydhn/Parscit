@@ -47,6 +47,7 @@ sub new {
 	      '_journal' => undef,
 	      '_pages' => undef,
 	      '_volume' => undef,
+		  '_subvolume' => undef,
 	      '_number' => undef,
 	      '_contexts' => \@contexts,
 	      '_tech' => undef,

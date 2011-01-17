@@ -234,6 +234,7 @@ sub extractCitationsImpl
 		# TODO: NEED TO BE REMOVED FROM HERE
 		my $content = $doc->get_content();
 		($rcite_text, $rnorm_body_text, $rbody_text) = ParsCit::PreProcess::findCitationText(\$content, \@pos_array);
+
 		my @norm_body_tokens	= split(/\s+/, $$rnorm_body_text);
     	my @body_tokens			= split(/\s+/, $$rbody_text);
 
@@ -309,6 +310,9 @@ sub extractCitationsImpl
 		if ($tstatus <= 0) { return ($tstatus, $msg, undef, undef); }
 
 		my @cite_info = @{ $rcite_info };
+
+		print $rcite_info->{ 'subVolume' }, "\n";
+		die;
 
 		if ($#citations == $#cite_info) 
 		{
