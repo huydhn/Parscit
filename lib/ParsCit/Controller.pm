@@ -311,9 +311,6 @@ sub extractCitationsImpl
 
 		my @cite_info = @{ $rcite_info };
 
-		print $rcite_info->{ 'subVolume' }, "\n";
-		die;
-
 		if ($#citations == $#cite_info) 
 		{
 	    	for (my $i = 0; $i <= $#citations; $i++) 

@@ -107,33 +107,7 @@ sub makeSegment
 {
     my ($tag, @tokens) = @_;
     my $segment = join " ", @tokens;
-
-	###
-	# Huydhn: special case fo volume tag: 5 (1)
-	# separate into main volume and sub-volume tag
-	###
-	if ($tag eq "volume")
-	{
-		my $volume_text = "";
-
-		# Volume: 50 (2)
-		if ($segment =~ m/(\d+)\s*[\(\{\[]?(\d+)[\)\}\]]?/)
-		{
-			$volume_text = "<mainVolume>" . $1 . "</mainVolume>" . "\n" . "<subVolume>" . $2 . "</subVolume>";
-			print $volume_text, "\n";
-			die;
-		}
-		else
-		{
-			$volume_text = "<mainVolume>" . $segment . "</mainVolume>"
-	   	}
-
-		return "<$tag>$volume_text</$tag>\n";
-	}
-	else
-	{
-		return "<$tag>$segment</$tag>\n";
-	}
+	return "<$tag>$segment</$tag>\n";
 }
 
 ###
@@ -155,11 +129,11 @@ sub normalizeFields
 	foreach my $block (@cite_blocks) 
 	{
 		my %cite_info = ();
-	
+
 		while ($block =~ m/<(.*?)>(.*?)<\/\1>/gs) 
 		{
 	    	my ($tag, $content) = ($1, $2);
-	    	
+
 			if ($tag eq "author") 
 			{
 				$tag	 = "authors";
@@ -173,14 +147,10 @@ sub normalizeFields
 			###
 			# Huydhn: Volume fix, e.g now we have main-volume and sub-volume
 			####
-			elsif ($tag eq "mainVolume") 
+			elsif ($tag eq "volume") 
 			{
-				$content = normalizeNumber($content);
+				$content = normalizeVolume($content);
 	    	} 
-			elsif ($tag eq "subVolume")
-			{
-				$content = normalizeNumber($content);
-			}
 			elsif ($tag eq "number") 
 			{
 				$content = normalizeNumber($content);
@@ -204,7 +174,6 @@ sub normalizeFields
 
     return \@cite_infos;
 }
-
 
 sub stripPunctuation 
 {
@@ -251,6 +220,37 @@ sub stripPunctuation
     return $text;
 }
 
+###
+# Normalize volume number, tries to separate volume and sub volume
+# e.g 5 (1)
+###
+sub normalizeVolume
+{
+	my ($volume_number) = @_;
+
+	# First number is main volume, the second one is sub-volume number
+	my @volumes = ();
+
+	###
+	# Huydhn: special case fo volume tag: 5 (1)
+	# separate into main volume and sub-volume tag
+	###
+	if ($volume_number =~ m/(\d+)\s*[\(\{\[]+(\d+)[\)\}\]]?/)
+	{
+		push @volumes, $1;
+		push @volumes, $2;
+	}
+	elsif ($volume_number =~ m/(\d+)/) 
+	{
+		push @volumes, $1;
+    } 
+	else 
+	{
+		push @volumes, $volume_number;
+    }
+
+	return \@volumes;
+}
 
 ###
 # Tries to split the author tokens into individual author names
