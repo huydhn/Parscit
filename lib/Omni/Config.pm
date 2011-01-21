@@ -1,5 +1,12 @@
 package Omni::Config;
 
+# Global
+# Names of the classes
+$ALG_NAME		= "Omni";
+# Version
+$ALG_VERSION	= "110121";
+
+# All Omnipage XML tags 
 %omni_tag_list	=		(	'DOCUMENT'		=> 'document',
 		 	  				'PAGE'			=> 'page',
 							'COLUMN'		=> 'column',
@@ -34,6 +41,7 @@ package Omni::Config;
 						);
 $tag_list = \%omni_tag_list;
 
+# All Omnipage XML attributes 
 %omni_att_list	=		(	'ALIGN'			=> 'alignment',
 							'FONTFACE'		=> 'fontFace',
 							'FONTFAMILY'	=> 'fontFamily',

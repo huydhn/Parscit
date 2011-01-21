@@ -1,3 +1,20 @@
+110121 (done by Huy)
+- Major changes: Omni classes for Omnipage XML process using XML::Twig and XML::Writer instead of regular expression
+- Added Omni (lib/Omni/Config.pm lib/Omni/Omnicol.pm lib/Omni/Omnidoc.pm lib/Omni/Omniline.pm lib/Omni/Omnipage.pm lib/Omni/Omnipara.pm lib/Omni/Omnirun.pm lib/Omni/Omniword.pm)
+- Use the new Omni classes in Parscit module
+
+- Major changes: improve Parscit performance when there's no reference marker
+- Added new crf++ XML model, template and train data (resources/parsCit.split.model crfpp/traindata/parsCit/parsCit.split.template crfpp/traindata/parsCit/parsCit.split.train.data)
+- Use the new Parscit model when there's no reference marker
+
+- Minor changes: bug fixes
+- Parscit post-process: stripPunctuation function removes the semi-colon in XML special characters, e.g. &amp;
+- Parscit controller: terminate properly when no reference is found (normBodyText size 1 != posArray size 0)
+- Parscit post-process: fix the volume number truncation, e.g. vol 5(1) becomes vol 5
+
+- Minor changes: Parscit
+- Add bin/xml2train.pl: extract reference text and XML information from Omnipage and save it into Parscit train file's format
+
 100901 (done by Thang)
 - Incorporate BiblioScrip (http://github.com/mromanello/BiblioScript) and BibUtils (http://www.scripps.edu/~cdputnam/software/bibutils/)
 
@@ -10,15 +27,14 @@
 
 100401c
 - Minor changes for correcting errors with punctuation and XML
-  entities in reference string parsing.  Reported by Cheong Chi Hong
-  and Mario Lipinski.  Fixed by Minh-Thang Luong.
+  entities in reference string parsing. Reported by Cheong Chi Hong
+  and Mario Lipinski. Fixed by Minh-Thang Luong.
 
 100401b
 - Minor changes (bug fixes) to section labeler model.
 
 100401 
-- Major Change: Added SectLabel module (due to Minh-Thang Luong and
-  Thuy Dung Nguyen)
+- Major Change: Added SectLabel module (due to Minh-Thang Luong and Thuy Dung Nguyen)
 - Added Iconip training data from Cheong Chi Hong
 - Updated default model to include Iconip data
 - Updated CGI demo to call new SectLabel module as well
@@ -34,9 +50,9 @@
 - Added in crfpp/traindata CRF++ feature files (sectLabel.train.dataXml, sectLabel.train.data) and templates (sectLabel.templateXml, sectLabel.template)
 
 - Incorporated works by Emma 
--- Added GenericSect code (bin/sectLabel/genericSectExtract.rb, crfpp/traindata/genericSect.train.data, bin/sectLabel/genericSect/) into SectLabel
--- Added GenericSect annotated data doc/genericSect.tagged.txt (211 documents with headers annotated)
--- Added in crfpp/traindata CRF++ feature file (genericSect.train.data) and template (genericSect.template)
+- Added GenericSect code (bin/sectLabel/genericSectExtract.rb, crfpp/traindata/genericSect.train.data, bin/sectLabel/genericSect/) into SectLabel
+- Added GenericSect annotated data doc/genericSect.tagged.txt (211 documents with headers annotated)
+- Added in crfpp/traindata CRF++ feature file (genericSect.train.data) and template (genericSect.template)
 
 090625b 
 - Updated documentation only. no change to executables

@@ -2,7 +2,7 @@ package ParsCit::Config;
 
 ## Global
 $algorithmName		= "ParsCit";
-$algorithmVersion	= "100401";
+$algorithmVersion	= "110121";
 
 ## Repository Mappings
 %repositories	= (	'rep1'		=> '/repositories/rep1',
