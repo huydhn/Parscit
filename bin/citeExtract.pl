@@ -31,7 +31,7 @@ use FindBin;
 use Getopt::Std;
 
 use strict 'vars';
-use lib "$FindBin::Bin/../lib";
+use lib $FindBin::Bin . "/../lib";
 
 # USER customizable section
 my $tmpfile	.= $0; 
@@ -49,10 +49,10 @@ my $PARSCIT		= 1;
 my $PARSHED		= 2;
 my $SECTLABEL	= 4; # Thang v100401
 
-my $default_mode		= $PARSCIT;
 my $default_input_type	= "raw";
-my $output_version		= "100401";
-my $biblio_script		="$FindBin::Bin/BiblioScript/biblio_script.sh";
+my $output_version		= "110121";
+my $biblio_script		= $FindBin::Bin . "/BiblioScript/biblio_script.sh";
+my $default_mode		= $PARSCIT;
 # END user customizable section
 
 # Ctrl-C handler
@@ -88,13 +88,13 @@ sub Version
 }
 
 # MAIN program
-my $cmdLine = $0 . " " . join (" ", @ARGV);
+my $cmd_line = $0 . " " . join (" ", @ARGV);
 
 # Invoked with no arguments, error in execution
 if ($#ARGV == -1)
 { 		        
-	print STDERR "# $progname info\t\tNo arguments detected, waiting for input on command line.\n";
-	print STDERR "# $progname info\t\tIf you need help, stop this program and reinvoke with \"-h\".\n";
+	print STDERR "# $progname info\t\tNo arguments detected, waiting for input on command line.		\n";
+	print STDERR "# $progname info\t\tIf you need help, stop this program and reinvoke with \"-h\".	\n";
 	exit(-1);
 }
 
@@ -118,14 +118,14 @@ if ($opt_h)
 	exit (0); 
 }
 
-my $mode		= (!defined $opt_m) ? $default_mode : parseMode($opt_m);
+my $mode		= (!defined $opt_m) ? $default_mode : ParseMode($opt_m);
 my $ph_model	= ($opt_t == 1) ? 1 : 0;
 
 my $in		= shift;	# input file
 my $out		= shift;	# if available
 
 # Output buffer
-my $rxml	= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<algorithms version=\"$output_version\">\n";
+my $rxml	= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<algorithms version=\"" . $output_version . "\">\n";
 
 ###
 # Thang v100401: add input type option, and SectLabel
@@ -186,8 +186,8 @@ my $text_file = undef;
 # Extracting text from Omnipage XML output
 if ($is_xml_input)
 {
-	$text_file	= "/tmp/" . newTmpFile();
-	my $cmd		= "$FindBin::Bin/sectLabel/processOmniXML.pl -q -in $in -out $text_file -decode";
+	$text_file	= "/tmp/" . NewTmpFile();
+	my $cmd		= $FindBin::Bin . "/sectLabel/processOmniXML.pl -q -in $in -out $text_file -decode";
 	system($cmd);
 } 
 else 
@@ -203,16 +203,46 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	# Get XML features and append to $textFile
 	if($is_xml_input)
 	{
-		my $cmd	= "$FindBin::Bin/sectLabel/processOmniXML.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
+		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXML.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
 		system($cmd);
 
 		$sect_label_input .= ".feature";
+		
+		use Omni::Omnidoc;
+		###
+		# Huydhn: input is xml from Omnipage
+		###
+		if (! open(IN, "<:utf8", $in)) { return (-1, "Could not open xml file " . $in . ": " . $!); }
+		my $xml = do { local $/; <IN> };
+		close IN;
+
+		###
+		# Huydhn
+		# NOTE: the omnipage xml is not well constructed (concatenated multiple xml files).
+		# This merged xml need to be fixed first before pass it to xml processing libraries, e.g. xml::twig
+		###
+		# Remove <?xml version="1.0" encoding="UTF-8"?>
+		$xml =~ s/<\?xml.+?>\n//g;
+		# Remove <!--XML document generated using OCR technology from ScanSoft, Inc.-->
+		$xml =~ s/<\!\-\-XML.+?>\n//g; 
+		# Add the root tag
+		$xml = "<root>" . "\n" . $xml . "\n" . "</root>";
+
+		# New document
+		my $doc = new Omni::Omnidoc();
+		$doc->set_raw($xml);
+
+		open(OUT, ">:utf8", "comp");
+		print OUT $doc->get_content();
+
+		print $sect_label_input, "\n";
+		die;
 	}
 
-	my $sl_xml	.= sectLabel($sect_label_input, $is_xml_input);
+	my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input);
 	
 	# Remove first line <?xml/>
-	$rxml		.= removeTopLines($sl_xml, 1) . "\n";
+	$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
 
 	# Remove XML feature file
 	if ($is_xml_input) { unlink($sect_label_input);	}
@@ -222,6 +252,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 if (($mode & $PARSHED) == $PARSHED) 
 {
 	use ParsHed::Controller;
+
 	my $ph_xml	= ParsHed::Controller::extractHeader($text_file, $ph_model); 
 	
 	# Remove first line <?xml/> 
@@ -239,17 +270,17 @@ if (($mode & $PARSCIT) == $PARSCIT)
 	my $pc_xml = ParsCit::Controller::extractCitations($text_file, $in, $is_xml_input);
 
 	# Remove first line <?xml/> 
-	$rxml .= removeTopLines($$pc_xml, 1) . "\n";
+	$rxml .= RemoveTopLines($$pc_xml, 1) . "\n";
 
 	# Thang v100901: call to BiblioScript
-	if (scalar(@export_types) != 0) { biblioScript(\@export_types, $$pc_xml, $out); }
+	if (scalar(@export_types) != 0) { BiblioScript(\@export_types, $$pc_xml, $out); }
 }
 
 $rxml .= "</algorithms>";
 
 if (defined $out) 
 {
-	open (OUT, ">:utf8", "$out") or die "$progname fatal\tCould not open \"$out\" for writing: $!";
+	open (OUT, ">:utf8", "$out") or die $progname . " fatal\tCould not open \"" . $out . "\" for writing: $!";
 	print OUT $rxml;
 	close OUT;
 } 
@@ -274,7 +305,7 @@ if ($is_xml_input)
 
 # END of main program
 
-sub parseMode 
+sub ParseMode 
 {
 	my $arg = shift;
 
@@ -306,7 +337,7 @@ sub parseMode
 }
 
 # Remove top n lines
-sub removeTopLines 
+sub RemoveTopLines 
 {
 	my ($input, $top_n) = @_;
 
@@ -317,18 +348,18 @@ sub removeTopLines
 		shift(@lines);
 	}
 
-	return join("\n",@lines);
+	return join("\n", @lines);
 }
 
 ###
 # Thang v100401: generate section info
 ###
-sub sectLabel 
+sub SectLabel 
 {
 	my ($text_file, $is_xml_input) = @_;
 
-	use SectLabel::Controller;
 	use SectLabel::Config;
+	use SectLabel::Controller;
 
 	my $is_xml_output	= 1;
 	my $is_debug		= 0;
@@ -346,7 +377,7 @@ sub sectLabel
 	$config_file	= "$FindBin::Bin/../$config_file";
 
 	# Classify section
-	my $sl_xml		= SectLabel::Controller::extractSection(	$text_file, 
+	my $sl_xml		= SectLabel::Controller::ExtractSection(	$text_file, 
 																$is_xml_output, 
 																$model_file, 
 																$dict_file, 
@@ -358,18 +389,50 @@ sub sectLabel
 }
 
 ###
+# Huydhn: new section label code using omnipage xml library, use in case the input is xml
+###
+sub SectLabel2
+{
+	my ($doc) = @_;
+
+	use SectLabel::Config;
+	use SectLabel::Controller;
+
+	my $model_file	= $SectLabel::Config::modelXmlFile;
+	$model_file		= $FindBin::Bin . "/../" . $model_file;
+
+	my $dict_file	= $SectLabel::Config::dictFile;
+	$dict_file		= $FindBin::Bin . "/../" . $dict_file;
+
+	my $func_file	= $SectLabel::Config::funcFile;
+	$func_file		= $FindBin::Bin . "/../" . $func_file;
+
+	my $config_file	= $SectLabel::Config::configXmlFile;
+	$config_file	= $FindBin::Bin . "/../" . $config_file;
+
+	# Classify section
+	#my $sl_xml		= SectLabel::Controller::ExtractSection2(	$doc, 
+	#															$model_file, 
+	#															$dict_file, 
+	#															$func_file, 
+	#															$config_file	);
+	# return $$sl_xml;
+}
+
+###
 # Thang v100901: incorporate BiblioScript
 ###
-sub biblioScript 
+sub BiblioScript 
 {
 	my ($types, $pc_xml, $outfile) = @_;
 
 	my @export_types	= @{ $types };
-	my $tmp_dir			= "/tmp/".newTmpFile();
+	my $tmp_dir			= "/tmp/" . NewTmpFile();
 	system("mkdir -p $tmp_dir");
 
 	# Write extract_citation output to a tmp file
 	my $filename		= "$tmp_dir/input.txt";
+
 	open(OF, ">:utf8", $filename);
 	print OF $pc_xml;
 	close OF;
@@ -377,7 +440,8 @@ sub biblioScript
 	# Call to BiblioScript
 	my $size	= scalar(@export_types);
 	my $format	= $export_types[0];
-	my $cmd		= "$biblio_script -q -i parscit -o $format $filename $tmp_dir";
+	my $cmd		= $biblio_script . " -q -i parscit -o " . $format . " " . $filename . " " . $tmp_dir;
+
 	system($cmd);
 	system("mv $tmp_dir/parscit.$format $outfile.$format");
 
@@ -385,19 +449,21 @@ sub biblioScript
 	for (my $i = 1; $i < $size; $i++)
 	{
 		$format	= $export_types[$i];
-		$cmd	= "$biblio_script -q -i mods -o $format $tmp_dir/parscit_mods.xml $tmp_dir";
+		$cmd	= $biblio_script . " -q -i mods -o " . $format . " " . $tmp_dir . "/parscit_mods.xml " . $tmp_dir;
+
 		system($cmd);
 		system("mv $tmp_dir/parscit.$format $outfile.$format");
 	}
 
-	system("rm -rf $tmp_dir");
+	system("rm -rf " . $tmp_dir);
 }
 
 # Method to generate tmp file name
-sub newTmpFile 
+sub NewTmpFile 
 {
 	my $tmpfile	= `date '+%Y%m%d-%H%M%S-$$'`;
-	chomp($tmpfile); return $tmpfile;
+	chomp  $tmpfile;
+	return $tmpfile;
 }
 
 
