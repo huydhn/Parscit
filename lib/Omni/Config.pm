@@ -34,10 +34,11 @@ $ALG_VERSION	= "110121";
 							'TOP-CELL'		=> 'topBorder',
 							'LEFT-CELL'		=> 'leftBorder',
 							'RIGHT-CELL'	=> 'rightBorder',
-							'PICTURE'		=> 'picture',
 							'NEWLINE'		=> 'nl',
 							'TAB'			=> 'tab',
-							'DD'			=> 'dd'
+							# Image tag
+							'DD'			=> 'dd',
+							'PICTURE'		=> 'picture'
 						);
 $tag_list = \%omni_tag_list;
 
@@ -61,5 +62,18 @@ $tag_list = \%omni_tag_list;
 							'ITALIC'		=> 'italic'
 						);
 $att_list = \%omni_att_list;
+
+# All object type in Omni library
+%omni_obj_list	=		(	'OMNIDOC'		=> 'document',
+							'OMNIPAGE'		=> 'page',
+							'OMNICOL'		=> 'column',
+							'OMNITABLE'		=> 'table',
+							'OMNIIMG'		=> 'image',
+							'OMNIPARA'		=> 'paragraph',
+							'OMNILINE'		=> 'line',
+							'OMNIRUN'		=> 'run',
+							'OMNIWD'		=> 'word'
+						);
+$obj_list = \%omni_obj_list;
 
 1;

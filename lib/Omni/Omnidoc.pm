@@ -18,6 +18,7 @@ use XML::Parser;
 # Global variables
 my $tag_list = $Omni::Config::tag_list;
 my $att_list = $Omni::Config::att_list;
+my $obj_list = $Omni::Config::obj_list;
 
 # Temporary variables
 my $tmp_content 	= undef;
@@ -37,7 +38,8 @@ sub new
 	my @pages	= ();
 
 	# Class members
-	my $self = {	'_raw'			=> undef,
+	my $self = {	'_self'			=> $obj_list->{ 'OMNIDOC' },
+					'_raw'			=> undef,
 					'_content'		=> undef,
 					'_pages'		=> \@pages	};
 
@@ -107,6 +109,12 @@ sub parse
 		# Update content
 		$tmp_content = $tmp_content . $page->get_content() . "\n";
 	}
+}
+
+sub get_name
+{
+	my ($self) = @_;
+	return $self->{ '_self' };
 }
 
 sub get_pages_ref

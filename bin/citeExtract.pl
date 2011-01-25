@@ -236,7 +236,6 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		print OUT $doc->get_content();
 
 		print $sect_label_input, "\n";
-		die;
 	}
 
 	my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input);
@@ -245,7 +244,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
 
 	# Remove XML feature file
-	if ($is_xml_input) { unlink($sect_label_input);	}
+	#if ($is_xml_input) { unlink($sect_label_input);	}
 }
 
 # PARSHED
@@ -256,7 +255,7 @@ if (($mode & $PARSHED) == $PARSHED)
 	my $ph_xml	= ParsHed::Controller::extractHeader($text_file, $ph_model); 
 	
 	# Remove first line <?xml/> 
-	$rxml		.= removeTopLines($$ph_xml, 1) . "\n";
+	$rxml		.= RemoveTopLines($$ph_xml, 1) . "\n";
 }
 
 # PARSCIT

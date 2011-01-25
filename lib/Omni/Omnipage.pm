@@ -18,10 +18,11 @@ use XML::Parser;
 # Global variables
 my $tag_list = $Omni::Config::tag_list;
 my $att_list = $Omni::Config::att_list;
+my $obj_list = $Omni::Config::obj_list;
 
 # Temporary variables
 my $tmp_content 	= undef;
-my @tmp_cols		= ();
+my @tmp_objs		= ();
 
 ###
 # A page object in Omnipage xml: a page contains zero or many collums
@@ -33,13 +34,14 @@ sub new
 {
 	my ($class) = @_;
 
-	# Page: a page can have many columns
-	my @cols	= ();
+	# Page: a page can have many columns, many tables, or many images
+	my @objs	= ();
 
 	# Class members
-	my $self = {	'_raw'			=> undef,
+	my $self = {	'_self'			=> $obj_list->{ 'OMNIPAGE' },
+					'_raw'			=> undef,
 					'_content'		=> undef,
-					'_cols'			=> \@cols	};
+					'_objs'			=> \@objs	};
 
 	bless $self, $class;
 	return $self;
@@ -69,7 +71,7 @@ sub set_raw
 	# Copy information from temporary variables to class members
 
 	# Copy all columns 
-	@{$self->{ '_cols' } }	= @tmp_cols;
+	@{$self->{ '_objs' } }	= @tmp_objs;
 	
 	# Copy content
 	$self->{ '_content' }	= $tmp_content;
@@ -87,10 +89,11 @@ sub parse
 
 	# At first, content is blank
 	$tmp_content	= "";
-	# because there's no column or dd, what the heck is dd
-	@tmp_cols		= ();
+	# because there's no columnm, table or image
+	@tmp_objs		= ();
 
 	# Get <page> node attributes
+	# At version 16, Omnipage page does not have any interesting atribute
 
 	my $child = undef;
 	# Get the body text
@@ -102,9 +105,10 @@ sub parse
 	$child = $child->first_child();
 
 	# Some type of child
-	my $section_tag	= $tag_list->{ 'SECTION' };
-	my $column_tag	= $tag_list->{ 'COL' };
 	my $dd_tag		= $tag_list->{ 'DD' };
+	my $table_tag	= $tag_list->{ 'TABLE' };
+	my $column_tag	= $tag_list->{ 'COL' };
+	my $section_tag	= $tag_list->{ 'SECTION' };
 
 	# Check if there's any column or dd, what the heck is dd 
 	while (defined $child)
@@ -131,7 +135,7 @@ sub parse
 					$column->set_raw($grand_child->sprint());
 
 					# Update column list
-					push @tmp_cols, $column;
+					push @tmp_objs, $column;
 
 					# Update content
 					$tmp_content = $tmp_content . $column->get_content() . "\n";
@@ -160,7 +164,7 @@ sub parse
 					$column->set_raw( $output->value() );
 
 					# Update column list
-					push @tmp_cols, $column;
+					push @tmp_objs, $column;
 
 					# Update content
 					$tmp_content = $tmp_content . $column->get_content() . "\n";
@@ -186,7 +190,7 @@ sub parse
 			$column->set_raw($child->sprint());
 
 			# Update column list
-			push @tmp_cols, $column;
+			push @tmp_objs, $column;
 
 			# Update content
 			$tmp_content = $tmp_content . $column->get_content() . "\n";
@@ -215,7 +219,7 @@ sub parse
 			$column->set_raw( $output->value() );
 
 			# Update column list
-			push @tmp_cols, $column;
+			push @tmp_objs, $column;
 
 			# Update content
 			$tmp_content = $tmp_content . $column->get_content() . "\n";
@@ -239,10 +243,16 @@ sub parse
 	}
 }
 
+sub get_name
+{
+	my ($self) = @_;
+	return $self->{ '_self' };
+}
+
 sub get_cols_ref
 {
 	my ($self) = @_;
-	return $self->{ '_cols' };
+	return $self->{ '_objs' };
 }
 
 sub get_content
