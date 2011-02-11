@@ -16,6 +16,7 @@ use XML::Parser;
 # Global variables
 my $tag_list = $Omni::Config::tag_list;
 my $att_list = $Omni::Config::att_list;
+my $obj_list = $Omni::Config::obj_list;
 
 # Temporary variables
 my $tmp_content 	= undef;
@@ -41,7 +42,8 @@ sub new
 	my @lines	= ();
 
 	# Class members
-	my $self = {	'_raw'			=> undef,
+	my $self = {	'_self'			=> $obj_list->{ 'OMNIPARA' },
+					'_raw'			=> undef,
 					'_content'		=> undef,
 					'_bottom'		=> undef,
 					'_top'			=> undef,
@@ -152,7 +154,13 @@ sub parse
 	}
 }
 
-sub get_lines_ref
+sub get_name
+{
+	my ($self) = @_;
+	return $self->{ '_self' };
+}
+
+sub get_objs_ref
 {
 	my ($self) = @_;
 	return $self->{ '_lines' };

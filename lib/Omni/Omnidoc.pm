@@ -5,10 +5,6 @@ use strict;
 
 # Local libraries
 use Omni::Config;
-use Omni::Omniword;
-use Omni::Omnirun;
-use Omni::Omniline;
-use Omni::Omnipara;
 use Omni::Omnipage;
 
 # Extern libraries
@@ -117,7 +113,7 @@ sub get_name
 	return $self->{ '_self' };
 }
 
-sub get_pages_ref
+sub get_objs_ref
 {
 	my ($self) = @_;
 	return $self->{ '_pages' };

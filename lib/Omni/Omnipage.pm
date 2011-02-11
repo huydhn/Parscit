@@ -5,9 +5,6 @@ use strict;
 
 # Local libraries
 use Omni::Config;
-use Omni::Omniword;
-use Omni::Omnirun;
-use Omni::Omniline;
 use Omni::Omnipara;
 use Omni::Omnicol;
 
@@ -104,18 +101,20 @@ sub parse
 	# Get the first child in the body text
 	$child = $child->first_child();
 
-	# Some type of child
-	my $dd_tag		= $tag_list->{ 'DD' };
-	my $table_tag	= $tag_list->{ 'TABLE' };
-	my $column_tag	= $tag_list->{ 'COL' };
+	# The child of <page> is usually <section> but it's not always the case
 	my $section_tag	= $tag_list->{ 'SECTION' };
+
+	# <dd>, <col> are usually not the children but the
+	# desendents of <page> but I'm not sure about this
+	my $dd_tag		= $tag_list->{ 'DD' };
+	my $column_tag	= $tag_list->{ 'COL' };
 
 	# Check if there's any column or dd, what the heck is dd 
 	while (defined $child)
 	{
 		my $xpath = $child->path();
 
-		# if this child is <section>
+		# if this child is <section>, then <column> and <dd> tag are grandchild of <page>
 		if ($xpath =~ m/\/$section_tag$/)
 		{
 			# Get the first grand child
@@ -143,31 +142,16 @@ sub parse
 				# if this child is <dd>
 				elsif ($grand_xpath =~ m/\/$dd_tag$/)
 				{
-					# Create the fake <column>
-					my $output = XML::Writer::String->new();
-					my $writer = new XML::Writer(OUTPUT => $output, UNSAFE => 'true');
-
-					$writer->startTag(	"column", 
-										$att_list->{ 'BOTTOM' } 	=> GetNodeAttr($grand_child, $att_list->{ 'BOTTOM' }),
-										$att_list->{ 'TOP' }		=> GetNodeAttr($grand_child, $att_list->{ 'TOP' }),
-										$att_list->{ 'LEFT' } 		=> GetNodeAttr($grand_child, $att_list->{ 'LEFT' }),
-										$att_list->{ 'RIGHT' } 		=> GetNodeAttr($grand_child, $att_list->{ 'RIGHT' })	);
-
-					$writer->raw( $grand_child->xml_string() );
-					$writer->endTag("column");
-					$writer->end();
-
-					# Save the fake <column>
-					my $column = new Omni::Omnicol();
+					my $dd = new Omni::Omnidd();
 
 					# Set raw content
-					$column->set_raw( $output->value() );
+					$dd->set_raw($child->sprint());
 
 					# Update column list
-					push @tmp_objs, $column;
+					push @tmp_objs, $dd;
 
 					# Update content
-					$tmp_content = $tmp_content . $column->get_content() . "\n";
+					$tmp_content = $tmp_content . $dd->get_content() . "\n";
 				}
 
 				# Little brother
@@ -198,31 +182,16 @@ sub parse
 		# if this child is <dd>
 		elsif ($xpath =~ m/\/$dd_tag$/)
 		{
-			# Create the fake <column>
-			my $output = XML::Writer::String->new();
-			my $writer = new XML::Writer(OUTPUT => $output, UNSAFE => 'true');
+			my $dd = new Omni::Omnidd();
 
-			$writer->startTag(	"column", 
-								$att_list->{ 'BOTTOM' } 	=> GetNodeAttr($child, $att_list->{ 'BOTTOM' }),
-								$att_list->{ 'TOP' }		=> GetNodeAttr($child, $att_list->{ 'TOP' }),
-								$att_list->{ 'LEFT' } 		=> GetNodeAttr($child, $att_list->{ 'LEFT' }),
-								$att_list->{ 'RIGHT' } 		=> GetNodeAttr($child, $att_list->{ 'RIGHT' })	);
-
-			$writer->raw( $child->xml_string() );
-			$writer->endTag("column");
-			$writer->end();
-
-			# Save the fake <column>
-			my $column = new Omni::Omnicol();
-
-			# Set raw content
-			$column->set_raw( $output->value() );
+			# Set raw contentDownloads
+			$dd->set_raw($child->sprint());
 
 			# Update column list
-			push @tmp_objs, $column;
+			push @tmp_objs, $dd;
 
 			# Update content
-			$tmp_content = $tmp_content . $column->get_content() . "\n";
+			$tmp_content = $tmp_content . $dd->get_content() . "\n";
 		}
 
 		# Little brother
@@ -235,12 +204,6 @@ sub parse
 			$child = $child->next_sibling();
 		}
 	}
-
-	my @all_cols = $node->descendants( $tag_list->{ 'COLUMN' } );
-	foreach my $cl (@all_cols)
-	{
-		
-	}
 }
 
 sub get_name
@@ -249,7 +212,7 @@ sub get_name
 	return $self->{ '_self' };
 }
 
-sub get_cols_ref
+sub get_objs_ref
 {
 	my ($self) = @_;
 	return $self->{ '_objs' };

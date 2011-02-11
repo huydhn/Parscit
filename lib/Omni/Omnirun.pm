@@ -14,6 +14,7 @@ use XML::Parser;
 # Global variables
 my $tag_list = $Omni::Config::tag_list;
 my $att_list = $Omni::Config::att_list;
+my $obj_list = $Omni::Config::obj_list;
 
 # Temporary variables
 my $tmp_content 	= undef;
@@ -42,7 +43,8 @@ sub new
 	my @words	= ();
 
 	# Class members
-	my $self = {	'_raw'			=> undef,
+	my $self = {	'_self'			=> $obj_list->{ 'OMNIRUN' },
+					'_raw'			=> undef,
 					'_content'		=> undef,
 					'_font_face'	=> undef,
 					'_font_family'	=> undef,
@@ -128,6 +130,7 @@ sub parse
 	my $child = $node->first_child();
 
 	# Has some child
+	# #PCDATA$ is the returned path from XML::Twig if $child is data content
 	if ((defined $child) && ($child->path() =~ m/#PCDATA$/))
 	{
 		my $content = undef;
@@ -140,7 +143,7 @@ sub parse
 	else
 	{
 		# Get every word in the <run>
-		my $wd = $node->first_child( $tag_list->{ 'WORD' }) ;
+		my $wd = $node->first_child($tag_list->{ 'WORD' }) ;
 		while (defined $wd)
 		{
 			my $word = new Omni::Omniword();
@@ -209,7 +212,13 @@ sub add_word
 	push @{ $self->{ '_words' } }, $word;
 }
 
-sub get_words_ref
+sub get_name
+{
+	my ($self) = @_;
+	return $self->{ '_self' };
+}
+
+sub get_objs_ref
 {
 	my ($self) = @_;
 	return $self->{ '_words' };

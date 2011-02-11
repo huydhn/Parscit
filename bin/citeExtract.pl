@@ -244,7 +244,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
 
 	# Remove XML feature file
-	#if ($is_xml_input) { unlink($sect_label_input);	}
+	#if ($is_xml_input) { unlink($sect_label_input); }
 }
 
 # PARSHED
