@@ -6,7 +6,6 @@ use strict;
 # Local libraries
 use Omni::Config;
 use Omni::Omnidd;
-use Omni::Omniimg;
 use Omni::Omnipara;
 use Omni::Omnitable;
 
@@ -20,12 +19,6 @@ my $att_list = $Omni::Config::att_list;
 my $obj_list = $Omni::Config::obj_list;
 
 # Temporary variables
-my $tmp_content 	= undef;
-my $tmp_bottom		= undef;
-my $tmp_top			= undef;
-my $tmp_left		= undef;
-my $tmp_right		= undef;
-my @tmp_objs		= ();
 
 ###
 # A column object in Omnipage xml: a column contains zero or many paragraphs
@@ -64,7 +57,7 @@ sub set_raw
 
 	# Parse the raw string
 	my $twig_roots		= { $tag_list->{ 'COLUMN' }	=> 1 };
-	my $twig_handlers 	= { $tag_list->{ 'COLUMN' }	=> \&parse};
+	my $twig_handlers 	= { $tag_list->{ 'COLUMN' }	=> sub { parse(@_, \$self); } };
 
 	# XML::Twig 
 	my $twig = new XML::Twig(	twig_roots 		=> $twig_roots,
@@ -72,20 +65,8 @@ sub set_raw
 						 	 	pretty_print 	=> 'indented'	);
 
 	# Start the XML parsing
-	$twig->parse($raw);
+	$twig->parse($raw, \$self);
 	$twig->purge;
-
-	# Copy information from temporary variables to class members
-	$self->{ '_bottom' }	= $tmp_bottom;
-	$self->{ '_top' }		= $tmp_top;
-	$self->{ '_left' }		= $tmp_left;
-	$self->{ '_right' } 	= $tmp_right;
-
-	# Copy all objects 
-	@{$self->{ '_objs' } }	= @tmp_objs;
-	
-	# Copy content
-	$self->{ '_content' }	= $tmp_content;
 }
 
 sub get_raw
@@ -96,18 +77,18 @@ sub get_raw
 
 sub parse
 {
-	my ($twig, $node) = @_;
+	my ($twig, $node, $self) = @_;
 
 	# At first, content is blank
-	$tmp_content	= "";
+	my $tmp_content	= "";
 	# because there's no object
-	@tmp_objs		= ();
+	my @tmp_objs		= ();
 
 	# Get <column> node attributes
-	$tmp_bottom		= GetNodeAttr($node, $att_list->{ 'BOTTOM' });
-	$tmp_top		= GetNodeAttr($node, $att_list->{ 'TOP' });
-	$tmp_left		= GetNodeAttr($node, $att_list->{ 'LEFT' });
-	$tmp_right		= GetNodeAttr($node, $att_list->{ 'RIGHT' });
+	my $tmp_bottom		= GetNodeAttr($node, $att_list->{ 'BOTTOM' });
+	my $tmp_top			= GetNodeAttr($node, $att_list->{ 'TOP' });
+	my $tmp_left		= GetNodeAttr($node, $att_list->{ 'LEFT' });
+	my $tmp_right		= GetNodeAttr($node, $att_list->{ 'RIGHT' });
 
 	# Check if there's any paragraph, dd, table, or picture 
 	# The large number of possible children is due to the
@@ -120,7 +101,7 @@ sub parse
 
 	my $child = undef;
 	# Get the first child in the body text
-	$child = $child->first_child();
+	$child = $node->first_child();
 
 	while (defined $child)
 	{
@@ -171,16 +152,16 @@ sub parse
 		# if this child is a <picture> tag
 		elsif ($xpath =~ m/\/$img_tag$/)
 		{
-			my $img = new Omni::Omniimg();
+			#my $img = new Omni::Omniimg();
 
 			# Set raw content
-			$img->set_raw($child->sprint());
+			#$img->set_raw($child->sprint());
 
 			# Update paragraph list
-			push @tmp_objs, $img;
+			#push @tmp_objs, $img;
 
 			# Update content
-			$tmp_content = $tmp_content . $img->get_content() . "\n";
+			#$tmp_content = $tmp_content . $img->get_content() . "\n";
 		}
 		# if this child is a <column> tag
 		elsif ($xpath =~ m/\/$column_tag$/)
@@ -207,6 +188,18 @@ sub parse
 			$child = $child->next_sibling();
 		}
 	}
+
+	# Copy information from temporary variables to class members
+	$$self->{ '_bottom' }	= $tmp_bottom;
+	$$self->{ '_top' }		= $tmp_top;
+	$$self->{ '_left' }		= $tmp_left;
+	$$self->{ '_right' } 	= $tmp_right;
+
+	# Copy all objects 
+	@{$$self->{ '_objs' } }	= @tmp_objs;
+	
+	# Copy content
+	$$self->{ '_content' }	= $tmp_content;
 }
 
 sub get_name

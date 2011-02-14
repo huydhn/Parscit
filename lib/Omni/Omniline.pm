@@ -103,9 +103,9 @@ sub parse
 	my ($twig, $node) = @_;
 
 	# At first, content is blank
-	$tmp_content 		= "";
+	$tmp_content 	= "";
 	# because there's no run
-	@tmp_runs			= ();
+	@tmp_objs		= ();
 
 	# Get <line> node attributes
 	$tmp_bottom		= GetNodeAttr($node, $att_list->{ 'BOTTOM' });
@@ -247,7 +247,7 @@ sub parse
 						$run->set_raw($grand_child->sprint());
 
 						# Update run list
-						push @tmp_runs, $run;
+						push @tmp_objs, $run;
 		
 						# Update content
 						$tmp_content = $tmp_content . $run->get_content();
@@ -299,7 +299,7 @@ sub parse
 					$run->set_raw($output->value());
 					
 					# Update run list
-					push @tmp_runs, $run;
+					push @tmp_objs, $run;
 
 					# Update content
 					$tmp_content = $tmp_content . $run->get_content();

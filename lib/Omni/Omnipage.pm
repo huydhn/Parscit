@@ -184,7 +184,7 @@ sub parse
 		{
 			my $dd = new Omni::Omnidd();
 
-			# Set raw contentDownloads
+			# Set raw content
 			$dd->set_raw($child->sprint());
 
 			# Update column list

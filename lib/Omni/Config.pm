@@ -63,7 +63,13 @@ $tag_list = \%omni_tag_list;
 							'BOTTOMDIST'	=> 'bottomDistance',
 							'TOPDIST'		=> 'topDistance',
 							'LEFTDIST'		=> 'leftDistance',
-							'RIGHTDIST'		=> 'rightDistance'
+							'RIGHTDIST'		=> 'rightDistance',
+							# These attribute usually fo with <cell> tag
+							'GROWFROM'		=> 'gridRowFrom',
+							'GROWTO'		=> 'gridRowTill',
+							'GCOLFROM'		=> 'gridColFrom',
+							'GCOLTO'		=> 'gridColTill',
+							'VALIGN'		=> 'verticalAlignment',
 						);
 $att_list = \%omni_att_list;
 
