@@ -138,8 +138,11 @@ sub parse
 			# Set raw content
 			$dd->set_raw($child->sprint());
 
-			# Update paragraph list
-			push @tmp_objs, $dd;
+			# Nested <dd> is not allowed so we copy the objects
+			my $objects = $dd->get_objs_ref();
+
+			# Update <dd> objects list
+			push @tmp_objs, @{ $objects };
 
 			# Update content
 			$tmp_content = $tmp_content . $dd->get_content() . "\n";
@@ -175,16 +178,16 @@ sub parse
 		# if this child is a <column> tag
 		elsif ($xpath =~ m/\/$column_tag$/)
 		{
-			my $col = new Omni::Omnicol();
+			#my $col = new Omni::Omnicol();
 
 			# Set raw content
-			$col->set_raw($child->sprint());
+			#$col->set_raw($child->sprint());
 
 			# Update paragraph list
-			push @tmp_objs, $col;
+			#push @tmp_objs, $col;
 
 			# Update content
-			$tmp_content = $tmp_content . $col->get_content() . "\n";
+			#$tmp_content = $tmp_content . $col->get_content() . "\n";
 		}
 
 		# Little brother

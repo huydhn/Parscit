@@ -14,6 +14,8 @@ use strict 'vars';
 
 use FindBin;
 use Encode ();
+
+use Omni::Config;
 use ParsCit::Config;
 
 ### USER customizable section
@@ -36,7 +38,9 @@ $split_model_file		= "$FindBin::Bin/../$split_model_file";
 ###
 # Huydhn: don't know its function
 ###
-my %dict = ();
+my %dict 	 = ();
+# Omnilib configuration: object name
+my $obj_list = $Omni::Config::obj_list;
 
 ###
 # Huydhn: prepare data for trfpp, segmenting unmarked reference
@@ -68,13 +72,13 @@ sub prepDataUnmarked
 	my @avg_start_points = ();
 
 	# Get all pages
-	my $pages		= $omnidoc->get_pages_ref();
+	my $pages		= $omnidoc->get_objs_ref();
 	my $start_page	= $ref_start_line->{ 'PAGE' };
 	my $end_page	= $ref_end_line->{ 'PAGE' };
 
 	for (my $x = $start_page; $x <= $end_page; $x++)
 	{
-		my $columns 	 = $pages->[ $x ]->get_cols_ref();
+		my $columns 	 = $pages->[ $x ]->get_objs_ref();
 		my $start_column =	($x == $ref_start_line->{ 'PAGE' })	? 
 							$ref_start_line->{ 'COLUMN' }	: 0;
 		my $end_column	 =	($x == $ref_end_line->{ 'PAGE' })	? 
@@ -82,7 +86,10 @@ sub prepDataUnmarked
 
 		for (my $y = $start_column; $y <= $end_column; $y++)
 		{
-			my $paras		= $columns->[ $y ]->get_paras_ref();
+			# Not a column
+			if ($columns->[ $y ]->get_name() ne $obj_list->{ 'OMNICOL' }) { next; }
+
+			my $paras		= $columns->[ $y ]->get_objs_ref();
 			my $start_para	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }))	? 
 								$ref_start_line->{ 'PARA' }	: 0;
 			my $end_para	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }))		? 
@@ -90,7 +97,10 @@ sub prepDataUnmarked
 
 			for (my $z = $start_para; $z <= $end_para; $z++)
 			{
-				my $lines = $paras->[ $z ]->get_lines_ref();
+				# Not a paragraph
+				if ($paras->[ $z ]->get_name() ne $obj_list->{ 'OMNIPARA' }) { next; }
+
+				my $lines = $paras->[ $z ]->get_objs_ref();
 
 				my $start_line	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }) && ($z == $ref_start_line->{ 'PARA' }))	? 
 									$ref_start_line->{ 'LINE' }	: 0;
@@ -124,7 +134,7 @@ sub prepDataUnmarked
 					# Total length in word
 					$avg_word	+= scalar(@tokens);
 
-					my $xml_runs = $lines->[ $t ]->get_runs_ref();
+					my $xml_runs = $lines->[ $t ]->get_objs_ref();
 					# Font size
 					$avg_font_size	 += ($xml_runs->[ 0 ]->get_font_size() eq '') ? 0 : $xml_runs->[ 0 ]->get_font_size();
 					# Line starting point
@@ -161,13 +171,13 @@ sub prepDataUnmarked
 	my $start_upper_ratio = 1.02;
 
 	# Get all pages
-	$pages		= $omnidoc->get_pages_ref();
+	$pages		= $omnidoc->get_objs_ref();
 	$start_page	= $ref_start_line->{ 'PAGE' };
 	$end_page	= $ref_end_line->{ 'PAGE' };
 
 	for (my $x = $start_page; $x <= $end_page; $x++)
 	{
-		my $columns 	 = $pages->[ $x ]->get_cols_ref();
+		my $columns 	 = $pages->[ $x ]->get_objs_ref();
 		my $start_column =	($x == $ref_start_line->{ 'PAGE' })	? 
 							$ref_start_line->{ 'COLUMN' }	: 0;
 		my $end_column	 =	($x == $ref_end_line->{ 'PAGE' })	? 
@@ -175,7 +185,10 @@ sub prepDataUnmarked
 
 		for (my $y = $start_column; $y <= $end_column; $y++)
 		{
-			my $paras		= $columns->[ $y ]->get_paras_ref();
+			# Not a column
+			if ($columns->[ $y ]->get_name() ne $obj_list->{ 'OMNICOL' }) { next; }
+
+			my $paras		= $columns->[ $y ]->get_objs_ref();
 			my $start_para	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }))	? 
 								$ref_start_line->{ 'PARA' }	: 0;
 			my $end_para	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }))		? 
@@ -184,7 +197,10 @@ sub prepDataUnmarked
 			my $prev_para	= (-1);
 			for (my $z = $start_para; $z <= $end_para; $z++)
 			{
-				my $lines = $paras->[ $z ]->get_lines_ref();
+				# Not a paragraph
+				if ($paras->[ $z ]->get_name() ne $obj_list->{ 'OMNIPARA' }) { next; }
+				
+				my $lines = $paras->[ $z ]->get_objs_ref();
 
 				my $start_line	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }) && ($z == $ref_start_line->{ 'PARA' }))	? 
 									$ref_start_line->{ 'LINE' }	: 0;
@@ -331,7 +347,7 @@ sub prepDataUnmarked
 					$current++;
 
 					# First word format: bold, italic, font size
-					my $xml_runs = $lines->[ $t ]->get_runs_ref();
+					my $xml_runs = $lines->[ $t ]->get_objs_ref();
 			
 					# First word format: bold
 					my $bold = $xml_runs->[ 0 ]->get_bold();

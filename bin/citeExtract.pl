@@ -209,6 +209,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		$sect_label_input .= ".feature";
 		
 		use Omni::Omnidoc;
+		use Omni::Traversal;
 		###
 		# Huydhn: input is xml from Omnipage
 		###
@@ -232,8 +233,17 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
 
-		open(OUT, ">:utf8", "comp");
+		open(OUT, ">:utf8", "comp1");
 		print OUT $doc->get_content();
+		close OUT;
+
+		open(OUT, ">:utf8", "comp2");
+		my ($pos, $lines) =  Omni::Traversal::OmniAirline($doc);
+		foreach my $line (@{ $lines })
+		{
+			print OUT $line, "\n";
+		}
+		close OUT;
 
 		print $sect_label_input, "\n";
 	}

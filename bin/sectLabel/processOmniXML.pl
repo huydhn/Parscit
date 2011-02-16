@@ -189,7 +189,7 @@ sub processFile
 
 	my $lineId = 0;
 
-	#each line contains a header
+	# Each line contains a header
 	while (<IF>) 
 	{
 		if (/^\#/) { next; } # skip comments

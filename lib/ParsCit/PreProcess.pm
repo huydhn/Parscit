@@ -8,8 +8,10 @@ package ParsCit::PreProcess;
 # Isaac Councill, 7/19/07
 ###
 
-use strict;
 use utf8;
+use strict;
+
+use Omni::Config;
 use ParsCit::Citation;
 
 my %marker_types =	(	'SQUARE'		=> '\\[.+?\\]',
@@ -19,6 +21,9 @@ my %marker_types =	(	'SQUARE'		=> '\\[.+?\\]',
 						#'NAKEDNUM' 	=> '\\d{1,3}',		# Modified by Artemy Kolchinsky (v090625)
 						#'NAKEDNUMDOT'	=> '\\d{1,3}\\.'	# Modified by Artemy Kolchinsky (v090625)
 					);
+
+# Omnilib configuration: object name
+my $obj_list = $Omni::Config::obj_list;
 
 ###
 # Huydhn: similar to findCitationText, find the citation portion using regular expression.
@@ -35,22 +40,28 @@ sub findCitationTextXML
 	my %end_ref		= ();
 
 	# All pages in the document
-	my $pages		= $doc->get_pages_ref();	
+	my $pages		= $doc->get_objs_ref();	
 	# Foreach line in the document, check if it is the beginning of a reference using regular expression
 	for (my $x = scalar(@{ $pages }) - 1; $x >= 0; $x--)
 	{
 		# All columns in one page
-		my $columns	= $pages->[ $x ]->get_cols_ref();
+		my $columns	= $pages->[ $x ]->get_objs_ref();
 
 		for (my $y = scalar(@{ $columns }) - 1; $y >= 0; $y--)
 		{
+			# Not a column
+			if ($columns->[ $y ]->get_name() ne $obj_list->{ 'OMNICOL' }) { next; }
+
 			# All paragraphs in one column
-			my $paras = $columns->[ $y ]->get_paras_ref();
+			my $paras = $columns->[ $y ]->get_objs_ref();
 
 			for (my $z = scalar(@{ $paras }) - 1; $z >= 0; $z--)
 			{
+				# Not a paragraph
+				if ($paras->[ $z ]->get_name() ne $obj_list->{ 'OMNIPARA' }) { next; }
+
 				# All lines in one paragraph
-				my $lines = $paras->[ $z ]->get_lines_ref();
+				my $lines = $paras->[ $z ]->get_objs_ref();
 
 				for (my $t = scalar(@{ $lines }) - 1; $t >= 0; $t--)
 				{
@@ -118,21 +129,27 @@ sub findCitationTextXML
 	for (my $x = $start_ref{ 'PAGE' }; $x < scalar(@{ $pages }); $x++)
 	{
 		# All columns in one page
-		my $columns	= $pages->[ $x ]->get_cols_ref();
+		my $columns	= $pages->[ $x ]->get_objs_ref();
 	
 		my $start_column = ($x == $start_ref{ 'PAGE' }) ? $start_ref{ 'COLUMN' } : 0;
 
 		for (my $y = $start_column; $y < scalar(@{ $columns }); $y++)
 		{
+			# Not a column
+			if ($columns->[ $y ]->get_name() ne $obj_list->{ 'OMNICOL' }) { next; }
+
 			# All paragraphs in one column
-			my $paras = $columns->[ $y ]->get_paras_ref();
+			my $paras = $columns->[ $y ]->get_objs_ref();
 
 			my $start_para = (($x == $start_ref{ 'PAGE' }) && ($y == $start_ref{ 'COLUMN' })) ? $start_ref{ 'PARA' } : 0;
 
 			for (my $z = $start_para; $z < scalar(@{ $paras }); $z++)
 			{
+				# Not a paragraph
+				if ($paras->[ $z ]->get_name() ne $obj_list->{ 'OMNIPARA' }) { next; }
+
 				# All lines in one paragraph
-				my $lines = $paras->[ $z ]->get_lines_ref();
+				my $lines = $paras->[ $z ]->get_objs_ref();
 
 				my $start_line = (($x == $start_ref{ 'PAGE' }) && ($y == $start_ref{ 'COLUMN' }) && ($z == $start_ref{ 'PARA' })) ? $start_ref{ 'LINE' } : 0;
 
@@ -160,13 +177,13 @@ sub findCitationTextXML
 									{
 										$end_ref{ 'PAGE' }	 = $x - 1;
 									
-										$tmp = $pages->[ $x - 1 ]->get_cols_ref();
+										$tmp = $pages->[ $x - 1 ]->get_objs_ref();
 										$end_ref{ 'COLUMN' } = scalar(@{ $tmp }) - 1;
 									
-										$tmp = $tmp->[ -1 ]->get_paras_ref();
+										$tmp = $tmp->[ -1 ]->get_objs_ref();
 										$end_ref{ 'PARA' }	 = scalar(@{ $tmp }) - 1;
 									
-										$tmp = $tmp->[ -1 ]->get_lines_ref();
+										$tmp = $tmp->[ -1 ]->get_objs_ref();
 										$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;	
 									}
 								}
@@ -175,10 +192,10 @@ sub findCitationTextXML
 									$end_ref{ 'PAGE' }	 = $x;
 									$end_ref{ 'COLUMN' } = $y - 1;
 									
-									$tmp = $columns->[ $y - 1 ]->get_paras_ref();
+									$tmp = $columns->[ $y - 1 ]->get_objs_ref();
 									$end_ref{ 'PARA' }	 = scalar(@{ $tmp }) - 1;
 									
-									$tmp = $tmp->[ -1 ]->get_lines_ref();
+									$tmp = $tmp->[ -1 ]->get_objs_ref();
 									$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;
 								}
 							}
@@ -188,7 +205,7 @@ sub findCitationTextXML
 								$end_ref{ 'COLUMN' } = $y;
 								$end_ref{ 'PARA' }	 = $z - 1;
 							
-								$tmp = $paras->[ $z - 1 ]->get_lines_ref();
+								$tmp = $paras->[ $z - 1 ]->get_objs_ref();
 								$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;
 							}
 						}
@@ -225,13 +242,13 @@ sub findCitationTextXML
 
 		$end_ref{ 'PAGE' }	 = scalar(@{ $pages }) - 1;
 
-		$tmp = $pages->[ -1 ]->get_cols_ref();
+		$tmp = $pages->[ -1 ]->get_objs_ref();
 		$end_ref{ 'COLUMN' } = scalar(@{ $tmp }) - 1;
 
-		$tmp = $tmp->[ -1 ]->get_paras_ref();
+		$tmp = $tmp->[ -1 ]->get_objs_ref();
 		$end_ref{ 'PARA' }	 = scalar(@{ $tmp }) - 1;
 
-		$tmp = $tmp->[ -1 ]->get_lines_ref();
+		$tmp = $tmp->[ -1 ]->get_objs_ref();
 		$end_ref{ 'LINE' }	 = scalar(@{ $tmp }) - 1;
 	}
 

@@ -129,13 +129,16 @@ sub parse
 		my $prev = $ln->prev_sibling();
 		if (defined $prev)
 		{
-			my $bullet		 = $tag_list->{ 'BULLET' };
+			my $bullet_tag	 = $tag_list->{ 'BULLET' };
+
+			# The previous tag
 			my $prev_content = $prev->sprint();
 			# Has bullet
-			if ($prev_content =~ m/^<$bullet/) 
+			if ($prev_content =~ m/^<$bullet_tag/) 
 			{ 
 				$line->set_bullet('true');
 			}
+			# Doesn't have bullet
 			else
 			{
 				$line->set_bullet('false');
