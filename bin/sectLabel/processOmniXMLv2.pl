@@ -1,10 +1,11 @@
 #!/usr/bin/perl -wT
-# Author: Luong Minh Thang <luongmin@comp.nus.edu.sg>, generated at Tue, 02 Jun 2009 01:30:42
 
+# Author: Luong Minh Thang <luongmin@comp.nus.edu.sg>, generated at Tue, 02 Jun 2009 01:30:42
 # Modified from template by Min-Yen Kan <kanmy@comp.nus.edu.sg>
 
 require 5.0;
 use strict;
+
 use Getopt::Long;
 use HTML::Entities;
 
@@ -14,11 +15,11 @@ use HTML::Entities;
 use FindBin;
 FindBin::again(); # to get correct path in case 2 scripts in different directories use FindBin
 my $path;
-BEGIN {
-  if ($FindBin::Bin =~ /(.*)/) {
-    $path = $1;
-  }
+BEGIN 
+{
+	if ($FindBin::Bin =~ /(.*)/) { $path = $1; }
 }
+
 use lib "$path/../../lib";
 use SectLabel::PreProcess;
 
@@ -27,999 +28,1498 @@ $0 =~ /([^\/]+)$/; my $progname = $1;
 my $outputVersion = "1.0";
 ### END user customizable section
 
-sub License {
-  print STDERR "# Copyright 2009 \251 by Luong Minh Thang\n";
+sub License 
+{
+	print STDERR "# Copyright 2009 \251 by Luong Minh Thang\n";
 }
 
 ### HELP Sub-procedure
-sub Help {
-  print STDERR "Process Omnipage XML output (concatenated results fromm all pages of a PDF file), and extract text lines together with other XML infos\n";
-  print STDERR "usage: $progname -h\t[invokes help]\n";
-  print STDERR "       $progname -in xmlFile -out outFile [-xmlFeature -decode -markup -para] [-tag tagFile -allowEmptyLine -log]\n";
-  print STDERR "Options:\n";
-  print STDERR "\t-q\tQuiet Mode (don't echo license)\n";
-  print STDERR "\t-xmlFeature: append XML feature together with text extracted\n";
-  print STDERR "\t-decode: decode HTML entities and then output, to avoid double entity encoding later\n";
-  print STDERR "\t-para: marking in the output each paragraph with # Para lineId numLines\n";
-  print STDERR "\t-markup: marking in the output detailed word-level info ### Page w h\\n## Para l t r b\\n# Line l t r b\\nword l t r b\n";
-
-  print STDERR "\t-tag tagFile: count XML tags/values for statistics purpose\n";
-}
-my $QUIET = 0;
-my $HELP = 0;
-my $outFile = undef;
-my $inFile = undef;
-
-my $isXmlFeature = 0;
-my $isDecode = 0;
-
-my $isMarkup = 0;
-my $isParaDelimiter = 0;
-
-my $tagFile = "";
-my $isAllowEmpty = 0;
-my $isDebug = 0;
-$HELP = 1 unless GetOptions('in=s' => \$inFile,
-			    'out=s' => \$outFile,
-			    'decode' => \$isDecode,
-			    'xmlFeature' => \$isXmlFeature,
-
-			    'tag=s' => \$tagFile,
-			    'allowEmptyLine' => \$isAllowEmpty,
-			    'markup' => \$isMarkup,
-
-			    'para' => \$isParaDelimiter,
-			    'log' => \$isDebug,
-			    'h' => \$HELP,
-			    'q' => \$QUIET);
-
-if ($HELP || !defined $inFile || !defined $outFile) {
-  Help();
-  exit(0);
+sub Help 
+{
+	print STDERR "Process Omnipage XML output (concatenated results fromm all pages of a PDF file), and extract text lines together with other XML infos\n";
+	print STDERR "usage: $progname -h\t[invokes help]\n";
+	print STDERR "       $progname -in xmlFile -out out_file [-xmlFeature -decode -markup -para] [-tag tag_file -allowEmptyLine -log]\n";
+	print STDERR "Options:\n";
+	print STDERR "\t-q\tQuiet Mode (don't echo license)\n";
+	print STDERR "\t-xmlFeature: append XML feature together with text extracted\n";
+	print STDERR "\t-decode: decode HTML entities and then output, to avoid double entity encoding later\n";
+	print STDERR "\t-para: marking in the output each paragraph with # Para lineId num_lines\n";
+	print STDERR "\t-markup: marking in the output detailed word-level info ### Page w h\\n## Para l t r b\\n# Line l t r b\\nword l t r b\n";
+	print STDERR "\t-tag tag_file: count XML tags/values for statistics purpose\n";
 }
 
-if (!$QUIET) {
-  License();
+my $quite		= 0;
+my $help		= 0;
+my $out_file	= undef;
+my $in_file		= undef;
+
+my $is_xml_feature		= 0;
+my $is_decode			= 0;
+my $is_markup			= 0;
+my $is_para_delimiter	= 0;
+my $is_allow_empty		= 0;
+my $is_debug			= 0;
+my $tag_file			= "";
+
+$help = 1 unless GetOptions(
+					'in=s' 				=> \$in_file,
+			    	'out=s' 			=> \$out_file,
+			    	'decode' 			=> \$is_decode,
+			    	'xmlFeature' 		=> \$is_xml_feature,
+					'tag=s' 			=> \$tag_file,
+			    	'allowEmptyLine'	=> \$is_allow_empty,
+			    	'markup'			=> \$is_markup,
+			    	'para'				=> \$is_para_delimiter,
+			    	'log'				=> \$is_debug,
+			    	'h'					=> \$help,
+			    	'q'					=> \$quite	);
+
+if ($help || !defined $in_file || !defined $out_file) 
+{
+	Help();
+  	exit(0);
+}
+
+if (!$quite) 
+{
+	License();
 }
 
 ### Untaint ###
-$inFile = untaintPath($inFile);
-$outFile = untaintPath($outFile);
-$tagFile = untaintPath($tagFile);
+$in_file	 = UntaintPath($in_file);
+$out_file	 = UntaintPath($out_file);
+$tag_file	 = UntaintPath($tag_file);
 $ENV{'PATH'} = '/bin:/usr/bin:/usr/local/bin';
 ### End untaint ###
 
-### Mark page, para, line, word
-my %gPageHash = ();
+# Mark page, para, line, word
+my %g_page_hash = ();
 
-### Mark paragraph
-my @gPara = ();
+# Mark paragraph
+my @g_para = ();
 
-### XML features ###
-# locFeature
-my @gPosHash = (); my $gMinPos = 1000000; my $gMaxPos = 0;
-my @gAlign = (); # alignFeature
-my @gBold = (); # bold feature
-my @gItalic = (); # italic feature
-
-# font size feature
-my %gFontSizeHash = (); my @gFontSize = ();
-# font face feature
-my %gFontFaceHash = (); my @gFontFace = ();
-
-my @gPic = (); # pic feature
-my @gTable = (); # table feature
-my @gBullet = (); # bullet feature
-
-# space feature
-#my %gSpaceHash = (); my @gSpace = ();
-### End XML features ###
+# XML features
+# Location feature
+my @g_pos_hash	= (); 
+my $g_minpos	= 1000000; 
+my $g_maxpos	= 0;
+# Align feature
+my @g_align		= (); 
+# Bold feature
+my @g_bold		= ();
+# Italic feature
+my @g_italic	= ();
+# Font size feature
+my %g_font_size_hash	= (); 
+my @g_font_size			= ();
+# Font face feature
+my %g_font_face_hash	= (); 
+my @g_font_face = ();
+# Pic feature
+my @g_pic	= (); 
+# Table feature
+my @g_table	= ();
+# Bullet feature
+my @g_bullet	= ();
+# Space feature
+# my %g_space_hash	= (); 
+# my @g_space		= ();
 
 my %tags = ();
 
-if($isDebug){
-  print STDERR "\n# Processing file $inFile & output to $outFile\n";
+if ($is_debug)
+{
+	print STDERR "\n# Processing file $in_file & output to $out_file\n";
 }
 
-my $markupOutput = "";
-my $allText = processFile($inFile, $outFile, \%tags);
+my $markup_output	= "";
+my $all_text		= ProcessFile($in_file, $out_file, \%tags);
 
 # Find header part
-my @lines = split(/\n/, $allText);
-my $numLines = scalar(@lines);
-my ($headerLength, $bodyLength, $bodyStartId) =
-  SectLabel::PreProcess::findHeaderText(\@lines, 0, $numLines);
+my @lines		= split(/\n/, $all_text);
+my $num_lines	= scalar(@lines);
+my ($header_length, $body_length, $body_start_id) = SectLabel::PreProcess::findHeaderText(\@lines, 0, $num_lines);
 
 # Output
-if($isMarkup){
-  open(OF, ">:utf8", "$outFile") || die"#Can't open file \"$outFile\"\n";
-  print OF "$markupOutput";
-  close OF;
-} else {
-  output(\@lines, $outFile);
+if ($is_markup)
+{
+	open(OF, ">:utf8", "$out_file") || die"#Can't open file \"$out_file\"\n";
+	print OF "$markup_output";
+	close OF;
+} 
+else 
+{
+	Output(\@lines, $out_file);
 }
 
-if($tagFile ne ""){
-  printTagInfo(\%tags, $tagFile);
+if ($tag_file ne "")
+{
+	PrintTagInfo(\%tags, $tag_file);
 }
 
-sub processFile {
-  my ($inFile, $tags) = @_;
+sub ProcessFile 
+{
+	my ($in_file, $tags) = @_;
+	
+	if (!(-e $in_file)) { die "# $progname crash\t\tFile \"$in_file\" doesn't exist"; }
+	open (IF, "<:utf8", $in_file) || die "# $progname crash\t\tCan't open \"$in_file\"";
   
-  if (!(-e $inFile)) { die "# $progname crash\t\tFile \"$inFile\" doesn't exist"; }
-  open (IF, "<:utf8", $inFile) || die "# $progname crash\t\tCan't open \"$inFile\"";
-  
-  my $isPara = 0;
-  my $isTable = 0;
-  my $isSpace = 0;
-  my $isPic = 0;
-  my $allText = "";
-  my $text = ""; 
+  	my $is_para		= 0;
+	my $is_table	= 0;
+	my $is_space	= 0;
+  	my $is_pic		= 0;
+  	my $all_text	= "";
+  	my $text		= "";
+  	my $line_id		= 0;
 
-  my $lineId = 0;
-  my $isFirstTableCell = 0;
-  while (<IF>) { #each line contains a header
-    if (/^\#/) { next; }			# skip comments
-    chomp;
-    s/\cM$//; # remove ^M character at the end of the file if any
-    my $line = $_;
+	# Each line contains a header
+  	while (<IF>) 
+	{
+		# Skip comments
+		if (/^\#/) { next; }
+		chomp;
 
-    if($tagFile ne ""){
-      processTagInfo($line, $tags);
-    }
+		# Remove ^M character at the end of the file if any
+		s/\cM$//; 
+    	my $line = $_;
 
-    #    if ($line =~ /<\?xml version.+>/){    } ### Xml ###
-    #    if ($line =~ /^<\/column>$/){    } ### Column ###
-    if ($isMarkup && $line =~ /<theoreticalPage (.*)\/>/ && $isMarkup){    
-      $markupOutput .= "### Page $1\n";
-    }
+    	if($tag_file ne "") { ProcessTagInfo($line, $tags); }
 
-    ### pic ###
-    if ($line =~ /^<dd (.*)>$/){
-      $isPic = 1;
-      if($isMarkup){
-	$markupOutput .= "### Figure $1\n";
-      }
-    }
-    elsif ($line =~ /^<\/dd>$/){
-      $isPic = 0;
-    }
+	    # if ($line =~ /<\?xml version.+>/) {    } ### XML ###
+    	# if ($line =~ /^<\/column>$/) {    } ### Column ###
+		if ($is_markup && $line =~ /<theoreticalPage (.*)\/>/ && $is_markup) { $markup_output .= "### Page $1\n"; }
 
-    ### Table ###
-    elsif ($line =~ /^<table (.*)>$/){
-      $isTable = 1;
-      $isFirstTableCell = 1;
-      if($isMarkup){
-	$markupOutput .= "### Table $1\n";
-      }
-    }
-    elsif ($line =~ /^<\/table>$/){
-      $isTable = 0;
-    }
+		# Pic
+		if ($line =~ /^<dd (.*)>$/)
+		{
+			$is_pic = 1;
+			if($is_markup) { $markup_output .= "### Figure $1\n"; }
+		}
+    	elsif ($line =~ /^<\/dd>$/)
+		{
+      		$is_pic = 0;
+    	}
+	    
+		# Table
+		if ($line =~ /^<table .*>$/)
+		{
+			$text		.= $line."\n"; # we need the header
+			$is_table	= 1;
+		}
+		elsif ($line =~ /^<\/table>$/)
+		{
+			my $table_text	= ProcessTable($text, $is_pic);
+			$all_text		.= $table_text;
 
+			my @tmp_lines	= split(/\n/, $table_text);
+			$line_id		+= scalar(@tmp_lines);
+			
+			$is_table		= 0;
+			$text			= "";
+		}
+		elsif ($is_table)
+		{
+			$text .= $line."\n";
+			next;
+		}
+		# Paragraph
+		# Note: table processing should have higher priority than paragraph, i.e. the priority does matter
+    	elsif ($line =~ /^<para (.*)>$/)
+		{
+      		$text		.= $line."\n"; # we need the header
+      		$is_para	= 1;
+			if ($is_markup) { $markup_output .= "## Para $1\n"; }
+    	}
+    	elsif ($line =~ /^<\/para>$/)
+		{
+      		my ($para_text, $l, $t, $r, $b) = undef;
+			($para_text, $l, $t, $r, $b, $is_space) = ProcessPara($text, 0, $is_pic);
+			$all_text .= $para_text;
 
-    ### Paragraph ###
-    # Note: table processing should have higher priority than paragraph, i.e. the priority does matter
-    elsif ($line =~ /^<para (.*)>$/){
-      $text .= $line."\n"; # we need the header
-      $isPara = 1;
+      		my @tmp_lines = split(/\n/, $para_text);
+      		$line_id += scalar(@tmp_lines);
+      		$is_para = 0;
+      		$text = "";
+    	}
+		elsif ($is_para)
+		{
+      		$text .= $line."\n";
+      		next;
+    	}
+  	}  
 
-      if($isMarkup){
-	$markupOutput .= "## Para $1\n";
-      }
-    }
-    elsif ($line =~ /^<\/para>$/){
-      my ($paraText, $l, $t, $r, $b);
-      ($paraText, $l, $t, $r, $b, $isSpace) = processPara($text, $isTable, $isPic, \$isFirstTableCell);
-      $allText .= $paraText;
-
-      my @tmpLines = split(/\n/, $paraText);
-      $lineId += scalar(@tmpLines);
-      $isPara = 0;
-      $text = "";
-    }
-    elsif($isPara){
-      $text .= $line."\n";
-      next;
-    }
-  }  
-  close IF;
-  
-  return $allText;
+	close IF;  
+  	return $all_text;
 }
 
-sub output {
-  my ($lines, $outFile) = @_;
+sub Output 
+{
+	my ($lines, $out_file) = @_;
+	open(OF, ">:utf8", "$out_file") || die"#Can't open file \"$out_file\"\n";
 
-  open(OF, ">:utf8", "$outFile") || die"#Can't open file \"$outFile\"\n";
+	####### Final output ############
+  	# XML feature label
+	my %g_font_size_labels = (); 
+	# my %g_space_labels = (); # yes, no
 
-  ####### Final output ############
-  # xml feature label
-  my %gFontSizeLabels = (); 
-#  my %gSpaceLabels = (); # yes, no
+  	if($is_xml_feature) 
+	{
+		GetFontSizeLabels(\%g_font_size_hash, \%g_font_size_labels);
+		# GetSpaceLabels(\%g_space_hash, \%g_space_labels);
+  	}
 
-  if($isXmlFeature){
-    getFontSizeLabels(\%gFontSizeHash, \%gFontSizeLabels);
-#    getSpaceLabels(\%gSpaceHash, \%gSpaceLabels);
-  }
+  	my $id				= -1;
+  	my $output			= "";
+ 	my $para_line_id	= -1;
+  	my $para_line_count	= 0;
 
-  my $id = -1;
-  my $output = "";
-  my $paraLineId = -1;
-  my $paraLineCount = 0;
-  foreach my $line (@{$lines}) {
-    $id++;
+	foreach my $line (@{$lines}) 
+	{
+    	$id++;
 
-    $line =~ s/\cM$//; # remove ^M character at the end of each line if any
+		# Remove ^M character at the end of each line if any
+		$line =~ s/\cM$//; 
+	
+		# Empty lines
+    	if($line =~ /^\s*$/)
+		{      
+			if(!$is_allow_empty) 
+			{ 
+				next; 
+			} 
+			else 
+			{
+				if($is_debug) { print STDERR "#! Line $id empty!\n"; }
+      		}
+    	} 
 
-    if($line =~ /^\s*$/){ # # empty lines
-      if(!$isAllowEmpty){
-	next; 
-      } else {
-	if($isDebug){
-	  print STDERR "#! Line $id empty!\n";
-	}
-      }
-    } 
+    	if ($g_para[$id] eq "yes")
+		{
+			# Mark para
+      		if($output ne "")
+			{
+				if($is_para_delimiter)
+				{
+	  				print OF "# Para $para_line_id $para_line_count\n$output";
+	  				$para_line_count = 0;
+				} 
+				else 
+				{
+	  				if ($is_decode) { $output = decode_entities($output); }
+					print OF $output;
+				}
 
-    if($gPara[$id] eq "yes"){
-      if($output ne ""){       ## mark para
-	if($isParaDelimiter){
-	  print OF "# Para $paraLineId $paraLineCount\n$output";
-	  $paraLineCount = 0;
-	} else {
-	  if($isDecode){
-	    $output = decode_entities($output);
-	  }
-	  print OF $output;
-	}
-
-	$output = "";
-      }
-      $paraLineId = $id;
-    }
+				$output = "";
+      		}
+      
+	  		$para_line_id = $id;
+		}
     
-    $output .= $line;
-    $paraLineCount++;
+    	$output .= $line;
+    	$para_line_count++;
 
-    ## Output XML features ###
-    if($isXmlFeature){
-      # loc feature
-      my $locFeature;
-      if($gPosHash[$id] != -1){
-	$locFeature = "xmlLoc_".int(($gPosHash[$id] - $gMinPos)*8.0/($gMaxPos - $gMinPos + 1));
-      }
+    	# Output XML features
+		if ($is_xml_feature)
+		{
+      		# Loc feature
+			my $loc_feature;
+      		if ($g_pos_hash[$id] != -1)
+			{
+				$loc_feature = "xmlLoc_".int(($g_pos_hash[$id] - $g_minpos)*8.0/($g_maxpos - $g_minpos + 1));
+      		}
  
-      # align feature
-      my $alignFeature = "xmlAlign_".$gAlign[$id];
+		 	# Align feature
+      		my $align_feature = "xmlAlign_" . $g_align[$id];
 
-      # fontSize feature
-      my $fontSizeFeature;
-      if($gFontSize[$id] == -1){
-	$fontSizeFeature = "xmlFontSize_none";
-      } else {
-	$fontSizeFeature = "xmlFontSize_".$gFontSizeLabels{$gFontSize[$id]};
-      }
+			# Font_size feature
+      		my $font_size_feature;
+			if ($g_font_size[$id] == -1)
+			{
+				$font_size_feature = "xmlFontSize_none";
+			} 
+			else 
+			{
+				$font_size_feature = "xmlFontSize_" . $g_font_size_labels{$g_font_size[$id]};
+			}
 
-      my $boldFeature = "xmlBold_".$gBold[$id]; # bold feature
-      my $italicFeature = "xmlItalic_".$gItalic[$id]; # italic feature
-      my $picFeature = "xmlPic_".$gPic[$id]; # pic feature
-      my $tableFeature = "xmlTable_".$gTable[$id]; # table feature
-      my $bulletFeature = "xmlBullet_".$gBullet[$id]; # bullet feature
+      		my $bold_feature	= "xmlBold_"	. $g_bold[$id]; 	# Bold feature
+      		my $italic_feature	= "xmlItalic_"	. $g_italic[$id]; 	# Italic feature
+      		my $pic_feature		= "xmlPic_"		. $g_pic[$id]; 		# Pic feature
+      		my $table_feature	= "xmlTable_"	. $g_table[$id]; 	# Table feature
+      		my $bullet_feature	= "xmlBullet_"	. $g_bullet[$id]; 	# Bullet feature
 
-      # space feature
-#      my $spaceFeature;
-#      if($gSpace[$id] eq "none"){
-#	$spaceFeature = "xmlSpace_none";
-#      } else {
-#	$spaceFeature = "xmlSpace_".$gSpaceLabels{$gSpace[$id]};
-#      }
+			# Space feature
+			# my $space_feature;
+			# if($g_space[$id] eq "none")
+			# {
+			#	$space_feature = "xmlSpace_none";
+			# } 
+			# else 
+			# {
+			#	$space_feature = "xmlSpace_" . $g_space_labels{$g_space[$id]};
+			# }
 
-      ## Differential features ##
-      my ($alignDiff, $fontSizeDiff, $fontFaceDiff, $fontSFDiff, $fontSFBIDiff, $fontSFBIADiff, $paraDiff) = getDifferentialFeatures($id);
+      		# Differential features
+			my ($align_diff, $font_size_diff, $font_face_diff, $font_sf_diff, $font_sfbi_diff, $font_sfbia_diff, $para_diff) = GetDifferentialFeatures($id);
 
-      $output .= " |XML| $locFeature $boldFeature $italicFeature $fontSizeFeature $picFeature $tableFeature $bulletFeature $fontSFBIADiff $paraDiff\n"; # $alignFeature $alignDiff $fontSizeDiff $fontFaceDiff $fontSFDiff $fontSFBIDiff 
-    } else {
-      $output .= "\n";
-    }
-  }
+      		# Each line and its XML features
+			$output .= " |XML| $loc_feature $bold_feature $italic_feature $font_size_feature $pic_feature $table_feature $bullet_feature $font_sfbia_diff $para_diff\n"; 
+		} 
+		else 
+		{
+      		$output .= "\n";
+    	}
+  	}
 
-  if($output ne ""){       ## mark para
-    if($isParaDelimiter){
-      print OF "# Para $paraLineId $paraLineCount\n$output";
-      $paraLineCount = 0;
-    } else {
-      if($isDecode){
-	$output = decode_entities($output);
-      }
-
-      print OF $output;
-    }
-    $output = ""
-  }
-  close OF;
+	# Mark para
+	if ($output ne "")
+	{
+    	if ($is_para_delimiter)
+		{
+      		print OF "# Para $para_line_id $para_line_count\n$output";
+      		$para_line_count = 0;
+    	}
+		else 
+		{
+      		if($is_decode){ $output = decode_entities($output); }
+			print OF $output;
+    	}
+    	$output = ""
+  	}
+  
+  	close OF;
 }
 
-sub getDifferentialFeatures {
-  my ($id) = @_;
+sub GetDifferentialFeatures 
+{
+	my ($id) = @_;
 
-  # alignChange feature
-  my $alignDiff = "bi_xmlA_";
-  if($id == 0){
-    $alignDiff .= $gAlign[$id];
-  } elsif($gAlign[$id] eq $gAlign[$id-1]){
-    $alignDiff .= "continue";
-  } else {
-    $alignDiff .= $gAlign[$id];
-  }
-  
-  # fontFaceChange feature
-  my $fontFaceDiff = "bi_xmlF_";
-  if($id == 0){
-    $fontFaceDiff .= "new";
-  } elsif($gFontFace[$id] eq $gFontFace[$id-1]){
-    $fontFaceDiff .= "continue";
-  } else {
-    $fontFaceDiff .= "new";
-  }
+	# AlignChange feature
+  	my $align_diff = "bi_xmlA_";
 
-  # fontSizeChange feature
-  my $fontSizeDiff = "bi_xmlS_";
-  if($id == 0){
-    $fontSizeDiff .= "new";
-  } elsif($gFontSize[$id] == $gFontSize[$id-1]){
-    $fontSizeDiff .= "continue";
-  } else {
-    $fontSizeDiff .= "new";
-  }  
+	if ($id == 0)
+	{
+    	$align_diff .= $g_align[$id];
+  	} 
+	elsif ($g_align[$id] eq $g_align[$id-1])
+	{
+    	$align_diff .= "continue";
+  	} 
+	else 
+	{
+    	$align_diff .= $g_align[$id];
+  	}
   
-  # fontSFChange feature
-  my $fontSFDiff = "bi_xmlSF_";
-  if($id == 0){
-    $fontSFDiff .= "new";
-  } elsif($gFontSize[$id] == $gFontSize[$id-1] && $gFontFace[$id] eq $gFontFace[$id-1]){
-    $fontSFDiff .= "continue";
-  } else {
-    $fontSFDiff .= "new";
-  }
-  
-  # fontSFBIChange feature
-  my $fontSFBIDiff = "bi_xmlSFBI_";
-  if($id == 0){
-    $fontSFBIDiff .= "new";
-  } elsif($gFontSize[$id] == $gFontSize[$id-1] && $gFontFace[$id] eq $gFontFace[$id-1] && $gBold[$id] eq $gBold[$id-1] && $gItalic[$id] eq $gItalic[$id-1]){
-    $fontSFBIDiff .= "continue";
-  } else {
-    $fontSFBIDiff .= "new";
-  }
-  
-  # fontSFBIAChange feature
-  my $fontSFBIADiff = "bi_xmlSFBIA_";
-  if($id == 0){
-    $fontSFBIADiff .= "new";
-  } elsif($gFontSize[$id] == $gFontSize[$id-1] && $gFontFace[$id] eq $gFontFace[$id-1] && $gBold[$id] eq $gBold[$id-1] && $gItalic[$id] eq $gItalic[$id-1] && $gAlign[$id] eq $gAlign[$id-1]){
-    $fontSFBIADiff .= "continue";
-  } else {
-    $fontSFBIADiff .= "new";
-  }
+  	# FontFaceChange feature
+	my $font_face_diff = "bi_xmlF_";
+  	if ($id == 0)
+	{
+    	$font_face_diff .= "new";
+  	} 
+	elsif ($g_font_face[$id] eq $g_font_face[$id-1])
+	{
+    	$font_face_diff .= "continue";
+  	} 
+	else 
+	{
+    	$font_face_diff .= "new";
+  	}
 
-  # para change feature
-  my $paraDiff = "bi_xmlPara_";
-  if($id < $bodyStartId){ # header part, consider each line as a separate paragraph
-    $paraDiff .= "header";
-  } else {
-    if($gPara[$id] eq "yes"){
-      $paraDiff .= "new";
-    } else {
-      $paraDiff .= "continue";
-    }
-  }
+	# FontSizeChange feature
+  	my $font_size_diff = "bi_xmlS_";
+	if ($id == 0)
+	{
+    	$font_size_diff .= "new";
+	} 
+	elsif ($g_font_size[$id] == $g_font_size[$id-1])
+	{
+    	$font_size_diff .= "continue";
+  	} 
+	else 
+	{
+    	$font_size_diff .= "new";
+  	}  
+  
+  	# FontSFChange feature
+  	my $font_sf_diff = "bi_xmlSF_";
+  	if ($id == 0)
+	{
+    	$font_sf_diff .= "new";
+	} 
+	elsif ($g_font_size[$id] == $g_font_size[$id-1] && $g_font_face[$id] eq $g_font_face[$id-1])
+	{
+    	$font_sf_diff .= "continue";
+  	} 
+	else 
+	{
+    	$font_sf_diff .= "new";
+  	}
+  
+  	# FontSFBIChange feature
+  	my $font_sfbi_diff = "bi_xmlSFBI_";
+	if ($id == 0)
+	{
+    	$font_sfbi_diff .= "new";
+  	} 
+	elsif ($g_font_size[$id] == $g_font_size[$id-1] && $g_font_face[$id] eq $g_font_face[$id-1] && $g_bold[$id] eq $g_bold[$id-1] && $g_italic[$id] eq $g_italic[$id-1])
+	{
+    	$font_sfbi_diff .= "continue";
+  	} 
+	else 
+	{
+    	$font_sfbi_diff .= "new";
+  	}
+  
+  	# FontSFBIAChange feature
+  	my $font_sfbia_diff = "bi_xmlSFBIA_";
+  	if ($id == 0)
+	{
+    	$font_sfbia_diff .= "new";
+  	} 
+	elsif ($g_font_size[$id] == $g_font_size[$id-1] && $g_font_face[$id] eq $g_font_face[$id-1] && $g_bold[$id] eq $g_bold[$id-1] && $g_italic[$id] eq $g_italic[$id-1] && $g_align[$id] eq $g_align[$id-1])
+	{
+    	$font_sfbia_diff .= "continue";
+  	} 
+	else 
+	{
+    	$font_sfbia_diff .= "new";
+  	}
 
-  return ($alignDiff, $fontSizeDiff, $fontFaceDiff, $fontSFDiff, $fontSFBIDiff, $fontSFBIADiff, $paraDiff);
+  	# Para change feature
+  	my $para_diff = "bi_xmlPara_";
+	# Header part, consider each line as a separate paragraph
+  	if ($id < $body_start_id)
+	{ 
+    	$para_diff .= "header";
+  	} 
+	else 
+	{
+    	if($g_para[$id] eq "yes")
+		{
+      		$para_diff .= "new";
+    	} 
+		else 
+		{
+      		$para_diff .= "continue";
+    	}
+  	}
+
+  	return ($align_diff, $font_size_diff, $font_face_diff, $font_sf_diff, $font_sfbi_diff, $font_sfbia_diff, $para_diff);
 }
 
-sub getFontSizeLabels {
-  my ($gFontSizeHash, $gFontSizeLabels) = @_;
+sub GetFontSizeLabels 
+{
+ 	my ($g_font_size_hash, $g_font_size_labels) = @_;
 
-  if($isDebug){ print STDERR "# Map fonts\n"; }
-  my @sortedFonts = sort { $gFontSizeHash->{$b} <=> $gFontSizeHash->{$a} } keys %{$gFontSizeHash}; # sort by values, obtain keys
+  	if ($is_debug) { print STDERR "# Map fonts\n"; }
+  	my @sorted_fonts = sort { $g_font_size_hash->{$b} <=> $g_font_size_hash->{$a} } keys %{$g_font_size_hash}; # Sort by values, obtain keys
+ 
+	my $common_size = $sorted_fonts[0];
+	@sorted_fonts = sort { $a <=> $b } keys %{$g_font_size_hash}; # Sort by keys, obtain keys
+
+	# Index of common font size
+	my $common_index = 0; 
+	foreach (@sorted_fonts)
+	{
+		# Found
+    	if ($common_size == $_) 
+		{
+      		last;
+    	}
+    	$common_index++;
+  	}
   
-  my $commonSize = $sortedFonts[0];
-  @sortedFonts = sort { $a <=> $b } keys %{$gFontSizeHash}; # sort by keys, obtain keys
-  my $commonIndex = 0; # index of common font size
-  foreach(@sortedFonts){
-    if($commonSize == $_) { # found
-      last;
-    }
-    $commonIndex++;
-  }
-  
-  # small fonts
-  for(my $i = 0; $i<$commonIndex; $i++){ # smallIndex $largeIndex 
-    $gFontSizeLabels->{$sortedFonts[$i]} = "smaller";
+  	# Small fonts
+  	for (my $i = 0; $i < $common_index; $i++)
+	{
+    	$g_font_size_labels->{$sorted_fonts[$i]} = "smaller";
+		
+		if($is_debug)
+		{
+      		print STDERR "$sorted_fonts[$i] --> $g_font_size_labels->{$sorted_fonts[$i]}, freq = $g_font_size_hash->{$sorted_fonts[$i]}\n";
+    	}
+  	}
 
-    if($isDebug){
-      print STDERR "$sortedFonts[$i] --> $gFontSizeLabels->{$sortedFonts[$i]}, freq = $gFontSizeHash->{$sortedFonts[$i]}\n";
-    }
-  }
+  	# Common fonts
+  	$g_font_size_labels->{$common_size} = "common";
+  	if ($is_debug)
+	{
+    	print STDERR "$sorted_fonts[$common_index] --> $g_font_size_labels->{$sorted_fonts[$common_index]}, freq = $g_font_size_hash->{$sorted_fonts[$common_index]}\n";
+  	}		
 
-  # common fonts
-  $gFontSizeLabels->{$commonSize} = "common";
-  if($isDebug){
-    print STDERR "$sortedFonts[$commonIndex] --> $gFontSizeLabels->{$sortedFonts[$commonIndex]}, freq = $gFontSizeHash->{$sortedFonts[$commonIndex]}\n";
-  }
+  	# Large fonts
+  	for (my $i = ($common_index + 1); $i < scalar(@sorted_fonts); $i++)
+	{ 
+    	if ((scalar(@sorted_fonts)-$i) <= 3)
+		{
+      		$g_font_size_labels->{$sorted_fonts[$i]} = "largest".($i+1-scalar(@sorted_fonts));
+    	} 
+		else 
+		{
+      		$g_font_size_labels->{$sorted_fonts[$i]} = "larger";
+    	}
 
-  # large fonts
-  for(my $i = ($commonIndex+1); $i<scalar(@sortedFonts); $i++){ # ($largeIndex+1) (scalar(@sortedFonts)-1)
-    if((scalar(@sortedFonts)-$i) <= 3){
-      $gFontSizeLabels->{$sortedFonts[$i]} = "largest".($i+1-scalar(@sortedFonts));
-    } else {
-      $gFontSizeLabels->{$sortedFonts[$i]} = "larger";
-    }
-
-    if($isDebug){	  
-      print STDERR "$sortedFonts[$i] --> $gFontSizeLabels->{$sortedFonts[$i]}, freq = $gFontSizeHash->{$sortedFonts[$i]}\n";
-    }
-  }
+    	if($is_debug)
+		{	  
+      		print STDERR "$sorted_fonts[$i] --> $g_font_size_labels->{$sorted_fonts[$i]}, freq = $g_font_size_hash->{$sorted_fonts[$i]}\n";
+    	}
+  	}
 }
 
-sub getSpaceLabels {
-  my ($gSpaceHash, $gSpaceLabels) = @_;
+sub GetSpaceLabels 
+{
+	my ($g_space_hash, $g_space_labels) = @_;
 
-  if($isDebug){
-    print STDERR "\n# Map space\n";
-  }
-  my @sortedSpaces = sort { $gSpaceHash->{$b} <=> $gSpaceHash->{$a} } keys %{$gSpaceHash}; # sort by freqs, obtain space faces
+  	if ($is_debug)
+	{
+    	print STDERR "\n# Map space\n";
+  	}
+  	my @sorted_spaces = sort { $g_space_hash->{$b} <=> $g_space_hash->{$a} } keys %{$g_space_hash}; # sort by freqs, obtain space faces
   
-  my $commonSpace = $sortedSpaces[0];
-  my $commonFreq = $gSpaceHash->{$commonSpace};
-  # find similar common freq with larger spaces
-  for(my $i = 0; $i<scalar(@sortedSpaces); $i++){ # 0 ($smallIndex-1)
-    my $freq = $gSpaceHash->{$sortedSpaces[$i]};
-    if($freq/$commonFreq > 0.8){
-      if($sortedSpaces[$i] > $commonSpace){
-	$commonSpace = $sortedSpaces[$i];
-      }
-    } else {
-      last;
-    }
-  }
+	my $common_space = $sorted_spaces[0];
+  	my $common_freq	 = $g_space_hash->{$common_space};
 
-  for(my $i = 0; $i<scalar(@sortedSpaces); $i++){ # 0 ($smallIndex-1)
-    if($sortedSpaces[$i] > $commonSpace){
-      $gSpaceLabels->{$sortedSpaces[$i]} = "yes";
-    } else {
-      $gSpaceLabels->{$sortedSpaces[$i]} = "no";
-    }
+	# Find similar common freq with larger spaces
+  	for (my $i = 0; $i < scalar(@sorted_spaces); $i++)
+	{
+    	my $freq = $g_space_hash->{$sorted_spaces[$i]};
+    	if ($freq/$common_freq > 0.8)
+		{
+      		if($sorted_spaces[$i] > $common_space)
+			{
+				$common_space = $sorted_spaces[$i];
+      		}
+    	} 
+		else 
+		{
+      		last;
+    	}
+  	}
 
-    if($isDebug){
-      print STDERR "$sortedSpaces[$i] --> $gSpaceLabels->{$sortedSpaces[$i]}, freq = $gSpaceHash->{$sortedSpaces[$i]}\n";
-    }
-  }
+  	for (my $i = 0; $i < scalar(@sorted_spaces); $i++)
+	{
+    	if ($sorted_spaces[$i] > $common_space)
+		{
+      		$g_space_labels->{$sorted_spaces[$i]} = "yes";
+    	} 
+		else 
+		{
+      		$g_space_labels->{$sorted_spaces[$i]} = "no";
+    	}
+
+    	if($is_debug)
+		{
+      		print STDERR "$sorted_spaces[$i] --> $g_space_labels->{$sorted_spaces[$i]}, freq = $g_space_hash->{$sorted_spaces[$i]}\n";
+    	}
+  	}
 }
 
-sub getAttrValue {
-  my ($attrText, $attr) = @_;
+sub GetAttrValue 
+{
+	my ($attr_text, $attr) = @_;
 
-  my $value = "none";
-  if($attrText =~ /^.*$attr=\"(.+?)\".*$/){
-    $value = $1;
-  }
+	my $value = "none";
+  	if ($attr_text =~ /^.*$attr=\"(.+?)\".*$/)
+	{
+    	$value = $1;
+  	}
   
-  return $value;
+  	return $value;
 }
 
-sub checkFontAttr {
-  my ($attrText, $attr, $attrHash, $count) = @_;
+sub CheckFontAttr 
+{
+	my ($attr_text, $attr, $attr_hash, $count) = @_;
 
-  if($attrText =~ /^.*$attr=\"(.+?)\".*$/){
-    my $attrValue = $1;
-    
-    $attrHash->{$attrValue} = $attrHash->{$attrValue} ? ($attrHash->{$attrValue}+$count) : $count;
-  }
-}
-
-sub processPara {
-  my ($inputText, $isTable, $isPic, $isFirstTableCell) = @_;
-  
-  my $isSpace = 0;
-  my $isSpecialSpace = 0;
-  my $isTab = 0;
-  my $isBullet = 0;
-
-  my $isForcedEOF = "none";  # 3 signals for end of L: forcedEOF=\"true\" in attribute of <ln> or || <nl orig=\"true\"\/> || end of </para> without encountering any of the above signal in the para plus $isSpace = 0
-  # xml feature
-  my $align = "none"; 
-  my ($l, $t, $r, $bottom);
-  my %fontSizeHash = ();
-  my %fontFaceHash = ();
-  my @boldArray = ();
-  my @italicArray = ();
-  my $space = "none";
-
-  my $lnAttr; my $isLn = 0; my $lnBold = "none"; my $lnItalic = "none";
-  my $runAttr;  my $runText = ""; my $isRun = 0; my $runBold = "none"; my $runItalic = "none";
-  my $wdAttr; my $wdText = ""; my $isWd = 0;
-
-  my $wdIndex = 0; # word index in a line. When encountering </ln>, this parameter indicates the number of words in a line
-  my $lnBoldCount = 0;
-  my $lnItalicCount = 0;
-
-  my $allText = "";
-  my $text = ""; #invariant: when never enter a new line, $text will be copied into $allText, and $text is cleared
-
-  binmode(STDERR, ":utf8");
-
-  my $isFirstLinePara = 1;
-  my @lines = split(/\n/, $inputText);
-  for(my $i=0; $i<scalar(@lines); $i++){
-    my $line = $lines[$i];
-
-    ## new para
-    if ($line =~ /^<para (.+?)>$/){
-      my $attr = $1;
-      $align = getAttrValue($attr, "alignment");
-#      $indent = getAttrValue($attr, "li");
-      $space = getAttrValue($attr, "spaceBefore");
-    }
-
-    ## new ln
-    elsif ($line =~ /^<ln (.+)>$/){ 
-      $lnAttr = $1;
-      $isLn = 1;
-
-      if ($isMarkup){
-	$markupOutput .= "# Line $lnAttr\n";
-      }
-
-      if ($lnAttr =~ /^.*l=\"(\d+)\" t=\"(\d+)\" r=\"(\d+)\" b=\"(\d+)\".*$/){
-	($l, $t, $r, $bottom) = ($1, $2, $3, $4);
-      }
-      $isForcedEOF = getAttrValue($lnAttr, "forcedEOF");
-
-      if($isXmlFeature){ # Bold & Italic
-	$lnBold = getAttrValue($lnAttr, "bold");
-	$lnItalic = getAttrValue($lnAttr, "italic");
-      }
-    }
-
-    ## new run
-    elsif ($line =~ /<run (.*)>$/){
-      $runAttr = $1;
-
-      $isSpace = 0;
-      $isTab = 0;
-      $isRun = 1;
-
-      if($line =~ /^<wd (.*?)>/){  # new wd, that consists of many runs
-	$isWd = 1;
-	$wdAttr = $1;
-      }
-
-      if($isXmlFeature){ # Bold & Italic
-	$runBold = getAttrValue($runAttr, "bold");
-	$runItalic = getAttrValue($runAttr, "italic");
-      }
-    }
-
-    ## wd
-    elsif ($line =~ /^<wd (.+)?>(.+)<\/wd>$/){
-      $wdAttr = $1;
-      my $word = $2;
-      $isSpace = 0;
-      $isTab = 0;
-
-      if ($isMarkup){
-	$markupOutput .= "$word $wdAttr";
-	if($isRun && $runAttr =~ /(bold|italic)=\"true\"/){ # if both bold and italic, then just use one
-	  $markupOutput .= " $1=\"true\"";
+  	if ($attr_text =~ /^.*$attr=\"(.+?)\".*$/)
+	{
+		my $attr_value = $1;
+   		$attr_hash->{$attr_value} = $attr_hash->{$attr_value} ? ($attr_hash->{$attr_value} + $count) : $count;
 	}
-	$markupOutput .= "\n";
-      }
+}
 
-      if($isXmlFeature){ # FontSize & FontFace
-	checkFontAttr($wdAttr, "fontSize", \%fontSizeHash, 1);
-	checkFontAttr($wdAttr, "fontFace", \%fontFaceHash, 1);
-      }
+sub ProcessTable 
+{
+	my ($input_text, $is_pic) = @_;
+
+	# For table cell object
+	my $is_cell		= 0;
+
+	my $all_text	= "";
+	my $text		= ""; 
+
+	my @lines = split(/\n/, $input_text);
+
+	my %table_pos	= (); # $table_pos{$cellText} = "$l-$t-$r-$bottom"
+	my %table		= (); # $table{$row}->{$col} = \@para_texts
+	my $row_from;   
+	my $col_from;
+	my $row_till;   
+	my $col_till;
+
+	# xml feature
+	my $align	= "none"; 
+	my $pos		= -1;
+	foreach my $line (@lines) 
+	{
+		if ($line =~ /^<table (.+?)>$/)
+		{
+			my $attr = $1;
+			
+			if($is_markup) {	$markup_output .= "### Table $attr\n"; }
+
+			# Fix: wrong regex sequence, huydhn
+			#if ($attr =~ /^.*l=\"(\d+)\" t=\"(\d+)\" r=\"(\d+)\" b=\"(\d+)\".*alignment=\"(.+?)\".*$/)
+			#{
+			#	my ($l, $t, $r, $bottom) = ($1, $2, $3, $4);
+			#	$align = $5;
+
+			#	# pos feature
+			#	$pos = ($t+$bottom)/2.0;
+				
+			#	if($pos < $g_minpos) { $g_minpos = $pos; }
+			#	if($pos > $g_maxpos) { $g_maxpos = $pos; }
+			#} 
+			#else 
+			#{
+			#	print STDERR "# no table alignment or location \"$line\"\n";
+			#	$align = "";
+			#}
+
+			my ($l, $t, $r, $bottom) = undef;
+			if ($attr =~ /^.*l=\"(\d+)\".*$/) { $l = $1; }
+			if ($attr =~ /^.*t=\"(\d+)\".*$/) { $t = $1; }
+			if ($attr =~ /^.*r=\"(\d+)\".*$/) { $r = $1; }
+			if ($attr =~ /^.*b=\"(\d+)\".*$/) { $bottom = $1; }
+
+			if ($t && $bottom)
+			{
+				# pos feature
+				$pos = ($t + $bottom) / 2.0;
+				
+				if($pos < $g_minpos) { $g_minpos = $pos; }
+				if($pos > $g_maxpos) { $g_maxpos = $pos; }
+			}
+			else
+			{
+				die "# Undefined table location \"$line\"\n";
+			}
+
+			if ($attr =~ /^.*alignment=\"(\d+)\".*$/) 
+			{ 
+				$align = $1; 
+			} 
+			else 
+			{
+				print STDERR "# no table alignment \"$line\"\n";
+				$align = "";
+			}
+			# End.
+		}
+		elsif ($line =~ /^<cell .*gridColFrom=\"(\d+)\" gridColTill=\"(\d+)\" gridRowFrom=\"(\d+)\" gridRowTill=\"(\d+)\".*>$/) # new cell
+		{ 
+			$col_from = $1;
+			$col_till = $2;
+			$row_from = $3;
+			$row_till = $4;
+			#print STDERR "$row_from $row_till $col_from $col_till\n";
+			$is_cell = 1;
+		}
+		elsif ($line =~ /^<\/cell>$/) # end cell
+		{ 
+			my @para_texts = ();
+			ProcessCell($text, \@para_texts, \%table_pos, $is_pic);
+			
+			for(my $i = $row_from; $i<=$row_till; $i++)
+			{
+				for(my $j = $col_from; $j<=$col_till; $j++)
+				{
+					if(!$table{$i}) { $table{$i} = (); }
+					if(!$table{$i}->{$j}) {	$table{$i}->{$j} = (); }
+
+	 				if($i == $row_from && $j == $col_from)
+					{
+		 				push(@{$table{$i}->{$j}}, @para_texts);
+						if(scalar(@para_texts) > 1) { last; }
+	 				} 
+					else 
+					{
+		 				push(@{$table{$i}->{$j}}, ""); #add stub "" for spanning rows or cols
+	 				}
+				}
+			}
+				
+			$is_cell = 0;
+			$text = "";
+		}    
+		elsif($is_cell)
+		{
+			$text .= $line."\n";
+			next;
+		}
+	}
+
+	# note: such a complicated code is because in the normal node, Omnipage doesn't seem to strictly print column by column given a row is fixed.
+	# E.g if col1: paraText1, col2: paraText21\n$paraText22, and col3: paraText31\n$paraText32
+	# It will print  paraText1\tparaText21\tparaText31\n\t$paraText22\t$paraText32
+	my @sorted_rows = sort {$a <=> $b} keys %table;
+	my $is_first_line_para = 1;
+	foreach my $row (@sorted_rows)
+	{
+		my %table_r = %{$table{$row}};
+		my @sorted_cols = sort {$a <=> $b} keys %table_r;
+		while(1)
+		{
+			my $is_stop = 1;
+			my $row_text = "";
+
+			foreach my $col (@sorted_cols)
+			{
+				# there's still some thing to process
+				if(scalar(@{$table_r{$col}}) > 0)
+				{ 
+	 				$is_stop = 0;
+	 				$row_text .= shift(@{$table_r{$col}});
+				}
+				$row_text .= "\t";
+			}
+
+			if ((!$is_allow_empty && $row_text =~ /^\s*$/) || ($is_allow_empty && $row_text eq ""))
+			{
+				$is_stop = 1;
+			}
+
+			if($is_stop) 
+			{
+				last;
+			} 
+			else 
+			{
+				$row_text =~ s/\t$/\n/;
+				$all_text .= $row_text;
+				# print STDERR "$row_text";
+				
+				# para
+				if($is_first_line_para)
+				{
+	 				push(@g_para, "yes");
+	 				$is_first_line_para = 0;
+				} 
+				else 
+				{
+	 				push(@g_para, "no");
+				}
+
+				if($is_xml_feature)
+				{
+	 				# table feature
+	 				push(@g_table, "yes");
+
+	 				# pic feature
+	 				if($is_pic)
+					{
+		 				push(@g_pic, "yes");
+	 				} 
+					else 
+					{
+		 				push(@g_pic, "no");
+	 				}
+
+	 				push(@g_pos_hash, $pos); # update xml pos value
+	 				push(@g_align, $align); # update xml alignment value
+
+	 				### Not assign value ###
+					push(@g_font_size, -1); # fontSize feature	  
+					push(@g_font_face, "none"); # fontFace feature	  
+	 				push(@g_bold, "no"); # bold feature	  
+	 				push(@g_italic, "no"); # italic feature
+	 				push(@g_bullet, "no"); # bullet feature
+					# push(@gSpace, "none"); # space feature
+				} # end if xml feature
+			}
+		}
+	}
+
+	return $all_text;
+}
+
+sub ProcessCell 
+{
+	my ($input_text, $para_texts, $table_pos, $is_pic) = @_;
+
+	my $text = ""; 
+	my @lines = split(/\n/, $input_text);
+	my $is_para = 0;
+	my $flag = 0;
+	foreach my $line (@lines) 
+	{    
+		if ($line =~ /^<para (.*)>$/)
+		{
+			$text .= $line."\n"; # we need the header
+			$is_para = 1;
+
+			if($is_markup)
+			{
+				$markup_output .= "## ParaTable $1\n";
+			}
+		}
+		elsif ($line =~ /^<\/para>$/)
+		{
+			my ($para_text, $l, $t, $r, $b) = ProcessPara($text, 1, $is_pic);
+			my @tokens = split(/\n/, $para_text);
+
+			foreach my $token (@tokens)
+			{
+				if($token ne "")
+				{
+	 				push(@{$para_texts}, $token);
+	 				$flag = 1;	
+				}
+			}
+
+			if(!$table_pos->{$para_text})
+			{
+				$table_pos->{$para_text} = "$l-$t-$r-$b";
+			} 
+			else 
+			{
+				#print STDERR "#! Warning: in method processCell, encounter the same para_text $para_text\n";
+			}
+
+			$is_para = 0;
+			$text = "";
+		}
+		elsif ($is_para)
+		{
+			$text .= $line."\n";
+			next;
+		}
+	}
 	
-      if($isXmlFeature){ # Bold & Italic
-	my $wdBold = getAttrValue($wdAttr, "bold");
-	my $wdItalic = getAttrValue($wdAttr, "italic");
-
-	if($wdBold eq "true" || $runBold eq "true" || $lnBold eq "true"){
-	  $boldArray[$wdIndex] = 1;
-	  $lnBoldCount++;
+	# at least one value should be added for cell which is ""
+	if ($flag == 0) 
+	{
+		push(@{$para_texts}, "");
 	}
+}
+
+sub ProcessPara 
+{
+	my ($input_text, $is_cell, $is_pic) = @_;
+  
+	my $is_space		 = 0;
+  	my $is_special_space = 0;
+  	my $is_tab			 = 0;
+  	my $is_bullet		 = 0;
+  	my $is_forced_eof	 = "none";  # 3 signals for end of L: forcedEOF=\"true\" in attribute of <ln> or || <nl orig=\"true\"\/> || end of </para> without encountering any of the above signal in the para plus $is_space = 0
+ 
+ 	# XML feature
+	my $align = "none"; 
+  	my ($l, $t, $r, $bottom);
+  
+  	my %font_size_hash	= ();
+  	my %font_face_hash	= ();
+  	my @bold_array		= ();
+  	my @italic_array	= ();
+  	my $space			= "none";
+
+	my $ln_attr; 
+	my $is_ln		= 0; 
+	my $ln_bold 	= "none"; 
+	my $ln_italic	= "none";
+  
+  	my $run_attr;  
+	my $run_text	= ""; 
+	my $is_run 		= 0; 
+	my $run_bold 	= "none"; 
+	my $run_italic 	= "none";
+
+  	my $wd_attr; 
+	my $wd_text		= ""; 
+	my $is_wd 		= 0;
+
+	# Word index in a line. When encountering </ln>, this parameter indicates the number of words in a line
+	my $wd_index		= 0; 
+  	my $ln_bold_count	= 0;
+  	my $ln_italic_count	= 0;
+
+	my $all_text = "";
+	# Invariant: when never enter a new line, $text will be copied into $all_text, and $text is cleared
+  	my $text	 = ""; 
+
+	binmode(STDERR, ":utf8");
 	
-	if($wdItalic eq "true" || $runItalic eq "true" || $lnItalic eq "true"){
-	  $italicArray[$wdIndex] = 1;
-	  $lnItalicCount++;
-	}
-      } # if($isXmlFeature)
+	my $is_first_line_para = 1;
+	my @lines = split(/\n/, $input_text);
 
-      ## add text
-      $text .= "$word";
+	for (my $i=0; $i < scalar(@lines); $i++)
+	{
+    	my $line = $lines[$i];
 
-      if($isRun) {
-	$runText .= "$word ";
-      }
-      $wdIndex++;
-    }
+		# New para
+		if ($line =~ /^<para (.+?)>$/)
+		{
+      		my $attr = $1;
+      		$align	 = GetAttrValue($attr, "alignment");
+			# $indent = GetAttrValue($attr, "li");
+			$space	 = GetAttrValue($attr, "spaceBefore");
+    	}
+    	# New ln
+		elsif ($line =~ /^<ln (.+)>$/)
+		{
+      		$ln_attr = $1;
+      		$is_ln	 = 1;
 
-    ## end wd
-    elsif ($line =~ /^<\/wd>$/){
-      $isWd = 0;
+			if ($is_markup) { $markup_output .= "# Line $ln_attr\n"; }
+
+			# Fix: wrong regex sequence, huydhn
+			#if ($ln_attr =~ /^.*l=\"(\d+)\" t=\"(\d+)\" r=\"(\d+)\" b=\"(\d+)\".*$/)
+			#{
+			#	($l, $t, $r, $bottom) = ($1, $2, $3, $4);
+			#}
+
+			if ($ln_attr =~ /^.*l=\"(\d+)\".*$/)	{ $l = $1; } else {	$l = undef; }
+			if ($ln_attr =~ /^.*t=\"(\d+)\".*$/)	{ $t = $1; } else {	$t = undef; }
+			if ($ln_attr =~ /^.*r=\"(\d+)\".*$/)	{ $r = $1; } else {	$r = undef; }
+			if ($ln_attr =~ /^.*b=\"(\d+)\".*$/)	{ $bottom = $1; } else { $bottom = undef; }
+			# End.
+
+			$is_forced_eof = GetAttrValue($ln_attr, "forcedEOF");
+
+			# Bold & Italic
+      		if ($is_xml_feature)
+			{ 
+				$ln_bold	= GetAttrValue($ln_attr, "bold");
+				$ln_italic	= GetAttrValue($ln_attr, "italic");
+      		}
+    	}
+    	# New run
+    	elsif ($line =~ /<run (.*)>$/)
+		{
+      		$run_attr	= $1;
+			$is_space	= 0;
+			$is_tab		= 0;
+			$is_run		= 1;
+
+			# New wd, that consists of many runs
+      		if ($line =~ /^<wd (.*?)>/)
+			{
+				$is_wd = 1;
+				$wd_attr = $1;
+      		}
+
+			# Bold & Italic
+      		if ($is_xml_feature)
+			{
+				$run_bold	= GetAttrValue($run_attr, "bold");
+				$run_italic	= GetAttrValue($run_attr, "italic");
+      		}
+    	}
+    	# Word
+    	elsif ($line =~ /^<wd (.+)?>(.+)<\/wd>$/)
+		{
+      		$wd_attr	= $1;
+			my $word	= $2;
+      		$is_space	= 0;
+      		$is_tab		= 0;
+ 
+			if ($is_markup)
+			{
+				$markup_output .= "$word $wd_attr\n";
+				# If both bold and italic, then just use one
+				if ($is_run && $run_attr =~ /(bold|italic)=\"true\"/)
+				{ 
+	  				$markup_output .= " $1=\"true\"";
+				}
+				$markup_output .= "\n";
+      		}
+			
+			# FontSize & FontFace
+      		if ($is_xml_feature)
+			{ 
+				CheckFontAttr($wd_attr, "fontSize", \%font_size_hash, 1);
+				CheckFontAttr($wd_attr, "fontFace", \%font_face_hash, 1);
+      		}
+
+			# Bold & Italic
+      		if ($is_xml_feature)
+			{
+				my $wd_bold		= GetAttrValue($wd_attr, "bold");
+				my $wd_italic	= GetAttrValue($wd_attr, "italic");
+
+				if ($wd_bold eq "true" || $run_bold eq "true" || $ln_bold eq "true")
+				{
+	  				$bold_array[$wd_index] = 1;
+	  				$ln_bold_count++;
+				}
+	
+				if ($wd_italic eq "true" || $run_italic eq "true" || $ln_italic eq "true")
+				{
+	  				$italic_array[$wd_index] = 1;
+	  				$ln_italic_count++;
+				}
+      		}
+
+      		# Add text
+			$text .= "$word";
+
+     	 	if ($is_run) 
+			{
+				$run_text .= "$word ";
+      		}
       
-      if($isMarkup){
-	$markupOutput .= "$wdText $wdAttr";
-	if($isRun && $runAttr =~ /(bold|italic)=\"true\"/){ # if both bold and italic, then just use one
-	  $markupOutput .= " $1=\"true\"";
-	}
-	$markupOutput .= "\n";
+	  		$wd_index++;
+    	}
+    	# End wd
+    	elsif ($line =~ /^<\/wd>$/)
+		{
+      		$is_wd = 0;
+      
+      		if ($is_markup)
+			{
+				$markup_output .= "$wd_text $wd_attr\n";
+				# If both bold and italic, then just use one
+				if ($is_run && $run_attr =~ /(bold|italic)=\"true\"/)
+				{
+	  				$markup_output .= " $1=\"true\"";
+				}
+	
+				$markup_output .= "\n";				
+				$wd_attr		= "";
+      		}
+    	}
+    	# End run
+    	elsif ($line =~ /^(.*)<\/run>$/)
+		{ 
+      		my $word = $1;
 
-	$wdAttr = "";
-      }
-    }
-
-    ## end run
-    elsif ($line =~ /^(.*)<\/run>$/){ 
-      my $word = $1;
-
-      ## add text
-      if($word ne ""){
-	if($isXmlFeature){ # Bold & Italic
-	  if($runBold eq "true" || $lnBold eq "true"){
-	    $boldArray[$wdIndex] = 1;
-	    $lnBoldCount++;
-	  }
+      		# Add text
+			if ($word ne "")
+			{
+				# Bold & Italic
+				if ($is_xml_feature)
+				{ 
+	  				if ($run_bold eq "true" || $ln_bold eq "true")
+					{
+	    				$bold_array[$wd_index] = 1;
+	    				$ln_bold_count++;
+	  				}
 	  
-	  if($runItalic eq "true" || $lnItalic eq "true"){
-	    $italicArray[$wdIndex] = 1;
-	    $lnItalicCount++;
-	  }
-	}
+	  				if ($run_italic eq "true" || $ln_italic eq "true")
+					{
+	    				$italic_array[$wd_index] = 1;
+	    				$ln_italic_count++;
+	  				}
+				}
 
-	# appear in the final result
-	if($isLn){ $text .= "$word"; }
+				# Appear in the final result
+				if ($is_ln) { $text .= "$word"; }
 
-	# for internal record
-	if($isRun){ $runText .= "$word "; }	
-	if($isWd){ $wdText .= "$word"; }	
+				# For internal record
+				if ($is_run) { $run_text	.= $word . " "; }	
+				if ($is_wd)  { $wd_text		.= $word; }	
 
-	$wdIndex++;
-      }
+				$wd_index++;
+      		}
 
-      # xml feature
-      if($isXmlFeature && $runText ne "") { # not a space, tab or new-line run
-	my @words = split(/\s+/, $runText);
-	my $numWords = scalar(@words);
-	checkFontAttr($runAttr, "fontSize", \%fontSizeHash, $numWords);
-	checkFontAttr($runAttr, "fontFace", \%fontFaceHash, $numWords);
-      }
+      		# Xml feature
+			# Not a space, tab or new-line run
+      		if ($is_xml_feature && $run_text ne "") 
+			{
+				my @words		= split(/\s+/, $run_text);
+				my $num_words	= scalar(@words);
+				CheckFontAttr($run_attr, "fontSize", \%font_size_hash, $num_words, 1);
+				CheckFontAttr($run_attr, "fontFace", \%font_face_hash, $num_words, 1);
+      		}
+
+      		# Reset run
+			# <run> not enclosed within <ln>
+      		if (!$is_ln)
+			{
+				$wd_index = 0;
+      		}
       
-      ## reset run
-      if(!$isLn){ # <run> not enclosed within <ln>
-	$wdIndex = 0;
-      }
-      $runText = "";
-      $isRun = 0;      
-      $isSpecialSpace = 0;
+	  		$run_text			= "";
+      		$is_run				= 0;      
+      		$is_special_space	= 0;
 
-      if($isXmlFeature){ # Bold & Italic
-	$runBold = "none";
-	$runItalic = "none";
+			# Bold & Italic
+      		if ($is_xml_feature)
+			{
+				$run_bold = "none";
+				$run_italic = "none";
+				
+				# <run> not enclosed within <ln>
+				if(!$is_ln)
+				{
+	  				$ln_bold_count = 0;
+	  				$ln_italic_count = 0;
+				}
+      		}
+    	}
+    	# End ln
+    	elsif ($line =~ /^<\/ln>$/)
+		{
+      		if((!$is_allow_empty && $text !~ /^\s*$/) || ($is_allow_empty && $text ne ""))
+			{
+				if ($is_forced_eof eq "true" || (!$is_cell && !$is_special_space) )
+				{ 
+	  				$text		.= "\n";	  
+	  				# Update all_text
+	  				$all_text	.= $text;
+	  				$text		= "";
+				}
 
-	if(!$isLn){ # <run> not enclosed within <ln>
-	  $lnBoldCount = 0;
-	  $lnItalicCount = 0;
-	}
-      }
-    }
+				my $num_words = $wd_index;
 
-    ## end ln
-    elsif ($line =~ /^<\/ln>$/){
-      if((!$isAllowEmpty && $text !~ /^\s*$/)
-	 || ($isAllowEmpty && $text ne "")){
-	if($isForcedEOF eq "true" || # there's a forced EOL?
-	   !$isSpecialSpace # not an emply line with space character
-	  ){ 
-	  $text .= "\n";
-	  
-	  # update allText
-	  $allText .= $text;
-	  $text = "";
-	}
+				if (!$is_cell)
+				{
+	 				if ($is_first_line_para)
+					{
+		 				push(@g_para, "yes");
+		 				$is_first_line_para = 0;
+	 				} 
+					else 
+					{
+		 				push(@g_para, "no");
+	 				}
+				}
 
-	my $numWords = $wdIndex;
-
-	if(!$isTable){
-	  if($isFirstLinePara){
-	    push(@gPara, "yes");
-	    $isFirstLinePara = 0;
-	  } else {
-	    push(@gPara, "no");
-	  }
-	} else {
-	  if($$isFirstTableCell){
-	    push(@gPara, "yes");
-	    $$isFirstTableCell = 0;
-	  } else {
-	    push(@gPara, "no");
-	  }
-	}
-
-	if($isXmlFeature && $numWords >= 1){
-	  # xml feature
-	  # assumtion that: fontSize is either occur in <ln>, or within multiple <run> under <ln>, but not both
-	  checkFontAttr($lnAttr, "fontSize", \%fontSizeHash, $numWords);
-	  checkFontAttr($lnAttr, "fontFace", \%fontFaceHash, $numWords);
-	}
+				if ($is_xml_feature && $num_words >= 1)
+				{
+	  				# XML feature
+	  				# Assumtion that: font_size is either occur in <ln>, or within multiple <run> under <ln>, but not both
+	  				CheckFontAttr($ln_attr, "fontSize", \%font_size_hash, $num_words);
+	  				CheckFontAttr($ln_attr, "fontFace", \%font_face_hash, $num_words);
+				}
 	
-	if($isXmlFeature && !$isSpecialSpace){
-	  my $pos = ($t+$bottom)/2.0;
-	  if($pos < $gMinPos){ $gMinPos = $pos;	    }
-	  if($pos > $gMaxPos){ $gMaxPos = $pos;	  }
-	  push(@gPosHash, $pos); # pos feature
-	  push(@gAlign, $align); # alignment feature
+				if ($is_xml_feature && !$is_cell && !$is_special_space)
+				{
+	  				my $pos = ($t + $bottom)/2.0;
+	  				if ($pos < $g_minpos) { $g_minpos = $pos; }
+	  				if ($pos > $g_maxpos) { $g_maxpos = $pos; }
 
-	  if($isPic){
-	    push(@gPic, "yes");
-	  } else {
-	    push(@gPic, "no");
-	  }
-	  if($isTable){
-	    push(@gTable, "yes");
-	  } else {
-	    push(@gTable, "no");
-	  }
+					push(@g_pos_hash, $pos);	# pos feature
+	  				push(@g_align, $align);		# alignment feature
+	 				push(@g_table, "no"); 		# table feature
 
-	  if($isPic || $isTable){
-	    ### Not assign value ###
-	    push(@gFontSize, -1); # bold feature	  
-	    push(@gFontFace, "none"); # bold feature	  
-	    push(@gBold, "no"); # bold feature	  
-	    push(@gItalic, "no"); # italic feature
-	    push(@gBullet, "no"); # bullet feature
-	  } else {
-	    updateXMLFontFeature(\%fontSizeHash, \%fontFaceHash);
-	    %fontSizeHash = (); %fontFaceHash = ();
+					if ($is_pic)
+					{
+	    				push(@g_pic, "yes");
 
-	    updateXMLFeatures($lnBoldCount, $lnItalicCount, $numWords, $isBullet, $space);
-	  } # end if pic
-	} # end if($isXmlFeature && !$isSpecialSpace)
-      }
+	   	 				# Not assign value
+	    				push(@g_font_size, -1); 	# bold feature	  
+	    				push(@g_font_face, "none");	# bold feature	  
+	    				push(@g_bold, "no");		# bold feature	  
+	    				push(@g_italic, "no");		# italic feature
+	    				push(@g_bullet, "no");		# bullet feature
+	  				} 
+					else 
+					{
+	    				push(@g_pic, "no");
 
-      ## reset ln
-      $isLn = 0;      
-      $isForcedEOF = "none";
-      $isSpecialSpace = 0;
-      $wdIndex = 0;
+	    				UpdateXMLFontFeature(\%font_size_hash, \%font_face_hash);
+	   	 				
+						%font_size_hash = (); 
+						%font_face_hash = ();
 
-      if($isXmlFeature){ # Bold & Italic
-	$lnBold = "none";
-	$lnItalic = "none";
+	    				UpdateXMLFeatures($ln_bold_count, $ln_italic_count, $num_words, $is_bullet, $space);
+	  				}
+				}
+			}
+      		
+			# Reset ln
+      		$is_ln				= 0;      
+      		$is_forced_eof		= "none";
+      		$is_special_space	= 0;
+      		$wd_index			= 0;
 
-	$lnBoldCount = 0;
-	$lnItalicCount = 0;
-      }
-    } # end else </ln>
-
-    ## nl newline signal
-    elsif ($line =~ /^<nl orig=\"true\"\/>$/){
-      if($isLn){
-	$isSpace = 0;
-      } else {
-	if($isDebug){
-	  print STDERR "#!!! Warning: found <nl orig=\"true\"\/> while not in tag <ln>: $line\n";
-	}
-      }
-    }
-
-    ## space
-    elsif ($line =~ /^<space\/>$/){
-      my $startTag = "";
-      my $endTag = "";
-      if($i>0 && $lines[$i-1] =~ /^<(.+?)\b.*/){
-	$startTag = $1;
-      }
-	
-      if($i < (scalar(@lines) -1) && $lines[$i+1] =~ /^<\/(.+)>/){
-	$endTag = $1;
-      }
+			# Bold & Italic
+      		if ($is_xml_feature)
+			{
+				$ln_bold			= "none";
+				$ln_italic			= "none";
+				$ln_bold_count		= 0;
+				$ln_italic_count	= 0;
+      		}
+    	}
+    	# Newline signal
+    	elsif ($line =~ /^<nl orig=\"true\"\/>$/)
+		{
+      		if($is_ln)
+			{
+				$is_space = 0;
+      		} 
+			else 
+			{
+				if($is_debug)
+				{
+	  				print STDERR "#!!! Warning: found <nl orig=\"true\"\/> while not in tag <ln>: $line\n";
+				}
+      		}
+    	}
+    	# Space
+    	elsif ($line =~ /^<space\/>$/)
+		{
+      		my $start_tag	= "";
+      		my $end_tag		= "";
       
-      if($startTag eq $endTag && $startTag ne ""){
-#	print STDERR "# Special space after \"$text\"\n";
-	$isSpecialSpace = 1;
-      }
+	  		if ($i>0 && $lines[$i-1] =~ /^<(.+?)\b.*/) { $start_tag = $1; }
+	
+      		if ($i < (scalar(@lines) -1) && $lines[$i+1] =~ /^<\/(.+)>/) { $end_tag = $1; }
+      
+      		if ($start_tag eq $end_tag && $start_tag ne "")
+			{
+				# print STDERR "# Special space after \"$text\"\n";
+				$is_special_space = 1;
+      		}
 
-      ## addText
-      $text .= " ";
-      $isSpace = 1;
-    }
+      		# Add text
+      		$text .= " ";
+      		$is_space = 1;
+    	}
+    	# Tab
+    	elsif ($line =~ /^<tab .*\/>$/)
+		{
+      		# Add text
+      		$text .= "\t";
+      		$is_tab = 1;
+    	}
+    	# Bullet
+    	elsif ($line =~ /^<bullet .*>$/)
+		{
+      		$is_bullet = 1;
+    	}
+  	}
 
-    ## tab
-    elsif ($line =~ /^<tab .*\/>$/){
-      ## add Text
-      $text .= "\t";
-
-      $isTab = 1;
-    }
-
-    ## bullet
-    elsif ($line =~ /^<bullet .*>$/){
-      $isBullet = 1;
-    }
-  }
-
-  $allText .= $text;
-  return ($allText, $l, $t, $r, $bottom, $isSpace);
+  	$all_text .= $text;
+  	return ($all_text, $l, $t, $r, $bottom, $is_space);
 }
 
-sub updateXMLFontFeature {
-  my ($fontSizeHash, $fontFaceHash) = @_;
+sub UpdateXMLFontFeature 
+{
+	my ($font_size_hash, $font_face_hash) = @_;
 
-  # font size feature
-  if(scalar(keys %{$fontSizeHash}) == 0){
-    push(@gFontSize, -1);
-  } else {
-    my @sortedFonts = sort { $fontSizeHash->{$b} <=> $fontSizeHash->{$a} } keys %{$fontSizeHash};
+  	# Font size feature
+  	if (scalar(keys %{$font_size_hash}) == 0)
+	{
+    	push(@g_font_size, -1);
+  	} 
+	else 
+	{
+    	my @sorted_fonts = sort { $font_size_hash->{$b} <=> $font_size_hash->{$a} } keys %{$font_size_hash};
     
-    my $fontSize = $sortedFonts[0];
-    push(@gFontSize, $fontSize);
+    	my $font_size = $sorted_fonts[0];
+    	push(@g_font_size, $font_size);
     
-    $gFontSizeHash{$fontSize} = $gFontSizeHash{$fontSize} ? ($gFontSizeHash{$fontSize}+1) : 1;
-  }
+    	$g_font_size_hash{$font_size} = $g_font_size_hash{$font_size} ? ($g_font_size_hash{$font_size}+1) : 1;
+  	}
   
-  # font face feature
-  if(scalar(keys %{$fontFaceHash}) == 0){
-    push(@gFontFace, "none");
-  } else {
-    my @sortedFonts = sort { $fontFaceHash->{$b} <=> $fontFaceHash->{$a} } keys %{$fontFaceHash};
-    my $fontFace = $sortedFonts[0];
-    push(@gFontFace, $fontFace);
+  	# Font face feature
+  	if (scalar(keys %{$font_face_hash}) == 0)
+	{
+    	push(@g_font_face, "none");
+  	} 
+	else 
+	{
+    	my @sorted_fonts = sort { $font_face_hash->{$b} <=> $font_face_hash->{$a} } keys %{$font_face_hash};
+    	my $font_face = $sorted_fonts[0];
+    	push(@g_font_face, $font_face);
     
-    $gFontFaceHash{$fontFace} = $gFontFaceHash{$fontFace} ? ($gFontFaceHash{$fontFace}+1) : 1;
-  }
+    	$g_font_face_hash{$font_face} = $g_font_face_hash{$font_face} ? ($g_font_face_hash{$font_face}+1) : 1;
+  	}
 }
 
-sub updateXMLFeatures {
-  my ($lnBoldCount, $lnItalicCount, $numWords, $isBullet, $space) = @_;
-  # bold feature
-  my $boldFeature;
-  if ($lnBoldCount/$numWords >= 0.667){
-    $boldFeature = "yes";
-  } else {
-    $boldFeature = "no";
-  }
-  push(@gBold, $boldFeature);
+sub UpdateXMLFeatures 
+{
+	my ($ln_bold_count, $ln_italic_count, $num_words, $is_bullet, $space) = @_;
+
+	# Bold feature
+  	my $bold_feature;
+  	if ($ln_bold_count/$num_words >= 0.667)
+	{
+    	$bold_feature = "yes";
+  	} 
+	else 
+	{
+    	$bold_feature = "no";
+  	}
+  	push(@g_bold, $bold_feature);
   
-  # italic feature
-  my $italicFeature;
-  if ($lnItalicCount/$numWords >= 0.667){
-    $italicFeature = "yes";
-  } else {
-    $italicFeature = "no";
-  }
-  push(@gItalic, $italicFeature);  
+  	# Italic feature
+  	my $italic_feature;
+  	if ($ln_italic_count/$num_words >= 0.667)
+	{
+    	$italic_feature = "yes";
+  	} 
+	else 
+	{
+    	$italic_feature = "no";
+  	}
+  	push(@g_italic, $italic_feature);  
   
-  # bullet feature
-  if($isBullet){
-    push(@gBullet, "yes");
-  } else {
-    push(@gBullet, "no");
-  }
+  	# Bullet feature
+  	if ($is_bullet)
+	{
+    	push(@g_bullet, "yes");
+  	} 
+	else 
+	{
+    	push(@g_bullet, "no");
+  	}
   
-  # space feature
-#  push(@gSpace, $space);
+  	# Space feature
+	# push(@gSpace, $space);
 }
 
-## Find the positions of header, body, and citation
-sub getStructureInfo {
-  my ($lines, $numLines) = @_;
+# Find the positions of header, body, and citation
+sub GetStructureInfo 
+{
+  	my ($lines, $num_lines) = @_;
 
-  my ($bodyLength, $citationLength, $bodyEndId) =
-    SectLabel::PreProcess::findCitationText($lines, 0, $numLines);
+  	my ($body_length, $citation_length, $body_end_id) = SectLabel::PreProcess::findCitationText($lines, 0, $num_lines);
   
-  my ($headerLength, $bodyStartId);
-  ($headerLength, $bodyLength, $bodyStartId) =
-    SectLabel::PreProcess::findHeaderText($lines, 0, $bodyLength);
+  	my ($header_length, $body_start_id);
+
+	($header_length, $body_length, $body_start_id) = SectLabel::PreProcess::findHeaderText($lines, 0, $body_length);
   
-  # sanity check
-  my $totalLength = $headerLength + $bodyLength + $citationLength;
-  if($numLines != $totalLength){
-    print STDOUT "Die in getStructureInfo(): different num lines $numLines != $totalLength\n"; # to display in Web
-    die "Die in getStructureInfo(): different num lines $numLines != $totalLength\n";
-  }
-  return ($headerLength, $bodyLength, $citationLength, $bodyStartId, $bodyEndId);
+  	# Sanity check
+  	my $totalLength = $header_length + $body_length + $citation_length;
+ 
+ 	if ($num_lines != $totalLength)
+	{
+    	print STDOUT "Die in getStructureInfo(): different num lines $num_lines != $totalLength\n"; # to display in Web
+    	die "Die in getStructureInfo(): different num lines $num_lines != $totalLength\n";
+  	}
+  
+  	return ($header_length, $body_length, $citation_length, $body_start_id, $body_end_id);
 }
 
-## Count XML tags/values for statistics purpose
-sub processTagInfo {
-  my ($line, $tags) = @_;
+# Count XML tags/values for statistics purpose
+sub ProcessTagInfo 
+{
+	my ($line, $tags) = @_;
 
-  my $tag;
-  my $attr;
-  if($line =~ /^<(.+?)\b(.*)/){
-    $tag = $1;
-    $attr = $2;
-    if(!$tags->{$tag}){
-      $tags->{$tag} = ();
-    }
-    if($attr =~ /^\s*(.+?)\s*\/?>/){
-      $attr = $1;
-    }
+  	my $tag;
+  	my $attr;
+  
+  	if ($line =~ /^<(.+?)\b(.*)/)
+	{
+    	$tag = $1;
+    	$attr = $2;
+    	if (!$tags->{$tag})
+		{
+      		$tags->{$tag} = ();
+    	}	
     
-    my @tokens = split(/\s+/, $attr);
-    foreach my $token (@tokens){
-      if($token =~ /^(.+)=(.+)$/){
-	my $attrName = $1;
-	my $value = $2;
-	if(!$tags->{$tag}->{$attrName}){
-	  $tags->{$tag}->{$attrName} = ();
-	}
-	if(!$tags->{$tag}->{$attrName}->{$value}){
-	  $tags->{$tag}->{$attrName}->{$value} = 0;
-	}
-	$tags->{$tag}->{$attrName}->{$value}++;
-      }
-    }
-  }
+		if ($attr =~ /^\s*(.+?)\s*\/?>/)
+		{
+      		$attr = $1;
+    	}
+    
+    	my @tokens = split(/\s+/, $attr);
+    	foreach my $token (@tokens)
+		{
+      		if($token =~ /^(.+)=(.+)$/)
+			{
+				my $attr_name = $1;
+				my $value = $2;
+	
+				if (!$tags->{$tag}->{$attr_name})
+				{
+	  				$tags->{$tag}->{$attr_name} = ();
+				}
+				if (!$tags->{$tag}->{$attr_name}->{$value})
+				{
+	  				$tags->{$tag}->{$attr_name}->{$value} = 0;
+				}
+				$tags->{$tag}->{$attr_name}->{$value}++;
+      		}
+    	}
+  	}
 }
 
-## Print tag info to file
-sub printTagInfo {
-  my ($tags, $tagFile) = @_;
+# Print tag info to file
+sub PrintTagInfo 
+{
+	my ($tags, $tag_file) = @_;
 
-  open(TAG, ">:utf8", "$tagFile") || die"#Can't open file \"$tagFile\"\n";
-  my @sortedTags = sort {$a cmp $b} keys %{$tags};
-  foreach(@sortedTags){
-    my @attrs = sort {$a cmp $b} keys %{$tags->{$_}};
-    print TAG "# Tag = $_\n";
-    foreach my $attr (@attrs) {
-      print TAG "$attr:";
-      my @values = sort {$a cmp $b} keys %{$tags->{$_}->{$attr}};
-      foreach my $value (@values){
-	print TAG " $value-$tags->{$_}->{$attr}->{$value}";
-      }
-      print TAG "\n";
-    }
-  }
-  close TAG;
+  	open(TAG, ">:utf8", "$tag_file") || die"#Can't open file \"$tag_file\"\n";
+
+	my @sortedTags = sort {$a cmp $b} keys %{$tags};
+
+  	foreach(@sortedTags)
+	{
+    	my @attrs = sort {$a cmp $b} keys %{$tags->{$_}};
+    	print TAG "# Tag = $_\n";
+    	
+		foreach my $attr (@attrs) 
+		{
+      		print TAG "$attr:";
+      		my @values = sort {$a cmp $b} keys %{$tags->{$_}->{$attr}};
+      		
+			foreach my $value (@values)
+			{
+				print TAG " $value-$tags->{$_}->{$attr}->{$value}";
+      		}
+      
+	  		print TAG "\n";
+    	}
+  	}
+  
+  	close TAG;
 }
 
-sub untaintPath {
-  my ($path) = @_;
+sub UntaintPath 
+{
+	my ($path) = @_;
 
-  if ( $path =~ /^([-_\/\w\.]*)$/ ) {
-    $path = $1;
-  } else {
-    die "Bad path \"$path\"\n";
-  }
+  	if ( $path =~ /^([-_\/\w\.]*)$/ ) 
+	{
+    	$path = $1;
+  	} 
+	else 
+	{
+    	die "Bad path \"$path\"\n";
+  	}
 
-  return $path;
+  	return $path;
 }
 
-sub untaint {
-  my ($s) = @_;
-  if ($s =~ /^([\w \-\@\(\),\.\/]+)$/) {
-    $s = $1;               # $data now untainted
-  } else {
-    die "Bad data in $s";  # log this somewhere
-  }
-  return $s;
+sub Untaint 
+{
+	my ($s) = @_;
+  	if ($s =~ /^([\w \-\@\(\),\.\/]+)$/) 
+	{
+    	$s = $1;               # $data now untainted
+  	} 
+	else 
+	{
+    	die "Bad data in $s";  # log this somewhere
+  	}
+  	
+	return $s;
 }
 
-sub execute {
-  my ($cmd) = @_;
-  if($isDebug){
-    print STDERR "Executing: $cmd\n";
-  }
-  $cmd = untaint($cmd);
-  system($cmd);
+sub Execute 
+{
+	my ($cmd) = @_;
+  	
+	if ($is_debug)
+	{
+    	print STDERR "Executing: $cmd\n";
+  	}
+  
+  	$cmd = Untaint($cmd);
+	system($cmd);
 }
 
-sub newTmpFile {
-  my $tmpFile = `date '+%Y%m%d-%H%M%S-$$'`;
-  chomp($tmpFile);
-  return $tmpFile;
+sub NewTmpFile 
+{
+	my $tmpFile = `date '+%Y%m%d-%H%M%S-$$'`;
+  	chomp($tmpFile);
+  	return $tmpFile;
 }
+
+
+

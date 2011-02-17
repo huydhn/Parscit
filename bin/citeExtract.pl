@@ -203,7 +203,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	# Get XML features and append to $textFile
 	if($is_xml_input)
 	{
-		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXML.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
+		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
 		system($cmd);
 
 		$sect_label_input .= ".feature";
@@ -232,20 +232,8 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		# New document
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
-
-		open(OUT, ">:utf8", "comp1");
-		print OUT $doc->get_content();
-		close OUT;
-
-		open(OUT, ">:utf8", "comp2");
+		
 		my ($pos, $lines) =  Omni::Traversal::OmniAirline($doc);
-		foreach my $line (@{ $lines })
-		{
-			print OUT $line, "\n";
-		}
-		close OUT;
-
-		print $sect_label_input, "\n";
 	}
 
 	my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input);
@@ -254,7 +242,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
 
 	# Remove XML feature file
-	#if ($is_xml_input) { unlink($sect_label_input); }
+	if ($is_xml_input) { unlink($sect_label_input); }
 }
 
 # PARSHED
@@ -395,37 +383,6 @@ sub SectLabel
 																$is_xml_input, 
 																$is_debug);
 	return $$sl_xml;
-}
-
-###
-# Huydhn: new section label code using omnipage xml library, use in case the input is xml
-###
-sub SectLabel2
-{
-	my ($doc) = @_;
-
-	use SectLabel::Config;
-	use SectLabel::Controller;
-
-	my $model_file	= $SectLabel::Config::modelXmlFile;
-	$model_file		= $FindBin::Bin . "/../" . $model_file;
-
-	my $dict_file	= $SectLabel::Config::dictFile;
-	$dict_file		= $FindBin::Bin . "/../" . $dict_file;
-
-	my $func_file	= $SectLabel::Config::funcFile;
-	$func_file		= $FindBin::Bin . "/../" . $func_file;
-
-	my $config_file	= $SectLabel::Config::configXmlFile;
-	$config_file	= $FindBin::Bin . "/../" . $config_file;
-
-	# Classify section
-	#my $sl_xml		= SectLabel::Controller::ExtractSection2(	$doc, 
-	#															$model_file, 
-	#															$dict_file, 
-	#															$func_file, 
-	#															$config_file	);
-	# return $$sl_xml;
 }
 
 ###

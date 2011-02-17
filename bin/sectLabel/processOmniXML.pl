@@ -246,7 +246,6 @@ sub processFile
 			$text .= $line."\n";
 			next;
 		}
-
 		### Paragraph ###
 		# Note: table processing should have higher priority than paragraph, i.e. the priority does matter
 		elsif ($line =~ /^<para (.*)>$/)

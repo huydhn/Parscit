@@ -85,7 +85,7 @@ sub OmniAirline
 	for (my $x = $start_page; $x <= $end_page; $x++)	
 	{
 		# Current position
-		%current->{ 'L1' } = $x;
+		$current{ 'L1' } = $x;
 
 		# Column or dd
 		my $level_2	 =	$pages->[ $x ]->get_objs_ref();
@@ -97,7 +97,7 @@ sub OmniAirline
 		for (my $y = $start_l2; $y <= $end_l2; $y++)
 		{
 			# Current position
-			%current->{ 'L2' } = $y;
+			$current{ 'L2' } = $y;
 
 			# Table or paragraph
 			my $level_3	 = 	$level_2->[ $y ]->get_objs_ref();
@@ -109,7 +109,7 @@ sub OmniAirline
 			for (my $z = $start_l3; $z <= $end_l3; $z++)
 			{
 				# Current position
-				%current->{ 'L3' } = $z;
+				$current{ 'L3' } = $z;
 
 				# Is a paragraph
 				if ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNIPARA' })
@@ -125,11 +125,18 @@ sub OmniAirline
 					for (my $t = $start_l4; $t <= $end_l4; $t++)
 					{
 						# Current position
-						%current->{ 'L4' } = $t;
+						$current{ 'L4' } = $t;
 
-						# Save the current position and the content of the current line
-						push @line_pos, %current;
-						push @line_content, $level_4->[ $t ]->get_content();
+						# Only keep non-empty line
+						my $l	=	$level_4->[ $t ]->get_content();
+						$l		=~	s/^\s+|\s+$//g;
+
+						if ($l ne "")
+						{
+							# Save the current position and the content of the current line
+							push @line_pos, { %current };
+							push @line_content, $level_4->[ $t ]->get_content();
+						}						
 					}					
 				}
 				# Is a table
@@ -144,13 +151,22 @@ sub OmniAirline
 					for (my $t = 0; $t <= scalar(@level_4); $t++)
 					{
 						# Current position
-						%current->{ 'L4' } = $t;
+						$current{ 'L4' } = $t;
 
-						# Save the current position and the content of the current line
-						push @line_pos, %current;
-						push @line_content, $level_4[ $t ];
+						# Only keep non-empty line
+						my $l	=	$level_4[ $t ];
+						$l		=~	s/^\s+|\s+$//g;
+
+						if ($l ne "")
+						{
+							# Save the current position and the content of the current line
+							push @line_pos, { %current };
+							push @line_content, $level_4[ $t ];
+						}
 					}
 				}
+
+
 			}
 		}
 	}
