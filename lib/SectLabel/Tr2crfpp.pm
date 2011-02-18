@@ -110,15 +110,15 @@ my %tagMap = (
 binmode(STDERR, ":utf8");
 binmode(STDOUT, ":utf8");
 
-sub initialize {
+sub Initialize {
   my ($dictFile, $funcFile, $configFile) = @_;
 
 #  print STDERR "Dict file = $dictFile\n";
 #  print STDERR "Func file = $funcFile\n";
-  readDict($dictFile);
-  loadListHash($funcFile, \%funcWord);
+  ReadDict($dictFile);
+  LoadListHash($funcFile, \%funcWord);
   if(defined $configFile && $configFile ne ""){
-    loadConfigFile($configFile, \%config);
+    LoadConfigFile($configFile, \%config);
   } else {
     die "!defined $configFile || $configFile eq \"\"\n";
   }
@@ -136,36 +136,36 @@ sub tr2crfpp {
     die "Die: Tr2crfpp::tr2crfpp - undefined isGenerateTemplate\n";
   }
 
-  initialize($dictFile, $funcFile, $configFile);
+  Initialize($dictFile, $funcFile, $configFile);
 
   # File IOs
   open (IF, "<:utf8", $inFile) || die "# crash\t\tCan't open \"$inFile\"";
   my @lines = <IF>;
-  processData(\@lines, $outFile, $isGenerateTemplate);
+  ProcessData(\@lines, $outFile, $isGenerateTemplate);
 
   close (IF);
 }
 
 ## Entry point called by SectLabel::Controller
-sub extractTestFeatures {
+sub ExtractTestFeatures {
   my ($textLines, $filename, $dictFile, $funcFile, $configFile, $isDebug) = @_;
-  my $tmpfile = buildTmpFile($filename);
+  my $tmpfile = BuildTmpFile($filename);
 
-  initialize($dictFile, $funcFile, $configFile);
+  Initialize($dictFile, $funcFile, $configFile);
 
   my $isGenerateTemplate = 0;
-  processData($textLines, $tmpfile, $isGenerateTemplate, $isDebug);
+  ProcessData($textLines, $tmpfile, $isGenerateTemplate, $isDebug);
 
   return $tmpfile;
 }
 
-sub processData {
+sub ProcessData {
   my ($lines, $outFile, $isGenerateTemplate, $isDebug) = @_;
 
   open (OF, ">:utf8", $outFile) || die "# crash\t\tCan't open \"$outFile\"";
 
   my %countMap = ();
-  getDocLineCounts($lines, \%countMap);
+  GetDocLineCounts($lines, \%countMap);
   my $numDocs = scalar(keys %countMap);
 
   my $index = -1;
@@ -224,7 +224,7 @@ sub processData {
       }
 
       my @feats = ();
-      my @templates = crfFeature($line, $index, $numLines, $isAbstract, $isIntro, $xmlFeature, $tag, \@feats);
+      my @templates = CRFFeature($line, $index, $numLines, $isAbstract, $isIntro, $xmlFeature, $tag, \@feats);
 
       # generate CRF features
       if($isGenerateTemplate){
@@ -243,7 +243,7 @@ sub processData {
   close (OF);
 }
 
-sub getDocLineCounts {
+sub GetDocLineCounts {
   my ($lines, $countMap) = @_;
 
   my $count = 0;
@@ -269,7 +269,7 @@ sub getDocLineCounts {
 ##
 # Main method to extract features
 ## 
-sub crfFeature {
+sub CRFFeature {
   my ($line, $index, $numLines, $isAbstract, $isIntro, $xmlFeature, $tag, $feats) = @_;
   my $token = "";
 
@@ -295,7 +295,7 @@ sub crfFeature {
   ##############################
   #### Line-level features ####
   ##############################
-  generateLineFeature($line, \@tokens, $index, $numLines, $isAbstract, $isIntro, $feats, "# Line-level features\n", $tagMap{"LineLevel"}, \@templates, \%featureCounts);
+  GenerateLineFeature($line, \@tokens, $index, $numLines, $isAbstract, $isIntro, $feats, "# Line-level features\n", $tagMap{"LineLevel"}, \@templates, \%featureCounts);
 
   ### XML features ###
   generateXmlFeature($xmlFeature, $feats, "# Xml features\n", $tagMap{"xml"}, $tagMap{"bi_xml"}, \@templates, \%featureCounts);
@@ -306,8 +306,8 @@ sub crfFeature {
   for(my $i=1; $i<=4; $i++){
     if($config{"${i}gram"}){
       my @topTokens = ();
-      getNgrams($line, $i, \@topTokens);
-      generateKeywordFeature(\@topTokens, $feats, \%keywords, "# ${i}gram features\n", $tagMap{"${i}gram"}, \@templates, \%featureCounts);
+      GetNgrams($line, $i, \@topTokens);
+      GenerateKeywordFeature(\@topTokens, $feats, \%keywords, "# ${i}gram features\n", $tagMap{"${i}gram"}, \@templates, \%featureCounts);
     }
   }
 
@@ -317,7 +317,7 @@ sub crfFeature {
   # apply most of Parscit features
   for(my $i=1; $i<=4; $i++){
     if($config{"${i}token"}){
-      generateTokenFeature(\@tokens, ($i-1), \%keywords, $feats, "#${i}token general features\n", $tagMap{"${i}token"}, \@templates, \%featureCounts);
+      GenerateTokenFeature(\@tokens, ($i-1), \%keywords, $feats, "#${i}token general features\n", $tagMap{"${i}token"}, \@templates, \%featureCounts);
     }
   }
 
@@ -326,12 +326,12 @@ sub crfFeature {
   #########################
   my $i;
   if($config{"back1"}){
-    featureLink(\@templates, "UA", "#constraint on first token features at -1 relative position \n", $featureCounts{$tagMap{"1token"}}->{"start"}, $featureCounts{$tagMap{"1token"}}->{"end"}, "-1");
+    FeatureLink(\@templates, "UA", "#constraint on first token features at -1 relative position \n", $featureCounts{$tagMap{"1token"}}->{"start"}, $featureCounts{$tagMap{"1token"}}->{"end"}, "-1");
   }
   push(@templates, "\n");
 
   if($config{"forw1"}){
-    featureLink(\@templates, "UB", "#constraint on first token features at +1 relative position \n", $featureCounts{$tagMap{"1token"}}->{"start"}, $featureCounts{$tagMap{"1token"}}->{"end"}, "1");
+    FeatureLink(\@templates, "UB", "#constraint on first token features at +1 relative position \n", $featureCounts{$tagMap{"1token"}}->{"start"}, $featureCounts{$tagMap{"1token"}}->{"end"}, "1");
   }
   push(@templates, "\n");
 
@@ -365,10 +365,10 @@ sub generateXmlFeature {
     }
   }
   
-  updateTemplate(scalar(@{$feats}), $count, $msg, $label, $templates, $featureCounts, $biLabel, \%biFeatureFlag);
+  UpdateTemplate(scalar(@{$feats}), $count, $msg, $label, $templates, $featureCounts, $biLabel, \%biFeatureFlag);
 }
 
-sub updateTemplate {
+sub UpdateTemplate {
   my ($curSize, $numFeatures, $msg, $label, $templates, $featureCounts, $biLabel, $biFeatureFlag) = @_;
 
   # crfpp template
@@ -394,7 +394,7 @@ sub updateTemplate {
 # 'lineCapital' => 1,
   
 
-sub generateLineFeature {
+sub GenerateLineFeature {
   my ($line, $tokens, $index, $numLines, $isAbstract, $isIntro, $feats, $msg, $label, $templates, $featureCounts) = @_;
 
   # crfpp template
@@ -437,7 +437,7 @@ sub generateLineFeature {
   }
   
   if($config{"lineCapital"}){
-    my $cap = getCapFeature($tokens);
+    my $cap = GetCapFeature($tokens);
     push(@{$feats}, $cap);
   }
   
@@ -473,7 +473,7 @@ sub generateLineFeature {
   push(@{$templates}, "\n");
 }
 
-sub generateTokenFeature {
+sub GenerateTokenFeature {
   my ($tokens, $index, $keywords, $feats, $msg, $label, $templates, $featureCounts) = @_;
 
   my $numTokens = scalar(@{$tokens});
@@ -653,7 +653,7 @@ sub generateTokenFeature {
   push(@{$templates}, "\n");
 }
 
-sub getCapFeature {
+sub GetCapFeature {
   my ($tokens) = @_;
 
   my $cap = "OthersCaps";
@@ -703,7 +703,7 @@ sub getCapFeature {
   return $cap;
 }
 
-sub featureLink {
+sub FeatureLink {
   my ($templates, $label, $msg, $start, $end, $relPos) = @_;
   my $i;
 
@@ -716,7 +716,7 @@ sub featureLink {
   push(@{$templates}, "\n");
 }
 
-sub generateKeywordFeature {
+sub GenerateKeywordFeature {
   my ($tokens, $feats, $keywords, $msg, $label, $templates, $featureCounts) = @_;
 
   # crfpp template
@@ -754,7 +754,7 @@ sub generateKeywordFeature {
 ##
 # Get nGrams
 ##
-sub getNgrams {
+sub GetNgrams {
   my ($line, $numNGram, $nGrams) = @_;
 
 #  $line = lc($line);
@@ -812,7 +812,7 @@ sub getNgrams {
   } # end while true
 }
 
-sub generateNumberFeature {
+sub GenerateNumberFeature {
   my ($tokens, $feats, $msg, $label, $templates, $featureCounts) = @_;
 
   # crfpp template
@@ -855,7 +855,7 @@ sub generateNumberFeature {
   push(@{$templates}, "\n");
 }
 
-sub generateFuncFeature {
+sub GenerateFuncFeature {
   my ($tokens, $feats, $msg, $label, $templates, $featureCounts) = @_;
 
   # crfpp template
@@ -893,12 +893,12 @@ sub generateFuncFeature {
   push(@{$templates}, "\n");
 }
 
-sub buildTmpFile {
+sub BuildTmpFile {
     my ($filename) = @_;
     my $tmpfile = $filename;
     $tmpfile =~ s/[\.\/]//g;
     $tmpfile .= $$ . time;
-    # untaint tmpfile variable
+    # Untaint tmpfile variable
     if ($tmpfile =~ /^([-\@\w.]+)$/) {
 	$tmpfile = $1;
     }
@@ -906,20 +906,20 @@ sub buildTmpFile {
     # return $tmpfile;
     return "/tmp/$tmpfile"; # Altered by Min (Thu Feb 28 13:08:59 SGT 2008)
 
-}  # buildTmpFile
+}  # BuildTmpFile
 
 
-sub fatal {
+sub Fatal {
     my $msg = shift;
     print STDERR "Fatal Exception: $msg\n";
 }
 
 
-sub decode {
+sub Decode {
   my ($inFile, $modelFile, $outFile) = @_;
   
-  my $labeledFile = buildTmpFile($inFile);
-  execute("$crf_test -v1 -m $modelFile $inFile > $labeledFile"); #  -v1: output confidence information
+  my $labeledFile = BuildTmpFile($inFile);
+  Execute("$crf_test -v1 -m $modelFile $inFile > $labeledFile"); #  -v1: output confidence information
 
   open (PIPE, "<:utf8", $labeledFile) || die "# crash\t\tCan't open \"$labeledFile\"";
 
@@ -935,7 +935,7 @@ sub decode {
   return 1;
 }  # decode
 
-sub readKeywordDict {
+sub ReadKeywordDict {
   my ($inFile, $keywords) = @_;
 
   open (IF, "<:utf8", $inFile) || die "fatal\t\tCannot open \"$inFile\"!";
@@ -957,7 +957,7 @@ sub readKeywordDict {
   close (IF);
 }
 
-sub loadConfigFile {
+sub LoadConfigFile {
   my ($inFile, $configs) = @_;
 
   open (IF, "<:utf8", $inFile) || die "fatal\t\tCannot open \"$inFile\"!";
@@ -978,7 +978,7 @@ sub loadConfigFile {
   close (IF);
 }
 
-sub readDict {
+sub ReadDict {
   my ($dictFileLoc) = @_;
 
   my $mode = 0;
@@ -1011,9 +1011,9 @@ sub readDict {
   }
   close (DATA);
 
-}  # readDict
+}  # ReadDict
 
-sub loadListHash {
+sub LoadListHash {
   my ($inFile, $hash) = @_;
 
   open(IF, "<:utf8", $inFile) || die "#Can't open file \"$inFile\"";
@@ -1027,7 +1027,7 @@ sub loadListHash {
   close IF;
 }
 
-sub untaint {
+sub Untaint {
   my ($s) = @_;
   if ($s =~ /^([\w \-\@\(\),\.\/<>]+)$/) {
     $s = $1;               # $data now untainted
@@ -1037,10 +1037,10 @@ sub untaint {
   return $s;
 }
 
-sub execute {
+sub Execute {
   my ($cmd) = @_;
 #  print STDERR "Executing: $cmd\n";
-  $cmd = untaint($cmd);
+  $cmd = Untaint($cmd);
   system($cmd);
 }
 

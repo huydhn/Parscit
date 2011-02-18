@@ -45,15 +45,15 @@ my $obj_list = $Omni::Config::obj_list;
 ###
 # Huydhn: prepare data for trfpp, segmenting unmarked reference
 ###
-sub prepDataUnmarked
+sub PrepDataUnmarked
 {
-	my ($omnidoc, $ref_start_line, $ref_end_line) = @_;
+	my ($omnidoc, $cit_addrs) = @_;
 
 	# Generate a temporary file
-	my $tmpfile	= buildTmpFile("");
+	my $tmpfile	= BuildTmpFile("");
 
 	# Fetch te dictionary
-	readDict($dict_file);
+	ReadDict($dict_file);
 
 	# Open the temporary file, prepare to write
 	my $output_tmp = undef;
@@ -73,39 +73,35 @@ sub prepDataUnmarked
 
 	# Get all pages
 	my $pages		= $omnidoc->get_objs_ref();
-	my $start_page	= $ref_start_line->{ 'PAGE' };
-	my $end_page	= $ref_end_line->{ 'PAGE' };
+	my $start_page	= $cit_addrs->[ 0 ]->{ 'L1' };
+	my $end_page	= $cit_addrs->[ -1 ]->{ 'L1' };
+	# 
+	my $addr_index	= 0;
 
 	for (my $x = $start_page; $x <= $end_page; $x++)
 	{
 		my $columns 	 = $pages->[ $x ]->get_objs_ref();
-		my $start_column =	($x == $ref_start_line->{ 'PAGE' })	? 
-							$ref_start_line->{ 'COLUMN' }	: 0;
-		my $end_column	 =	($x == $ref_end_line->{ 'PAGE' })	? 
-							$ref_end_line->{ 'COLUMN' }	: (scalar(@{ $columns }) - 1);
+		my $start_column =	($x == $cit_addrs->[ 0 ]->{ 'L1' })		? 
+							$cit_addrs->[ 0 ]->{ 'L2' }		: 0;
+		my $end_column	 =	($x == $cit_addrs->[ -1 ]->{ 'L1' })	? 
+							$cit_addrs->[ -1 ]->{ 'L2' }	: (scalar(@{ $columns }) - 1);
 
 		for (my $y = $start_column; $y <= $end_column; $y++)
 		{
-			# Not a column
-			if ($columns->[ $y ]->get_name() ne $obj_list->{ 'OMNICOL' }) { next; }
-
 			my $paras		= $columns->[ $y ]->get_objs_ref();
-			my $start_para	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }))	? 
-								$ref_start_line->{ 'PARA' }	: 0;
-			my $end_para	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }))		? 
-								$ref_end_line->{ 'PARA' }	: (scalar(@{ $paras }) - 1);
+			my $start_para	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }))	? 
+								$cit_addrs->[ 0 ]->{ 'L3' }		: 0;
+			my $end_para	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }))	? 
+								$cit_addrs->[ -1 ]->{ 'L3' }	: (scalar(@{ $paras }) - 1);
 
 			for (my $z = $start_para; $z <= $end_para; $z++)
 			{
-				# Not a paragraph
-				if ($paras->[ $z ]->get_name() ne $obj_list->{ 'OMNIPARA' }) { next; }
-
 				my $lines = $paras->[ $z ]->get_objs_ref();
 
-				my $start_line	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }) && ($z == $ref_start_line->{ 'PARA' }))	? 
-									$ref_start_line->{ 'LINE' }	: 0;
-				my $end_line	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }) && ($z == $ref_end_line->{ 'PARA' }))			? 
-									$ref_end_line->{ 'LINE' }		: (scalar(@{ $lines }) - 1);
+				my $start_line	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }) && ($z == $cit_addrs->[ 0 ]->{ 'L3' }))		? 
+									$cit_addrs->[ 0 ]->{ 'L4' }		: 0;
+				my $end_line	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }) && ($z == $cit_addrs->[ -1 ]->{ 'L3' }))	? 
+									$cit_addrs->[ -1 ]->{ 'L4' }	: (scalar(@{ $lines }) - 1);
 			
 				# Total number of line in the paragraph
 				my $total_ln	= 0;
@@ -117,31 +113,44 @@ sub prepDataUnmarked
 
 				for (my $t = $start_line; $t <= $end_line; $t++)
 				{
-					# Get content
-					my $ln = $lines->[ $t ]->get_content();
+					if (($x == $cit_addrs->[ $addr_index ]{ 'L1' }) &&
+						($y == $cit_addrs->[ $addr_index ]{ 'L2' }) &&
+						($z == $cit_addrs->[ $addr_index ]{ 'L3' }) &&
+						($t == $cit_addrs->[ $addr_index ]{ 'L4' }))
+					{
+						# Get content
+						my $ln = $lines->[ $t ]->get_content();
 
-					# Trim line
-					$ln	=~ s/^\s+|\s+$//g;
-					# Skip blank lines
-					if ($ln =~ m/^\s*$/) { next; }
+						# Trim line
+						$ln	=~ s/^\s+|\s+$//g;
+						# Skip blank lines
+						if ($ln =~ m/^\s*$/) 
+						{
+							$addr_index++;
+							next; 
+						}
 
-					# Total length in char
-					$avg_char	+= length($ln);
+						# Total length in char
+						$avg_char	+= length($ln);
 
-					# All words in a line
-					my @tokens	= split(/ +/, $ln);
+						# All words in a line
+						my @tokens	= split(/ +/, $ln);
 
-					# Total length in word
-					$avg_word	+= scalar(@tokens);
+						# Total length in word
+						$avg_word	+= scalar(@tokens);
 
-					my $xml_runs = $lines->[ $t ]->get_objs_ref();
-					# Font size
-					$avg_font_size	 += ($xml_runs->[ 0 ]->get_font_size() eq '') ? 0 : $xml_runs->[ 0 ]->get_font_size();
-					# Line starting point
-					$avg_start_point += ($lines->[ $t ]->get_left_pos() eq '') ? 0 : $lines->[ $t ]->get_left_pos();
+						my $xml_runs = $lines->[ $t ]->get_objs_ref();
+						# Font size
+						$avg_font_size	 += ($xml_runs->[ 0 ]->get_font_size() eq '') ? 0 : $xml_runs->[ 0 ]->get_font_size();
+						# Line starting point
+						$avg_start_point += ($lines->[ $t ]->get_left_pos() eq '') ? 0 : $lines->[ $t ]->get_left_pos();
 
-					# Total number of non-blank line
-					$total_ln++;
+						# Total number of non-blank line
+						$total_ln++;
+
+						#
+						$addr_index++;
+					}
 				}
 
 				# Calculate the average length
@@ -172,40 +181,36 @@ sub prepDataUnmarked
 
 	# Get all pages
 	$pages		= $omnidoc->get_objs_ref();
-	$start_page	= $ref_start_line->{ 'PAGE' };
-	$end_page	= $ref_end_line->{ 'PAGE' };
+	$start_page	= $cit_addrs->[ 0 ]->{ 'L1' };
+	$end_page	= $cit_addrs->[ -1 ]->{ 'L1' };
+	# 
+	$addr_index	= 0;
 
 	for (my $x = $start_page; $x <= $end_page; $x++)
 	{
 		my $columns 	 = $pages->[ $x ]->get_objs_ref();
-		my $start_column =	($x == $ref_start_line->{ 'PAGE' })	? 
-							$ref_start_line->{ 'COLUMN' }	: 0;
-		my $end_column	 =	($x == $ref_end_line->{ 'PAGE' })	? 
-							$ref_end_line->{ 'COLUMN' }	: (scalar(@{ $columns }) - 1);
+		my $start_column =	($x == $cit_addrs->[ 0 ]->{ 'L1' })		? 
+							$cit_addrs->[ 0 ]->{ 'L2' }		: 0;
+		my $end_column	 =	($x == $cit_addrs->[ -1 ]->{ 'L1' })	? 
+							$cit_addrs->[ -1 ]->{ 'L2' }	: (scalar(@{ $columns }) - 1);
 
 		for (my $y = $start_column; $y <= $end_column; $y++)
 		{
-			# Not a column
-			if ($columns->[ $y ]->get_name() ne $obj_list->{ 'OMNICOL' }) { next; }
-
 			my $paras		= $columns->[ $y ]->get_objs_ref();
-			my $start_para	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }))	? 
-								$ref_start_line->{ 'PARA' }	: 0;
-			my $end_para	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }))		? 
-								$ref_end_line->{ 'PARA' }	: (scalar(@{ $paras }) - 1);
+			my $start_para	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }))	? 
+								$cit_addrs->[ 0 ]->{ 'L3' }		: 0;
+			my $end_para	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }))	? 
+								$cit_addrs->[ -1 ]->{ 'L3' }	: (scalar(@{ $paras }) - 1);
 			
 			my $prev_para	= (-1);
 			for (my $z = $start_para; $z <= $end_para; $z++)
 			{
-				# Not a paragraph
-				if ($paras->[ $z ]->get_name() ne $obj_list->{ 'OMNIPARA' }) { next; }
-				
 				my $lines = $paras->[ $z ]->get_objs_ref();
 
-				my $start_line	=	(($x == $ref_start_line->{ 'PAGE' }) && ($y == $ref_start_line->{ 'COLUMN' }) && ($z == $ref_start_line->{ 'PARA' }))	? 
-									$ref_start_line->{ 'LINE' }	: 0;
-				my $end_line	=	(($x == $ref_end_line->{ 'PAGE' }) && ($y == $ref_end_line->{ 'COLUMN' }) && ($z == $ref_end_line->{ 'PARA' }))			? 
-									$ref_end_line->{ 'LINE' }		: (scalar(@{ $lines }) - 1);
+				my $start_line	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }) && ($z == $cit_addrs->[ 0 ]->{ 'L3' }))		? 
+									$cit_addrs->[ 0 ]->{ 'L4' }		: 0;
+				my $end_line	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }) && ($z == $cit_addrs->[ -1 ]->{ 'L3' }))	? 
+									$cit_addrs->[ -1 ]->{ 'L4' }	: (scalar(@{ $lines }) - 1);
 
 				# Average value
 				my $avg_char	= shift(@avg_chars);
@@ -215,13 +220,26 @@ sub prepDataUnmarked
 
 				for (my $t = $start_line; $t <= $end_line; $t++)
 				{
+					# This line does not belong to the citation section
+					if (($x != $cit_addrs->[ $addr_index ]{ 'L1' }) ||
+						($y != $cit_addrs->[ $addr_index ]{ 'L2' }) ||
+						($z != $cit_addrs->[ $addr_index ]{ 'L3' }) ||
+						($t != $cit_addrs->[ $addr_index ]{ 'L4' }))
+					{
+						next ;
+					}
+
 					# Get content
 					my $ln = $lines->[ $t ]->get_content();
 
 					# Trim line
 					$ln	=~ s/^\s+|\s+$//g;
 					# Skip blank lines
-					if ($ln =~ m/^\s*$/) { next; }
+					if ($ln =~ m/^\s*$/) 
+					{ 
+						$addr_index++;
+						next; 
+					}
 
 					# All words in a line
 					my @tokens	= split(/\s+/, $ln);
@@ -326,12 +344,12 @@ sub prepDataUnmarked
 
 					# First word
 					my $first_word		= $tokens[ 0 ];
-					prepDataUnmarkedToken($first_word, \@feats, \$current);
+					PrepDataUnmarkedToken($first_word, \@feats, \$current);
 					# Second word
 					my $second_word		= (scalar(@tokens) > 1) ? $tokens[ 1 ] : "EMPTY";
-					prepDataUnmarkedToken($second_word, \@feats, \$current);
+					PrepDataUnmarkedToken($second_word, \@feats, \$current);
 					# Last word
-					prepDataUnmarkedToken($last_word, \@feats, \$current);
+					PrepDataUnmarkedToken($last_word, \@feats, \$current);
 	
 					# XML features
 					# Bullet
@@ -425,6 +443,9 @@ sub prepDataUnmarked
 					print $output_tmp $feats[ 0 ];
 					for (my $i = 1; $i < scalar(@feats); $i++) { print $output_tmp " " . $feats[ $i ]; }
 					print $output_tmp "\n";
+
+					#
+					$addr_index++;
 				}
 			}
 		}
@@ -439,7 +460,7 @@ sub prepDataUnmarked
 ###
 # Huydhn: prepare data for trfpp, segmenting unmarked reference, token level
 ###
-sub prepDataUnmarkedToken
+sub PrepDataUnmarkedToken
 {
 	my ($token, $feats, $current) = @_;
 	
@@ -611,17 +632,17 @@ sub prepDataUnmarkedToken
 }
 
 # Prepare data for trfpp
-sub prepData 
+sub PrepData 
 {
     my ($rcite_text, $filename) = @_;
 
 	# Generate a temporary file
-    my $tmpfile = buildTmpFile($filename);
+    my $tmpfile = BuildTmpFile($filename);
 
 	###
 	# Thang Mar 10: move inside the method, only load when running
 	###
-    readDict($dict_file); 
+    ReadDict($dict_file); 
 
     unless (open(TMP, ">:utf8", $tmpfile)) 
 	{
@@ -877,7 +898,7 @@ sub prepData
     return $tmpfile;
 }
 
-sub buildTmpFile 
+sub BuildTmpFile 
 {
     my ($filename) = @_;
 
@@ -895,7 +916,7 @@ sub buildTmpFile
     # return $tmpfile;
 }
 
-sub fatal 
+sub Fatal 
 {
     my $msg = shift;
     print STDERR "Fatal Exception: $msg\n";
@@ -904,13 +925,13 @@ sub fatal
 ###
 # Huydhn: split the reference portion using crf++ model
 ###
-sub splitReference
+sub SplitReference
 {
 	my ($infile, $outfile) = @_;
 
 	unless (open(PIPE, "$crf_test -m $split_model_file $infile |")) 
 	{
-		fatal("Could not open pipe from crf call: $!");
+		Fatal("Could not open pipe from crf call: $!");
 		return;
     }
 
@@ -923,7 +944,7 @@ sub splitReference
 
     unless(open(IN, "<:utf8", $infile)) 
 	{
-		fatal("Could not open input file: $!");
+		Fatal("Could not open input file: $!");
 		return;
     }
     
@@ -954,7 +975,7 @@ sub splitReference
 
     unless (open(OUT, ">:utf8", $outfile)) 
 	{
-		fatal("Could not open crf output file for writing: $!");
+		Fatal("Could not open crf output file for writing: $!");
 		return;
     }
 
@@ -976,13 +997,13 @@ sub splitReference
 	return 1;
 }
 
-sub decode 
+sub Decode 
 {
     my ($infile, $outfile) = @_;
 
     unless (open(PIPE, "$crf_test -m $model_file $infile |")) 
 	{
-		fatal("Could not open pipe from crf call: $!");
+		Fatal("Could not open pipe from crf call: $!");
 		return;
     }
 
@@ -995,7 +1016,7 @@ sub decode
 
     unless(open(IN, "<:utf8", $infile)) 
 	{
-		fatal("Could not open input file: $!");
+		Fatal("Could not open input file: $!");
 		return;
     }
 
@@ -1026,7 +1047,7 @@ sub decode
 
     unless (open(OUT, ">:utf8", $outfile)) 
 	{
-		fatal("Could not open crf output file for writing: $!");
+		Fatal("Could not open crf output file for writing: $!");
 		return;
     }
 
@@ -1048,7 +1069,7 @@ sub decode
 	return 1;
 }
 
-sub readDict 
+sub ReadDict 
 {
 	my $dict_file_loc = shift @_;
 

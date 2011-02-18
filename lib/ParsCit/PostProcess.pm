@@ -19,7 +19,7 @@ use CSXUtil::SafeText qw(cleanXML);
 # safely) and a reference to a list of hashes containing the normalized
 # citation subfields, keyed by tag name.
 ###
-sub readAndNormalize 
+sub ReadAndNormalize 
 {
     my ($infile) = @_;
 
@@ -40,7 +40,7 @@ sub readAndNormalize
 		{
 	    	if ($new_citation <= 0) 
 			{
-				finishCitation(\$xml, \$current_tag, \@current_tokens);
+				FinishCitation(\$xml, \$current_tag, \@current_tokens);
 				@current_tokens	= ();
 				$new_citation	= 1;
 				next;
@@ -65,7 +65,7 @@ sub readAndNormalize
 		} 
 		else 
 		{
-	    	$xml .= makeSegment($current_tag, @current_tokens);
+	    	$xml .= MakeSegment($current_tag, @current_tokens);
 	    	$current_tag	= $tag;
 	    	@current_tokens	= ();
 	    
@@ -77,12 +77,12 @@ sub readAndNormalize
 
     if ($new_citation <= 0) 
 	{
-		finishCitation(\$xml, \$current_tag, \@current_tokens);
+		FinishCitation(\$xml, \$current_tag, \@current_tokens);
 		@current_tokens = ();
 		$new_citation = 1;
     }
 
-    my $rcite_info = normalizeFields(\$xml);
+    my $rcite_info = NormalizeFields(\$xml);
 
     return \$xml, $rcite_info, $status, $msg;
 }
@@ -91,11 +91,11 @@ sub readAndNormalize
 # Utility for adding a closing tag to a citation in the
 # intermediate XML, and setting the currentTag value to undef.
 ###
-sub finishCitation 
+sub FinishCitation 
 {
     my ($r_xml, $r_current_tag, $r_current_tokens) = @_;
 
-	if (defined $$r_current_tag) { $$r_xml .= makeSegment($$r_current_tag, @$r_current_tokens); }
+	if (defined $$r_current_tag) { $$r_xml .= MakeSegment($$r_current_tag, @$r_current_tokens); }
     $$r_xml .= "</citation>\n";
     $$r_current_tag = undef;
 }
@@ -103,7 +103,7 @@ sub finishCitation
 ###
 # Makes an XML segment based on the specifed tag and token list.
 ###
-sub makeSegment 
+sub MakeSegment 
 {
     my ($tag, @tokens) = @_;
     my $segment = join " ", @tokens;
@@ -116,7 +116,7 @@ sub makeSegment
 # for each field encountered.  Returns a reference to a list
 # of hashes containing normalized fields, keyed by tag name.
 ###
-sub normalizeFields 
+sub NormalizeFields 
 {
     my ($rxml) = @_;
 
@@ -138,30 +138,30 @@ sub normalizeFields
 			{
 				$tag	 = "authors";
 				# Content is a reference to a list of author
-				$content = normalizeAuthorNames($content);
+				$content = NormalizeAuthorNames($content);
 	    	} 
 			elsif ($tag eq "date") 
 			{
-				$content = normalizeDate($content);
+				$content = NormalizeDate($content);
 	    	} 
 			###
 			# Huydhn: Volume fix, e.g now we have main-volume and sub-volume
 			####
 			elsif ($tag eq "volume") 
 			{
-				$content = normalizeVolume($content);
+				$content = NormalizeVolume($content);
 	    	} 
 			elsif ($tag eq "number") 
 			{
-				$content = normalizeNumber($content);
+				$content = NormalizeNumber($content);
 	    	} 
 			elsif ($tag eq "pages") 
 			{
-				$content = normalizePages($content);
+				$content = NormalizePages($content);
 	    	} 
 			else 
 			{
-				$content = stripPunctuation($content);
+				$content = StripPunctuation($content);
 	    	}
 	    
 			# Heuristic - only get first instance of tag.
@@ -175,7 +175,7 @@ sub normalizeFields
     return \@cite_infos;
 }
 
-sub stripPunctuation 
+sub StripPunctuation 
 {
     my $text = shift;
 
@@ -224,7 +224,7 @@ sub stripPunctuation
 # Normalize volume number, tries to separate volume and sub volume
 # e.g 5 (1)
 ###
-sub normalizeVolume
+sub NormalizeVolume
 {
 	my ($volume_number) = @_;
 
@@ -257,11 +257,11 @@ sub normalizeVolume
 # and then normalizes these names individually.  Returns a
 # list of author names.
 ###
-sub normalizeAuthorNames 
+sub NormalizeAuthorNames 
 {
     my ($author_text) = @_;
 
-    my @tokens = repairAndTokenizeAuthorText($author_text);
+    my @tokens = RepairAndTokenizeAuthorText($author_text);
 
     my @authors		 = ();
     my @current_auth = ();
@@ -273,7 +273,7 @@ sub normalizeAuthorNames
 		{
 	    	if ($#current_auth >= 0) 
 			{
-				my $auth = normalizeAuthorName(@current_auth);
+				my $auth = NormalizeAuthorName(@current_auth);
 				push @authors, $auth;
 	    	}
 	    	@current_auth = ();
@@ -293,7 +293,7 @@ sub normalizeAuthorNames
 	    	push @current_auth, $tok;
 	    	if ($#current_auth>0) 
 			{
-				my $auth = normalizeAuthorName(@current_auth);
+				my $auth = NormalizeAuthorName(@current_auth);
 				push @authors, $auth;
 				@current_auth = ();
 				$begin_auth = 1;
@@ -307,7 +307,7 @@ sub normalizeAuthorNames
 
     if ($#current_auth >= 0) 
 	{
-		my $auth = normalizeAuthorName(@current_auth);
+		my $auth = NormalizeAuthorName(@current_auth);
 		push @authors, $auth;
     }
 
@@ -318,7 +318,8 @@ sub normalizeAuthorNames
 # Strips unexpected punctuation and removes tokens that
 # are obviously not name words from the token list.
 ##
-sub repairAndTokenizeAuthorText {
+sub RepairAndTokenizeAuthorText 
+{
     my ($authorText) = @_;
 
     # Repair obvious parse errors and weird notations.
@@ -336,7 +337,7 @@ sub repairAndTokenizeAuthorText {
     $authorText =~ s/,/, /g;
     $authorText =~ s/\:/ /g;
     $authorText =~ s/[\:\"\<\>\/\?\{\}\[\]\+\=\(\)\*\^\%\$\#\@\!\~\_]//g;
-    $authorText = joinMultiWordNames($authorText);
+    $authorText = JoinMultiWordNames($authorText);
 
     my @origTokens = split '\s+', $authorText;
     my @tokens = ();
@@ -371,7 +372,8 @@ sub repairAndTokenizeAuthorText {
 # Tries to normalize an individual author name into the form
 # "First Middle Last", without punctuation.
 ##
-sub normalizeAuthorName {
+sub NormalizeAuthorName 
+{
     my @authTokens = @_;
     if ($#authTokens < 0) {
 	return "";
@@ -392,7 +394,7 @@ sub normalizeAuthorName {
     $tmpStr =~ s/\.\-/-/g;
    $tmpStr =~ s/[\,\.]/ /g;
     $tmpStr =~ s/  +/ /g;
-    $tmpStr = trim($tmpStr);
+    $tmpStr = Trim($tmpStr);
 
     if ($tmpStr =~ m/^[^\s][^\s]+(\s+[^\s]|\s+[^\s]\-[^\s])+$/) {
 	my @newTokens = split '\s+', $tmpStr;
@@ -412,7 +414,7 @@ sub normalizeAuthorName {
 # this helps keep things straight during normalization.  The
 # underscores can be stripped out later.
 ##
-sub joinMultiWordNames {
+sub JoinMultiWordNames {
     my $authorText = shift;
     $authorText =~ s/\b((?:van|von|der|den|de|di|le|el))\s/$1_/sgi; # Thang 02 Mar 10: change \1 into \$1
     return $authorText;
@@ -424,7 +426,7 @@ sub joinMultiWordNames {
 # Normalizes a date field into just the year.  Looks for a string of
 # four digits.
 ##
-sub normalizeDate {
+sub NormalizeDate {
     my $dateText = shift;
     if ($dateText =~ m/(\d{4})/) {
 	my $year = $1;
@@ -443,7 +445,7 @@ sub normalizeDate {
 # If a field should be numeric only, this utility is used
 # to extract the first number string only.
 ###
-sub normalizeNumber 
+sub NormalizeNumber 
 {
     my $num_text = shift;
     
@@ -462,7 +464,7 @@ sub normalizeNumber
 # Normalizes page fields into the form "start--end".  If the page
 # field does not appear to be in a standard form, does nothing.
 ##
-sub normalizePages {
+sub NormalizePages {
     my $pageText = shift;
     if ($pageText =~ m/(\d+)[^\d]+?(\d+)/) {
 	return "$1--$2";
@@ -475,7 +477,7 @@ sub normalizePages {
 }  # normalizePages
 
 
-sub trim {
+sub Trim {
     my $str = shift;
     $str =~ s/^\s+//;
     $str =~ s/\s+$//;

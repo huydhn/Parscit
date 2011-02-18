@@ -14,7 +14,7 @@ use utf8;
 my $contextRadius = $ParsCit::Config::contextRadius;
 my $maxContexts = $ParsCit::Config::maxContexts;
 
-sub countTokens {
+sub CountTokens {
   my ($text) = @_;
 
   my $trimText = $text;
@@ -29,10 +29,10 @@ sub countTokens {
 # Returns a reference to a list of strings that match the expressions,
 # expanded to radius $contextRadius.
 ##
-sub getCitationContext {
+sub GetCitationContext {
   my ($rBodyText, $posArray, $marker) = @_;
   
-  my ($prioritize, @markers) = guessPossibleMarkers($marker);
+  my ($prioritize, @markers) = GuessPossibleMarkers($marker);
 #  print STDERR join "::", @markers;
 #  print STDERR "\n";
   my @matches = ();
@@ -51,7 +51,7 @@ sub getCitationContext {
 	   $$rBodyText =~ m/(.{$contextRadius}($mark).{$contextRadius})/gs) {
       # Thang May 2010: check mark length
       my $citStr = $2;
-      my $citLength = countTokens($citStr);
+      my $citLength = CountTokens($citStr);
 #      print STDERR "#Thang: $citStr\t$citLength\n";
       if($citLength == 0) {
 	next;
@@ -61,7 +61,7 @@ sub getCitationContext {
       push @matches, $1;
 
       my $beforeMark = substr($$rBodyText, 0, (pos $$rBodyText) - $contextRadius-length($citStr));
-      my $beforeLength = countTokens($beforeMark);
+      my $beforeLength = CountTokens($beforeMark);
 
       if($beforeMark =~ / $/ || $citStr =~ /^ /){
 	push(@startWordPositions, $beforeLength);
@@ -109,13 +109,13 @@ sub getCitationContext {
 # match parenthesis around the year (e.g. 'Bottou,? \(?1991\)?' ).  
 # 
 ##
-sub guessPossibleMarkers {
+sub GuessPossibleMarkers {
     my $marker = shift;
 
     if ($marker =~ m/^([\[\(])([\p{IsUpper}\p{IsLower}\-\d]+)([\]\)])/) {
-	my $open = makeSafe($1);
-	my $mark = makeSafe($2);
-	my $close = makeSafe($3);
+	my $open = MakeSafe($1);
+	my $mark = MakeSafe($2);
+	my $close = MakeSafe($3);
 	my $refIndicator = "$open([\p{IsUpper}\p{IsLower}\\-\\d]+[;,] *)*$mark([;,] *[\p{IsUpper}\p{IsLower}\\-\\d]+)*$close";
 	return (0, $refIndicator);
     }
@@ -137,7 +137,7 @@ sub guessPossibleMarkers {
 	    push @possibleMarkers, $names[0]." & ".$names[1].",? \\(?$year\\)?";
 	}
 	if ($#names > 1) {
-	    map { $_ = makeSafe($_) } $names;
+	    map { $_ = MakeSafe($_) } $names;
 	    map { $_ = $_."," } @names;
 	    my $lastAuth1 = "and ".$names[$#names];
 	    my $lastAuth2 = "& ".$names[$#names];
@@ -155,7 +155,7 @@ sub guessPossibleMarkers {
 	}
 	return (0, @possibleMarkers);
     }
-    return makeSafe($marker);
+    return MakeSafe($marker);
 
 }  # guessPossibleMarkers
 
@@ -164,7 +164,7 @@ sub guessPossibleMarkers {
 # Prepare strings for safe inclusion within a regular expression,
 # escaping control characters.
 ##
-sub makeSafe {
+sub MakeSafe {
     my $marker = shift;
     $marker =~ s/\\/\\\\/g;
     $marker =~ s/\-/\\\-/g;

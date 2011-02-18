@@ -201,8 +201,41 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	my $sect_label_input = $text_file;
 
 	# Get XML features and append to $textFile
-	if($is_xml_input)
+	if ($is_xml_input)
 	{
+		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
+		system($cmd);
+
+		$sect_label_input .= ".feature";
+	}
+
+	my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input, 0);
+	
+	# Remove first line <?xml/>
+	$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
+
+	# Remove XML feature file
+	if ($is_xml_input) { unlink($sect_label_input); }
+}
+
+# PARSHED
+if (($mode & $PARSHED) == $PARSHED) 
+{
+	use ParsHed::Controller;
+
+	my $ph_xml	= ParsHed::Controller::extractHeader($text_file, $ph_model); 
+	
+	# Remove first line <?xml/> 
+	$rxml		.= RemoveTopLines($$ph_xml, 1) . "\n";
+}
+
+# PARSCIT
+if (($mode & $PARSCIT) == $PARSCIT)
+{
+	if ($is_xml_input)
+	{
+		my $sect_label_input = $text_file;
+
 		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
 		system($cmd);
 
@@ -232,45 +265,62 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		# New document
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
-		
-		my ($pos, $lines) =  Omni::Traversal::OmniAirline($doc);
+	
+		# All lines and their addresses 
+		my ($pos, $lines) = Omni::Traversal::OmniAirline($doc);
+
+		# Output of sectlabel becomes input for parscit
+		my ($cit_lines, $cit_addrs, $safe) = SectLabel($sect_label_input, $is_xml_input, 1, $pos, $lines);	
+		# Remove XML feature file
+		unlink($sect_label_input);
+
+		use ParsCit::Controller;
+
+		my $pc_xml = undef;
+		# Sectlabel's output is safe to use which means that Thang's output
+		# matches with mine - huydhn
+		if ($safe)
+		{
+			# The whole is more than the sum of its parts :)
+			my $all_text = join("\n", @{ $lines });
+
+			###
+			# Huydhn: add xml features to parscit in case of unmarked reference
+			###
+			$pc_xml = ParsCit::Controller::ExtractCitations2(\$all_text, $cit_lines, $is_xml_input, $doc, $cit_addrs);
+		}
+		# If not, switch back to original parscit
+		else
+		{
+			print STDERR "#! Warning: the new XML parser gives different output from the old one, switch back to the old one", "\n";
+
+			###
+			# Huydhn: add xml features to parscit in case of unmarked reference
+			###
+			$pc_xml = ParsCit::Controller::ExtractCitations($text_file, $in, $is_xml_input);
+		}
+
+		# Remove first line <?xml/> 
+		$rxml .= RemoveTopLines($$pc_xml, 1) . "\n";
+
+		# Thang v100901: call to BiblioScript
+		if (scalar(@export_types) != 0) { BiblioScript(\@export_types, $$pc_xml, $out); }
 	}
+	else
+	{
+		use ParsCit::Controller;
 
-	my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input);
+		###
+		# Huydhn: add xml features to parscit in case of unmarked reference
+		###
+		my $pc_xml = ParsCit::Controller::ExtractCitations($text_file, $in, $is_xml_input);
 	
-	# Remove first line <?xml/>
-	$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
+		# Remove first line <?xml/> 
+		$rxml .= RemoveTopLines($$pc_xml, 1) . "\n";
 
-	# Remove XML feature file
-	if ($is_xml_input) { unlink($sect_label_input); }
-}
-
-# PARSHED
-if (($mode & $PARSHED) == $PARSHED) 
-{
-	use ParsHed::Controller;
-
-	my $ph_xml	= ParsHed::Controller::extractHeader($text_file, $ph_model); 
-	
-	# Remove first line <?xml/> 
-	$rxml		.= RemoveTopLines($$ph_xml, 1) . "\n";
-}
-
-# PARSCIT
-if (($mode & $PARSCIT) == $PARSCIT) 
-{
-	use ParsCit::Controller;
-
-	###
-	# Huydhn: add xml features to parscit in case of unmarked reference
-	###
-	my $pc_xml = ParsCit::Controller::extractCitations($text_file, $in, $is_xml_input);
-
-	# Remove first line <?xml/> 
-	$rxml .= RemoveTopLines($$pc_xml, 1) . "\n";
-
-	# Thang v100901: call to BiblioScript
-	if (scalar(@export_types) != 0) { BiblioScript(\@export_types, $$pc_xml, $out); }
+		# Thang v100901: call to BiblioScript
+		if (scalar(@export_types) != 0) { BiblioScript(\@export_types, $$pc_xml, $out); }
+	}
 }
 
 $rxml .= "</algorithms>";
@@ -353,7 +403,7 @@ sub RemoveTopLines
 ###
 sub SectLabel 
 {
-	my ($text_file, $is_xml_input) = @_;
+	my ($text_file, $is_xml_input, $for_parscit, $addrs, $lines) = @_;
 
 	use SectLabel::Config;
 	use SectLabel::Controller;
@@ -374,15 +424,34 @@ sub SectLabel
 	$config_file	= "$FindBin::Bin/../$config_file";
 
 	# Classify section
-	my $sl_xml		= SectLabel::Controller::ExtractSection(	$text_file, 
+	if (! $for_parscit)
+	{
+		my $sl_xml	= SectLabel::Controller::ExtractSection(	$text_file, 
 																$is_xml_output, 
 																$model_file, 
 																$dict_file, 
 																$func_file, 
 																$config_file, 
 																$is_xml_input, 
-																$is_debug);
-	return $$sl_xml;
+																$is_debug	);
+		return $$sl_xml;
+	}
+	# Huydhn: sectlabel output -> parscit input
+	else
+	{
+		my ($cit_lines, $cit_addrs, $safe)	= SectLabel::Controller::ExtractSection(	$text_file, 
+																						$is_xml_output, 
+																						$model_file, 
+																						$dict_file, 
+																						$func_file, 
+																						$config_file, 
+																						$is_xml_input, 
+																						$is_debug,
+																						$for_parscit,
+																						$addrs,
+																						$lines	);
+		return ($cit_lines, $cit_addrs, $safe);
+	}
 }
 
 ###

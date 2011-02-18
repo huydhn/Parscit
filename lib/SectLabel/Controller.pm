@@ -32,7 +32,7 @@ my $generic_sect_path = $FindBin::Bin . "/sectLabel/genericSectExtract.rb";
 ###
 sub ExtractSection 
 {
-    my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug) = @_;
+    my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug, $for_parscit, $addrs, $lines) = @_;
 
     if (!defined $model_file || $model_file eq "") 
 	{
@@ -44,17 +44,44 @@ sub ExtractSection
       	die "Die in SectLabel::Controller::extractSection - need to specify configFile\n";
     }
 
-    my ($status, $msg, $xml) = ExtractSectionImpl($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug);
+	# Classify section
+	if (! $for_parscit)
+	{
+	    my ($status, $msg, $xml) = ExtractSectionImpl(	$text_file, 
+														$is_xml_output, 
+														$model_file, 
+														$dict_file, 
+														$func_file, 
+														$config_file, 
+														$is_xml_input, 
+														$is_debug	);
 
-	if ($status > 0) 
+		if ($status > 0) 
+		{
+			return \$xml;
+	    } 
+		else 
+		{
+			my $error = "Error: " . $msg;
+			return \$error;
+    	}
+	}
+	else
 	{
-		return \$xml;
-    } 
-	else 
-	{
-		my $error = "Error: " . $msg;
-		return \$error;
-    }
+		my ($all_text, $cit_lines, $cit_addrs, $safe) = ExtractSectionImpl(	$text_file, 
+																			$is_xml_output, 
+																			$model_file, 
+																			$dict_file, 
+																			$func_file, 
+																			$config_file, 
+																			$is_xml_input, 
+																			$is_debug,
+																			$for_parscit,
+																			$addrs,
+																			$lines	);
+
+		return ($all_text, $cit_lines, $cit_addrs, $safe);
+	}
 }
 
 ###
@@ -70,7 +97,7 @@ sub ExtractSection
 ###
 sub ExtractSectionImpl 
 {
-	my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_intput, $is_debug) = @_;
+	my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_intput, $is_debug, $for_parscit, $addrs, $lines) = @_;
 
   	if ($is_debug)
 	{
@@ -114,7 +141,7 @@ sub ExtractSectionImpl
 	my $tmp_file = undef;
   	
 	if ($is_debug) { print STDERR "\n# Extracting test features ... "; }
-  	$tmp_file = SectLabel::Tr2crfpp::extractTestFeatures(\@text_lines, $text_file, $dict_file, $func_file, $config_file, $is_debug);
+  	$tmp_file = SectLabel::Tr2crfpp::ExtractTestFeatures(\@text_lines, $text_file, $dict_file, $func_file, $config_file, $is_debug);
 
 	if ($is_debug) { print STDERR " Done! Output to " . $tmp_file . "\n"; }
 
@@ -124,7 +151,7 @@ sub ExtractSectionImpl
 	my $xml = "";
 	if ($is_debug) { print STDERR "\n# Decoding " . $tmp_file . " ... "; }
 
-  	if (SectLabel::Tr2crfpp::decode($tmp_file, $model_file, $out_file)) 
+  	if (SectLabel::Tr2crfpp::Decode($tmp_file, $model_file, $out_file)) 
 	{
     	if ($is_debug) { print STDERR " Done! Output to " . $out_file . "\n"; }
 
@@ -135,24 +162,36 @@ sub ExtractSectionImpl
     
 		if (!$is_xml_output)
 		{
-    	  	$xml = SectLabel::PostProcess::wrapDocument($out_file, \%blank_lines);
+    	  	$xml = SectLabel::PostProcess::WrapDocument($out_file, \%blank_lines);
 	    } 	
 		else 
 		{
-    		$xml = SectLabel::PostProcess::wrapDocumentXml($out_file, \%section_headers);
+    		$xml = SectLabel::PostProcess::WrapDocumentXml($out_file, \%section_headers);
       	
 	  		# Array of generic headers
 			$section_headers{ "generic" } = ();
 			GetGenericHeaders( $section_headers{ "header" }, \@{ $section_headers{ "generic" } });
 
-			# my $num_header = scalar(@{ $section_headers{ "lineid" } });
+			# my $num_header = scalar(@{ $section_headers{ "lineId" } });
 			# for(my $i=0; $i<$numHeader; $i++)
 			# {
-			#	print  $section_headers{ "lineid" }->[$i] . "\t" . $section_headers{ "header" }->[$i] . "\t" . $section_headers{ "generic" }->[$i] . "\n";
+			#	print  $section_headers{ "lineId" }->[$i] . "\t" . $section_headers{ "header" }->[$i] . "\t" . $section_headers{ "generic" }->[$i] . "\n";
 			# }
 
       		$xml = InsertGenericHeaders($xml, $section_headers{ "header" }, $section_headers{ "generic" }, $section_headers{ "lineId" });
     	}
+
+		###
+		# Huydhn: provide input for parscit
+		###
+		if ($for_parscit)
+		{
+			my ($cit_lines, $cit_addrs, $safe) = SectLabel::PostProcess::GenerateParscitInput($out_file, $addrs, $lines);
+		
+			unlink($tmp_file);
+		  	unlink($out_file);
+			return ($cit_lines, $cit_addrs, $safe);
+		}
  	}
 
 	unlink($tmp_file);

@@ -51,6 +51,132 @@ my $obj_list = $Omni::Config::obj_list;
 ###
 
 ###
+# Huydhn: collect lines whose addresses are selected
+###
+sub OmniCollector
+{
+	my ($doc, $line_addrs) = @_;
+
+	# All the line
+	my @line_content = ();
+
+	# Current position	
+	my %current		 = ();
+	# 
+	my $addr_index	 = 0;
+
+	# All pages in the document
+	my $pages = $doc->get_objs_ref();
+
+	# From page, To page
+	my $start_page	= $line_addrs->[ 0 ]->{ 'L1' };
+	my $end_page	= $line_addrs->[ -1 ]->{ 'L1' };
+
+	# Break condition: $line_pos is empty or all lines have been retrieved
+	my $break = 0;
+
+	# Tree traveling is 'not' fun. Seriously.
+	# This is like a dungeon seige.
+	for (my $x = $start_page; $x <= $end_page; $x++)	
+	{
+		# Column or dd
+		my $level_2	 =	$pages->[ $x ]->get_objs_ref();
+		my $start_l2 =	($x == $line_addrs->[ 0 ]->{ 'L1' })	? 
+						$line_addrs->[ 0 ]->{ 'L2' }	: 0;
+		my $end_l2	 =	($x == $line_addrs->[ -1 ]->{ 'L1' })	? 
+						$line_addrs->[ -1 ]->{ 'L2' }	: (scalar(@{ $level_2 }) - 1);
+
+		for (my $y = $start_l2; $y <= $end_l2; $y++)
+		{
+			# Table or paragraph
+			my $level_3	 = 	$level_2->[ $y ]->get_objs_ref();
+			my $start_l3 =	(($x == $line_addrs->[ 0 ]->{ 'L1' }) && ($y == $line_addrs->[ 0 ]->{ 'L2' }))		? 
+							$line_addrs->[ 0 ]->{ 'L3' }	: 0;
+			my $end_l3	 =	(($x == $line_addrs->[ -1 ]->{ 'L1' }) && ($y == $line_addrs->[ -1 ]->{ 'L2' }))	? 
+							$line_addrs->[ -1 ]->{ 'L3' }	: (scalar(@{ $level_3 }) - 1);
+
+			for (my $z = $start_l3; $z <= $end_l3; $z++)
+			{
+				# Is a paragraph
+				if ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNIPARA' })
+				{
+					# Line or cell
+					my $level_4	 =	$level_3->[ $z ]->get_objs_ref();
+					my $start_l4 =	(($x == $line_addrs->[ 0 ]->{ 'L1' }) && ($y == $line_addrs->[ 0 ]->{ 'L2' }) && ($z == $line_addrs->[ 0 ]->{ 'L3' }))		? 
+									$line_addrs->[ 0 ]->{ 'L4' }	: 0;
+					my $end_l4	 =	(($x == $line_addrs->[ -1 ]->{ 'L1' }) && ($y == $line_addrs->[ -1 ]->{ 'L2' }) && ($z == $line_addrs->[ -1 ]->{ 'L3' }))	? 
+									$line_addrs->[ -1 ]->{ 'L4' }	: (scalar(@{ $level_4 }) - 1);
+
+					# Lines
+					for (my $t = $start_l4; $t <= $end_l4; $t++)
+					{
+						# Only keep selected line
+						if (($x == $line_addrs->[ $addr_index ]{ 'L1' }) &&
+							($y == $line_addrs->[ $addr_index ]{ 'L2' }) &&
+							($z == $line_addrs->[ $addr_index ]{ 'L3' }) &&
+							($t == $line_addrs->[ $addr_index ]{ 'L4' }))
+						{
+							push @line_content, $level_4->[ $t ]->get_content();
+							# Next selected line
+							$addr_index++;
+							# Last one?
+							if ($addr_index == scalar(@{ $line_addrs }))
+							{
+								$break = 1;
+								last;
+							}
+						}
+					}					
+				}
+				# Is a table
+				elsif ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNITABLE' })
+				{
+					# TODO: this actually a trick to get it working for now.
+					# We care not about the cell inside the table but the content
+					# of the table only. So the table is consider a paragraph in
+					# which lines are its row
+					my @level_4 = split(/\n/, $level_3->[ $z ]->get_content());
+				
+					for (my $t = 0; $t <= scalar(@level_4); $t++)
+					{
+						# Current position
+						$current{ 'L4' } = $t;
+
+						# Only keep selected line
+						if (($x == $line_addrs->[ $addr_index ]{ 'L1' }) &&
+							($y == $line_addrs->[ $addr_index ]{ 'L2' }) &&
+							($z == $line_addrs->[ $addr_index ]{ 'L3' }) &&
+							($t == $line_addrs->[ $addr_index ]{ 'L4' }))
+						{
+							push @line_content, $level_4[ $t ];
+							# Next selected line
+							$addr_index++;
+							# Last one?
+							if ($addr_index == scalar(@{ $line_addrs }))
+							{
+								$break = 1;
+								last;
+							}
+						}
+					}
+				}
+
+				# Break or not
+				if ($break == 1) { last; }
+			}
+
+			# Break or not
+			if ($break == 1) { last; }
+		}
+
+		# Break or not
+		if ($break == 1) { last; }
+	}
+
+	return (\@line_content);
+}
+
+###
 # Huydhn: travel the Omnidoc at line level
 ###
 sub OmniAirline
