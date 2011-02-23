@@ -128,8 +128,8 @@ sub OmniCollector
 						}
 					}					
 				}
-				# Is a table
-				elsif ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNITABLE' })
+				# Is a table or a frame
+				elsif (($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNITABLE' }) || ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNIFRAME' }))
 				{
 					# TODO: this actually a trick to get it working for now.
 					# We care not about the cell inside the table but the content
@@ -186,10 +186,9 @@ sub OmniAirline
 	# Ending position
 	# Both positons are hash with following members
 	# 'L1'		: page
-	# 'L2'		: collumn or dd
-	# 'L21'		: -1 if unavailable, unused for now
-	# 'L3'		: table or paragraph 
-	# 'L4'		: line in paragraph or table
+	# 'L2'		: collumn or dd or frame
+	# 'L3'		: table or paragraph or frame 
+	# 'L4'		: line in paragraph or table or frame
 	my ($doc, $start, $end) = @_;
 
 	# All the line 
@@ -265,8 +264,8 @@ sub OmniAirline
 						}						
 					}					
 				}
-				# Is a table
-				elsif ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNITABLE' })
+				# Is a table or frame
+				elsif (($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNITABLE' }) || ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNIFRAME' }))
 				{
 					# TODO: this actually a trick to get it working for now.
 					# We care not about the cell inside the table but the content

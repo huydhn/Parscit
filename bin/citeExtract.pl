@@ -238,7 +238,7 @@ if (($mode & $PARSCIT) == $PARSCIT)
 
 		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
 		system($cmd);
-
+	
 		$sect_label_input .= ".feature";
 		
 		use Omni::Omnidoc;

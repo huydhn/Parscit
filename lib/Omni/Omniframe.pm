@@ -1,14 +1,11 @@
-package Omni::Omnicol;
+package Omni::Omniframe;
 
 # Configuration
 use strict;
 
 # Local libraries
 use Omni::Config;
-use Omni::Omnidd;
 use Omni::Omnipara;
-use Omni::Omniframe;
-use Omni::Omnitable;
 
 # Extern libraries
 use XML::Twig;
@@ -22,20 +19,22 @@ my $obj_list = $Omni::Config::obj_list;
 # Temporary variables
 
 ###
-# A column object in Omnipage xml: a column contains zero or many paragraphs
+# A frame object in Omnipage xml: a frame contains paragraphs 
+# (this is my observation and can be invalid under close scrunity 
+# of new "evidence")
 #
-# Do Hoang Nhat Huy, 11 Jan 2011
+# Do Hoang Nhat Huy, 23 Feb 2011
 ###
 # Initialization
 sub new
 {
 	my ($class) = @_;
 
-	# Column: a column can have many paragraphs, dd, tables, or pictures
-	my @objs	= ();
+	# Objs: paragraphs 
+	my @objs		= ();
 
 	# Class members
-	my $self = {	'_self'			=> $obj_list->{ 'OMNICOL' },
+	my $self = {	'_self'			=> $obj_list->{ 'OMNIFRAME' },
 					'_raw'			=> undef,
 					'_content'		=> undef,
 					'_bottom'		=> undef,
@@ -48,7 +47,6 @@ sub new
 	return $self;
 }
 
-# 
 sub set_raw
 {
 	my ($self, $raw) = @_;
@@ -57,8 +55,8 @@ sub set_raw
 	$self->{ '_raw' }	= $raw;
 
 	# Parse the raw string
-	my $twig_roots		= { $tag_list->{ 'COLUMN' }	=> 1 };
-	my $twig_handlers 	= { $tag_list->{ 'COLUMN' }	=> sub { parse(@_, \$self); } };
+	my $twig_roots		= { $tag_list->{ 'FRAME' }	=> 1 };
+	my $twig_handlers 	= { $tag_list->{ 'FRAME' }	=> sub { parse(@_, \$self); } };
 
 	# XML::Twig 
 	my $twig = new XML::Twig(	twig_roots 		=> $twig_roots,
@@ -94,12 +92,7 @@ sub parse
 	# Check if there's any paragraph, dd, table, or picture 
 	# The large number of possible children is due to the
 	# ambiguous structure of the Omnipage XML
-	my $dd_tag		= $tag_list->{ 'DD' };
-	my $img_tag		= $tag_list->{ 'PICTURE' };
 	my $para_tag	= $tag_list->{ 'PARA' };
-	my $table_tag	= $tag_list->{ 'TABLE' };
-	my $column_tag	= $tag_list->{ 'COLUMN' };
-	my $frame_tag	= $tag_list->{ 'FRAME' };
 
 	my $child = undef;
 	# Get the first child in the body text
@@ -123,81 +116,7 @@ sub parse
 			# Update content
 			$tmp_content = $tmp_content . $para->get_content() . "\n";
 		}
-		# TODO: I'll handle this one later. Seriously 
-		# if this child is a <dd> tag
-		elsif ($xpath =~ m/\/$dd_tag$/)
-		{
-			#my $dd = new Omni::Omnidd();
-
-			# Set raw content
-			#$dd->set_raw($child->sprint());
-
-			# Update paragraph list
-			#push @tmp_objs, $dd;
-
-			# Update content
-			#$tmp_content = $tmp_content . $dd->get_content() . "\n";
-		}
-		# if this child is a <table> tag
-		elsif ($xpath =~ m/\/$table_tag$/)
-		{
-			my $table = new Omni::Omnitable();
-
-			# Set raw content
-			$table->set_raw($child->sprint());
-
-			# Update paragraph list
-			push @tmp_objs, $table;
-
-			# Update content
-			$tmp_content = $tmp_content . $table->get_content() . "\n";
-		}
-		# if this child is a <picture> tag
-		elsif ($xpath =~ m/\/$img_tag$/)
-		{
-			#my $img = new Omni::Omniimg();
-
-			# Set raw content
-			#$img->set_raw($child->sprint());
-
-			# Update paragraph list
-			#push @tmp_objs, $img;
-
-			# Update content
-			#$tmp_content = $tmp_content . $img->get_content() . "\n";
-		}
-		# if this child is a <column> tag
-		elsif ($xpath =~ m/\/$column_tag$/)
-		{
-			my $col = new Omni::Omnicol();
-
-			# Set raw content
-			$col->set_raw($child->sprint());
-
-			# Nested <column> is not allowed so we copy the objects
-			my $objects = $col->get_objs_ref();
-
-			# Update <column> objects list
-			push @tmp_objs, @{ $objects };
-
-			# Update content
-			$tmp_content = $tmp_content . $col->get_content() . "\n";
-		}
-		# if this child is <frame>
-		elsif ($xpath =~ m/\/$frame_tag$/)
-		{
-			my $frame = new Omni::Omniframe();
-
-			# Set raw content
-			$frame->set_raw($child->sprint());
-
-			# Update column list
-			push @tmp_objs, $frame;
-
-			# Update content
-			$tmp_content = $tmp_content . $frame->get_content() . "\n";
-		}
-
+	
 		# Little brother
 		if ($child->is_last_child) 
 		{ 

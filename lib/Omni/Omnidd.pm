@@ -7,6 +7,7 @@ use strict;
 use Omni::Config;
 use Omni::Omnicol;
 use Omni::Omnipara;
+use Omni::Omniframe;
 use Omni::Omnitable;
 
 # Extern libraries
@@ -107,6 +108,7 @@ sub parse
 	my $para_tag	= $tag_list->{ 'PARA' };
 	my $table_tag	= $tag_list->{ 'TABLE' };
 	my $column_tag	= $tag_list->{ 'COLUMN' };
+	my $frame_tag	= $tag_list->{ 'FRAME' };
 
 	my $child = undef;
 	# Get the first child in the body text
@@ -188,6 +190,20 @@ sub parse
 
 			# Update content
 			#$tmp_content = $tmp_content . $col->get_content() . "\n";
+		}
+		# if this child is <frame>
+		elsif ($xpath =~ m/\/$frame_tag$/)
+		{
+			my $frame = new Omni::Omniframe();
+
+			# Set raw content
+			$frame->set_raw($child->sprint());
+
+			# Update column list
+			push @tmp_objs, $frame;
+
+			# Update content
+			$tmp_content = $tmp_content . $frame->get_content() . "\n";
 		}
 
 		# Little brother

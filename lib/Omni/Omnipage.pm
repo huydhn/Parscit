@@ -5,8 +5,9 @@ use strict;
 
 # Local libraries
 use Omni::Config;
-use Omni::Omnipara;
+use Omni::Omnidd;
 use Omni::Omnicol;
+use Omni::Omniframe;
 
 # Extern libraries
 use XML::Twig;
@@ -108,6 +109,7 @@ sub parse
 	# desendents of <page> but I'm not sure about this
 	my $dd_tag		= $tag_list->{ 'DD' };
 	my $column_tag	= $tag_list->{ 'COL' };
+	my $frame_tag	= $tag_list->{ 'FRAME' };
 
 	# Check if there's any column or dd, what the heck is dd 
 	while (defined $child)
@@ -123,7 +125,7 @@ sub parse
 			# Subloop
 			while (defined $grand_child)
 			{
-				my $grand_xpath = $grand_child->path();	
+				my $grand_xpath = $grand_child->path();
 
 				# if this child is <column>
 				if ($grand_xpath =~ m/\/$column_tag$/)
@@ -152,6 +154,20 @@ sub parse
 
 					# Update content
 					$tmp_content = $tmp_content . $dd->get_content() . "\n";
+				}
+				# if this child is <frame>
+				elsif ($xpath =~ m/\/$frame_tag$/)
+				{
+					my $frame = new Omni::Omniframe();
+
+					# Set raw content
+					$frame->set_raw($child->sprint());
+
+					# Update column list
+					push @tmp_objs, $frame;
+
+					# Update content
+					$tmp_content = $tmp_content . $frame->get_content() . "\n";
 				}
 
 				# Little brother
@@ -192,6 +208,20 @@ sub parse
 
 			# Update content
 			$tmp_content = $tmp_content . $dd->get_content() . "\n";
+		}
+		# if this child is <frame>
+		elsif ($xpath =~ m/\/$frame_tag$/)
+		{
+			my $frame = new Omni::Omniframe();
+
+			# Set raw content
+			$frame->set_raw($child->sprint());
+
+			# Update column list
+			push @tmp_objs, $frame;
+
+			# Update content
+			$tmp_content = $tmp_content . $frame->get_content() . "\n";
 		}
 
 		# Little brother

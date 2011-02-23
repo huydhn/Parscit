@@ -37,7 +37,8 @@ $ALG_VERSION	= "110121";
 							'NEWLINE'		=> 'nl',
 							'TAB'			=> 'tab',
 							'DD'			=> 'dd',
-							'PICTURE'		=> 'picture'
+							'PICTURE'		=> 'picture',
+							'FRAME'			=> 'frame'
 						);
 $tag_list = \%omni_tag_list;
 
@@ -83,7 +84,8 @@ $att_list = \%omni_att_list;
 							'OMNIPARA'		=> 'paragraph',
 							'OMNILINE'		=> 'line',
 							'OMNIRUN'		=> 'run',
-							'OMNIWORD'		=> 'word'
+							'OMNIWORD'		=> 'word',
+							'OMNIFRAME'		=> 'frame',
 						);
 $obj_list = \%omni_obj_list;
 

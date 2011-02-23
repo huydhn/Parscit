@@ -45,7 +45,7 @@ sub new
 {
 	my ($class) = @_;
 
-	# Objs: a paragraph can have many cells
+	# Objs: a table can have many cells
 	my @objs		= ();
 
 	# Grid coordinates

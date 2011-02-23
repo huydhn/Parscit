@@ -6,16 +6,18 @@ package ParsHed::PostProcess;
 #
 # Luong Minh Thang 25 May, 09. Adopted from Isaac Councill, 07/20/07
 ###
-use strict;
+
 use utf8;
+use strict;
+
 use CSXUtil::SafeText qw(cleanXML);
-use ParsCit::PostProcess; # qw(normalizeAuthorNames stripPunctuation);
-use ParsCit::Config; # qw(normalizeAuthorNames stripPunctuation);
+use ParsCit::Config;
+use ParsCit::PostProcess;
 
 ###
-## Main method for processing header data. Specifically, it reads CRF
-## output, performs normalization to individual fields, and outputs to
-## XML
+# Main method for processing header data. Specifically, it reads CRF
+# output, performs normalization to individual fields, and outputs to
+# XML
 ###
 sub wrapHeaderXml 
 {
@@ -238,7 +240,7 @@ sub normalizeHeaderField
 	{
     	$tag	 = "authors";
     	$content =~ s/\d//g; # remove numbers
-    	$content = ParsCit::PostProcess::normalizeAuthorNames($content);
+    	$content = ParsCit::PostProcess::NormalizeAuthorNames($content);
   	} 
 	elsif ($tag eq "email") 
 	{
@@ -311,7 +313,7 @@ sub normalizeHeaderField
 		#
 		# 17 jan 2011
 		###
-    	$content = ParsCit::PostProcess::stripPunctuation($content);
+    	$content = ParsCit::PostProcess::StripPunctuation($content);
 	}
 
   	return ($tag, $content);
