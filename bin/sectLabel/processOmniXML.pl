@@ -153,7 +153,7 @@ my $allText 		= processFile($inFile, $outFile, \%tags);
 # Find header part
 my @lines	 = split(/\n/, $allText);
 my $numLines = scalar(@lines);
-my ($headerLength, $bodyLength, $bodyStartId) =	SectLabel::PreProcess::findHeaderText(\@lines, 0, $numLines);
+my ($headerLength, $bodyLength, $bodyStartId) =	SectLabel::PreProcess::FindHeaderText(\@lines, 0, $numLines);
 
 # Output
 if ($isMarkup)

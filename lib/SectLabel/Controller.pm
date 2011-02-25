@@ -17,11 +17,11 @@ use strict;
 
 # Dependencies
 use FindBin;
+
 # Local libraries
 use SectLabel::Config;
 use SectLabel::Tr2crfpp;
 use SectLabel::PostProcess;
-
 use CSXUtil::SafeText qw(cleanXML);
 
 my $generic_sect_path = $FindBin::Bin . "/sectLabel/genericSectExtract.rb";

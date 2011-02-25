@@ -138,7 +138,7 @@ my $all_text		= ProcessFile($in_file, $out_file, \%tags);
 # Find header part
 my @lines		= split(/\n/, $all_text);
 my $num_lines	= scalar(@lines);
-my ($header_length, $body_length, $body_start_id) = SectLabel::PreProcess::findHeaderText(\@lines, 0, $num_lines);
+my ($header_length, $body_length, $body_start_id) = SectLabel::PreProcess::FindHeaderText(\@lines, 0, $num_lines);
 
 # Output
 if ($is_markup)
