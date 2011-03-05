@@ -227,23 +227,33 @@ sub parse
 				my $cell_content = undef;
 				# Get content
 				$cell_content	 = $cell->get_content();
-				# Replace end of line with space
-				$cell_content	 =~ s/\n/ /g; 
+				# Trim
+				$cell_content	 =~ s/^\s+|\s+$//g;
 
 				$content_matrix[ $row_index ][ $col_index ] = $cell_content;
 			}
 		}
 
 		# Save content
-		foreach my $line (@content_matrix)
+		foreach my $row (@content_matrix)
 		{
-			foreach my $cell (@{ $line })
+			# This is used to handle the case in which a cell have multiple lines
+			my @lines = ();
+			# Foreach cell in the row, get its content
+			foreach my $cell (@{ $row })
 			{
-				$tmp_content = $tmp_content . $cell . "\t";
+				my @local_lines = split /\n/, $cell;
+				for (my $i = 0; $i < scalar(@local_lines); $i++)
+				{
+					if ($i == scalar(@lines)) { push @lines, ""; }
+					$lines[ $i ] = $lines[ $i ] . $local_lines[ $i ] . "\t";
+				}
 			}
-
-			# Add new line
-			$tmp_content = $tmp_content . "\n";
+			# Add a new row
+			foreach my $line (@lines)
+			{
+				$tmp_content = $tmp_content . $line . "\n";
+			}
 		}
 	}
 }

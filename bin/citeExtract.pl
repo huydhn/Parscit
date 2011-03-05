@@ -239,6 +239,9 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
 		system($cmd);
 	
+		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.foobar -decode";
+		system($cmd);
+
 		$sect_label_input .= ".feature";
 		
 		use Omni::Omnidoc;
@@ -256,18 +259,25 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		# This merged xml need to be fixed first before pass it to xml processing libraries, e.g. xml::twig
 		###
 		# Remove <?xml version="1.0" encoding="UTF-8"?>
-		$xml =~ s/<\?xml.+?>\n//g;
+		$xml =~ s/<\?xml.+?>//g;
 		# Remove <!--XML document generated using OCR technology from ScanSoft, Inc.-->
-		$xml =~ s/<\!\-\-XML.+?>\n//g; 
+		$xml =~ s/<\!\-\-XML.+?>//g; 
 		# Add the root tag
 		$xml = "<root>" . "\n" . $xml . "\n" . "</root>";
 
 		# New document
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
-	
+
 		# All lines and their addresses 
 		my ($pos, $lines) = Omni::Traversal::OmniAirline($doc);
+
+		open(FOO, ">:utf8", "comp");
+		foreach my $line (@{ $lines })
+		{
+			print FOO $line, "\n";	
+		}
+		close FOO;
 
 		# Output of sectlabel becomes input for parscit
 		my ($cit_lines, $cit_addrs, $safe) = SectLabel($sect_label_input, $is_xml_input, 1, $pos, $lines);	

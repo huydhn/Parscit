@@ -90,7 +90,7 @@ if($isSingle){
   $inFile .= ".multi";
 }
 
-SectLabel::Tr2crfpp::tr2crfpp($inFile, $outFile, $dictFile, $funcFile, $configFile, $isTemplate);
+SectLabel::Tr2crfpp::Tr2crfpp($inFile, $outFile, $dictFile, $funcFile, $configFile, $isTemplate);
 
 if($isSingle){
   unlink($inFile);
