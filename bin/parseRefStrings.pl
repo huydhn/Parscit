@@ -10,7 +10,9 @@
 use strict;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
+
 use ParsCit::Controller;
+use CSXUtil::SafeText qw(cleanAll cleanXML);
 
 my $textFile = $ARGV[0];
 my $outFile = $ARGV[1];
@@ -37,16 +39,16 @@ if ($line == 0) {
 }
 
 our $msg = "";
-my $tmpFile = ParsCit::Tr2crfpp::prepData(\$normalizedCiteText, $textFile);
+my $tmpFile = ParsCit::Tr2crfpp::PrepData(\$normalizedCiteText, $textFile);
 my $outFile = $tmpFile."_dec";
 my @validCitations = ();
 
 my $xml = "";
 $xml .= "<algorithm name=\"$ParsCit::Config::algorithmName\" version=\"$ParsCit::Config::algorithmVersion\">\n";
 $xml .= "<citationList>\n";
-if (ParsCit::Tr2crfpp::decode($tmpFile, $outFile)) {
+if (ParsCit::Tr2crfpp::Decode($tmpFile, $outFile)) {
     my ($rRawXML, $rCiteInfo, $tstatus, $tmsg) =
-	ParsCit::PostProcess::readAndNormalize($outFile);
+	ParsCit::PostProcess::ReadAndNormalize($outFile);
     if ($tstatus <= 0) {
 	return ($tstatus, $msg, undef, undef);
     }
@@ -60,10 +62,29 @@ if (ParsCit::Tr2crfpp::decode($tmpFile, $outFile)) {
 		chop $singular;
 		$xml .= "<$key>\n";
 		foreach my $person (@{$citeInfo{$key}}) {
+			cleanAll(\$person);
 		    $xml .= "<$singular>$person</$singular>\n";
 		}
 		$xml .= "</$key>\n";
-	    } else {
+	    } 
+		elsif ($key eq "volume") 
+		{
+			if (scalar(@{$citeInfo{$key}}) > 0)
+			{
+				# Main volume
+				cleanAll(\$citeInfo{$key}[ 0 ]);
+				$xml .= "<$key>" . $citeInfo{$key}[ 0 ] . "</$key>\n";
+
+				# Sub-volume, issue
+				for (my $i = 1; $i < scalar(@{$citeInfo{$key}}); $i++)
+				{
+					cleanAll(\$citeInfo{$key}[ $i ]);
+					$xml .= "<issue>" . $citeInfo{$key}[ $i ] . "</issue>\n";
+				}
+    		}
+		}
+		else {
+		cleanAll(\$citeInfo{$key});
 		$xml .= "<$key>$citeInfo{$key}</$key>\n";
 	    }
 	}

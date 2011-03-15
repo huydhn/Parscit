@@ -239,8 +239,8 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
 		system($cmd);
 	
-		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.foobar -decode";
-		system($cmd);
+		#my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.foobar -decode";
+		#system($cmd);
 
 		$sect_label_input .= ".feature";
 		
@@ -272,12 +272,12 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		# All lines and their addresses 
 		my ($pos, $lines) = Omni::Traversal::OmniAirline($doc);
 
-		open(FOO, ">:utf8", "comp");
-		foreach my $line (@{ $lines })
-		{
-			print FOO $line, "\n";	
-		}
-		close FOO;
+		#open(FOO, ">:utf8", "comp");
+		#foreach my $line (@{ $lines })
+		#{
+		#	print FOO $line, "\n";	
+		#}
+		#close FOO;
 
 		# Output of sectlabel becomes input for parscit
 		my ($cit_lines, $cit_addrs, $safe) = SectLabel($sect_label_input, $is_xml_input, 1, $pos, $lines);	
