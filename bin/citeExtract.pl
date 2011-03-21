@@ -258,12 +258,14 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		# NOTE: the omnipage xml is not well constructed (concatenated multiple xml files).
 		# This merged xml need to be fixed first before pass it to xml processing libraries, e.g. xml::twig
 		###
+		# Convert to Unix format
+		$xml =~ s/\r//g;
 		# Remove <?xml version="1.0" encoding="UTF-8"?>
-		$xml =~ s/<\?xml.+?>//g;
+		$xml =~ s/<\?xml.+?>\n//g;
 		# Remove <!--XML document generated using OCR technology from ScanSoft, Inc.-->
-		$xml =~ s/<\!\-\-XML.+?>//g; 
-		# Add the root tag
-		$xml = "<root>" . "\n" . $xml . "\n" . "</root>";
+		$xml =~ s/<\!\-\-XML.+?>\n//g;
+		# Declaration and root
+		$xml = "<?xml version=\"1.0\"?>" . "\n" . "<root>" . "\n" . $xml . "\n" . "</root>";
 
 		# New document
 		my $doc = new Omni::Omnidoc();

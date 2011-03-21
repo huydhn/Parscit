@@ -452,7 +452,7 @@ sub ExpandBracketMarker
       		$num_new_tokens = $4 - $3;
 			if ($num_new_tokens > 0)
 			{
-				$match = "[" . $1 . transformMarker($3, $4) . $5 . "]";
+				$match = "[" . $1 . TransformMarker($3, $4) . $5 . "]";
       		} 
 			else 
 			{
