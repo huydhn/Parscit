@@ -50,14 +50,10 @@ while (<$upload_filehandle>)
 }
 close($output_filehandle);
 
-open(DEBUG, ">:utf8", "foobar") or die "$!";
-
 # What the heck
 print "Content-Type: text/html\n\n";
 # Output
 Building( $upload_dir . "/" . $filename );
-
-close DEBUG;
 
 # Support functions
 sub Building
@@ -98,6 +94,7 @@ sub Building
 		}
 		else
 		{
+			print "<td><div id=\"tag$i\">", "&nbsp;&nbsp;", "</div></td>", "\n";
 			print "<td><div id=\"line$i\">", $lines[ $i ], "</div></td>", "\n";
 		}
 
