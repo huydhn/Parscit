@@ -1,14 +1,15 @@
 package SectLabel::Controller;
 
 ###
-# This package is used to pull together various citation
-# processing modules in the SectLabel distribution, serving
-# as a script for handling the entire citation processing
-# control flow.  
-# The extractSection subroutine should be
-# the only needed API element to return XML output.
+# This package is used to pull together various citation processing 
+# modules in the SectLabel distribution, serving as a script for 
+# handling the entire citation processing control flow.
 #
-# Luong Minh Thang 25 May, 09. Adopted from Parscit Controller Isaac Councill, 07/23/07
+# The ExtractSection subroutine should be the only needed API element 
+# to return XML output.
+#
+# Luong Minh Thang 25 May, 09. 
+# Adopted from Parscit Controller Isaac Councill, 07/23/07
 ###
 
 require 'dumpvar.pl';
@@ -85,19 +86,18 @@ sub ExtractSection
 }
 
 ###
-# Main script for actually walking through the steps of
-# document processing.  Returns a status code (0 for failure),
-# an error message (may be blank if no error), a reference to
-# an XML document.
+# Main script for actually walking through the steps of document processing.
+# Returns a status code (0 for failure), an error message (may be blank if 
+# no error), a reference to an XML document.
 #
-# $is_token_level: flag to enable previous token-level model 
-# (for performance comparison).
+# $is_token_level: flag to enable previous token-level model (for performance 
+# comparison)
 #
-# Todo: catch errors and return $status < 0
+# TODO: catch errors and return $status < 0
 ###
 sub ExtractSectionImpl 
 {
-	my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_intput, $is_debug, $for_parscit, $addrs, $lines) = @_;
+	my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug, $for_parscit, $addrs, $lines) = @_;
 
   	if ($is_debug)
 	{
@@ -139,7 +139,7 @@ sub ExtractSectionImpl
 
   	# Run tr2crfpp to prepare feature files
 	my $tmp_file = undef;
-  	
+
 	if ($is_debug) { print STDERR "\n# Extracting test features ... "; }
   	$tmp_file = SectLabel::Tr2crfpp::ExtractTestFeatures(\@text_lines, $text_file, $dict_file, $func_file, $config_file, $is_debug);
 

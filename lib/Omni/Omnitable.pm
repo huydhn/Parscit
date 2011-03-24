@@ -229,6 +229,8 @@ sub parse
 				$cell_content	 = $cell->get_content();
 				# Trim
 				$cell_content	 =~ s/^\s+|\s+$//g;
+				# Remove blank line
+				$cell_content	 =~ s/\n\s*\n/\n/g;
 
 				$content_matrix[ $row_index ][ $col_index ] = $cell_content;
 			}

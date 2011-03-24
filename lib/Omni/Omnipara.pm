@@ -26,6 +26,7 @@ my $tmp_left		= undef;
 my $tmp_right		= undef;
 my $tmp_language	= undef;
 my $tmp_alignment	= undef;
+my $tmp_spaceb		= undef;
 my @tmp_lines		= ();
 
 ###
@@ -51,6 +52,7 @@ sub new
 					'_right'		=> undef,
 					'_language'		=> undef,
 					'_alignment'	=> undef,
+					'_spaceb'		=> undef,
 					'_lines'		=> \@lines	};
 
 	bless $self, $class;
@@ -85,6 +87,7 @@ sub set_raw
 	$self->{ '_right' } 	= $tmp_right;
 	$self->{ '_language' } 	= $tmp_language;
 	$self->{ '_alignment' }	= $tmp_alignment;
+	$self->{ '_spaceb' }	= $tmp_spaceb;
 
 	# Copy all lines
 	@{$self->{ '_lines' } }	= @tmp_lines;
@@ -115,6 +118,7 @@ sub parse
 	$tmp_right		= GetNodeAttr($node, $att_list->{ 'RIGHT' });
 	$tmp_language	= GetNodeAttr($node, $att_list->{ 'LANGUAGE' });
 	$tmp_alignment	= GetNodeAttr($node, $att_list->{ 'ALIGN' });
+	$tmp_spaceb		= GetNodeAttr($node, $att_list->{ 'SPACEB' });
 
 	# Check if there's any line
 	my @all_lines = $node->descendants( $tag_list->{ 'LINE' } );
@@ -209,6 +213,12 @@ sub get_alignment
 {
 	my ($self) = @_;
 	return $self->{ '_alignment' };
+}
+
+sub get_space_before
+{
+	my ($self) = @_;
+	return $self->{ '_spaceb' };
 }
 
 # Support functions

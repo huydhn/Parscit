@@ -60,6 +60,7 @@ $tag_list = \%omni_tag_list;
 							'BASELINE'		=> 'baseline',
 							'BOLD'			=> 'bold',
 							'ITALIC'		=> 'italic',
+							'SPACEB'		=> 'spaceBefore',
 							# These attribute usually go with <dd> tag
 							'BOTTOMDIST'	=> 'bottomDistance',
 							'TOPDIST'		=> 'topDistance',
