@@ -74,8 +74,6 @@ sub set_raw
 	# Start the XML parsing
 	$twig->parse($raw, \$self);
 	$twig->purge;
-
-	
 }
 
 sub get_raw
@@ -253,7 +251,7 @@ sub parse
 	# Copy content
 	$$self->{ '_content' }			= $tmp_content;
 	# Copy row content
-	$$self->{ '_rcontent' }			= @tmp_rcontent;
+	@{ $$self->{ '_rcontent' } }	= @tmp_rcontent;
 }
 
 sub get_name

@@ -1,4 +1,4 @@
-#!/usr/bin/perl -wT
+#!/usr/bin/perl
 
 # Author: Do Hoang Nhat Huy <huydo@comp.nus.edu.sg>
 # Modified from template by Min-Yen Kan <kanmy@comp.nus.edu.sg>
@@ -25,7 +25,12 @@ BEGIN
 use lib "$path/../../lib";
 
 # Local libraries
+use Omni::Config;
+use Omni::Omnidoc;
 use SectLabel::PreProcess;
+
+# Omnilib configuration: object name
+my $obj_list = $Omni::Config::obj_list;
 
 ### USER customizable section
 $0 =~ /([^\/]+)$/; my $progname = $1;
@@ -75,7 +80,6 @@ if (!$quite)
 ### Untaint ###
 $in_file	 = UntaintPath($in_file);
 $out_file	 = UntaintPath($out_file);
-$tag_file	 = UntaintPath($tag_file);
 $ENV{'PATH'} = '/bin:/usr/bin:/usr/local/bin';
 ### End untaint ###
 
@@ -109,15 +113,14 @@ my @g_font_size			= ();
 my %g_font_face_hash	= (); 
 my @g_font_face 		= ();
 
-# BEGIN
-my $markup_output	= "";
-my $all_text		= ProcessFile($in_file, $out_file);
+# All lines
+my @lines = ();
 
+# BEGIN
+ProcessFile($in_file);
 # Find header part
-my @lines		= split(/\n/, $all_text);
 my $num_lines	= scalar(@lines);
 my ($header_length, $body_length, $body_start_id) = SectLabel::PreProcess::FindHeaderText(\@lines, 0, $num_lines);
-
 # Done
 Output(\@lines, $out_file);
 # END
@@ -149,10 +152,6 @@ sub ProcessFile
 	my $doc = new Omni::Omnidoc();
 	$doc->set_raw($xml);
 
-	# All the line 
-	my @line_pos	 = ();
-	my @line_content = ();
-
 	# Current position	
 	my %current		 = ();
 
@@ -162,6 +161,9 @@ sub ProcessFile
 	# From page, To page
 	my $start_page	= 0;
 	my $end_page	= scalar(@{ $pages }) - 1;
+
+	# Image area flag
+	my $is_pic = 0;
 
 	# Tree traveling is 'not' fun. Seriously.
 	# This is like a dungeon seige.
@@ -179,7 +181,7 @@ sub ProcessFile
 		{
 			# Thang's code
 			# Thang considers <dd> tag as image, I just follow that
-			if ($level_2->[ $z ]->get_name() eq $obj_list->{ 'OMNIDD' })
+			if ($level_2->[ $y ]->get_name() eq $obj_list->{ 'OMNIDD' })
 			{
 				$is_pic = 1;	
 			}
@@ -248,7 +250,7 @@ sub Output
 		# New paragraph
     	if (($g_para[ $id ] eq "yes") && ($output ne ""))
 		{
-			if ($is_decode) { $output = DecodeEntities($output); }
+			if ($is_decode) { $output = decode_entities($output); }
 			# Write output to file
 			print $output_handle $output;
 			# Clean output for new paragraph
@@ -298,7 +300,7 @@ sub Output
 	# New paragraph
 	if ($output ne "")
 	{
-		if ($is_decode) { $output = DecodeEntities($output); }
+		if ($is_decode) { $output = decode_entities($output); }
 		# Write output to file
 		print $output_handle $output;
 		# Clean output for new paragraph
@@ -498,7 +500,10 @@ sub ProcessTable
 		# For each line in the row
 		for (my $j = 0; $j < scalar(@row_lines); $j++)
 		{
-			if($j == 0)
+			# Save the line
+			push @lines, $row_lines[ $j ];
+
+			if (($j == 0) && ($i == 0))
 			{
 				push @g_para, "yes";
 			} 
@@ -555,21 +560,24 @@ sub ProcessPara
   	my %font_face_hash	= ();
 
 	# Lines
-	my $lines	= $paragraph->get_objs_ref();
-	my $start_l	= 0;
-	my $end_l	= scalar(@{ $lines }) - 1;
+	my $omnilines	= $paragraph->get_objs_ref();
+	my $start_l		= 0;
+	my $end_l		= scalar(@{ $omnilines }) - 1;
 
 	# Lines
 	for (my $t = $start_l; $t <= $end_l; $t++)
 	{
+		# Save the line
+		push @lines, $omnilines->[ $t ]->get_content();
+
 		# Line attributes
-		$left	= $lines->[ $t ]->get_left_pos();
-		$right	= $lines->[ $t ]->get_right_pos();
-		$top	= $lines->[ $t ]->get_top_pos();
-		$bottom	= $lines->[ $t ]->get_bottom_pos();
+		$left	= $omnilines->[ $t ]->get_left_pos();
+		$right	= $omnilines->[ $t ]->get_right_pos();
+		$top	= $omnilines->[ $t ]->get_top_pos();
+		$bottom	= $omnilines->[ $t ]->get_bottom_pos();
 
 		# Runs
-		my $runs	= $lines->[ $t ]->get_objs_ref();
+		my $runs	= $omnilines->[ $t ]->get_objs_ref();
 		my $start_r	= 0;
 		my $end_r	= scalar(@{ $runs }) - 1;
 
@@ -581,18 +589,18 @@ sub ProcessPara
 			my $words = $runs->[ $u ]->get_objs_ref();	
 
 			# Update the number of words
-			$words_count += scalar(@words);
+			$words_count += scalar(@{ $words });
 
 			# XML format
 			my $font_size					= $runs->[ $u ]->get_font_size();
-			$font_size_hash{ $font_size }	= $font_size_hash{ $font_size } ? $font_size_hash{ $font_size } + scalar(@words) : scalar(@words); 
+			$font_size_hash{ $font_size }	= $font_size_hash{ $font_size } ? $font_size_hash{ $font_size } + scalar(@{ $words }) : scalar(@{ $words }); 
 			# XML format
 			my $font_face 					= $runs->[ $u ]->get_font_face();
-			$font_face_hash{ $font_face }	= $font_face_hash{ $font_face } ? $font_face_hash{ $font_face } + scalar(@words) : scalar(@words); 
+			$font_face_hash{ $font_face }	= $font_face_hash{ $font_face } ? $font_face_hash{ $font_face } + scalar(@{ $words }) : scalar(@{ $words }); 
 			# XML format
-			if ($runs->[ $u ]->get_bold() eq "true") { $bold_count += scalar(@words); } 
+			if ($runs->[ $u ]->get_bold() eq "true") { $bold_count += scalar(@{ $words }); } 
 			# XML format
-			if ($runs->[ $u ]->get_italic() eq "true") { $italic_count += scalar(@words); } 
+			if ($runs->[ $u ]->get_italic() eq "true") { $italic_count += scalar(@{ $words }); } 
 		}
 			
 		# Line attributes - relative position in paragraph
@@ -631,7 +639,7 @@ sub ProcessPara
 		{
     		push @g_pic, "no";
 			UpdateXMLFontFeature(\%font_size_hash, \%font_face_hash);
-			UpdateXMLFeatures($bold_count, $italic_count, $words_count, $lines->[ $t ]->get_bullet(), $space);
+			UpdateXMLFeatures($bold_count, $italic_count, $words_count, $omnilines->[ $t ]->get_bullet(), $space);
 		}
 		
 		# Reset hash
@@ -696,7 +704,7 @@ sub UpdateXMLFeatures
   
   	# Italic feature
   	my $italic_feature = undef;
-  	if ($ln_italic_count / $words_count >= 0.667)
+  	if ($italic_count / $words_count >= 0.667)
 	{
     	$italic_feature = "yes";
   	} 
@@ -707,7 +715,7 @@ sub UpdateXMLFeatures
   	push @g_italic, $italic_feature;
   
   	# Bullet feature
-  	if ($is_bullet)
+  	if ($is_bullet eq "true")
 	{
     	push @g_bullet, "yes";
   	} 

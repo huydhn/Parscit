@@ -271,6 +271,8 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
 
+		die;
+
 		# All lines and their addresses 
 		my ($pos, $lines) = Omni::Traversal::OmniAirline($doc);
 
@@ -284,7 +286,9 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		# Output of sectlabel becomes input for parscit
 		my ($cit_lines, $cit_addrs, $safe) = SectLabel($sect_label_input, $is_xml_input, 1, $pos, $lines);	
 		# Remove XML feature file
-		unlink($sect_label_input);
+		print $sect_label_input, "\n";
+		die;
+		#unlink($sect_label_input);
 
 		use ParsCit::Controller;
 
