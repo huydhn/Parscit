@@ -239,9 +239,6 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
 		system($cmd);
 	
-		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.foobar -decode";
-		system($cmd);
-
 		$sect_label_input .= ".feature";
 		
 		use Omni::Omnidoc;
@@ -270,8 +267,6 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		# New document
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
-
-		die;
 
 		# All lines and their addresses 
 		my ($pos, $lines) = Omni::Traversal::OmniAirline($doc);

@@ -120,6 +120,10 @@ sub parse
 	$tmp_alignment	= GetNodeAttr($node, $att_list->{ 'ALIGN' });
 	$tmp_spaceb		= GetNodeAttr($node, $att_list->{ 'SPACEB' });
 
+	# Check if there's any bullet
+	my $bullet 		= $node->first_child( $tag_list->{ 'BULLET' } );
+	my $has_bullet	= (defined $bullet) ? 1 : 0;
+
 	# Check if there's any line
 	my @all_lines = $node->descendants( $tag_list->{ 'LINE' } );
 	foreach my $ln (@all_lines)
@@ -129,29 +133,8 @@ sub parse
 		# Set raw content
 		$line->set_raw($ln->sprint());
 
-		# Check if there's any bullet
-		my $prev = $ln->prev_sibling();
-		if (defined $prev)
-		{
-			my $bullet_tag	 = $tag_list->{ 'BULLET' };
-
-			# The previous tag
-			my $prev_content = $prev->sprint();
-			# Has bullet
-			if ($prev_content =~ m/^<$bullet_tag/) 
-			{ 
-				$line->set_bullet('true');
-			}
-			# Doesn't have bullet
-			else
-			{
-				$line->set_bullet('false');
-			}
-		}
-		else
-		{
-			$line->set_bullet('false');
-		}
+		# Set bullet if needed
+		if ($has_bullet == 1) { $line->set_bullet('true'); }
 
 		# Update line list
 		push @tmp_lines, $line;

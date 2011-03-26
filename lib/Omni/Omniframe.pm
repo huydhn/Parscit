@@ -16,8 +16,6 @@ my $tag_list = $Omni::Config::tag_list;
 my $att_list = $Omni::Config::att_list;
 my $obj_list = $Omni::Config::obj_list;
 
-# Temporary variables
-
 ###
 # A frame object in Omnipage xml: a frame contains paragraphs 
 # (this is my observation and can be invalid under close scrunity 
