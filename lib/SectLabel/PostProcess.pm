@@ -305,11 +305,11 @@ sub NormalizeDocumentField
 ###
 sub GenerateParscitInput
 {
-	my ($in_file, $addrs, $lines) = @_;
+	my ($in_file) = @_;
 
 	my @cit_lines	= ();
-	my @cit_addrs	= ();
   	my $line_index	= 0;
+	my $all_text	= "";
 
 	# This file is the output from CRF++ for sectlabel
 	open(IN, "<:utf8", $in_file) or return (undef, undef, 0, "couldn't open in_file: $!");
@@ -341,35 +341,24 @@ sub GenerateParscitInput
       	}
 
 		# Only keep lines in the reference for parscit
-		if ($sys eq "reference")
-		{
-			# Safety first
-			if ($line_index >= scalar(@{ $lines }))
-			{
-				close(IN);
-				return (undef, undef, 0);
-			}
-			else
-			{
-				push @cit_lines, $line_index;
-				push @cit_addrs, $addrs->[ $line_index ];
-			}
-		}
+		if ($sys eq "reference") { push @cit_lines, $line_index; }
 
-		#
+		my $content	= $tokens[0];
+		# Train at line level, get the original line
+      	@tokens		= split(/\|\|\|/, $content);
+      	$content	= join(" ", @tokens);
+
+		# Save the line
+		$all_text = $all_text . $content . "\n";
+
+		# Point to the next line
 		$line_index++;
   	}
 
   	close (IN);
 
-	if ($line_index != scalar(@{ $lines}))
-	{
-		return (undef, undef, 0);
-	}
-	else
-	{
-		return (\@cit_lines, \@cit_addrs, 1);
-	}
+	# Done
+	return ($all_text, \@cit_lines);
 }
 
 1;

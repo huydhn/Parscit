@@ -33,7 +33,7 @@ my $generic_sect_path = $FindBin::Bin . "/sectLabel/genericSectExtract.rb";
 ###
 sub ExtractSection 
 {
-    my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug, $for_parscit, $addrs, $lines) = @_;
+    my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug, $for_parscit) = @_;
 
     if (!defined $model_file || $model_file eq "") 
 	{
@@ -69,19 +69,16 @@ sub ExtractSection
 	}
 	else
 	{
-		my ($all_text, $cit_lines, $cit_addrs, $safe) = ExtractSectionImpl(	$text_file, 
-																			$is_xml_output, 
-																			$model_file, 
-																			$dict_file, 
-																			$func_file, 
-																			$config_file, 
-																			$is_xml_input, 
-																			$is_debug,
-																			$for_parscit,
-																			$addrs,
-																			$lines	);
-
-		return ($all_text, $cit_lines, $cit_addrs, $safe);
+		my ($all_text, $cit_lines) = ExtractSectionImpl(	$text_file, 
+															$is_xml_output, 
+															$model_file, 
+															$dict_file, 
+															$func_file, 
+															$config_file, 
+															$is_xml_input, 
+															$is_debug,
+															$for_parscit	);
+		return ($all_text, $cit_lines);
 	}
 }
 
@@ -97,7 +94,7 @@ sub ExtractSection
 ###
 sub ExtractSectionImpl 
 {
-	my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug, $for_parscit, $addrs, $lines) = @_;
+	my ($text_file, $is_xml_output, $model_file, $dict_file, $func_file, $config_file, $is_xml_input, $is_debug, $for_parscit) = @_;
 
   	if ($is_debug)
 	{
@@ -186,11 +183,11 @@ sub ExtractSectionImpl
 		###
 		if ($for_parscit)
 		{
-			my ($cit_lines, $cit_addrs, $safe) = SectLabel::PostProcess::GenerateParscitInput($out_file, $addrs, $lines);
+			my ($all_text, $cit_lines) = SectLabel::PostProcess::GenerateParscitInput($out_file);
 		
 			unlink($tmp_file);
 		  	unlink($out_file);
-			return ($cit_lines, $cit_addrs, $safe);
+			return ($all_text, $cit_lines);
 		}
  	}
 

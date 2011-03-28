@@ -58,6 +58,7 @@ my $out_file		= undef;
 my $in_file			= undef;
 my $is_decode		= 0;
 my $is_debug		= 0;
+my $address			= 1;
 
 $help = 1 unless GetOptions(	'in=s' 		=> \$in_file,
 								'out=s' 	=> \$out_file,
@@ -118,9 +119,6 @@ my @lines		= ();
 # and their address
 my @lines_addr	= ();
 
-# DEBUG
-my $line_count = 0;
-
 # BEGIN
 ProcessFile($in_file);
 # Find header part
@@ -128,6 +126,19 @@ my $num_lines	= scalar(@lines);
 my ($header_length, $body_length, $body_start_id) = SectLabel::PreProcess::FindHeaderText(\@lines, 0, $num_lines);
 # Done
 Output(\@lines, $out_file);
+
+if ($address == 1)
+{
+	my $address_handle = undef;
+	# Save the line address for further use
+	open($address_handle, ">:utf8", $out_file . ".address") || die"#Can't open file \"$out_file.address\"\n";
+	foreach my $addr (@lines_addr)
+	{
+		print $address_handle $addr->{ 'L1' }, " ", $addr->{ 'L2' }, " ", $addr->{ 'L3' }, " ", $addr->{ 'L4' }, "\n";
+	}
+	# Done
+	close $address_handle;
+}
 # END
 
 sub ProcessFile 
@@ -220,7 +231,7 @@ sub ProcessFile
 				elsif ($level_3->[ $z ]->get_name() eq $obj_list->{ 'OMNITABLE' })
 				{
 					# Thang's code
-					ProcessTable($level_3->[ $z ], $is_pic, \%current);
+					ProcessTable($level_3->[ $z ], $is_pic, \%current, 0);
 					# End Thangs's code
 				}
 				# or a frame
@@ -228,7 +239,6 @@ sub ProcessFile
 				{
 					# Frame contains multiple paragraph ?
 					ProcessFrame($level_3->[ $z ], $is_pic, \%current);
-					#
 				}
 			}
 		}
@@ -489,126 +499,133 @@ sub ProcessFrame
 
 	# Line index in the whole frame
 	my $lindex	= 0;
-	# All paragraph in the frame
-	my $paras	= $omniframe->get_objs_ref();
-	# For each paragraph in the frame
-	for (my $i = 0; $i < scalar(@{ $paras }); $i++)
+	# All paragraph or table in the frame
+	my $objs	= $omniframe->get_objs_ref();
+	# For each paragraph or table in the frame
+	for (my $i = 0; $i < scalar(@{ $objs }); $i++)
 	{
-		# Paragraph attributes
-		my $align	= $paras->[ $i ]->get_alignment();
-		my $space	= $paras->[ $i ]->get_space_before();
-		# Line attributes
-  		my ($left, $top, $right, $bottom) = undef;
-		# Run attributes	
-		my $bold_count		= 0;
-  		my $italic_count	= 0;
-  		my %font_size_hash	= ();
-	  	my %font_face_hash	= ();
-
-		my $omnilines = $paras->[ $i ]->get_objs_ref();
-		# For each line in the paragraph	
-		for (my $t = 0; $t <= scalar(@{ $omnilines }); $t++)
+		if ($objs->[ $i ]->get_name() eq $obj_list->{ 'OMNIPARA' })
 		{
-			# Save the line
-			push @lines, $omnilines->[ $t ]->get_content();
-			# Save the line's address
-			$line_addr->{ 'L4 ' } = $lindex;
-			push @lines_addr, { %{ $line_addr } };
-			# Point to the next line in the whole frame
-			$lindex++;
-
+			# Paragraph attributes
+			my $align	= $objs->[ $i ]->get_alignment();
+			my $space	= $objs->[ $i ]->get_space_before();
 			# Line attributes
-			$left	= $omnilines->[ $t ]->get_left_pos();
-			$right	= $omnilines->[ $t ]->get_right_pos();
-			$top	= $omnilines->[ $t ]->get_top_pos();
-			$bottom	= $omnilines->[ $t ]->get_bottom_pos();
+  			my ($left, $top, $right, $bottom) = undef;
+			# Run attributes	
+			my $bold_count		= 0;
+  			my $italic_count	= 0;
+  			my %font_size_hash	= ();
+		  	my %font_face_hash	= ();
 
-			# Runs
-			my $runs	= $omnilines->[ $t ]->get_objs_ref();
-			my $start_r	= 0;
-			my $end_r	= scalar(@{ $runs }) - 1;
-
-			# Total number of words in a line
-			my $words_count = 0;
-
-			for (my $u = $start_r; $u <= $end_r; $u++)
-			{			
-				# Thang's compatible code (instead of using get_objs_ref)
-				my $rcontent = undef;
-				# Get run content
-				$rcontent	 = $runs->[ $u ]->get_content();
-				# Trim
-				$rcontent	 =~ s/^\s+|\s+$//g;
-				# Split to words
-				my @words = split(/\s+/, $rcontent);	
-
-				# Update the number of words
-				$words_count += scalar(@words);
-
-				# XML format
-				my $font_size					= $runs->[ $u ]->get_font_size();
-				$font_size_hash{ $font_size }	= $font_size_hash{ $font_size } ? $font_size_hash{ $font_size } + scalar(@words) : scalar(@words); 
-				# XML format
-				my $font_face 					= $runs->[ $u ]->get_font_face();
-				$font_face_hash{ $font_face }	= $font_face_hash{ $font_face } ? $font_face_hash{ $font_face } + scalar(@words) : scalar(@words); 
-				# XML format
-				if ($runs->[ $u ]->get_bold() eq "true") { $bold_count += scalar(@words); } 
-				# XML format
-				if ($runs->[ $u ]->get_italic() eq "true") { $italic_count += scalar(@words); }
-			}
-			
-			# Line attributes - relative position in paragraph
-			if ($t == 0)
+			my $omnilines = $objs->[ $i ]->get_objs_ref();
+			# For each line in the paragraph	
+			for (my $t = 0; $t < scalar(@{ $omnilines }); $t++)
 			{
- 				push @g_para, "yes";
-			} 
-			else 
-			{
- 				push @g_para, "no";
-			}
-		
-			# Line attributes - line position
-			my $pos = ($top + $bottom) / 2.0;
-			# Compare to global min and max position
-			if ($pos < $g_minpos) { $g_minpos = $pos; }
-			if ($pos > $g_maxpos) { $g_maxpos = $pos; }
-			# Pos feature
-			push @g_pos_hash, $pos;
-			# Alignment feature
-	  		push @g_align, $align;
-			# Table feature
-			push @g_table, "no";
+				# Save the line
+				push @lines, $omnilines->[ $t ]->get_content();
+				# Save the line's address
+				$line_addr->{ 'L4' } = $lindex;
+				push @lines_addr, { %{ $line_addr } };
+				# Point to the next line in the whole frame
+				$lindex++;
+
+				# Line attributes
+				$left	= $omnilines->[ $t ]->get_left_pos();
+				$right	= $omnilines->[ $t ]->get_right_pos();
+				$top	= $omnilines->[ $t ]->get_top_pos();
+				$bottom	= $omnilines->[ $t ]->get_bottom_pos();
 	
-			if ($is_pic)
-			{
-	    		push @g_pic, "yes";
-   		 		# Not assign value if line is in image area
-    			push @g_bold, "no";		
-    			push @g_italic, "no";
-	    		push @g_bullet, "no";
-    			push @g_font_size, -1; 		
-    			push @g_font_face, "none";
-	  		} 
-			else 
-			{
-    			push @g_pic, "no";
-				UpdateXMLFontFeature(\%font_size_hash, \%font_face_hash);			
-				UpdateXMLFeatures($bold_count, $italic_count, $words_count, $omnilines->[ $t ]->get_bullet(), $space);
-			}		
+				# Runs
+				my $runs	= $omnilines->[ $t ]->get_objs_ref();
+				my $start_r	= 0;
+				my $end_r	= scalar(@{ $runs }) - 1;
+
+				# Total number of words in a line
+				my $words_count = 0;
+
+				for (my $u = $start_r; $u <= $end_r; $u++)
+				{			
+					# Thang's compatible code (instead of using get_objs_ref)
+					my $rcontent = undef;
+					# Get run content
+					$rcontent	 = $runs->[ $u ]->get_content();
+					# Trim
+					$rcontent	 =~ s/^\s+|\s+$//g;
+					# Split to words
+					my @words = split(/\s+/, $rcontent);	
+
+					# Update the number of words
+					$words_count += scalar(@words);
+
+					# XML format
+					my $font_size					= $runs->[ $u ]->get_font_size();
+					$font_size_hash{ $font_size }	= $font_size_hash{ $font_size } ? $font_size_hash{ $font_size } + scalar(@words) : scalar(@words); 
+					# XML format
+					my $font_face 					= $runs->[ $u ]->get_font_face();
+					$font_face_hash{ $font_face }	= $font_face_hash{ $font_face } ? $font_face_hash{ $font_face } + scalar(@words) : scalar(@words); 
+					# XML format
+					if ($runs->[ $u ]->get_bold() eq "true") { $bold_count += scalar(@words); } 
+					# XML format
+					if ($runs->[ $u ]->get_italic() eq "true") { $italic_count += scalar(@words); }
+				}
+			
+				# Line attributes - relative position in paragraph
+				if ($t == 0)
+				{
+ 					push @g_para, "yes";
+				} 
+				else 
+				{
+ 					push @g_para, "no";
+				}
 		
-			# Reset hash
-			%font_size_hash = (); 
-			%font_face_hash = ();
-			# Reset
-			$bold_count		= 0;
-			$italic_count	= 0;
+				# Line attributes - line position
+				my $pos = ($top + $bottom) / 2.0;
+				# Compare to global min and max position
+				if ($pos < $g_minpos) { $g_minpos = $pos; }
+				if ($pos > $g_maxpos) { $g_maxpos = $pos; }
+				# Pos feature
+				push @g_pos_hash, $pos;
+				# Alignment feature
+		  		push @g_align, $align;
+				# Table feature
+				push @g_table, "no";
+	
+				if ($is_pic)
+				{
+		    		push @g_pic, "yes";
+   			 		# Not assign value if line is in image area
+    				push @g_bold, "no";		
+    				push @g_italic, "no";
+	    			push @g_bullet, "no";
+	    			push @g_font_size, -1; 		
+    				push @g_font_face, "none";
+	  			} 
+				else 
+				{
+    				push @g_pic, "no";
+					UpdateXMLFontFeature(\%font_size_hash, \%font_face_hash);			
+					UpdateXMLFeatures($bold_count, $italic_count, $words_count, $omnilines->[ $t ]->get_bullet(), $space);
+				}			
+		
+				# Reset hash
+				%font_size_hash = (); 
+				%font_face_hash = ();
+				# Reset
+				$bold_count		= 0;
+				$italic_count	= 0;
+			}
+		}
+		elsif ($objs->[ $i ]->get_name() eq $obj_list->{ 'OMNITABLE' })
+		{
+			$lindex = ProcessTable($objs->[ $i ], $is_pic, $line_addr, $lindex);
 		}
 	}
 }
 
 sub ProcessTable 
 {
-	my ($omnitable, $is_pic, $line_addr) = @_;
+	my ($omnitable, $is_pic, $line_addr, $lindex) = @_;
 
 	# Table attributes
 	my ($left, $top, $right, $bottom) = undef;
@@ -626,8 +643,6 @@ sub ProcessTable
 	if ($pos > $g_maxpos) { $g_maxpos = $pos; }
 	# End Thangs's code
 
-	# Line index in the whole table
-	my $lindex	= 0;
 	# All row in the table
 	my $rows	= $omnitable->get_row_content();
 	# For each row in the table
@@ -640,13 +655,10 @@ sub ProcessTable
 			# Save the line
 			push @lines, $row_lines[ $j ];
 			# Save the line's address
-			$line_addr->{ 'L4 ' } = $lindex;
+			$line_addr->{ 'L4' } = $lindex;
 			push @lines_addr, { %{ $line_addr } };
 			# Point to the next line in the whole table
 			$lindex++;
-
-			# DEBUG
-			$line_count++;
 
 			if (($j == 0) && ($i == 0))
 			{
@@ -687,6 +699,9 @@ sub ProcessTable
 			push @g_bullet, "no";
 		}
 	}
+
+	# Nonsense
+	return $lindex;
 }
 
 sub ProcessPara 
@@ -715,7 +730,7 @@ sub ProcessPara
 		# Save the line
 		push @lines, $omnilines->[ $t ]->get_content();
 		# Save the line's address
-		$line_addr->{ 'L4 ' } = $t;
+		$line_addr->{ 'L4' } = $t;
 		push @lines_addr, { %{ $line_addr } };
 
 		# Line attributes

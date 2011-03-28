@@ -33,6 +33,10 @@ use Getopt::Std;
 use strict 'vars';
 use lib $FindBin::Bin . "/../lib";
 
+use Omni::Omnidoc;
+use Omni::Traversal;
+use ParsCit::Controller;
+	
 # USER customizable section
 my $tmpfile	.= $0; 
 $tmpfile	=~ s/[\.\/]//g;
@@ -234,15 +238,34 @@ if (($mode & $PARSCIT) == $PARSCIT)
 {
 	if ($is_xml_input)
 	{
-		my $sect_label_input = $text_file;
-
-		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
+		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv3.pl -q -in $in -out $text_file.feature -decode";
 		system($cmd);
-	
-		$sect_label_input .= ".feature";
+
+		my $address_file = $text_file . ".feature" . ".address";
+		if (! open(IN, "<:utf8", $address_file)) { return (-1, "Could not open address file " . $address_file . ": " . $!); }
 		
-		use Omni::Omnidoc;
-		use Omni::Traversal;
+		my @omni_address = ();
+		# Read the address file provided by process OmniXML script
+		while (<IN>)
+		{
+			chomp;
+			# Save and split the line
+			my $line	= $_;
+			my @element	= split(/\s+/, $line);
+
+			my %addr		= ();
+			# Address
+			$addr{ 'L1' }	= $element[ 0 ];
+			$addr{ 'L2' }	= $element[ 1 ];
+			$addr{ 'L3' }	= $element[ 2 ];
+			$addr{ 'L4' }	= $element[ 3 ];
+
+			# Save the address
+			push @omni_address, { %addr };
+		}
+		close IN;
+		unlink($address_file);
+		
 		###
 		# Huydhn: input is xml from Omnipage
 		###
@@ -268,48 +291,25 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		my $doc = new Omni::Omnidoc();
 		$doc->set_raw($xml);
 
-		# All lines and their addresses 
-		my ($pos, $lines) = Omni::Traversal::OmniAirline($doc);
-
-		open(FOO, ">:utf8", "comp");
-		foreach my $line (@{ $lines })
-		{
-			print FOO $line, "\n";	
-		}
-		close FOO;
-
+		my $sect_label_input = $text_file . ".feature";
 		# Output of sectlabel becomes input for parscit
-		my ($cit_lines, $cit_addrs, $safe) = SectLabel($sect_label_input, $is_xml_input, 1, $pos, $lines);	
+		my ($all_text, $cit_lines) = SectLabel($sect_label_input, $is_xml_input, 1);	
 		# Remove XML feature file
-		print $sect_label_input, "\n";
-		die;
-		#unlink($sect_label_input);
+		unlink($sect_label_input);
 
-		use ParsCit::Controller;
+		my @cit_addrs = ();
+		# Address of reference section	
+		for my $lindex (@{ $cit_lines }) { push @cit_addrs, $omni_address[ $lindex ]; }
+
+		# DEBUG
+		#my $foo	= Omni::Traversal::OmniCollector($doc, \@cit_addrs);
+		#my $bar	= join("\n", @{ $foo });
+		#print $bar, "\n";
+		#
 
 		my $pc_xml = undef;
-		# Sectlabel's output is safe to use which means that Thang's output
-		# matches with mine - huydhn
-		if ($safe)
-		{
-			# The whole is more than the sum of its parts :)
-			my $all_text = join("\n", @{ $lines });
-
-			###
-			# Huydhn: add xml features to parscit in case of unmarked reference
-			###
-			$pc_xml = ParsCit::Controller::ExtractCitations2(\$all_text, $cit_lines, $is_xml_input, $doc, $cit_addrs);
-		}
-		# If not, switch back to original parscit
-		else
-		{
-			print STDERR "#! Warning: the new XML parser gives different output from the old one, switch back to the old one", "\n";
-
-			###
-			# Huydhn: add xml features to parscit in case of unmarked reference
-			###
-			$pc_xml = ParsCit::Controller::ExtractCitations($text_file, $in, $is_xml_input);
-		}
+		# Huydhn: add xml features to parscit in case of unmarked reference
+		$pc_xml = ParsCit::Controller::ExtractCitations2(\$all_text, $cit_lines, $is_xml_input, $doc, \@cit_addrs);
 
 		# Remove first line <?xml/> 
 		$rxml .= RemoveTopLines($$pc_xml, 1) . "\n";
@@ -319,8 +319,6 @@ if (($mode & $PARSCIT) == $PARSCIT)
 	}
 	else
 	{
-		use ParsCit::Controller;
-
 		###
 		# Huydhn: add xml features to parscit in case of unmarked reference
 		###
@@ -414,7 +412,7 @@ sub RemoveTopLines
 ###
 sub SectLabel 
 {
-	my ($text_file, $is_xml_input, $for_parscit, $addrs, $lines) = @_;
+	my ($text_file, $is_xml_input, $for_parscit) = @_;
 
 	use SectLabel::Config;
 	use SectLabel::Controller;
@@ -437,31 +435,30 @@ sub SectLabel
 	# Classify section
 	if (! $for_parscit)
 	{
-		my $sl_xml	= SectLabel::Controller::ExtractSection(	$text_file, 
-																$is_xml_output, 
-																$model_file, 
-																$dict_file, 
-																$func_file, 
-																$config_file, 
-																$is_xml_input, 
-																$is_debug	);
+		my $sl_xml = SectLabel::Controller::ExtractSection(	$text_file, 
+															$is_xml_output, 
+															$model_file, 
+															$dict_file, 
+															$func_file, 
+															$config_file, 
+															$is_xml_input, 
+															$is_debug	);
 		return $$sl_xml;
 	}
 	# Huydhn: sectlabel output -> parscit input
 	else
 	{
-		my ($cit_lines, $cit_addrs, $safe)	= SectLabel::Controller::ExtractSection(	$text_file, 
-																						$is_xml_output, 
-																						$model_file, 
-																						$dict_file, 
-																						$func_file, 
-																						$config_file, 
-																						$is_xml_input, 
-																						$is_debug,
-																						$for_parscit,
-																						$addrs,
-																						$lines	);
-		return ($cit_lines, $cit_addrs, $safe);
+		my ($all_text, $cit_lines) = SectLabel::Controller::ExtractSection(	$text_file, 
+																			$is_xml_output, 
+																			$model_file, 
+																			$dict_file, 
+																			$func_file, 
+																			$config_file, 
+																			$is_xml_input, 
+																			$is_debug,
+																			$for_parscit	);
+
+		return ($all_text, $cit_lines);
 	}
 }
 
