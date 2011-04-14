@@ -191,7 +191,7 @@ my $text_file = undef;
 if ($is_xml_input)
 {
 	$text_file	= "/tmp/" . NewTmpFile();
-	my $cmd		= $FindBin::Bin . "/sectLabel/processOmniXML.pl -q -in $in -out $text_file -decode";
+	my $cmd		= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file -decode";
 	system($cmd);
 } 
 else 
@@ -207,19 +207,55 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	# Get XML features and append to $textFile
 	if ($is_xml_input)
 	{
-		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file.feature -xmlFeature -decode";
+		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv3.pl -q -in $in -out $text_file.feature -decode";
 		system($cmd);
 
+		my $address_file = $text_file . ".feature" . ".address";
+		if (! open(IN, "<:utf8", $address_file)) { return (-1, "Could not open address file " . $address_file . ": " . $!); }
+		
+		my @omni_address = ();
+		# Read the address file provided by process OmniXML script
+		while (<IN>)
+		{
+			chomp;
+			# Save and split the line
+			my $line	= $_;
+			my @element	= split(/\s+/, $line);
+
+			my %addr		= ();
+			# Address
+			$addr{ 'L1' }	= $element[ 0 ];
+			$addr{ 'L2' }	= $element[ 1 ];
+			$addr{ 'L3' }	= $element[ 2 ];
+			$addr{ 'L4' }	= $element[ 3 ];
+
+			# Save the address
+			push @omni_address, { %addr };
+		}
+		close IN;
+		unlink($address_file);
+
 		$sect_label_input .= ".feature";
-	}
+		my ($sl_xml, $aut_lines, $aff_lines) = SectLabel($sect_label_input, $is_xml_input, 0);
 
-	my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input, 0);
+		# DEBUG
+		my $foo = Omni::Traversal::OmniCollector($doc, \@cit_addrs);
+		my $bar = join("\n", @{ $foo });
+		print $bar, "\n";
+		#
 	
-	# Remove first line <?xml/>
-	$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
-
-	# Remove XML feature file
-	if ($is_xml_input) { unlink($sect_label_input); }
+		# Remove first line <?xml/>
+		$rxml .= RemoveTopLines($sl_xml, 1) . "\n";
+		# Remove XML feature file
+		unlink($sect_label_input);
+	}
+	else
+	{
+		my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input, 0);
+	
+		# Remove first line <?xml/>
+		$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
+	}
 }
 
 # PARSHED
@@ -301,12 +337,6 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		# Address of reference section	
 		for my $lindex (@{ $cit_lines }) { push @cit_addrs, $omni_address[ $lindex ]; }
 
-		# DEBUG
-		#my $foo	= Omni::Traversal::OmniCollector($doc, \@cit_addrs);
-		#my $bar	= join("\n", @{ $foo });
-		#print $bar, "\n";
-		#
-
 		my $pc_xml = undef;
 		# Huydhn: add xml features to parscit in case of unmarked reference
 		$pc_xml = ParsCit::Controller::ExtractCitations2(\$all_text, $cit_lines, $is_xml_input, $doc, \@cit_addrs);
@@ -319,9 +349,6 @@ if (($mode & $PARSCIT) == $PARSCIT)
 	}
 	else
 	{
-		###
-		# Huydhn: add xml features to parscit in case of unmarked reference
-		###
 		my $pc_xml = ParsCit::Controller::ExtractCitations($text_file, $in, $is_xml_input);
 	
 		# Remove first line <?xml/> 
@@ -435,15 +462,16 @@ sub SectLabel
 	# Classify section
 	if (! $for_parscit)
 	{
-		my $sl_xml = SectLabel::Controller::ExtractSection(	$text_file, 
-															$is_xml_output, 
-															$model_file, 
-															$dict_file, 
-															$func_file, 
-															$config_file, 
-															$is_xml_input, 
-															$is_debug	);
-		return $$sl_xml;
+		my ($sl_xml, $aut_lines, $aff_lines) = SectLabel::Controller::ExtractSection(	$text_file, 
+																						$is_xml_output, 
+																						$model_file, 
+																						$dict_file, 
+																						$func_file, 
+																						$config_file, 
+																						$is_xml_input, 
+																						$is_debug,
+																						$for_parscit	);
+		return ($$sl_xml, $aut_lines, $afflines);
 	}
 	# Huydhn: sectlabel output -> parscit input
 	else

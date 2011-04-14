@@ -48,23 +48,24 @@ sub ExtractSection
 	# Classify section
 	if (! $for_parscit)
 	{
-	    my ($status, $msg, $xml) = ExtractSectionImpl(	$text_file, 
-														$is_xml_output, 
-														$model_file, 
-														$dict_file, 
-														$func_file, 
-														$config_file, 
-														$is_xml_input, 
-														$is_debug	);
+	    my ($status, $msg, $xml, $aut_lines, $aff_lines) = ExtractSectionImpl(	$text_file, 
+																				$is_xml_output, 
+																				$model_file, 
+																				$dict_file, 
+																				$func_file, 
+																				$config_file, 
+																				$is_xml_input, 
+																				$is_debug,
+																				$for_parscit	);
 
 		if ($status > 0) 
 		{
-			return \$xml;
+			return (\$xml, $aut_lines, $aff_lines);
 	    } 
 		else 
 		{
 			my $error = "Error: " . $msg;
-			return \$error;
+			return (\$error, undef, undef);
     	}
 	}
 	else
@@ -169,31 +170,29 @@ sub ExtractSectionImpl
 			$section_headers{ "generic" } = ();
 			GetGenericHeaders( $section_headers{ "header" }, \@{ $section_headers{ "generic" } });
 
-			# my $num_header = scalar(@{ $section_headers{ "lineId" } });
-			# for(my $i=0; $i<$numHeader; $i++)
-			# {
-			#	print  $section_headers{ "lineId" }->[$i] . "\t" . $section_headers{ "header" }->[$i] . "\t" . $section_headers{ "generic" }->[$i] . "\n";
-			# }
-
       		$xml = InsertGenericHeaders($xml, $section_headers{ "header" }, $section_headers{ "generic" }, $section_headers{ "lineId" });
     	}
-
-		###
-		# Huydhn: provide input for parscit
-		###
-		if ($for_parscit)
-		{
-			my ($all_text, $cit_lines) = SectLabel::PostProcess::GenerateParscitInput($out_file);
-		
-			unlink($tmp_file);
-		  	unlink($out_file);
-			return ($all_text, $cit_lines);
-		}
  	}
+	
+	###
+	# Huydhn: provide input for parscit
+	###
+	if ($for_parscit)
+	{
+		my ($all_text, $cit_lines) = SectLabel::PostProcess::GenerateParscitInput($out_file);
+	
+		unlink($tmp_file);
+	  	unlink($out_file);
+		return ($all_text, $cit_lines);
+	}
+	else
+	{
+		my ($aut_lines, $aff_lines) = SectLabel::PostProcess::GenerateAuthorAffiliation($out_file);
 
-	unlink($tmp_file);
-  	unlink($out_file);
-	return ($status, $msg, $xml);
+		unlink($tmp_file);
+  		unlink($out_file);
+		return ($status, $msg, $xml, $aut_lines, $aff_lines);
+	}
 }
 
 ###
@@ -269,12 +268,6 @@ sub InsertGenericHeaders
 			# After increase, $text_id is the current line id (base 0)
 			$text_id++; 
 			if ($line_ids->[ $header_count ] != $text_id) { die "Die in SectLabel::Controller::insertGenericHeaders - different text ids " . $line_ids->[ $header_count ] . " != " . $text_id . "\n"; }
-
-			# $line = decode_entities($line);
-			# if ($headers->[ $header_count ] ne $line)
-			# {
-			#	die "Die in SectLabel::Controller::InsertGenericHeaders - different headers \" . $headers->[ $header_count ] . "\" ne \"" . $line . "\"\n";
-			# }
 
       		my $generic_header	= $generics->[ $header_count ];
     		$lines[ $i - 1 ]	= "<sectionHeader confidence=\"" . $confidence . "\" genericHeader=\"" . $generic_header . "\">";

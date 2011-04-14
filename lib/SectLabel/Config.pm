@@ -13,7 +13,7 @@ $funcFile		= "resources/sectLabel/funcWord";
 
 $crf_test		= "crfpp/crf_test";
 $modelFile		= "resources/sectLabel/sectLabel.model";
-$modelXmlFile	= "resources/sectLabel/sectLabel.modelXml";
+$modelXmlFile	= "resources/sectLabel/sectLabel.modelXml.v2";
 $configFile		= "resources/sectLabel/sectLabel.config";
 $configXmlFile	= "resources/sectLabel/sectLabel.configXml";
 

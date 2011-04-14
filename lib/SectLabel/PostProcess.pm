@@ -254,6 +254,7 @@ sub WrapDocument
 	return $xml;
 }
 
+# Make the output "prettier"
 sub SimpleNormalize 
 {
 	my ($tag, $content) = @_;
@@ -359,6 +360,66 @@ sub GenerateParscitInput
 
 	# Done
 	return ($all_text, \@cit_lines);
+}
+
+###
+# Huydhn: provide author and affiliation for the new matching model
+###
+sub GenerateAuthorAffiliation
+{
+	my ($in_file) = @_;
+
+	my @aut_lines	= ();
+	my @aff_lines	= ();
+  	my $line_index	= 0;
+
+	# This file is the output from CRF++ for sectlabel
+	open(IN, "<:utf8", $in_file) or return (undef, undef, 0, "couldn't open in_file: $!");
+
+  	while (<IN>) 
+	{
+		# Overall condidence line, do not care about this
+    	if (/^\# ([\.\d]+)/) { next; }
+		# Remove end of line		
+      	chop;
+		# Remove blank line
+		my $line =	$_;
+		$line	 =~	s/^\s+|\s+$//g;
+		if ($line eq "") { next; }
+
+		# Split the line, the last token is the category provide by sectlabel
+		my @tokens = split (/\t/, $line);
+	 	# A line's category
+   		my $sys = $tokens[-1];
+
+		# Process confidence info in the format e.g, sectionHeader/0.989046
+		if ($sys =~ /^(.+)\/([\d\.]+)$/)
+		{
+			$sys = $1;
+      	} 
+		else 
+		{
+			die "Die in SectLabel:PostProcess::wrapDocumentXml : incorrect format \"tag/prob\" $sys\n";
+      	}
+
+		# Only keep lines in the reference for parscit
+		if ($sys eq "author") 
+		{ 
+			push @aut_lines, $line_index; 
+		}
+		elsif ($sys eq "affiliation")
+		{
+			push @aff_lines, $line_index;
+		}
+
+		# Point to the next line
+		$line_index++;
+  	}
+
+  	close (IN);
+
+	# Done
+	return (\@aut_lines, \@aff_lines);
 }
 
 1;
