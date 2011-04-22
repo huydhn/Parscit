@@ -36,6 +36,7 @@ use lib $FindBin::Bin . "/../lib";
 use Omni::Omnidoc;
 use Omni::Traversal;
 use ParsCit::Controller;
+use SectLabel::AAMatching;
 	
 # USER customizable section
 my $tmpfile	.= $0; 
@@ -185,14 +186,39 @@ if (defined $opt_e && $opt_e ne "")
 	@export_types = sort { $a cmp $b } keys %type_hash;
 }
 
-my $text_file = undef;
-
+my $doc			= undef;
+my $text_file	= undef;
 # Extracting text from Omnipage XML output
 if ($is_xml_input)
 {
 	$text_file	= "/tmp/" . NewTmpFile();
 	my $cmd		= $FindBin::Bin . "/sectLabel/processOmniXMLv2.pl -q -in $in -out $text_file -decode";
 	system($cmd);
+
+	###
+	# Huydhn: input is xml from Omnipage
+	###
+	if (! open(IN, "<:utf8", $in)) { return (-1, "Could not open xml file " . $in . ": " . $!); }
+	my $xml = do { local $/; <IN> };
+	close IN;
+
+	###
+	# Huydhn
+	# NOTE: the omnipage xml is not well constructed (concatenated multiple xml files).
+	# This merged xml need to be fixed first before pass it to xml processing libraries, e.g. xml::twig
+	###
+	# Convert to Unix format
+	$xml =~ s/\r//g;
+	# Remove <?xml version="1.0" encoding="UTF-8"?>
+	$xml =~ s/<\?xml.+?>\n//g;
+	# Remove <!--XML document generated using OCR technology from ScanSoft, Inc.-->
+	$xml =~ s/<\!\-\-XML.+?>\n//g;
+	# Declaration and root
+	$xml = "<?xml version=\"1.0\"?>" . "\n" . "<root>" . "\n" . $xml . "\n" . "</root>";
+
+	# New document
+	$doc = new Omni::Omnidoc();
+	$doc->set_raw($xml);
 } 
 else 
 {
@@ -238,12 +264,16 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		$sect_label_input .= ".feature";
 		my ($sl_xml, $aut_lines, $aff_lines) = SectLabel($sect_label_input, $is_xml_input, 0);
 
-		# DEBUG
-		my $foo = Omni::Traversal::OmniCollector($doc, \@cit_addrs);
-		my $bar = join("\n", @{ $foo });
-		print $bar, "\n";
-		#
-	
+		my @aut_addrs = ();
+		my @aff_addrs = ();
+		# Address of author section	
+		for my $lindex (@{ $aut_lines }) { push @aut_addrs, $omni_address[ $lindex ]; }
+		# Address of affiliation section
+		for my $lindex (@{ $aff_lines }) { push @aff_addrs, $omni_address[ $lindex ]; }
+
+		# The tarpit
+		SectLabel::AAMatching::AAMatching($doc, \@aut_addrs, \@aff_addrs);
+
 		# Remove first line <?xml/>
 		$rxml .= RemoveTopLines($sl_xml, 1) . "\n";
 		# Remove XML feature file
@@ -301,31 +331,6 @@ if (($mode & $PARSCIT) == $PARSCIT)
 		}
 		close IN;
 		unlink($address_file);
-		
-		###
-		# Huydhn: input is xml from Omnipage
-		###
-		if (! open(IN, "<:utf8", $in)) { return (-1, "Could not open xml file " . $in . ": " . $!); }
-		my $xml = do { local $/; <IN> };
-		close IN;
-
-		###
-		# Huydhn
-		# NOTE: the omnipage xml is not well constructed (concatenated multiple xml files).
-		# This merged xml need to be fixed first before pass it to xml processing libraries, e.g. xml::twig
-		###
-		# Convert to Unix format
-		$xml =~ s/\r//g;
-		# Remove <?xml version="1.0" encoding="UTF-8"?>
-		$xml =~ s/<\?xml.+?>\n//g;
-		# Remove <!--XML document generated using OCR technology from ScanSoft, Inc.-->
-		$xml =~ s/<\!\-\-XML.+?>\n//g;
-		# Declaration and root
-		$xml = "<?xml version=\"1.0\"?>" . "\n" . "<root>" . "\n" . $xml . "\n" . "</root>";
-
-		# New document
-		my $doc = new Omni::Omnidoc();
-		$doc->set_raw($xml);
 
 		my $sect_label_input = $text_file . ".feature";
 		# Output of sectlabel becomes input for parscit
@@ -471,7 +476,7 @@ sub SectLabel
 																						$is_xml_input, 
 																						$is_debug,
 																						$for_parscit	);
-		return ($$sl_xml, $aut_lines, $afflines);
+		return ($$sl_xml, $aut_lines, $aff_lines);
 	}
 	# Huydhn: sectlabel output -> parscit input
 	else

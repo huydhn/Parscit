@@ -55,7 +55,7 @@ my $obj_list = $Omni::Config::obj_list;
 ###
 sub OmniCollector
 {
-	my ($doc, $line_addrs) = @_;
+	my ($doc, $line_addrs, $need_obj) = @_;
 
 	# All the line
 	my @line_content = ();
@@ -116,7 +116,15 @@ sub OmniCollector
 							($z == $line_addrs->[ $addr_index ]{ 'L3' }) &&
 							($t == $line_addrs->[ $addr_index ]{ 'L4' }))
 						{
-							push @line_content, $level_4->[ $t ]->get_content();
+							if ((! defined $need_obj) || ($need_obj == 0))
+							{
+								push @line_content, $level_4->[ $t ]->get_content();
+							}
+							else
+							{
+								push @line_content, $level_4->[ $t ];
+							}
+
 							# Next selected line
 							$addr_index++;
 							# Last one?
@@ -148,7 +156,7 @@ sub OmniCollector
 							($z == $line_addrs->[ $addr_index ]{ 'L3' }) &&
 							($t == $line_addrs->[ $addr_index ]{ 'L4' }))
 						{
-							push @line_content, $level_4[ $t ];
+							if ((! defined $need_obj) || ($need_obj == 0)) { push @line_content, $level_4[ $t ]; }
 							# Next selected line
 							$addr_index++;
 							# Last one?
