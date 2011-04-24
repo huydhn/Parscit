@@ -59,6 +59,9 @@ sub OmniCollector
 
 	# All the line
 	my @line_content = ();
+	
+	# Check the validity
+	if (scalar(@{ $line_addrs }) == 0) { return (\@line_content); }
 
 	# Current position	
 	my %current		 = ();

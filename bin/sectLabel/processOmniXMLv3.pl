@@ -727,6 +727,12 @@ sub ProcessPara
 	# Lines
 	for (my $t = $start_l; $t <= $end_l; $t++)
 	{
+		# Skip blank line
+		my $lcontent = $omnilines->[ $t ]->get_content();
+		$lcontent	 =~ s/^\s+|\s+$//g;
+		# Skip blank line
+		if ($lcontent eq "") { next; }
+
 		# Save the line
 		push @lines, $omnilines->[ $t ]->get_content();
 		# Save the line's address

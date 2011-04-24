@@ -168,6 +168,7 @@ sub ExtractSectionImpl
       	
 	  		# Array of generic headers
 			$section_headers{ "generic" } = ();
+
 			GetGenericHeaders( $section_headers{ "header" }, \@{ $section_headers{ "generic" } });
 
       		$xml = InsertGenericHeaders($xml, $section_headers{ "header" }, $section_headers{ "generic" }, $section_headers{ "lineId" });
@@ -201,6 +202,10 @@ sub ExtractSectionImpl
 sub GetGenericHeaders 
 {
 	my ($headers, $generic_headers) = @_;
+
+	# Huydhn
+	# Found no header
+	if (! defined $headers) { return; };
 
 	my $num_headers = scalar(@{ $headers });
 

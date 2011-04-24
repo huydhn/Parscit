@@ -17,6 +17,9 @@ $modelXmlFile	= "resources/sectLabel/sectLabel.modelXml.v2";
 $configFile		= "resources/sectLabel/sectLabel.config";
 $configXmlFile	= "resources/sectLabel/sectLabel.configXml";
 
+$autFile		= "resources/sectLabel/author.model";
+$affFile		= "resources/sectLabel/affiliation.model";
+
 ###
 # Thang v100401: note the keyword feature and configs below are not currently 
 # used due to insufficient data list of tags trained in sectLabel, will be used 
