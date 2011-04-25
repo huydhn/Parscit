@@ -9,6 +9,10 @@ package SectLabel::AAMatching;
 
 use strict;
 
+# Dependencies
+use IO::File;
+use XML::Writer;
+
 # Local libraries
 use ParsCit::PostProcess;
 
@@ -19,7 +23,7 @@ my %dict = ();
 # Affiliation
 sub AAMatching
 {
-	my ($doc, $aut_addrs, $aff_addrs) = @_;
+	my ($doc, $aut_addrs, $aff_addrs, $aafile) = @_;
 
 	my $need_object	= 1;
 	# Get the author objects
@@ -42,22 +46,66 @@ sub AAMatching
 	# TODO: DO NOT NEED TO SPLIT AFFILIATION FROM DIFFERENT SECTIONS
 	my ($aff_signal, $affs) = AffiliationExtraction($aff_features);
 
-	# DEBUG
+	# Do the matching
+	# File i/o and XML writer
+	my $output = new IO::File(">$aafile");
+	my $writer = new XML::Writer(OUTPUT => $output, ENCODING => 'utf-8', DATA_MODE => 'true', DATA_INDENT => 2);	
+	
+	# Declaration 
+	$writer->xmlDecl('utf-8');
+
+	# XML header
+	my $date = `date`; chomp($date);
+	my $time = `date +%s`; chomp($time);	
+	# Write XML header
+	$writer->startTag("results", "time" => $time, "date" => $date);
+
+	# Write authors
+	$writer->startTag("authors");
+
+	# Write the author name and his corresponding institution
 	foreach my $author (keys %{ $aut_signal })
 	{
-		print $author, ":";
+		$writer->startTag("author");
+
+		$writer->startTag("fullname", "source" => "parscit");
+		$writer->characters($author);
+		$writer->endTag("fullname");
+
+		$writer->startTag("institutions");		
 		foreach my $signal (@{ $aut_signal->{ $author } })
 		{
-			print $signal;
+			$signal =~ s/^\s+|\s+$//g;
+			# Skip blank
+			if ($signal eq "") { next; }
+
+			$writer->startTag("institution", "symbol" => $signal);
+			$writer->characters($aff_signal->{ $signal });
+			$writer->endTag("institution");
 		}
-		print "\n";
+		$writer->endTag("institutions");
+
+		$writer->endTag("author");
 	}
 
-	# DEBUG
-	foreach my $signal (keys %{ $aff_signal })
+	# Finish authors
+	$writer->endTag("authors");
+
+	# Write institutions
+	$writer->startTag("institutions");
+	
+	# Write the instituion name
+	foreach my $institute (@{ $affs })
 	{
-		print $signal, ": ", $aff_signal->{ $signal }, "\n";	
+		$writer->startTag("institution");
+		$writer->characters($institute);
+		$writer->endTag("institution");	
 	}
+
+	$writer->endTag("institutions");
+
+	# Done
+	$writer->endTag("results");
 }
 
 # Extract affiliation and their signal using crf

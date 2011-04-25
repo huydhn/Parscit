@@ -33,6 +33,11 @@ use Getopt::Std;
 use strict 'vars';
 use lib $FindBin::Bin . "/../lib";
 
+# Dependencies
+use File::Spec;
+use File::Basename;
+
+# Local libraries
 use Omni::Omnidoc;
 use Omni::Traversal;
 use ParsCit::Controller;
@@ -271,8 +276,10 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		# Address of affiliation section
 		for my $lindex (@{ $aff_lines }) { push @aff_addrs, $omni_address[ $lindex ]; }
 
+		my $outfile_abs						= File::Spec->rel2abs($out);
+		my ($filename, $directory, $suffix) = fileparse($outfile_abs, qr/\.[^.]*$/);
 		# The tarpit
-		SectLabel::AAMatching::AAMatching($doc, \@aut_addrs, \@aff_addrs);
+		SectLabel::AAMatching::AAMatching($doc, \@aut_addrs, \@aff_addrs, $directory . $filename . "-aa" . $suffix);
 
 		# Remove first line <?xml/>
 		$rxml .= RemoveTopLines($sl_xml, 1) . "\n";
@@ -368,7 +375,7 @@ $rxml .= "</algorithms>";
 
 if (defined $out) 
 {
-	open (OUT, ">:utf8", "$out") or die $progname . " fatal\tCould not open \"" . $out . "\" for writing: $!";
+	open (OUT, ">:utf8", $out) or die $progname . " fatal\tCould not open \"" . $out . "\" for writing: $!";
 	print OUT $rxml;
 	close OUT;
 } 
