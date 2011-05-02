@@ -1,0 +1,16 @@
+Bhupesh	bhupesh	bhupesh	init	nonnum	others	4+char	B	Bh	Bhu	Bhup	h	sh	esh	pesh	no	no	no	no	no	no	begin	bold	none	none	none	normal	fbegin	
+Taneja	taneja	taneja	init	nonnum	others	4+char	T	Ta	Tan	Tane	a	ja	eja	neja	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+1	1	1	others	1dig	others	1-char	1	1	1	1	1	1	1	1	no	no	no	no	no	no	continue	bold	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	bold	none	none	none	normal	fbegin	
+Jyoti	jyoti	jyoti	init	nonnum	others	4+char	J	Jy	Jyo	Jyot	i	ti	oti	yoti	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Yadav	yadav	yadav	init	nonnum	others	4+char	Y	Ya	Yad	Yada	v	av	dav	adav	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+1	1	1	others	1dig	others	1-char	1	1	1	1	1	1	1	1	no	no	no	no	no	no	continue	bold	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	bold	none	none	none	normal	fbegin	
+Tushar	tushar	tushar	init	nonnum	others	4+char	T	Tu	Tus	Tush	r	ar	har	shar	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+K.	k.	k.	others	nonnum	stop	2-char	K	K.	K.	K.	.	K.	K.	K.	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Chakraborty	chakraborty	chakraborty	init	nonnum	others	4+char	C	Ch	Cha	Chak	y	ty	rty	orty	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+2	2	2	others	1dig	others	1-char	2	2	2	2	2	2	2	2	no	no	no	no	no	no	continue	bold	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	bold	none	none	none	normal	fbegin	
+Samir	samir	samir	init	nonnum	others	4+char	S	Sa	Sam	Sami	r	ir	mir	amir	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+K.	k.	k.	others	nonnum	stop	2-char	K	K.	K.	K.	.	K.	K.	K.	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+

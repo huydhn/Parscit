@@ -1,0 +1,12 @@
+DAVID	david	david	all	nonnum	others	4+char	D	DA	DAV	DAVI	D	ID	VID	AVID	no	no	no	no	no	no	begin	none	none	none	none	normal	fbegin	
+P.	p.	p.	others	nonnum	stop	2-char	P	P.	P.	P.	.	P.	P.	P.	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+SCHMITT	schmitt	schmitt	all	nonnum	others	4+char	S	SC	SCH	SCHM	T	TT	ITT	MITT	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+LUK	luk	luk	all	nonnum	others	3-char	L	LU	LUK	LUK	K	UK	LUK	LUK	no	no	no	no	no	no	begin	none	none	none	none	normal	fbegin	
+CHUNG	chung	chung	all	nonnum	others	4+char	C	CH	CHU	CHUN	G	NG	UNG	HUNG	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+LEUNG	leung	leung	all	nonnum	others	4+char	L	LE	LEU	LEUN	G	NG	UNG	EUNG	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+KENNETH	kenneth	kenneth	all	nonnum	others	4+char	K	KE	KEN	KENN	H	TH	ETH	NETH	no	no	no	no	no	no	begin	none	none	none	none	normal	fbegin	
+D.	d.	d.	others	nonnum	stop	2-char	D	D.	D.	D.	.	D.	D.	D.	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+LOCKE	locke	locke	all	nonnum	others	4+char	L	LO	LOC	LOCK	E	KE	CKE	OCKE	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+VANCE	vance	vance	all	nonnum	others	4+char	V	VA	VAN	VANC	E	CE	NCE	ANCE	no	no	no	no	no	no	begin	none	none	none	none	normal	fbegin	
+LOCKE	locke	locke	all	nonnum	others	4+char	L	LO	LOC	LOCK	E	KE	CKE	OCKE	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+

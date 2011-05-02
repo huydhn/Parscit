@@ -1,0 +1,23 @@
+Byung	byung	byung	init	nonnum	others	4+char	B	By	Byu	Byun	g	ng	ung	yung	no	no	no	no	no	no	begin	none	none	none	none	normal	fbegin	
+Wook	wook	wook	init	nonnum	others	4+char	W	Wo	Woo	Wook	k	ok	ook	Wook	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Lee	lee	lee	init	nonnum	others	3-char	L	Le	Lee	Lee	e	ee	Lee	Lee	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+1	1	1	others	1dig	others	1-char	1	1	1	1	1	1	1	1	no	no	no	no	no	no	continue	none	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	none	none	none	none	normal	fbegin	
+Tae	tae	tae	init	nonnum	others	3-char	T	Ta	Tae	Tae	e	ae	Tae	Tae	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Hyung	hyung	hyung	init	nonnum	others	4+char	H	Hy	Hyu	Hyun	g	ng	ung	yung	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Kim,	kim,	kim,	init	nonnum	cont	4+char	K	Ki	Kim	Kim,	,	m,	im,	Kim,	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Seon	seon	seon	init	nonnum	others	4+char	S	Se	Seo	Seon	n	on	eon	Seon	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Kyu	kyu	kyu	init	nonnum	others	3-char	K	Ky	Kyu	Kyu	u	yu	Kyu	Kyu	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Kim,	kim,	kim,	init	nonnum	cont	4+char	K	Ki	Kim	Kim,	,	m,	im,	Kim,	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Sang	sang	sang	init	nonnum	others	4+char	S	Sa	San	Sang	g	ng	ang	Sang	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Soo	soo	soo	init	nonnum	others	3-char	S	So	Soo	Soo	o	oo	Soo	Soo	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Kim	kim	kim	init	nonnum	others	3-char	K	Ki	Kim	Kim	m	im	Kim	Kim	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+2	2	2	others	1dig	others	1-char	2	2	2	2	2	2	2	2	no	no	no	no	no	no	continue	none	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	none	none	none	none	normal	fbegin	
+Gee	gee	gee	init	nonnum	others	3-char	G	Ge	Gee	Gee	e	ee	Gee	Gee	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Chan	chan	chan	init	nonnum	others	4+char	C	Ch	Cha	Chan	n	an	han	Chan	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Ryu,	ryu,	ryu,	init	nonnum	cont	4+char	R	Ry	Ryu	Ryu,	,	u,	yu,	Ryu,	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+and	and	and	others	nonnum	others	3-char	a	an	and	and	d	nd	and	and	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Jong	jong	jong	init	nonnum	others	4+char	J	Jo	Jon	Jong	g	ng	ong	Jong	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Bhak*	bhak*	bhak*	init	nonnum	others	4+char	B	Bh	Bha	Bhak	*	k*	ak*	hak*	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+

@@ -912,8 +912,11 @@ sub ReadDict
 {
   	my ($dictfile) = @_;
 
-	my $dict_handle = undef;
-  	open ($dict_handle, "<:utf8", $dictfile) || die "Could not open dict file $dictfile: $!";
+	# Absolute path
+	my $dictfile_abs = File::Spec->rel2abs($dictfile);
+	# Dictionary handle
+	my $dict_handle	 = undef;
+  	open ($dict_handle, "<:utf8", $dictfile_abs) || die "Could not open dict file $dictfile_abs: $!";
 
 	my $mode = 0;
   	while (<$dict_handle>) 

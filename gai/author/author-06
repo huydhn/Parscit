@@ -1,0 +1,22 @@
+Guillaume	guillaume	guillaume	init	nonnum	others	4+char	G	Gu	Gui	Guil	e	me	ume	aume	no	no	no	no	no	no	begin	none	none	none	none	normal	fbegin	
+Bourque	bourque	bourque	init	nonnum	others	4+char	B	Bo	Bou	Bour	e	ue	que	rque	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+1	1	1	others	1dig	others	1-char	1	1	1	1	1	1	1	1	no	no	no	no	no	no	continue	none	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	none	none	none	none	normal	fbegin	
+Vinsensius	vinsensius	vinsensius	init	nonnum	others	4+char	V	Vi	Vin	Vins	s	us	ius	sius	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+B	b	b	single	nonnum	others	1-char	B	B	B	B	B	B	B	B	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Vega	vega	vega	init	nonnum	others	4+char	V	Ve	Veg	Vega	a	ga	ega	Vega	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+2	2	2	others	1dig	others	1-char	2	2	2	2	2	2	2	2	no	no	no	no	no	no	continue	none	none	none	none	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	none	none	none	sub	small	fbegin	
+Yijun	yijun	yijun	init	nonnum	others	4+char	Y	Yi	Yij	Yiju	n	un	jun	ijun	no	no	no	no	no	no	continue	none	none	none	none	normal	fbegin	
+Ruan	ruan	ruan	init	nonnum	others	4+char	R	Ru	Rua	Ruan	n	an	uan	Ruan	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+3	3	3	others	1dig	others	1-char	3	3	3	3	3	3	3	3	no	no	no	no	no	no	continue	none	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	none	none	none	none	normal	fbegin	
+Chia-Lin	chia-lin	chia-lin	init	nonnum	others	4+char	C	Ch	Chi	Chia	n	in	Lin	-Lin	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Wei	wei	wei	init	nonnum	others	3-char	W	We	Wei	Wei	i	ei	Wei	Wei	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+4	4	4	others	1dig	others	1-char	4	4	4	4	4	4	4	4	no	no	no	no	no	no	continue	none	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	none	none	none	none	normal	fbegin	
+Edison	edison	edison	init	nonnum	others	4+char	E	Ed	Edi	Edis	n	on	son	ison	no	no	no	no	no	no	begin	none	none	none	none	normal	fbegin	
+T	t	t	single	nonnum	others	1-char	T	T	T	T	T	T	T	T	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+Liu	liu	liu	init	nonnum	others	3-char	L	Li	Liu	Liu	u	iu	Liu	Liu	no	no	no	no	no	no	continue	none	none	none	none	normal	fcontinue	
+5	5	5	others	1dig	others	1-char	5	5	5	5	5	5	5	5	no	no	no	no	no	no	continue	none	none	none	super	small	fbegin	
+

@@ -1,0 +1,20 @@
+Eui-Chong	eui-chong	eui-chong	init	nonnum	others	4+char	E	Eu	Eui	Eui-	g	ng	ong	hong	no	no	no	no	no	no	begin	bold	none	none	none	normal	fbegin	
+Hyun-Jin	hyun-jin	hyun-jin	init	nonnum	others	4+char	H	Hy	Hyu	Hyun	n	in	Jin	-Jin	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Jung',	jung',	jung',	init	nonnum	endq	4+char	J	Ju	Jun	Jung	,	',	g',	ng',	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Myoung-Don	myoung-don	myoung-don	init	nonnum	others	4+char	M	My	Myo	Myou	n	on	Don	-Don	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Oh	oh	oh	init	nonnum	others	2-char	O	Oh	Oh	Oh	h	Oh	Oh	Oh	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+2	2	2	others	1dig	others	1-char	2	2	2	2	2	2	2	2	no	no	no	no	no	no	continue	bold	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	bold	none	none	none	normal	fbegin	
+Hoan-Jong	hoan-jong	hoan-jong	init	nonnum	others	4+char	H	Ho	Hoa	Hoan	g	ng	ong	Jong	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Lee	lee	lee	init	nonnum	others	3-char	L	Le	Lee	Lee	e	ee	Lee	Lee	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+3	3	3	others	1dig	others	1-char	3	3	3	3	3	3	3	3	no	no	no	no	no	no	continue	bold	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	bold	none	none	none	normal	fbegin	
+Hyang-Soon	hyang-soon	hyang-soon	init	nonnum	others	4+char	H	Hy	Hya	Hyan	n	on	oon	Soon	no	no	no	no	no	no	begin	bold	none	none	none	normal	fbegin	
+Oh	oh	oh	init	nonnum	others	2-char	O	Oh	Oh	Oh	h	Oh	Oh	Oh	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+4	4	4	others	1dig	others	1-char	4	4	4	4	4	4	4	4	no	no	no	no	no	no	continue	bold	none	none	super	small	fbegin	
+,	,	,	others	nonnum	cont	1-char	,	,	,	,	,	,	,	,	no	no	no	no	no	no	continue	bold	none	none	none	normal	fbegin	
+and	and	and	others	nonnum	others	3-char	a	an	and	and	d	nd	and	and	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Kang-Won	kang-won	kang-won	init	nonnum	others	4+char	K	Ka	Kan	Kang	n	on	Won	-Won	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+Choe	choe	choe	init	nonnum	others	4+char	C	Ch	Cho	Choe	e	oe	hoe	Choe	no	no	no	no	no	no	continue	bold	none	none	none	normal	fcontinue	
+2	2	2	others	1dig	others	1-char	2	2	2	2	2	2	2	2	no	no	no	no	no	no	continue	bold	none	none	super	small	fbegin	
+

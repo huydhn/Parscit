@@ -1,0 +1,372 @@
+note ||| A17 |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+note ||| Hum Genet (2001) 109: 95–98 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+note ||| DOI 10.1007/s004390100553 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+note ||| ORIGINAL INVESTIGATION |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+author ||| Zhengwen Jiang � Joshua M. Akey � Jinxiu Shi |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+author ||| Momiao Xiong � Ying Wang � Yayun Shen |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+author ||| Xiaoyun Xu � Hua Chen � Hong Wu � Junhua Xiao |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+author ||| Daru Lu � Wei Huang � Li Jin |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+title ||| A polymorphism in the promoter region of catalase |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+title ||| is associated with blood pressure levels |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+note ||| Received: 15 February 2001 / Accepted: 22 May 2001 / Published online: 4 July 2001 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+note ||| � Springer-Verlag 2001 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| Abstract Catalase is an important antioxidant enzyme that |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+bodyText ||| detoxifies H2O2 into oxygen and water and thus limits the |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| deleterious effects of reactive oxygen species (ROS). Be- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| cause chronic exposure to excess ROS may contribute to |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| vascular damage, we investigated whether genetic varia- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| tion in catalase was associated with susceptibility to es- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| sential hypertension (EHYT) in 324 individuals (at least |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| 50 years old) who were randomly sampled from an iso- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| lated population living in Xiangchang, China. They were |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| screened for genetic variation in the promoter of catalase |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| by direct sequencing. In total, four single nucleotide poly- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| morphisms (SNPs) were identified. The association be- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| tween the SNPs and EHYT was investigated by a linear |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| regression model under phenotypic selection; in our analy- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| ses, we used both SBP&gt;150 mmHg and SBP&gt;160 mmHg |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| as thresholds. A SNP 844 bp upstream of the start codon |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| (SNP-844) demonstrated strong evidence of association |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| with EHYT (SBP&gt;150 mmHg: F=5.09, P=0.008; SBP&gt; |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| 160 mmHg: F=7.13, P=0.002). This is the first study to |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| implicate genetic variation in catalase in susceptibility to |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| EHYT and suggests that polymorphisms in promoter re- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| gions may be particularly relevant to the study of complex |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| diseases. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+note ||| Z. Jiang, J. Akey, J. Shi contributed equally to this work |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+author ||| Z. Jiang � X. Xu � H. Chen � H. Wu � J. Xiao � D. Lu � L. Jin |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+affiliation ||| Laboratory of Human Population Genetics |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| and Complex Diseases, Institute of Genetics, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| School of Life Sciences, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| Fudan University &amp; Morgan-Tan International Center |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| for Life Sciences, 220 Handan Road, Shanghai, China 200443 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+author ||| Z. Jiang � J. Shi � Y. Wang � Y. Shen � X. Xu � W. Huang � L. Jin |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| Chinese Human Genome Research Center at Shanghai, |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| Shanghai, China |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| J.M. Akey � M. Xiong � J. Xiao � L. Jin (V) |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+affiliation ||| Human Genetics Center, School of Public Health, |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| University of Texas-Houston, |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| 6901 Bertner Avenue, Houston, TX 77030, USA |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+email ||| e-mail: LJin@sph.uth.tmc.edu, |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+note ||| Tel.: +1-713-5009848, Fax: +1-713-5000900 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+sectionHeader ||| Introduction |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_largest-2 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Catalase is an important antioxidant enzyme whose phys- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| iological role is to detoxify H2O2 into oxygen and water |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| and thus limit the deleterious effects of reactive oxygen |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| species (ROS; Diesserdoth and Dounce 1970). It is widely |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| recognized that an excess of ROS contributes to the aging |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| process and degenerative diseases (Mates et al. 1999; |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Griendling and Alexander 1997; Rosenfeld 1998). Be- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| cause of its physiological role, catalase is a very attractive |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| blood pressure candidate gene. Recently, two observa- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tions have provided indirect evidence intimating at a pos- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| sible role of catalase in essential hypertension (EHYT): |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (1) hypertensive individuals have statistically significant |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| higher plasma hydrogen peroxide levels compared with |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| normotensive subjects (Lacy et al. 1998), and (2) hyper- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tensive type 2 diabetes mellitus patients have increased |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| catalase activity compared with controls (S�zmen et al. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 1999). The purpose of this study has been directly to in- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| vestigate whether genetic variation in catalase contributes |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| to susceptibility to EHYT in an isolated Chinese popula- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tion. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| Materials and methods |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_largest-2 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Study population |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| We randomly sampled 324 individuals who were at least 50 years |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| old from an isolated population living in Xiangchang, Yuexi |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| County, Anhui Province, China. Although it is unclear how long |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ago this population was founded, the number of founders is ex- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| pected to be small, because 80% of sampled individuals carry only |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| six different surnames. Furthermore, a study of four Y chromo- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| some microsatellite markers has indicated that individuals with the |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| same surname are generally descendants of the same individual |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| who lived in Xiangchang at most 10–20 generations ago (data not |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| shown). All subjects in this study are ethnically Han Chinese, and |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| no individual of minority origin was sampled. Family histories of |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| the subjects were pursued to ensure that the study subjects were |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| not closely related. Informed consent from each subject was ob- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tained regarding participation in this study. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Among |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| (�SD)	144�  (�SD)85�       tly higher compared with that in neighboring ar- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| eas (28%; Xu et al. 1996) or the national average of rural |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| A17 |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| SNP namea |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| SNP type |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Frequency |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Location |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-844 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| C/T |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 0.684/0.316 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Promoter |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-330 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| G/A |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 0.931/0.069 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Promoter |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-89 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| T/A |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 0.694/0.306 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Promoter |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-20 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| A/G |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 0.690/0.310 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 5’ UTR |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| The |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| average age ofthe subjects was 62.2 years old. The aver- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| age |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (�SD) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| SBP forindividuals in this sample was |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 144� |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 30 mmHg, andthe average |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| (�SD) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| DBP was |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| 85� |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| 15 mmHg. No significantdifference inblood pressure |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| levels (forboth SBP and DBP) were observed between |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| genders. ThecorrelationbetweenSBP and DBP was 0.85; |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 53.5% ofthe individuals were hypertensive, which was |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| significan |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tly higher compared with that in neighboring ar- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| eas (28%; Xu et al. 1996) or the national average of rural |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP namea	SNP type	Frequency	Location |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-844	C/T	0.684/0.316	Promoter |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-330	G/A	0.931/0.069	Promoter |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-89	T/A	0.694/0.306	Promoter |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNP-20	A/G	0.690/0.310	5’ UTR |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| A17 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| 96 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Phenotyping |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Each subject was visited at their home by a physician, and both |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| systolic and diastolic blood pressure (SBP and DBP, respectively) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| was measured twice at least 20 min apart by a random zero sphyg- |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| momanometer. The average of the two readings was used for the |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| analyses reported here. Individuals who were taking or had taken |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| anti-hypertensive medication were not included in this study. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| SNP identification and genotyping |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| DNA was extracted from isolated buffy coat by using a standard |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| phenol/chloroform protocol. Individuals in the top 11% (37 indi- |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| viduals; SBP&gt;178 mmHg) and the bottom 7% (22 individuals; |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| SBP &lt;104 mmHg) of the SBP distribution were selected for SNP |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| identification. This group of 59 individuals will be referred to as |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| the screening cohort. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| The promoter region of the human catalase gene is not well de- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| fined. Studies of the rat catalase promoter suggest that sequences |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| up to 3 kb upstream of the start codon may affect gene expression |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (Van Remmen et al. 1998). Therefore, in the absence of similar ex- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| perimental data in humans, we chose to screen 1677 bp of the pu- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tative promoter region and 5’ UTR (herein denoted as –1677 bp |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| upstream of the start codon, where +1 denotes the A in the transla- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tion start codon ATG) for genetic variation. The entire promoter |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| sequence was amplified in one single polymerase chain reaction |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (PCR) in either a PE-9600 or PE-9700 (Perkin-Elmer, Fostor City, |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Calif.) and was used as a template for subsequent sequencing. In |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| total, five primer pairs were used for sequencing (sequences avail- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| able upon request). Following PCR, products were purified by the |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Wizard Purification kit (Promega, Madison, Wis.), and the se- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| quence of each individual was obtained by three overlapping se- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| quencing reactions with BigDye and Dye Terminator chemistry |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (Perkin-Elmer). Sequencing reactions were run on an ABI 373A or |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ABI 377 semi-automatic sequencer and were scored by using Se- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| quence Analysis and Sequence Navigator software (Perkin-Elmer). |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Identified SNPs were genotyped by direct sequencing. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| xi =12Pa Mi =AA |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Pa − PA Mi = Aa |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| -2PA Mi = aa |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ⎧⎪ |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| zi = JPAPa Mi = Aa |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| -P2A |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| where PA and Pa are the frequencies of alleles A and a at the |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| marker locus, respectively, and α and δ are the regression coeffi- |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| cients associated with xi and zi (or the estimated additive and dom- |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| inance effects), respectively. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Let |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| n |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SSful =∑(yi −μ−wiγ−xiα−ziδ) 2 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| i = 1 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| n	(yi −μ−wiγ)2, and |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SS=∑ |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| red |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| i = 1 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| P8 Mi = AA |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| MSE=  1	(yi−μ−wiγ−xiα−)	2 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| n-k-3 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| The statistic for |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| H0:α=0δ= 0H1:α≠ 	δ≠ α≠ 	δ≠ 0 for the presence of a trait locus is defined as |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Fq	(SSred-SSil) / 2 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| =	MSE |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| By standard |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Fq  eedom under the null hypothesis. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| In silico promotor analysis |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| SNPs identified |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| dt et al. 1995). |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Statistical analysis |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Allele frequencies were estimated by gene counting, and signifi- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| cant departures from the Hardy-Weinberg equilibrium (HWE) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| were tested by either a chi-square test or a permutation method |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (Weir 1996) where appropriate. Initially, we tested for preliminary |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| association of the identified SNPs with blood pressure levels by |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| comparing the allele frequencies between individuals in the top |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 11% and bottom 7% of the blood pressure distribution (i.e., in the |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| screening cohort) by simple χ2 statistics. Subsequently, SNPs |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| demonstrating nominal evidence for association were then geno- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| typed in the remaining sample, and association of SNPs with SBP |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| and DBP was investigated by a regression method under pheno- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| typic selection. Specifically, under phenotypic selection, associa- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tions were tested in individuals whose SBP was above a defined |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| threshold. In our analyses, we used both SBP&gt;150 mmHg (n=100 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| individuals) and SBP&gt;160 mmHg (n=73 individuals) as thresh- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| olds. Truncation selection increases both the frequency of the pre- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| disposing allele and its observed genetic effects and, hence, in- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| creases the power to detect the trait locus. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| We briefly describe here the simple regression method for lo- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| calizing a quantitative trait locus (Boerwinkle et al. 1986). Let yi |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| be the trait value of the i-th individual in the sample (i = 1,...,n), so |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| that |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| yi= μ+wiγ+xiα+ziδ+ei |XML| xmlLoc_7 xmlBold_no xmlItalic_yes xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| where,μ is the overall population mean, wi is a k dimensional vec- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| tor of covariate observations, γis the regression coefficient associ- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ated with wi, and ei is a normally distributed random variable with |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| E[ei]=0 and Var(ei)=σe2. Dummy variables, xi and zi, are defined |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| as, |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+sectionHeader ||| Results |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_largest-2 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Study population |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tableCaption ||| Table 1 Characteristics of the identified SNPs |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tableCaption ||| Table 1 Characteristics of the identified SNPs |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| aNumbering    	site |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| aNumbering |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| corresponds to numberofbasepairs upstreamofthe |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| translation start |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| site |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+note ||| A17 |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+page ||| 97 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tableCaption ||| Table 2 Results of association analyses with SNP-844 (numbers in parentheses number of individuals contributing to each genotypic |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tableCaption ||| mean) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| Thresholda	Regressionb	Genotypic meanc (mmHg) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| F	P-value	CC	CT	TT |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| SBP&gt;150 mmHg 	5.09	0.008	164.0/89.6 (47)	170.3/87.5	(43)	176.6/88.0	(10) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| SBP&gt;160 mmHg	7.13	0.002	169.7/89.6 (32)	174.9/87.5	(35)	193.3/88.0	(6) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| aPhenotypic threshold used to select individuals for inclusion in the regression analysis |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tableCaption ||| bRegression model as described in Methods section |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| cGenotypic mean reported as SBP/DBP |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| populations in China (28.1%; Tao et al. 1995) for the same |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| age group. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Identified SNPs |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| In total, four SNPs were identified in the catalase pro- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| moter and 5’ UTR. Table 1 presents the name, type, allele |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| frequencies, and location for these SNPs. All SNPs were |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| in HWE. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Association of SNPs with EHYT |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| All identified SNPs were initially tested for association in |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| the screening cohort as described above. Of the four |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| SNPs, only SNP-844 showed evidence of association |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (P=0.02) and therefore was genotyped in the remaining |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 265 individuals. Table 2 shows that SNP-844 is strongly |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| associated with EHYT for both of the phenotypic thresh- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| olds considered (i.e., SBP&gt;150 mmHg, P=0.008 and |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| SBP&gt;160 mmHg, P=0.002). The genotypic means for |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| SNP-844 are also shown in Table 2, and individuals ho- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| mozygous for the SNP-844 T allele have considerably |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| higher SBP. Interestingly, SNP-844 is only associated |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| with SBP and not DBP (P=0.78). |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Predicted regulatory elements |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| In silico analysis predicts SNP-844 to lie within several |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| interesting transcription factor recognition sequences |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (Fig. 1). The SNP-844 C allele contains putative MZF1 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| and AP2 binding sites. MZF1 is thought to regulate the |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| expression of genes that play a critical role in hemato- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| poiesis (Perrotti et al. 1995), and AP2 regulates epidermal |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| and neural-specific gene expression (Mitchell et al. 1991). |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| The SNP-844 T allele contains putative Ikaros-2 and |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| LYF-1 binding sites. Ikaros-2 is a master regulator during |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| lymphocyte development (Molnar and Georgopoulos |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 1994), and LYF-1 may be a general activator of genes |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| whose expression is restricted to the B- and/or T- lympho- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| cyte lineages (Lo et al. 1991). |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| Fig.1 Putative transcription factor (TF) binding sites in which |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figureCaption ||| SNP-844 lies. The arrow corresponds to the translation start site, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| and the C/T SNP is boxed. DNA strands are denoted as + and –. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| The C allele is predicted to bind the transcription factors MZF1 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| (– strand) and AP2 (+ strand), whereas the T allele is predicted to |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| bind Ikaros2 (– strand) and LYF1 (– strand). The IUPAC string |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| consensus binding sequences of each of these TFs are listed (see |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| Quandt et al. 1995), and the position of the SNP allele is under- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figureCaption ||| lined |XML| xmlLoc_4 xmlBold_no xmlItalic_yes xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_continue
+sectionHeader ||| Discussion |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_largest-2 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| In this report, we have shown that variation in the pro- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| moter region of the catalase gene is significantly associ- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ated with EHYT in an isolated Chinese population. Cata- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| lase is an important antioxidant enzyme whose physiolog- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ical role is to limit the deleterious effects of ROS. Previ- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ous studies have suggested that ROS may confer suscepti- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| bility to EHYT (Griendling and Alexander 1997; Lacy et |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| al. 1998; S�zmen et al. 1999), although there are studies |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| to the contrary (Orie et al. 1999). |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Whereas catalase is ubiquitously expressed, its abun- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| dance and activity varies across different tissues (Diesser- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| doth and Dounce 1970; Van Remmen et al. 1998). There- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| fore, it is particularly relevant that SNP-844 occurs in the |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| promoter (770 bp upstream of the transcriptional start |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| site) and is predicted to both create and destroy transcrip- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tion factor binding sites (MZF1, Ikaros2, LYF-1, and |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| AP2). However, these putative binding sites need to be |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| experimentally verified, and it is not entirely clear how |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| they would affect blood pressure levels. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_larger xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+note ||| 98	A17 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Furthermore, our data do not allow us to determine 	Mitchell PJ, Timmons PM, Hebert JM, Rigby PW, Tjian R (1991) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| whether SNP-844 is itself responsible for affecting SBP 	Transcription factor AP-2 is expressed in neural crest cell lin- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| or whether it reflects linkage disequilibrium with varia-	eages during mouse embryogenesis. Genes Dev 5:105–119 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| tion in the remainder of the gene or perhaps in a nearby 	Molnar A, Georgopoulos K (1994) The Ikaros gene encodes a |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| flanking gene. Moreover, it is possible that the observed 	family of functionally diverse zinc finger DNA-binding pro- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| association of SNP-844 with SBP is a statistical artifact 	teins. Mol Cell Biol 14:8292–8303 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| resulting from a population substructure, a problem to 	Orie NN, Zidek W, Tepel M (1999) Reactive oxygen species in es- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| which case-control studies are prone (Pritchard and 	sential hypertension and non-insulin-dependent diabetes melli- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Rosenberg 1999). However, given the homogeneity of 	tus. Am J Hypertens 12:1169–1174 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| this isolated Chinese population, it is unlikely the ob-	Perrotti D, Melotti P, Skorski T, Casella I, Peschle C, Calabretta B |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| served association of SNP-844 and SBP is spurious.	(1995) Overexpression of the zinc finger protein MZF 1 inhibits |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| In summary, this is the first study to implicate genetic 	hematopoietic development from embryonic stem cells: corre- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| variation in the catalase gene with susceptibility to EHYT. 	lation with negative regulation of CD34 and c-myb promoter |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Future studies will be required to replicate our findings 	activity. Mol Cell Biol 15:6075–6087 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| across populations and to elucidate the molecular basis of 	Pritchard JK, Rosenberg NA (1999) Use of unlinked genetic mark- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| this observation.	ers to detect population stratification in association studies. Am |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| J Hum Genet 65:220–228 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Quandt K, Frech K, Karas H, Wingender E, Werner T (1995) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| MatInd and MatInspector – new fast and versatile tools for de- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| tection of consensus matches in nucleotide sequence data. Nu- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| cleic Acids Res 23:4878–4884 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Rosenfeld ME (1998) Inflammation, lipids, and free radicals: |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| lessons learned from the atherogenic process. Semin Reprod |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Endocrinol 16:249–261 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| S�zmen B, Delen Y, Girgin FK, S�zmen YS (1999) Catalase and |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| paraoxonase in hypertensive type 2 diabetes mellitus: correla- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| tion with glycemic control. Clin Biochem 32:423–427 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Tao S, Wu X, Duan X (1995) Hypertension prevalence and status |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| of awareness, treatment and control in China. Chin Med J |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| 108:483–489 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Van Remmen H, Williams MD, Yang H, Walter CA, Richardson |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| A (1998) Analysis of the transcriptional activity of the 5’- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| flanking region of the rat catalase gene in transiently trans- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| fected cells and in transgenic mice. J Cell Physiol 174:18–26 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Weir BS (1996) Genetic data analysis II: methods for discrete pop- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| ulation genetic data. Sinauer, Sunderland, Mass., USA |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Xu X, Niu T, Christiani DC (1996) Environmental and occupa- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| tional determinants of blood pressure in rural communities in |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| China. Ann Epidemiol 7:95–106 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| References |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Boerwinkle E, Chakraborty R, Sing CF (1986) The use of mea- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| sured genotype information in the analysis of quantitative phe- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| notypes in man. I. Models and analytical methods. Ann Hum |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Genet 50:181–194 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Diesserdoth A, Dounce AL (1970) Catalase: physical and chemi- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| cal properties, mechanisms of catalysis, and physiological role. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Physiol Rev 50:319–375 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Griendling KK, Alexander RW (1997) Oxidative stress and car- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| diovascular disease. Circulation. 96:3264–3265 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Lacy F, O’Connor DT, Schmid-Schonbein GW (1998) Plasma hy- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| drogen peroxide production in hypertensives and normotensive |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| subjects at genetic risk of hypertension. J Hypertens 16:291– |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| 303 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Lo K, Landau NR, Smale ST (1991) LyF-1, a transcriptional regu- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| lator that interacts with a novel class of promoters for lympho- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| cyte-specific genes. Mol Cell Biol 11:5229–5243 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Mates JM, Perez-Gomez C, Nunez de Castro I (1999) Antioxidant |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| enzymes and human diseases. Clin Biochem 32:595–603 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+

@@ -1,0 +1,20 @@
+De-Yuan	de-yuan	de-yuan	init	nonnum	others	4+char	D	De	De-	De-Y	n	an	uan	Yuan	no	no	no	no	no	no	begin	none	none	none	none	large	fbegin	
+Fu	fu	fu	init	nonnum	others	2-char	F	Fu	Fu	Fu	u	Fu	Fu	Fu	no	no	no	no	no	no	continue	none	none	none	none	large	fcontinue	
+Æ	æ	æ	single	nonnum	others	1-char	Æ	Æ	Æ	Æ	Æ	Æ	Æ	Æ	no	no	no	no	no	no	continue	bold	none	none	none	small	fbegin	
+Zhi-Min	zhi-min	zhi-min	init	nonnum	others	4+char	Z	Zh	Zhi	Zhi-	n	in	Min	-Min	no	no	no	no	no	no	continue	none	none	none	none	large	fbegin	
+Wang	wang	wang	init	nonnum	others	4+char	W	Wa	Wan	Wang	g	ng	ang	Wang	no	no	no	no	no	no	continue	none	none	none	none	large	fcontinue	
+Æ	æ	æ	single	nonnum	others	1-char	Æ	Æ	Æ	Æ	Æ	Æ	Æ	Æ	no	no	no	no	no	no	continue	bold	none	none	none	small	fbegin	
+Li-Chen	li-chen	li-chen	init	nonnum	others	4+char	L	Li	Li-	Li-C	n	en	hen	Chen	no	no	no	no	no	no	continue	none	none	none	none	large	fbegin	
+Æ	æ	æ	single	nonnum	others	1-char	Æ	Æ	Æ	Æ	Æ	Æ	Æ	Æ	no	no	no	no	no	no	continue	bold	none	none	none	small	fbegin	
+Bei-Lan	bei-lan	bei-lan	init	nonnum	others	4+char	B	Be	Bei	Bei-	n	an	Lan	-Lan	no	no	no	no	no	no	begin	none	none	none	none	large	fbegin	
+Wang	wang	wang	init	nonnum	others	4+char	W	Wa	Wan	Wang	g	ng	ang	Wang	no	no	no	no	no	no	continue	none	none	none	none	large	fcontinue	
+Æ	æ	æ	single	nonnum	others	1-char	Æ	Æ	Æ	Æ	Æ	Æ	Æ	Æ	no	no	no	no	no	no	continue	bold	none	none	none	small	fbegin	
+Zhen-Zhou	zhen-zhou	zhen-zhou	init	nonnum	others	4+char	Z	Zh	Zhe	Zhen	u	ou	hou	Zhou	no	no	no	no	no	no	continue	none	none	none	none	large	fbegin	
+Shen	shen	shen	init	nonnum	others	4+char	S	Sh	She	Shen	n	en	hen	Shen	no	no	no	no	no	no	continue	none	none	none	none	large	fcontinue	
+Æ	æ	æ	single	nonnum	others	1-char	Æ	Æ	Æ	Æ	Æ	Æ	Æ	Æ	no	no	no	no	no	no	continue	bold	none	none	none	small	fbegin	
+Wei	wei	wei	init	nonnum	others	3-char	W	We	Wei	Wei	i	ei	Wei	Wei	no	no	no	no	no	no	continue	none	none	none	none	large	fbegin	
+Huang	huang	huang	init	nonnum	others	4+char	H	Hu	Hua	Huan	g	ng	ang	uang	no	no	no	no	no	no	continue	none	none	none	none	large	fcontinue	
+Æ	æ	æ	single	nonnum	others	1-char	Æ	Æ	Æ	Æ	Æ	Æ	Æ	Æ	no	no	no	no	no	no	continue	bold	none	none	none	small	fbegin	
+Zhi-Ming	zhi-ming	zhi-ming	init	nonnum	others	4+char	Z	Zh	Zhi	Zhi-	g	ng	ing	Ming	no	no	no	no	no	no	begin	none	none	none	none	large	fbegin	
+Shao	shao	shao	init	nonnum	others	4+char	S	Sh	Sha	Shao	o	ao	hao	Shao	no	no	no	no	no	no	continue	none	none	none	none	large	fcontinue	
+
