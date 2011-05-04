@@ -1,0 +1,112 @@
+note ||| 1 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+title ||| Genome-wide Binding Site Map of Mammalian |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+title ||| Transcription Factors Reveals Rapid Turnover |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+author ||| Guillaume Bourque1, Vinsensius B Vega 2, Yijun Ruan3, Chia-Lin Wei4, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+author ||| Edison T Liu5 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+keyword ||| Keywords: Transcription factors, chromatin immunoprecipitation, binding motifs, conser- |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+keyword ||| vation, turnover |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| 1 Introduction. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Recent analyses of transcription factor occupancy using chromatin immunoprecipitation |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Paired-End-diTag (ChIP-PET) and microarray based (ChIP-Chip) approaches have help |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| unravel the genome-wide binding sites of many proteins in both the Human and Mouse |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| genomes [1, 2, 3, 4]. We make use of a collection of such experiments (5 ChIP-PET and 1 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ChIP-Chip) to contrast the properties of the binding regions identified for different mam- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| malian transcription factors (p53, ER, cMyc, NFrB, Oct4 and Sox2). Overall, we find a |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| high rate of turnover and, in some cases, a strong association with repeat regions. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| 2 Results. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Using two distinct conservation metrics relying on either regions of high sequence similarity |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| in whole-genome vertebrate alignments or presence of cross-species sequence binding motifs, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| we demonstrate that the overall proportion of binding sites that appear to be under positive |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| selection varies from X10% for p53 to X30% for ER, see Table 1. Although limited in |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| numbers, we confirm the significance of these conserved binding sites by showing: 1) that |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| they exhibit a stronger association with regulated genes, and 2) that they are more likely to |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| be detected in another specie by an independent ChIP assay. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| With 	With	Expected	With	Expected |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Motif	Conserved	Conserved	Conserved	Conserved |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| Motif	Motif	Element	Element |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| ER-CP	61.1	30.6	3.4 f 0.4	25.9	14.1 f 1.8 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| ER-CC	51.7	28.8	3.6 f 0.3	38.1	15.6 f 1.0 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| p53	56.8	11.3	0.7 f 0.4	12.8	14.4 f 3.5 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| cMyc	30.5	18.0	4.9 f 0.8	23.2	19.9 f 2.8 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| NFnB	45.2	24.6	3.9 f 0.8	31.9	19.0 f 2.7 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| Oct4-Sox2	44.1	10.8	3.0 f 0.4	28.4	13.7 f 1.6 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| Table 1: Percentage of binding regions with either a conserved binding motif or a PhastCons |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tableCaption ||| Conserved Element. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Interestingly, we also uncover that the distribution of conserved binding sites relative |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| to genes varies considerably for different transcription factors (e.g. majority of conserved |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+affiliation ||| 1Genome Institute of Singapore, 138672, Singapore. E-mail: bourque@gis.a-star.edu.sg |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+affiliation ||| 2Genome Institute of Singapore, 138672, Singapore. E-mail: vegav@gis.a-star.edu.sg |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+affiliation ||| 3Genome Institute of Singapore, 138672, Singapore. E-mail: yuanyj@gis.a-star.edu.sg |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+affiliation ||| 4Genome Institute of Singapore, 138672, Singapore. E-mail: weicl@gis.a-star.edu.sg |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+affiliation ||| 5Genome Institute of Singapore, 138672, Singapore. E-mail: liue@gis.a-star.edu.sg |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+page ||| 2 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_largest-2 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| binding sites are proximal for cMyc but distant for ER) suggestive of a different regulatory |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| modes of action, see Figure 1. Finally, leveraging on the ability of the ChIP-PET approach |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| to detect binding sites even in repeat-rich regions, we show that p53, Oct4-Sox2 and ER |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| binding regions are significantly biased towards distinctive families of repeats (ERV1, ERVK |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| and MIR respectively) and that those can account for some of the specie-specific binding |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| sites. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| 3 Conclusion. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Overall, our results advocate for a very dynamic regulatory machinery in eukaryotic genomes |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| where the conserved binding sites are likely to play an important but limited role. The associ- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ation with repeats is interesting because it has implications on the evolution and distribution |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| of cis-elements in the genome. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| References |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+reference ||| [1] Carroll JS, Meyer CA, Song J et al. 2006. Genome-wide analysis of estrogen receptor binding |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_new
+reference ||| sites. Nat Genet 38(11):1289–1297. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [2] Loh YH, Wu Q, Chew JL et al. 2006. The Oct4 and Nanog transcription network regulates |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| pluripotency in mouse embryonic stem cells. Nat Genet 38(4):431–440. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [3] Wei, CL, Wu Q, Vega VB et al. 2006. A global map of p53 transcription-factor binding sites in |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| the human genome. Cell 124(1):207–219. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [4] Zeller KI, Zhao XD, Lee CWH et al. 2006. Global mapping of c-Myc binding sites and target |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| gene networks in human B cells. Proc Natl Acad Sci U S A 103(47):17834–17839. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| ER ChIP-PET |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| ER ChIP-Chip |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| coding	proximal	distant	desert |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| p53 ChIP-PET |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| coding	proximal	distant	desert |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| cMyc ChIP-PET |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| coding	proximal	distant	desert |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| coding	proximal	distant	desert |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figureCaption ||| Figure 1: Distribution of the conserved motifs relative to closest gene for ER, p53 and cMyc. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 50.0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 40.0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 30.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 20.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 10.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 0.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 50.0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 40.0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 30.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 20.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 10.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 0.0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| All |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| with Motif |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| with Cons Motif |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Expected |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| All |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| with Motif |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| with Cons Motif |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Expected |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 50.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 40.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 30.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 20.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 10.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 0.0 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| All |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| with Motif |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| with Cons Motif |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Expected |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 50.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 40.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 30.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 20.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 10.0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 0.0 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| All |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| with Motif |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| with Cons Motif |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Expected |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+

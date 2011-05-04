@@ -1,0 +1,519 @@
+1082	IEEE TRANSACTIONS ON BIOMEDICAL ENGINEERING, VOL. 47, NO. 8, AUGUST 2000 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+A Micromachined Silicon Depth Probe for |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+Multichannel Neural Recording |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+Tae Hwan Yoon, Eun Jung Hwang, Dong Yong Shin, Se Ik Park, Seung Jae Oh, Sung Cherl Jung, Hyung Cheul Shin, |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+and Sung June Kim*, Member, IEEE |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+Abstract—A process of making a new type of silicon depth-probe |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+microelectrode array is described using a combination of plasma |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+and wet etch. The plasma etch, which is done using a low temper- |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+ature oxide (LTO) mask, enables probe thickness to be controlled |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+over a range from 5 to 90 . Bending tests show that the probe’s |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+mechanical strength depends largely on shank thickness. More |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+force can be applied to thicker shanks while thinner shanks are |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+more flexible. One can then choose a thickness and corresponding |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+mechanical strength using the process developed. The entire |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+probe shaping process is performed only at low temperature, |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+and thus is consistent with the standard CMOS fabrication. |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+Using the probe in recording from rat’s somatosensory cortex, |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+we obtained four channel simultaneous recordings which showed |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+clear independence among channels with a signal-to-noise ratio |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+performance comparable with that obtained using other devices. |XML| xmlLoc_3 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+Index Terms—Mechanical stress test, multichannel simulta- |XML| xmlLoc_3 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+neous recording, neural probes, plasma etch, silicon microelec- |XML| xmlLoc_3 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+trode array. |XML| xmlLoc_3 xmlBold_yes xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+I. INTRODUCTION |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+THE use of the microelectrode to record the electrical ac- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tivity of single neurons has contributed much to our under- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+standing of the nervous system. Simultaneous recording from |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+populations of neurons has been increasingly acknowledged as |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+essential to better understanding of functional relationships be- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tween cells in brain and other neuronal networks [1]. For this |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+purpose, thin film microelectrode arrays have many advantages |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+over wire bundles. 1) Using thin film processing, we can arrange |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+multiple sensing sites along a single shaft of silicon, reducing |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+device volume and tissue damage as compared to multiple elec- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+trodes. 2) Advanced photolithography permits a good control |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+of electrode dimensions and relative positions with sub-micron |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+precision, while guarantees uniform and repeatable electrode |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Manuscript received April 12, 1999; revised March 10, 2000 This paper was |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+supported by the Nano Bioelectronics & System Center, Basic Research pro- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+gram of Korea Science and Engineering Foundation (KOSEF) under Grant 971- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+0913-076-2, by the Korea Research Foundation (NDRF) under Grant 1996-012- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+E0529, by Ministry Health and Welfare, Korea under Grant HMP-98-E-1-0006, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+by the Korea Electronic Technology Institute (KETI) MEMS, and by the Re- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+search Products Sharing Program of Inter-university Semiconductor Research |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Center (ISRC) at Seoul National University. Asterisk indicates corresponding |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+author. |XML| xmlLoc_6 xmlBold_no xmlItalic_yes xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_continue
+T. H. Yoon, E. J. Hwang, D. Y. Shin, and S.I. Park are with the Inter-university |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Semiconductor Research Center and School of Electrical Engineering, Seoul |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+National University, Seoul 151-742, Korea. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+S. J. Oh, S. C. Jung, and H. C. Shin are with the Department of Physiology, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+College of Medicine, Hallym University, Kangwon-do 200-702, Korea. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+*S. J. Kim is with the Inter-university Semiconductor Research Center and |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+School of Electrical Engineering, Seoul National University, Shilim-dong San |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+56-1, Room 301-1014, Kwanak-gu, Seoul 151-742, Korea (e-mail: kim@he- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+lios.snu.ac.kr). |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Publisher Item Identifier S 0018-9294(00)06410-7. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+characteristics. 3) We can integrate the electrode with on chip |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+circuitry because we use a silicon substrate [2]. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Seeing these clear advantages, a number of research groups |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+have been developing silicon-based microelectrode arrays (mi- |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+croprobes) since the late 1960’s [3]–[1 1 ]. Some used anisotropic |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+wet etching for probe shaping [3], [4]. But this method does |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+not give reproducible and uniform probe dimensions. Others |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+have employed high temperature boron diffusion and selective |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+wet etch to define the precise probe shape [5]–[7]. Recently, |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the combination of front side plasma etch and backside wet |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+etch was also introduced for probe shaping [10]. Considering |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the wide availability of the CMOS foundry services such as |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+MOSIS for custom integrated circuits, one may prefer the latter |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+approach that involves neither high temperature nor impurity |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+doping. Probe shaping can then be performed as a post process |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+to the CMOS fabrication. This method also allows wider control |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+over the probe thickness than the boron doping technique. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The depth probe (called “SNU probe” hereafter) described in |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+this paper was also fabricated using combination of dry (plasma) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and wet etch. Using plasma etch with readily available low tem- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+perature oxide (LTO) as an etch mask, we were able to obtain |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+a 30- m probe thickness, well beyond that readily obtainable |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+by boron diffusion. Using the LTO mask, we could avoid prob- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+lems associated with thick photoresist (PR) which was used |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+previously [10]. The mechanical and electrical characteristics |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+of the SNU probe have been studied. SNU probes with 30- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+m-thick shank were used to record neural activity from rat’s so- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+matosensory cortex. Under the same experimental conditions, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+conventional tungsten electrodes and probes made by Univ. of |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Michigan (called “Michigan probes” hereafter) were also tested |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+for comparison. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+II. METHODS |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+A. Probe Fabrication |XML| xmlLoc_5 xmlBold_no xmlItalic_yes xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+A thin tapered silicon shaft (shank) supports an array of |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+metal recording sites and interconnects that reach bonding pads |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+situated on carrier area. In the carrier area, the original wafer |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+thickness remains, which facilitates subsequent handling of |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the probes. The metal layer is passivated upon and below by |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+an oxide/nitride/oxide triple dielectric layer, which acts as an |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+effective barrier of ions and water in saline environment [11]. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Fig. 1 shows the overall process flow developed. The starting |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+material was oriented silicon wafers -type, 530- m |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+thick) polished on both front and back sides. After 100 nm of |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+thermal silicon dioxide and 200 nm of LPCVD silicon nitride |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+were deposited on both front and back sides, 800 nm of PECVD |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+0018–9294/00$10.00 © 2000 IEEE |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Authorized licensed use limited to: Seoul National University. Downloaded on April 7, 2009 at 08:23 from IEEE Xplore. Restrictions apply. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+YOON et al.: A MICROMACHINED SILICON DEPTH PROBE FOR MULTICHANNEL NEURAL RECORDING	1083 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Fig. 1. Overall process flow of the depth probe developed using LTO/dry etch |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+process. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+silicon dioxide was deposited on the front side to form the triple |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+lower dielectric. Oxide/nitride layers on back side were later |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+patterned to form the masking layer for the KOH etch process. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The gold metallization layer was then patterned for recording |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+sites, bonding pads and interconnections. We used image re- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+versal of the PR layer (AZ5214) to obtain an overcut structure |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+which is suitable for the lift-off process. Over the patterned PR |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+structure, 100 nm of chrome and 300 nm of gold were evapo- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+rated sequentially. The resist was then dissolved away in ace- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tone, lifting off the unwanted metal with it. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The second triple dielectric layer consisting of PECVD |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+silicon dioxide (200 nm), silicon nitride (200 nm), and silicon |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+dioxide (800 nm) was then deposited. A 1- m-thick aluminum |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+masking layer was patterned for opening the windows of |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+recording sites and bonding pads. This aluminum masking |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+layer was patterned at this point to avoid the photo process |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+problems associated with non planar structures if the patterning |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+were to be done after deep plasma etch. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+A 6- m-thick PECVD LTO masking layer for the deep |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+plasma etch process was then deposited and patterned. The |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+etch rate of LTO using CHF and CF gases was 60 Å/s for a |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+chamber pressure of 130 mtorr at the RF power of 600 W under |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the magnetic field of 60 gauss. Subsequently the deep etch was |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+done using Cl reactant gas to a depth of 30 m. A Cl gas |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+flow of 40 sccm was used with a chamber pressure of 7 mtorr at |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the RF power of 300 W. The etch rate of Si using Cl gas was |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+4250 Å/min. The latter etch depth determines the final shank |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+thickness. The process done on the front side was completed |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+by the opening of windows for electrode sites and bond pads |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+using plasma etch, and the removal of the Al masking layer. |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The back side oxide/nitride masking layer was patterned |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+using double side alignment. The wafer was then placed in a |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+30 wt% KOH solution at 70 C with the front side protected |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+using black wax (Apiezon W). The black wax was removed |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+using Trichloroethylene (TCE). After the final probe shaping, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the probes were mounted and wire-bonded to a printed circuit |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+board (PCB) which was designed for easy connection to an |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+external electronic circuit system. Terminal connection on |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the PCB was made in a standard DIP socket. Coating the |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+wire bonded area with Sylgard (Dow Corning) completed the |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+fabrication process. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The probes were tested for their impedance and for their me- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+chanical strength. A potentiostat (CH Instruments, model 660) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+was used for the impedance measurement. The peak-to-peak |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+amplitude and the frequency of the ac voltage were varied over |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+ranges from 10 to 270 mV, and from 1 Hz to 100 KHz, respec- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tively. For mechanical testing, a stress test station (indenter) de- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+signed for testing microcantilevers (Akashi Co., model MZT4) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+was employed. While the PCB holder of the probe assembly was |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+kept still, bending force was applied normal to the flat surface of |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the probe shank. The point at which the force was applied was |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+kept at the same distance (100 m) away from where the shank |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+extends out of the unthinned carrier for all probes under test. The |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+displacement was varied at a rate of 0.5 m/s at the test point. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The amount of force of the shank caused by the bending was |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+recorded as a function of the displacement, thus a stress-strain |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+relation [12] was derived for each shank thickness. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+B. Animal Studies |XML| xmlLoc_4 xmlBold_no xmlItalic_yes xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Sprague-Dawley rats (200–300 g) were anaesthetized with |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+urethane (1 g kg , i.p.). Animals were mounted in a stereo- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+taxic frame (David Kopf) and craniotomy (2- to 3-mm diam- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+eter) was performed over the primary somatosensory (SI) cortex |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+using the bregma as the initial point of reference. All procedures |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+were done according to protocols approved by the Hallym Uni- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+versity Campus Animal Care and Use Committee in order to |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+minimize distress. Detailed methods of surgery can be found |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+in [13]. The SNU probe was driven into the forepaw area of |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the SI cortex (0.5- to 1.0-mm anterial from bregma; medio- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+laterally, 3.5–4.5 mm; 0.5–1.2 mm deep from brain surface) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+with a micromanipulator. Stainless steel wire was used as a |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+reference electrode, located in the lateral region of the brain. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Cutaneous receptive fields were identified by listening to the |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+recorded signal through an audio speaker while using a fine |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+brush to tap the forepaw lightly, until the zone responding most |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+intensely and reliably was defined. Electrical stimulation was |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+provided by a bipolar concentric stimulating electrode (100- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+m tip, 0.5-mm tip separation, A-M System) and consisted of |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+monophasic square pulses (pulse width 0.1 ms, frequency 1 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Hz) passed through a stimulator (Model 1830, World Precision |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Instr.) with isolation unit to provide constant current (50–500 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+A). The stimulating electrode was inserted under the center of |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the receptive field and was fixed firmly to prevent any move- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+ment. Responses were amplified for a gain of 1000 and band- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+pass filtered (homemade instrument) at 300 Hz to 3 kHz, passed |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Authorized licensed use limited to: Seoul National University. Downloaded on April 7, 2009 at 08:23 from IEEE Xplore. Restrictions apply. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+1084	IEEE TRANSACTIONS ON BIOMEDICAL ENGINEERING, VOL. 47, NO. 8, AUGUST 2000 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+(a) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+(a) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+(b) |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Fig. 2. (a) Scanning electron microscope view of a multishank probe after dry |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+etching of silicon with Cl gas. (b) Schematic drawing of a facet cross section |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+in (a) with dimensions. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+to a digital storage oscilloscope (Pro 10, Nicolet Instr.) for visual |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+inspection and then to the data acquisition system (CED 1401, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Cambridge Electronics) for digitization (sampling rate 20 kHz, |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+12-bit resolution) and subsequent storage and analysis in a per- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sonal computer. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+III. RESULTS |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+A. Probe Fabrication |XML| xmlLoc_5 xmlBold_no xmlItalic_yes xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+The range of the shank thickness obtainable by the LTO/dry |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+etch process is estimated to be from 5 to 90 m. The minimum |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+thickness was determined by the KOH wet etching uniformity |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+across four inch Si wafers. The maximum shank thickness was |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+determined by the maximum LTO mask layer thickness and the |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+dry etch selectivity. We could readily deposit up to 15 m of |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+LTO without cracking and the etch selectivity of Si over LTO |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+was 6:1. The etch selectivity of LTO over Al mask layer was |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+16 to 1. Therefore a 1 m thick Al mask layer could be used to |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+define patterns on a 15 m thick LTO layer, which then could be |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+used to define 90- m-thick shanks. The slopes of the dry etched |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+LTO and Si walls were measured to be 74 and 85 , respectively. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Fig. 2(a) and (b) shows the scanning electron microscope (SEM) |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+picture of probe shanks after dry etching of Si to a thickness |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+(b) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Fig. 3. (a) View of the probe tip using scanning electron microscope. (b) Probe |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+packaged on a printed circuit board. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+of 30 m and the schematic view of a cleaved cross section, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+respectively. The pre-etch thickness of the LTO layer was 10 m |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+while its postetch value was 5 m. Considering the slopes and |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the maximum layer thickness of LTO and Si, and starting with a |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+1- m-wide Al pattern, we estimate that a shank 9- m-wide and |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+90 m high (an aspect ratio of ten) could be obtained. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The SEM microphotograph of a 30- m-thick, 200- m-wide |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+shank and the photograph of a probe bonded to a PCB are shown |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+in Fig. 3(a) and (b), respectively. SNU probes with thickness of |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+15, 22.5, and 30 m were tested for their mechanical strength. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Authorized licensed use limited to: Seoul National University. Downloaded on April 7, 2009 at 08:23 from IEEE Xplore. Restrictions apply. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+YOON et al.: A MICROMACHINED SILICON DEPTH PROBE FOR MULTICHANNEL NEURAL RECORDING	1085 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+(a) |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Fig. 4. Results of the fracture strength test performed on probes with shank |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+thickness of 15, 22.5, and 30 µm. The amount of force caused by bending was |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+recorded as a function of displacement. The test was performed from one device |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+for each thickness. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Fig. 5. Magnitude of the electrode impedance plotted against the frequency |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+of the ac voltage source used in the potentiostat measurement. Three curves |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+correspond to the three levels of peak-to-peak voltage used. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+For each thickness, two probes were used in the test. Using the |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+method described in Section II-A, we plotted the force as a func- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tion of the displacement as shown in Fig. 4. It is observed in the |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure that the force-displacement very relation is linear up to the |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+fracture point for all shanks. It is also noted that the amount of |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+force which a probe shank can take increases for thicker shanks, |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+while the amount of displacement (bending) for a given force in- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+creases for thinner shanks. The linearity is expected for silicon, |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+being a glass-like material, in which plastic deformation is not |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+present [12]. It is not clear, however, why all fractures occurred |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+at nearly the same displacement and further study is needed. All |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+of the fractures occurred at the carrier-shank junction. Fig. 5 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+shows the magnitude of impedance measured using the poten- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tiostat mentioned above. The area of the electrode site was 600 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+m , and saline was used as the electrolyte. The frequency of |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the ac voltage source was varied from 1 Hz to 100 KHz, while |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the peak-to-peak amplitude was set at 20, 100, and 270 mV. For |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the test voltage of 270 mV, 15 devices were tested. The average |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and standard deviation of the magnitude of impedance at 1 KHz |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+were 2.1 and 0.6 M , respectively. The dependency on the am- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+plitude of the test voltage was not significant. At 1 KHz and 100 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+mV, the site impedance of the Ir electrode of Michigan probe |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+with an area of 75 m was 3.0 M , and that of the tungsten |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+electrode (A-M Systems) with a 5- m tip was 7.5 M . |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+B. Recording Results |XML| xmlLoc_0 xmlBold_no xmlItalic_yes xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Simultaneous recordings of spontaneous neural activity |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+from rat’s somatosensory cortex obtained using the SNU |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+probe are shown in Fig. 6. The instrumentation and animal |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+protocols employed were as described in the Section II-B. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Four sites, each with 1600 m area, separated by 150 m |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+from each other, were located perpendicularly through cortex |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+as shown in the figure. The signals being recorded at the |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+different sites are shown to be clearly independent. Each |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+channel is distinguished from others by both the amplitude |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and the timing of the action potentials. The recording per- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+formance of the SNU probe was compared with that of the |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tungsten metal electrode and the Michigan probe in a separate |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+animal study. The same region in the animal was probed by |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the three probes sequentially while the same instrumentation |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and animal protocols were consistently applied to all three |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+electrodes. Signals from the SNU probe show comparable |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+signal-to-noise ratios (SNR) to those measured using the other |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+two probes. Typical SNR was 42, 37, and 40 dB for the SNU, |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the Michigan, and the tungsten probes, respectively. The SNR |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+was defined as the ratio of the peak-to-peak amplitude of |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the largest action potential found in the recording interval |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+to the rms value of the background noise in decibel. We |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+have recorded action potentials for about five hours from |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+each animal. During these periods, we did not observe any |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+deterioration of the SNR in the recorded signals. No chronic |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+recording has been attempted. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+IV. DISCUSSION AND CONCLUSION |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+A new silicon depth probe was developed and its performance |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+was evaluated through application to neural recording. Use of |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+plasma etch with LTO masking allowed the thickness of the |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+shanks to vary over a wider range than could be obtained by |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+using the conventional boron diffusion technique. The range |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+was estimated to be from 5 to 90 m, determined by the back |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+side wet etch uniformity (minimum thickness) and by the dry |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+etch selectivity of Si over LTO (maximum thickness). Probes |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+were constructed and tested whose thickness were 15, 22.5, and |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+30 m. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The use of the LTO masking layer gives better uniformity |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+and reproducibility because it involves only single coating |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and exposure of PR. LTO processing is available in many |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+microelectronics fabrication facilities. Using the LTO mask, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+we could avoid problems associated with an alternative |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+processing in which thick PR coats are used [10]. The latter |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+process requires multiple coatings to create a thickness of |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+more than 15 m. This thickness is needed because of its poor |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+selectivity over silicon in deep plasma etch. However, because |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+conventional photolithography does not work with such thick |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+coats of PR, it may be necessary to use several cycles of |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+PR application and high energy exposure. These make it |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+difficult to obtain uniformity and reproducibility. Additionally |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+it is difficult to maintain high aspect ratio sidewalls in the |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+thick PR so that dimensional control of the etched silicon is |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Authorized licensed use limited to: Seoul National University. Downloaded on April 7, 2009 at 08:23 from IEEE Xplore. Restrictions apply. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+1086	IEEE TRANSACTIONS ON BIOMEDICAL ENGINEERING, VOL. 47, NO. 8, AUGUST 2000 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+(b) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+Fig. 6. Four channel simultaneous neural recording from somatosensory cortex of rat. Each channel is distinguished from others by both the amplitude and the |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+timing of the action potentials. The magnitude of impedance for the four sites was 2.4 f 0.5 MQ at 1 KHz. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+compromised. As demonstrated in Fig. 2, with LTO, a well |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+controlled high aspect ratio mask can be created. This control |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+is also evident in the final etch characteristics of the silicon |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+probe in the same figure. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Since this newly developed process does not involve high |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+temperatures, it is compatible with standard CMOS processing. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Thus the shank shaping process can be performed as a post |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+process following the CMOS process. We can then use the |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+CMOS foundry services such as MOSIS to fabricate circuits, |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+before applying the micromachining process described in |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+this paper. The conventional process using boron diffusion, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+however, does not allow this because the diffusion needs to be |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+done at a higher temperature (15 hours at 1175 C to obtain a |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+15 m depth [5]) than those used in most steps of the CMOS |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+processing. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The results of the mechanical stress test add significance |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+to the LTO/dry etch process. The test showed that more force |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+can be applied with thicker shanks before breakage. Najafi |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and Hetke have concluded after applying buckling tests on |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+their probes that a silicon shank with 15 m could penetrate |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+pia mater of guinea pig and rat, while a 30- m-thick shank is |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+needed to penetrate dura mater [14]. While the new LTO/dry |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+etch method will etch 30- m silicon in about one hour, the |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+boron diffusion will take about 60 hours to reach the same |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+depth. If even thicker shank is required, the etch time required |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+in the new developed process increases linearly with required |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+etch depth, but the diffusion time increases as a square function |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+of the shank thickness required. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+The animal experiments demonstrate that we have created |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+functional probes which should be useful for acute animal |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+studies. Simultaneous four channel recordings obtained from |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+rat cortex showed clear independence among channels. The |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+signals obtained using the SNU probes had similar electrical |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+properties to those obtained using the Michigan probes and the |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tungsten probes, and were comparable to those reported using |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+similar devices [10], [15]. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+While thicker probe was more preferable in mechanical |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+strength, however, its damage to nervous system was not ex- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+amined for comparison to thinner probes. It can be conjectured |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+that the thinner probes cause less damage to tissue since the |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+thinner probes occupy the less volume in tissue. However, the |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+thinner probes become flexible while in tissue and can actually |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+result in more damage. Histological studies are being planned |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+to determine the optimal dimension of the shank. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+ACKNOWLEDGMENT |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+The authors wish to thank Center for Neural Communica- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+tion Technology of University of Michigan for supplying their |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+probes that was funded by the NIH National Center for Research |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Resources. Dr. S. G. Kang and S. H. Lee are also acknowledged |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+for their help with the impedance measurement and the mechan- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+ical testing, respectively. The authors also would like to thank |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Prof. B. C. Wheeler for helpful discussions and suggestions, and |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+S. B. Jun and S. K. Ahn for assistance in processing. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+REFERENCES |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+[1] J. Kruger, “Simultaneous recording from many cerebral neurons: Tech- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_new
+niques and results,” Rev. Physiol. Biochem. Pharmacol., vol. 98, pp. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+177–233,1983. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[2] D. Anderson, K. Najafi, S. Tanghe, D. Evans, K. Levy, J. Hetke, X. Xue, |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+J. Zappia, and K. Wise, “Batch-fabricated thin-film electrodes for stim- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+ulation of the central auditory system,” IEEE Trans. Biomed. Eng., vol. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+36, pp. 693–704, July 1989. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[3] K. Takahashi and T. Matsuo, “Integration of multi-microelectrode and |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+interface circuits by silicon planar and three-dimensional fabrication |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+technology,” Sensors and Actuators, vol. 5, no. 1, pp. 89–99, 1984. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[4] W. Rutten, T. Frieswijk, J. Smit, T. Rozijn, and J. Meier, “3D neuro-elec- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+tronic interface devices for neuromuscular control: Design studies and |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+realization steps,” Biosensors and Bioelectronics, vol. 10, pp. 141–153, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+1995. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[5] K. Najafi and K. Wise, “A high-yield IC-compatible multichannel |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+recording array,” IEEE Trans. Electron. Devices, vol. ED-32, pp. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+1206–1212, July 1985. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[6] A. Hoogerwerf and K. Wise, “A three-dimensional microelectrode array |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+for chronic neural recording,” IEEE Trans. Biomed. Eng., vol. 41, pp. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+1136–1146, Dec. 1994. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[7] G. Ensell, D. Banks, D. Ewins, W. Balachandran, and P. Richards, |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+“Silocn-based microelectrodes for neurophysiology fabricated using |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+a gold metallization/nitride passivation system,” IEEE J. Microelec- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+tromech. Syst., vol. 5, pp. 117–121, June 1996. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[8] G. Urban, J. Ganglberger, F. Olcaytug, F. Kohl, R. Schallauer, M. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+Trimmel, H. Schmid, and O. Prohaska, “Development of a multiple |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+thin-film semimicro DC-probe for intracerebral recordings,” IEEE |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+Trans. Biomed. Eng., vol. 37, pp. 913–918, Oct. 1990. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+Authorized licensed use limited to: Seoul National University. Downloaded on April 7, 2009 at 08:23 from IEEE Xplore. Restrictions apply. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+YOON et al.: A MICROMACHINED SILICON DEPTH PROBE FOR MULTICHANNEL NEURAL RECORDING	1087 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+[9] E. Maynard, C. Nordhausen, and R. Norman, “The Utah intracortical |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_new
+electrode array: A recording structure for potential brain-computer inter- |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+faces,” Electroencheph. Clin. Neurophys., vol. 102, no. 3, pp. 228–239, |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+1997. |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[10] D. Kewley, M. Hills, D. Borkholder,I. Opris, N. Maluf, C. Storment, J. |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+Bower, and G. Kovacs, “Plasma-etched neural probes,” Sensor Actua- |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+tors A, vol. 58, pp. 27–35, Jan. 1997. |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[11] D. Edell, “A peripheral nerve information transducer for amputees: |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+Long-term multichannel recordings from rabbit peripheral nerves,” |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+IEEE Trans. Biomed. Eng., vol. BME-33, pp. 203–214, Feb. 1986. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[12] R. A. Flinn and P. K. Trojan, Engineering Materials and TheirApplica- |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+tions, 2nd ed. Boston, MA: Houghton Mifflin, 1981, pp. P534–P550. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[13] H. C. Shin, H. J. Park, and J. K. Chapin, “Differential phasic modulatio |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+of short and long latency afferent sensory transmission to single neurons |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+in the primary somatosensory cortex in behaving rats,” Neurosci. Res., |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+vol. 19, pp. 419–425, 1994. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[14] K. Najafi and J. Hetke, “Strength characterization of silicon microprobes |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+in neurophysiological tissues,” IEEE Trans. Biomed. Eng., vol. 37, pp. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+474–481, May 1990. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+[15] K. Drake, K. Wise, J. Farraye, D. Anderson, and S. BeMent, “Per- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+formance of planar multisite microprobes in recording extracellular |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+single-unit intracortical activity,” IEEE Trans. Biomed. Eng., vol. 35, |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+pp. 719–732, Sept. 1988. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Tae Hwan Yoon (S’99) was born in Pohang, Korea, |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+in 1975. He received the B.S. and M.S. degrees in |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+electrical engineering from Seoul National Univer- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sity, Seoul, Korea, in 1997 and 1999, respectively. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Presently, he is engaged in LG.-Philips LCD Co., |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+Ltd., Anyang, Korea, as a Research Engineer. His re- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+search interests include micromachined neural inter- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+face for neural prosthesis and application of TFT de- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+vices. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Eun Jung Hwang (S’99) was born in Seoul, Korea, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+in 1974. She received the B.S. and M.S. degrees from |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the Seoul National University, Seoul, Korea, in 1997, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and 1999 respectively. She is currently working to- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+ward the Ph. D degree in Department of Biomedical |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Engineering at Johns Hopkins University, Baltimore, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+MD. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Dong Yong Shin was born in Seoul, Korea, in 1975. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+He received the B.S. and M.S. degrees from the Seoul |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+National University, Seoul, Korea, in 1998, and 2000 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+respectively. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+He is currently with Samsung SDI Co., Ltd., |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+Suwon, Korea, as a Research Engineer. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Se Ik Park was born in Kimchun, Korea, in 1970. He |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+received the B.S. and M.S. degrees in electrical engi- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+neering from Soong Sil University, Seoul, Korea, in |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+1993 and 1995, respectively. He is working toward |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the Ph.D. degree in the School of Electrical Engi- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+neering, Seoul National University. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+His research focuses on the characteristics of mi- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+cromachined electrode array and neural culture plate. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Seung Jae Oh was born in Seoul, Korea, in 1971. He |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+received the B.S. degree in biomedical engineering |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+from Yonsei University, Wonju, Korea, in 1997 and |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the M.S. degree in electrophysiology from the Col- |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+lege of Medicine at Hallym University, Chunchon, |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Korea, in 1999. He is a Ph.D. degree candidate in |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the School of Electrical Engineering, Seoul National |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+University, Seoul, Korea. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+He worked as a Researcher at the Department |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+of Pharmacology, Korea University, Seoul, Korea, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+in 1999. His research interests are in the silicon |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+microelectrode array and neural prosthesis, including man machine interface. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Sung Cherl Jung was born in Wonju, Korea, in |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+1971. He received the M.S. degree in physiology |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+at Hallym University, Chunchon, Korea, in 1999. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+He is currently working toward the Ph.D. degree at |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Department of Physiology at Hallym University. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+His current research is focused on the characteri- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+zation of dynamic changes of neural networks in the |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+somatosensory cortex and thalamus of awaked be- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+having animals. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Hyung Cheul Shin was born in Pongwha, Korea, |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+in 1955. He received the Ph.D. degree in 1987 from |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+the Department of Cell Biology at the University of |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Texas Health Science Center at Dallas. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+He was a Post-doctoral Fellow at the Department |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+of Physiology and Biophysics at Hahnemann Uni- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+versity, Philadelphia, PA, between 1987 and 1989. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+After spending three years, from 1989 to 1992, as an |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Instructor at Harvard Medical School, Boston, MA, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+working on the development of new drug for differ- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+ential nerve block, he returned to Korea. Presently, he |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+is an Associate Professor at the Department of Physiology, College of Medicine, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Hallym University, Chunchon, Korea. His research is focussed on somatosen- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sory processing from peripheral nerve to the cerebral cortex. He has more than |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+70 conference contributions and more than 50 scientific publications, 18 per- |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sonally invited conference/ workshops talks and several other invited talks. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Sung June Kim (S’79–M’84) received B.S. degree |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+in electronics engineering from Seoul National Uni- |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+versity, Seoul, Korea, in 1978. He received M.S. and |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Ph. D. degrees in electrical engineering from Cornell |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+University, Ithaca, NY, in 1981, and 1983, respec- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tively. His Ph.D. thesis was on the photoinduced fab- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+rication oftranssubstrate microelectrode arrays based |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+on silicon substrate and their neurophysiological ap- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+plications. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+From 1983 to 1989, he worked as an MTS in Bell |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+Laboratories, Allentown, PA and Murray Hill, NJ. At |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Bell Labs, he studied design and processing of silicon VLSI, and the process |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+and device development of optoelectronic integrated circuits (OEIC’s) for long- |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+wavelength optical communications. In 1989, he returned to Korea to join the |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Department of Electronics Engineering and the Inter-University Semiconductor |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Research Center (ISRC) of Seoul National University, where he is now a full |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Professor in the School of Electrical Engineering. His research interests are |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+in areas of bioelectronics, bioinstrumentation, neural prosthesis, and optoelec- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tronic semiconductor devices. He has published some 60 papers, and has man- |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+aged many research projects in the areas mentioned. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+Authorized licensed use limited to: Seoul National University. Downloaded on April 7, 2009 at 08:23 from IEEE Xplore. Restrictions apply. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
