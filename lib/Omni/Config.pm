@@ -4,7 +4,7 @@ package Omni::Config;
 # Names of the classes
 $ALG_NAME		= "Omni";
 # Version
-$ALG_VERSION	= "110121";
+$ALG_VERSION	= "050511";
 
 # All Omnipage XML tags 
 %omni_tag_list	=		(	'DOCUMENT'		=> 'document',

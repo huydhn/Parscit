@@ -14,10 +14,6 @@ use strict;
 use FindBin;
 use Getopt::Long;
 
-# Local libraries
-use SectLabel::Config;
-use SectLabel::Tr2crfpp;
-
 # I do not know a better solution to find a lib path in -T mode.
 # So if you know a better solution, I'd be glad to hear.
 # See this http://www.perlmonks.org/?node_id=585299 for why I used the below code
@@ -27,6 +23,10 @@ BEGIN
 	if ($FindBin::Bin =~ /(.*)/) { $path = $1; }
 }
 use lib "$path/../../lib";
+
+# Local libraries
+use SectLabel::Config;
+use SectLabel::Tr2crfpp;
 
 ### USER customizable section
 $0 =~ /([^\/]+)$/; my $progname = $1;

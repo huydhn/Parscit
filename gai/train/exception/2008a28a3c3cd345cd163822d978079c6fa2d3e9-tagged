@@ -1,0 +1,637 @@
+title ||| Benchmark Control Problem for Seismically Excited |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+title ||| Cable-Stayed Bridges Using Smart Damping Strategies |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+author ||| Hyung-Jo JUNG	Billie F. SPENCER, Jr. In-Won LEE |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+affiliation ||| Postdoctoral Researcher	Leo Linbeck Professor	Professor |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+affiliation ||| University of Notre Dame	University of Notre Dame	Korea Adv. Inst. of Sci. &amp; Tech. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+affiliation ||| Notre Dame, IN, USA	Notre Dame, IN, USA	Taejon, Korea |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+note ||| Hyung-Jo Jung, born 1971,	Billie F. Spencer, Jr., born 1959,	In-Won Lee, born 1940, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+note ||| received his civil engineering	received his theoretical and applied	received his civil engineering |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+note ||| degree from the Korea Advanced	mechanics degree from the University degree from the University of |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+note ||| Institute of Science and Technology.	of Illinois at Urbana-Champaign.	Illinois at Urbana-Champaign. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+sectionHeader ||| Summary |XML| xmlLoc_2 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+bodyText ||| This paper presents smart damping strategies for seismic protection of cable-stayed bridges by |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+bodyText ||| investigating the first generation benchmark problem for cable-stayed bridges [ 1 ]. For this |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| benchmark study, a three-dimensional linear evaluation bridge model is provided as a testbed |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| structure. In this paper, smart dampers (e.g., variable orifice damper, controllable fluid damper, |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| etc.) are considered as supplemental damping devices, and a clipped-optimal control algorithm, |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| shown to perform well in previous studies involving controllable dampers, is employed. Since a |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| smart damper is an energy-dissipative device that cannot add mechanical energy to the structural |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| system, the proposed control strategy guarantees the bounded-input, bounded-output stability of the |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| controlled structure. The numerical simulation results show that the performance of smart damping |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+bodyText ||| strategies is quite effective. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+keyword ||| Keywords: Benchmark problem; cable-stayed bridge; seismic load; smart damping; seismic |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_header
+keyword ||| protection |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_header
+sectionHeader ||| 1. Introduction |XML| xmlLoc_4 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| In the field of civil engineering, many control algorithms and devices have been investigated over |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| the last two decades to protect structures against natural hazards such as strong earthquakes and |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| high winds. However, it is generally impossible to compare different control strategies directly |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| because the control methods were applied to different structures. This problem can be addressed by |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| employing testbed structures, that is, by developing benchmark studies. Benchmark control |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| problems allow researchers to apply various control strategies, such as passive, active, semi-active |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| or a combination thereof, to a specified problem, and to compare results directly in terms of a |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| specified set of performance objectives. One goal of a benchmark study is to direct future research |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| efforts toward the most promising structural control strategies. In recent years, benchmark studies |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| have been actively investigated by the International Association of Structural Control (IASC) and |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| the ASCE Engineering Mechanics Committee [2-3]. Until recently, all of benchmark problems |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| considered have focused on the control of buildings [2-4]. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Because there are a growing number of cable-stayed bridges throughout the world, more research |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| on the seismic protection of such structures is needed. The control of very flexible structures such |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| as cable-stayed bridges is a unique and challenging problem. To effectively study the seismic |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| response control of cable-stayed bridges, a benchmark problem for seismic protection has been |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| developed by Dyke et al. [ 1 ]. This first generation benchmark control problem for cable-stayed |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| bridges subjected to seismic loads considers a bridge currently under construction in Cape |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Griardeau, Missouri, USA, which will be completed in 2003. Based on detailed drawings of this |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| cable-stayed bridge, a three-dimensional evaluation model has been developed to represent the |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| complex behavior of the bridge. For the control design problem, evaluation criteria also have been |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| provided. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+page ||| 1 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| The focus of this paper is to use the benchmark cable-stayed bridge model provided by Dyke et al. |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| [ 1 ] to investigate the effectiveness of smart damping strategies for seismic protection of such |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| structures. In this study, smart dampers (e.g., variable orifice damper, variable friction damper, |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| controllable fluid damper, etc.) are considered as supplemental damping devices, and a clipped- |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| optimal control algorithm, shown to perform well in previous studies involving controllable |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| dampers [5-6], is employed. Since a smart damper is an energy-dissipative device that cannot add |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| mechanical energy to the structural system, the proposed control strategy guarantees the bounded- |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| input, bounded-output stability of the controlled structure. Following an overview of the benchmark |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| problem statement, including discussion of the benchmark bridge model and evaluation criteria, a |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| seismic control system design using smart damping strategies is proposed. Numerical simulation |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| results are then presented to demonstrate the effectiveness of the proposed control strategy. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| 2. Benchmark Problem Statement |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+subsectionHeader ||| 2.1 Benchmark Bridge Model |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| This benchmark problem considers the cable-stayed bridge shown in Fig. 1, which is currently |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| under construction in Cape Griardeau, Missouri, USA. Because bearings at pier 4 do not restrict |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| longitudinal motion and rotation about the longitudinal axis of the bridge, the Illinois approach has |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| a negligible effect on the dynamics of the cable-stayed portion of the bridge. In this benchmark |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| study, therefore, only the cable-stayed portion of the bridge is considered. Based on detailed |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| drawings of the bridge, a three-dimensional linear evaluation model has been developed to |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| represent the complex behavior of the full-scale benchmark bridge. However, the stiffness matrices |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| used in this linear model are those of the structure determined through a nonlinear static analysis |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| corresponding to the deformed state of the bridge with dead loads [7]. Since this bridge is assumed |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| to be attached to bedrock, the effect of the soil-structure interaction has been neglected. A one- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| dimensional ground acceleration is applied in the longitudinal direction, which is considered to be |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| the most destructive in cable-stayed bridges. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| Bent 1	Pier 2	Pier 3	Pier 4 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 1 Cable Number |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figureCaption ||| Fig. 1 Schematic of the Cape Girardeau Bridge [1] |XML| xmlLoc_5 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| The bridge model resulting from the finite element formulation, which is modeled by beam |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| elements, cable elements and rigid links, has a large number of degrees-of-freedom and high |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| frequency dynamics. Application of static condensation to the full model of the bridge as a model |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| reduction scheme resulted in a 419 DOF reduced-order model, designated the evaluation model. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Each mode of this evaluation model has 3% critical damping, which is consistent with assumptions |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| made during the design of bridge. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+subsectionHeader ||| 2.2 Evaluation Criteria |XML| xmlLoc_6 xmlBold_yes xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Eighteen criteria have been defined [ 1 ] to evaluate the capabilities of each proposed control |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| strategy. Three historical earthquake records are considered, the 1940 El Centro NS, the 1985 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Mexico City and the 1999 Gebze NS. The following first six evaluation criteria consider the ability |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| of the controller to reduce peak responses: |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 142.7 m	350.6 m	142.7 m	570 m |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 32 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 33 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 64 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Illinois approach |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+page ||| 2 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � I� |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Il |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � I� |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Il |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � I� |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| I |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| J |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i, |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| t |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Fbi(t) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| J |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i,t |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| di(t) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 1 Mbi(t)M0baxI� |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| maxi, |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| t |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J1 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J2 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J3 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| = |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| , |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| F0 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| F0 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| b |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| d |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Tai |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| MexicoCity |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| (1~6) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �I� |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| (t) |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Mdi |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| } |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| t |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| t |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| } |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| xbi (t ) |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| (t) |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| T0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| − |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| i, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| t |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J4 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J5 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J6 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| = |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| , |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| T0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| M |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| t |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| t |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| x0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| b |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 0 |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| d |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| MexicoCity |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| where Fbi (t) is the base shear at the ith tower, F0b ` = max F0bi (t) is the maximum uncontrolled |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| base shear, Fdi (t) is the shear at the deck level in the ithi#ower, F0a ` = max F0di (t) is the |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| maximum uncontrolled shear at the deck level, Mbi (t) is the moment at thb base of the tower, |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| Mob' |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ob = max M0bi (t) is the maximum uncontrolled moment at the base of the two towers, Mdi (t) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| is the morhtent at the deck level in the ith tower, M0'a = max M0di (t) is the maximum uncontrolled |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| moment at the deck level in the two towers, T0i is the no al pretension in the ith cable, Tai (t) is |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| the actual tension in the cable, and x0b is the maximum of the uncontrolled deck response at these |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| locations. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| The second five evaluation criteria consider normed (i.e., rms) responses over the entire simulation |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| time as follows: |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| �max Fbi (t) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| JI	i |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Ill |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �max Fdi (t) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| JI	i |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Ill |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| F0d(t) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �max Mbi (t) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J 	i |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Ill |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| M0b(t) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J7 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| J8 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J9 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| = |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| , |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| F0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| (t) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| b |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| MexicoCity |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| (7-11) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �max Mdi (t) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| JI	i |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Ill |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| M0d(t) |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 1 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ��i(t)−T0i |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �max |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| i |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| f |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| J10 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| ,J11 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| = |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| T0 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| MexicoCity |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| where F0b (t) is the maximum rms uncontrolled base shear of the two towers, F0d (t) is the |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| maximum rms uncontrolled shear at the deck level, M0b (t) is the maximum rms uncontrolled |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| overturning moment of the two towers, F0d (t) is the maximum rms uncontrolled moment at the |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| deck level. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| The last seven evaluation criteria consider the requirements of each control system itself: |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| II � |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| I� |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| II� |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max∑P (t)J |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| t	i |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �l�1 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| d(t)y |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �	� |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �max f (t) � |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| i,t �	W � � |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| J 12 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ,J13 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ,J14 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| = |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| xox |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 0 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| xW�max |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 0 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| ElCentro |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| I |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i,t |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| (13-19) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| MexicoCity |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| MexicoCity |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 1 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| II |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ∑ t∫ P (t)dt |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i � 0	� |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �xmax0 W |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| = number |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| of control devices |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| J16 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| = number |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| of sensors |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| J15 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J17 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| max |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| , |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ElCentro |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| MexicoCity |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Gebze |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| xc |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| k |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| dim( |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| ), |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J18 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| i |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| L |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| where fi (t) is the force generated by the ith control device over the time history, W = 510,000 kN |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| is the seismic weight of a bridge based on the mass of the superstructure, yd i (t) is the stroke of the |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| ith control device, xmaxis the maximum uncontrolled displacement at the top of the towers relative |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| to the ground, Pi (t) is a measure of the instantaneous power required by the ith control device, |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| zo is the peak uncontrolled velocity at the top of the towers, and xk is the discrete-time state |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| vector of the control algorithm. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+page ||| 3 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+sectionHeader ||| 3. Seismic Control System Using Smart Damping Strategies |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| In this section, a description of the proposed control system using smart damping strategies is |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| provided. Accelerometers, displacement and force transducers are employed as sensors. Smart |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| dampers (e.g., variable orifice dampers, variable friction dampers, controllable fluid dampers, etc.) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| are used as control devices. A clipped-optimal control algorithm, which has been successfully |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| applied with smart dampers in previous studies [5-6], is employed to determine the control action. |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+subsectionHeader ||| 3.1 Sensors and Control Devices |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Five accelerometers and four displacement transducers are used for feedback to the control |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| algorithm. Four accelerometers are located on top of the tower legs, and one is located on the deck |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| at mid span. Two displacement sensors are placed between the deck and pier 2, and the other two |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| are placed between the deck and pier 3. Because the clipped-optimal control algorithm requires |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| measurement of the control forces applied to the structure, eight force transducers are installed. All |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| sensors, employed in this study, have a constant magnitude and phase [ 1 ], and the sensitivity of |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| accelerometers ( Ga ), displacement transducers ( Gd ) and force transducers ( Gf ) are 7/9.81 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| V/(m/sec2), 30 V/m and 0.01 V/kN, respectively. Thus, sensors can be modeled as |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| v |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| (20) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �	� |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ys =	0	GdI4�4	0 ym + |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| � |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| GfI8�8 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �G� |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| aI5�50	0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 0	0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| where ys is a vector of the measured responses, including noise, in Volts, ym is a vector of the |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| noise-free responses in physical units, and v is the measurement noise, which has an rms value of |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 0.003 V. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| In this study, a total of 24 smart dampers are considered, eight between the deck and pier 2, eight |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| between the deck and pier 3, four between the deck and bent 1, and four between the deck and pier |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 4. Each damper has a capacity of 1000 kN. For this preliminary study, the smart damper is assumed |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| to be “ideal”; i.e., it can generate the desired dissipative forces without considering delay and |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| dynamics of the device. The equations describing the forces produced by dampers are |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 0	0 |XML| xmlLoc_4 xmlBold_yes xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| 2 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| 2�2 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| yf =Ddu = DdI8�8u |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| where f is the force output of devices applied to the structure, y f is the force output of devices |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| used for feedback in the control algorithm, Dd = 100 kN/V is the gain for the device, and Kf is a |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| matrix that accounts for the relationship between the input voltage and the desired control force, as |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| well as the number of devices used at each device location, as shown in Eq. (21). |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| f = Kfu = 0	4I4�4	0 Dd |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+subsectionHeader ||| 3.2 Control Design Model |XML| xmlLoc_5 xmlBold_yes xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Because the evaluation model is too large to handle in the controller, a reduced-order model (i.e., |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| design model) of the system should be developed. The design model has been derived from the |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| evaluation model by forming a balanced realization of the system and condensing out the states |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| with relatively small controllability and observability grammians as follows [8]: |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| id = Adxd + Bdu + Edxg	(23) |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| z =Cdxd +Ddu+Fd.zg	(24) |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| ys =Cdxd+Ddu+Fd.zg+v	(25) |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| 2I2� |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 2 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| 0	0 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| I |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| J |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| u	(21) |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| (22) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+page ||| 4 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| where xd is the design state vector with a dimension d = 30, x��g is the ground acceleration, u is |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| control command input, z the regulated output vector including shear forces and moments in the |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| towers, deck displacements, and cable tension forces. |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+subsectionHeader ||| 3.3 Control Schemes for Smart Damping Strategies |XML| xmlLoc_0 xmlBold_yes xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| The strategy of a clipped-optimal control algorithm for seismic protection of bridges using smart |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| dampers is as follows: First, an “ideal” active control device is assumed, and an appropriate |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| primary controller for this active device is designed. Then a secondary bang-bang-type controller |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| causes the smart damper to generate the desired active control force, so long as this force is |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| dissipative. |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| In this study, an H2/LQG control design [9-10] is adopted as the primary controller. x��g is taken to |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| be a stationary white noise, and an infinite horizon performance index is chosen that weights |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| appropriate parameters of the structure, i.e., |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| J = lim 1 E ∫	{ zTQ z + uTR u } dt	(26) |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| τ→∞ τ	J |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| 0 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| � |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| where R is an identity matrix of order 8, and Q is the response weighting matrix. Herein, a |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| stochastic response analysis has been performed to determine appropriate values of the weighting |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| parameters. Note that in order to get more reliable results, the evaluation model, not the design |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| model, should be considered in the stochastic response analysis. Two combinations of appropriate |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| weighting parameters are considered as follows: |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+listItem ||| •	Case 1: deck displacements (qd) and overturning moments (qom), |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| qd I4�4	0 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| d&amp;om	0	qomI4�4 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+listItem ||| •	Case 2: deck displacements (qd) and moments at deck level (qmd ) |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Q |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| � |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �� |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �	(27) |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| �� |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| Q |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| d&amp;md	0	q I |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| = |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| � |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �� |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| qd |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| I4�4	0 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| and 4�4 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| � |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| �� |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| (28) |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| By applying the above weighting matrices to the primary controller (H2/LQG), we can get the |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| “desired” active control forces. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| For the general smart damping device, the secondary control strategy is given by |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| I fa,i	,	fa,i ⋅ xdev &lt; |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| fsa,i =	0,	otherwise |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| � |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| where fsa, i is the control force of the ith smart damper, fa, i is the “desired” control force of the ith |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| device, and x�dev is the velocity across the ith damper. In this preliminary study, since the device is |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| assumed to be “ideal” (see Eq. (21)), Eq. (29) can be replaced as follows: |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+equation ||| 0 |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| (29) |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| usa |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| ua,i |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| i = � 0 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_smaller xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| ua,i ⋅ xdev &lt; |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| otherwise |XML| xmlLoc_6 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| 0 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+equation ||| (30) |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| where usa, i is the ith actual control command in Volts, ua, i is the “desired” control command. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Since the smart damper is an energy-dissipative device that cannot add mechanical energy to the |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| structural system, special care must be taken in the design of the primary controller so that the |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| “desired” control force fa i is dissipative during the majority of the seismic event. The smart |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| damper control design is depicted in Fig. 2. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+page ||| 5 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| x�� |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| fsa |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Control |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Devices |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| yf |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| g |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| usa |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Eq. (30) |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Clipped-Optimal Controller |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| x�dev |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Evaluation Model |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ua |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Controller |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Gain |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+figure ||| Primary Controller |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+figure ||| Observer |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ys |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| Sensors |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ye |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figure ||| ym |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+figureCaption ||| Fig. 2 Smart Damper Control Strategy Using Clipped-Optimal Algorithm |XML| xmlLoc_1 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+sectionHeader ||| 4. Numerical Simulation Results |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_continue
+bodyText ||| To verify the effectiveness of the proposed control design, a set of simulations is performed for the |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| three earthquakes specified. Then, simulation results of the proposed control design are compared |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| to those of the sample active control design in [ 1 ], employing the same sensors (5 accelerometers |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| and 4 displacement transducers), control devices (24 “ideal” actuators) and control algorithm |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| (H2/LQG). In this preliminary study, the optimal values of weighting parameters for the primary |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| controller in the proposed design and the active control design are chosen as follows (see Eqs. (27- |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 28)): |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+listItem ||| • Case 1: qd = 6.7 × 103, qom = 6.6× 10−9,• Case 2: qd=6.7×103,qmd=1.4×10−8. |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| Tables 1 to 3 show the values of the evaluation criteria in Eqs. (1-19). Here, J14 and J15, which |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| correspond to the non-dimensionalized maximum instantaneous power and total power, are not |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| considered because these two criteria cannot be calculated in the proposed design due to assuming |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| an “ideal” smart damper. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| As shown in Tables 1 to 3, the performance of the proposed control design is quite similar to that of |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| the active control design. In the case of the El Centro earthquake, the performance of both control |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| methods is the most effective (e.g., more than 74% reduction for the maximum overturning moment |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| as compared to the original design). In the case of the Mexico City earthquake, the results of Case 1 |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| are slightly better than those of Case 2 for both control methods. The stroke of control devices has |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| the largest magnitude in the case of the Gebze earthquake. For the Mexico City and Gebze |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| earthquakes, the deck displacement increases significantly (56%-90% increase for the Mexico City |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| earthquake, and 80%-98% increase for the Gebze earthquake) as compared to the uncontrolled |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| case. These results verify that smart damping strategies have nearly the same effectiveness as the |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_new
+bodyText ||| active control system for seismic protection of the benchmark cable-stayed bridge model. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| Table 1 Evaluation Criteria for the 1940 El Centro NS Earthquake |XML| xmlLoc_5 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Criterion	Active Control (H2/LQG)	Smart Damping |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Case 1	Case 2	Case 1	Case 2 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J1	0.27998	0.27520	0.28614	0.30420 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J2	0.82616	0.80058	0.89253	1.0186 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J3	0.26077	0.25410	0.23396	0.22709 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J4	0.58916	0.56530	0.57722	0.57976 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J5	0.15605	0.14162	0.16596	0.16980 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J6	0.99527	1.0978	0.87275	0.96665 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J7	0.19999	0.22345	0.19544	0.21216 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J8	0.77178	0.77588	0.82157	0.89710 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J9	0.18443	0.21938	0.18181	0.21068 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J10	0.49962	0.48322	0.52240	0.51888 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J11	1.5143e-2	1.3693e-2	1.6652e-2	1.5264e-2 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+page ||| 6 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| Table 1 Evaluation Criteria for the 1940 El Centro NS Earthquake (Continued) |XML| xmlLoc_0 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Criterion	Active Control (H2/LQG)	Smart Damping |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Case 1	Case 2	Case 1	Case 2 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J12	1.9608e-3	1.9608e-3	1.9608e-3	1.9608e-3 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J13	0.65347	0.72078	0.57303	0.63468 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J16	24	24	24	24 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J17	9	9	17	17 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J18	30	30	30	30 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| Table 2 Evaluation Criteria for the 1985 Mexico City Earthquake |XML| xmlLoc_1 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Criterion	Active Control (H2/LQG)	Smart Damping |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Case 1	Case 2	Case 1	Case 2 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J1	0.49821	0.60057	0.47224	0.54194 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J2	1.0560	1.1342	1.0152	1.4404 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J3	0.44143	0.48793	0.45914	0.64722 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J4	0.44523	0.44839	0.49605	0.49644 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J5	5.3192e-2	5.1136e-2	5.5034e-2	6.2340e-2 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J6	1.7703	1.8722	1.5611	1.8986 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J7	0.35118	0.40639	0.34784	0.42764 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J8	0.84582	0.88501	0.90155	1.2235 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J9	0.31355	0.40666	0.30739	0.42245 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J10	0.68443	0.68490	0.70160	0.75846 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J11	5.8113e-3	5.2903e-3	6.3520e-3	6.2077e-3 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J12	1.7519e-3	1.6802e-3	1.4802e-3	1.4101 e-3 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J13	0.89151	0.94846	0.78615	0.95613 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J16	24	24	24	24 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J17	9	9	17	17 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J18	30	30	30	30 |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| Table 3 Evaluation Criteria for the 1999 Gebze NS Earthquake |XML| xmlLoc_5 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Criterion	Active Control (H2/LQG)	Smart Damping |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Case 1	Case 2	Case 1	Case 2 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J1	0.42695	0.42926	0.41734	0.42829 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J2	1.1968	1.2634	1.2241	1.2762 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J3	0.33110	0.37651	0.32477	0.40932 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J4	0.86460	0.87682	0.86057	0.84455 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J5	9.9678e-2	9.9097e-2	0.10734	0.11365 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J6	1.9781	1.7959	1.9732	1.8620 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J7	0.28229	0.34191	0.27344	0.32638 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J8	1.0063	1.0762	1.1265	1.2540 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J9	0.32664	0.39036	0.32909	0.38228 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J10	0.84360	0.78197	0.91361	0.86128 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J11	1.0075e-2	9.7870e-3	1.1082e-2	1.0972e-2 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+page ||| 7 |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+tableCaption ||| Table 3 Evaluation Criteria for the 1999 Gebze NS Earthquake (Continued) |XML| xmlLoc_0 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Criterion	Active Control (H2/LQG)	Smart Damping |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+table ||| Case 1	Case 2	Case 1	Case 2 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J12	1.9608e-3	1.9608e-3	1.9608e-3	1.9608e-3 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J13	1.0845	0.98463	1.0818	1.0209 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J16	24	24	24	24 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J17	9	9	17	17 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+table ||| J18	30	30	30	30 |XML| xmlLoc_0 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_no xmlTable_yes xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| 5. Conclusions |XML| xmlLoc_1 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| In this paper, a semi-active control strategy using smart dampers has been proposed by |XML| xmlLoc_1 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| investigating the benchmark control problem for seismic responses of cable-stayed bridges. The |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| proposed control design employs 5 accelerometers, 4 displacement transducers and 8 force |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| transducers as sensors, a total of 24 smart dampers as control devices, and the controller has 30 |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| states. A clipped-optimal control algorithm is used to determine the control action for each smart |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| damper. The numerical results demonstrate that the performance of the proposed control design is |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| nearly the same as that of the active control system. In addition, smart damping strategies have |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| many attractive features, such as the bounded-input, bounded-output stability and small energy |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| requirements. The results of this preliminary investigation indicate that smart dampers can |XML| xmlLoc_2 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| effectively be used for control of seismically excited cable-stayed bridges. |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| Acknowledgements |XML| xmlLoc_3 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| The authors gratefully acknowledge the partial support of this research by the Korea Research |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+bodyText ||| Foundation Grant (KRF-99-0000), and the National Science Foundation under grant No. CMS 99- |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+bodyText ||| 00234 (Dr. S. C. Liu, Program Director). |XML| xmlLoc_3 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_continue bi_xmlPara_continue
+sectionHeader ||| References |XML| xmlLoc_4 xmlBold_yes xmlItalic_no xmlFontSize_largest0 xmlPic_no xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+reference ||| [1] DYKE S.J., TURAN G., CAICEDO J.M., BERGMAN L.A., and HAGUE S., “Benchmark |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_new
+reference ||| Control Problem for Seismic Response of Cable-Stayed Bridges”, 2000 (http://wusceel.cive. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| wustl.edu/quake/). |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_continue
+reference ||| [2] “Special Issue: Benchmark Problems”, Earthquake Engineering and Structural Dynamics, |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_new
+reference ||| Vol. 27, No. 11, 1998, pp. 1125-1397. |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [3] “Session 10 - Benchmark Tests of Buildings”, Proceedings of the Second World Conference |XML| xmlLoc_4 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| on Structural Control, Kyoto, Japan, June 29-July 2, 1998, pp. 1349-1490. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [4] SPENCER Jr. B.F., CHRISTENSON R.E., and DYKE S.J., “Next Generation Benchmark |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| Control Problem for Seismically Excited Buildings”, 1999 (http://www.nd.edu/~quake/). |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [5] DYKE S.J., SPENCER Jr. B.F., SAIN M.K., and CARLSON J.D., “Modeling and Control of |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| Magnetorheological Dampers for Seismic Response”, Smart Materials and Structures, Vol. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| 5, 1996, pp. 565-575. |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [6] DYKE S.J., and SPENCER Jr. B.F., “A Comparison of Semi-Active Control Strategies for |XML| xmlLoc_5 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| the MR Damper”, Proceedings of the IASTED International Conference on Intelligent |XML| xmlLoc_5 xmlBold_no xmlItalic_yes xmlFontSize_largest-1 xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_continue
+reference ||| Information Systems, The Bahamas, December 8-10, 1997. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_continue
+reference ||| [7] WILSON J., and GRAVELLE W., “Modelling of a Cable-Stayed Bridge for Dynamic |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| Analysis”, Earthquake Engineering and Structural Dynamics, Vol. 20, 1991, pp. 707-721. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [8] LAUB A.J., HEALTH M.T., PAIGE C.C., and WARD R.C., “Computation of System |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| Balancing Transformations and Other Applications of Simultaneous Diagonalization |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| Algorithms”, IEEE Transaction on Automatic Control, Vol. AC-32, 1987, pp. 17-32. |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [9] SPENCER Jr. B.F., SUHARDJO J., and SAIN M.K., “Frequency Domain Optimal Control |XML| xmlLoc_6 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_new
+reference ||| Strategies for Aseismic Protection”, ASCE Journal of Engineering Mechanics, Vol. 120, No. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| 1, 1994, pp. 135-159. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+reference ||| [10] ZHOU K., DOYLE J.C., and GLOVER K., Robust and Optimal Control, Prentice-Hall, New |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_new bi_xmlPara_new
+reference ||| Jersey, 1996. |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_common xmlPic_no xmlTable_no xmlBullet_yes bi_xmlSFBIA_continue bi_xmlPara_continue
+page ||| 8 |XML| xmlLoc_7 xmlBold_no xmlItalic_no xmlFontSize_none xmlPic_yes xmlTable_no xmlBullet_no bi_xmlSFBIA_new bi_xmlPara_new
+

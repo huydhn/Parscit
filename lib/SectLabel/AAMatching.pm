@@ -12,8 +12,10 @@ use strict;
 # Dependencies
 use IO::File;
 use XML::Writer;
+use XML::Writer::String;
 
 # Local libraries
+use SectLabel::Config;
 use ParsCit::PostProcess;
 
 # Dictionary
@@ -23,7 +25,7 @@ my %dict = ();
 # Affiliation
 sub AAMatching
 {
-	my ($doc, $aut_addrs, $aff_addrs, $aafile) = @_;
+	my ($doc, $aut_addrs, $aff_addrs) = @_;
 
 	my $need_object	= 1;
 	# Get the author objects
@@ -47,12 +49,13 @@ sub AAMatching
 	my ($aff_signal, $affs) = AffiliationExtraction($aff_features);
 
 	# Do the matching
-	# File i/o and XML writer
-	my $output = new IO::File(">$aafile");
-	my $writer = new XML::Writer(OUTPUT => $output, ENCODING => 'utf-8', DATA_MODE => 'true', DATA_INDENT => 2);	
-	
-	# Declaration 
-	$writer->xmlDecl('utf-8');
+	# XML string
+	my $sxml 	= "";
+	# and XML writer
+	my $writer	= new XML::Writer(OUTPUT => \$sxml, ENCODING => 'utf-8', DATA_MODE => 'true', DATA_INDENT => 2);	
+
+	# Algorithm
+	$writer->startTag("algorithm", "name" => "AAMatching", "version" => $SectLabel::Config::algorithmVersion);	
 
 	# XML header
 	my $date = `date`; chomp($date);
@@ -106,6 +109,13 @@ sub AAMatching
 
 	# Done
 	$writer->endTag("results");
+	# Done
+	$writer->endTag("algorithm");
+	# Done
+	$writer->end();
+
+	# Return the xml content back to the caller
+	return $sxml;
 }
 
 # Extract affiliation and their signal using crf

@@ -1,7 +1,7 @@
 package SectLabel::Config;
 
 $algorithmName		= "SectLabel";
-$algorithmVersion	= "100410";
+$algorithmVersion	= "050511";
 
 ###
 # Tr2crfpp

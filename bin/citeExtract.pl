@@ -109,9 +109,9 @@ if ($#ARGV == -1)
 }
 
 $SIG{'INT'} = 'quitHandler';
-getopts ('hqm:i:e:tv');
+getopts ('hqm:i:e:tva');
 
-our ($opt_q, $opt_v, $opt_h, $opt_m, $opt_i, $opt_e, $opt_t);
+our ($opt_q, $opt_v, $opt_h, $opt_m, $opt_i, $opt_e, $opt_t, $opt_a);
 
 # Use (!defined $opt_X) for options with arguments
 if ($opt_v) 
@@ -235,7 +235,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 { 
 	my $sect_label_input = $text_file;
 
-	# Get XML features and append to $textFile
+	# Get XML features and append to $text_file
 	if ($is_xml_input)
 	{
 		my $cmd	= $FindBin::Bin . "/sectLabel/processOmniXMLv3.pl -q -in $in -out $text_file.feature -decode";
@@ -269,20 +269,26 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		$sect_label_input .= ".feature";
 		my ($sl_xml, $aut_lines, $aff_lines) = SectLabel($sect_label_input, $is_xml_input, 0);
 
-		my @aut_addrs = ();
-		my @aff_addrs = ();
-		# Address of author section	
-		for my $lindex (@{ $aut_lines }) { push @aut_addrs, $omni_address[ $lindex ]; }
-		# Address of affiliation section
-		for my $lindex (@{ $aff_lines }) { push @aff_addrs, $omni_address[ $lindex ]; }
-
-		my $outfile_abs						= File::Spec->rel2abs($out);
-		my ($filename, $directory, $suffix) = fileparse($outfile_abs, qr/\.[^.]*$/);
-		# The tarpit
-		SectLabel::AAMatching::AAMatching($doc, \@aut_addrs, \@aff_addrs, $directory . $filename . "-aa" . $suffix);
-
 		# Remove first line <?xml/>
 		$rxml .= RemoveTopLines($sl_xml, 1) . "\n";
+	
+		# Only run author - affiliation if "something" is provided
+		if ($opt_a)
+		{
+			my @aut_addrs = ();
+			my @aff_addrs = ();
+			# Address of author section	
+			for my $lindex (@{ $aut_lines }) { push @aut_addrs, $omni_address[ $lindex ]; }
+			# Address of affiliation section
+			for my $lindex (@{ $aff_lines }) { push @aff_addrs, $omni_address[ $lindex ]; }
+
+			# The tarpit
+			my $aa_xml = SectLabel::AAMatching::AAMatching($doc, \@aut_addrs, \@aff_addrs);
+		
+			# Author-Affiliation Matching result
+			$rxml .= $aa_xml . "\n";
+		}
+
 		# Remove XML feature file
 		unlink($sect_label_input);
 	}
