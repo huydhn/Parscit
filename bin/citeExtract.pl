@@ -294,10 +294,10 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 	}
 	else
 	{
-		my $sl_xml	.= SectLabel($sect_label_input, $is_xml_input, 0);
-	
+		my ($sl_xml, $aut_lines, $aff_lines) = SectLabel($sect_label_input, $is_xml_input, 0);
+
 		# Remove first line <?xml/>
-		$rxml		.= RemoveTopLines($sl_xml, 1) . "\n";
+		$rxml .= RemoveTopLines($sl_xml, 1) . "\n";
 	}
 }
 
@@ -443,7 +443,7 @@ sub RemoveTopLines
 	my ($input, $top_n) = @_;
 
 	# Remove first line <?xml/> 
-	my @lines = split (/\n/,$input);
+	my @lines = split (/\n/, $input);
 	for(my $i = 0; $i < $top_n; $i++)
 	{
 		shift(@lines);
