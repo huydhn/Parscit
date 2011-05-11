@@ -60,7 +60,7 @@ my $PARSHED		= 2;
 my $SECTLABEL	= 4; # Thang v100401
 
 my $default_input_type	= "raw";
-my $output_version		= "110121";
+my $output_version		= "110505";
 my $biblio_script		= $FindBin::Bin . "/BiblioScript/biblio_script.sh";
 my $default_mode		= $PARSCIT;
 # END user customizable section

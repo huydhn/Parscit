@@ -1,7 +1,7 @@
 package ParsHed::Config;
 
 $algorithmName		= "ParsHed";
-$algorithmVersion	= "050511";
+$algorithmVersion	= "110505";
 
 ## Tr2crfpp
 ## Paths relative to ParsCit root dir ($FindBin::Bin/..)
