@@ -37,15 +37,13 @@ sub AAMatching
 	ReadDict($SectLabel::Config::dictFile);
 
 	# Authors
-	my $aut_features = AuthorFeatureExtraction($aut_lines);
+	my $aut_features = AuthorFeatureExtraction($aut_lines, $aut_addrs);
 	# Call CRF
-	# TODO: DO NOT NEED TO SPLIT AUTHOR FROM DIFFERENT SECTIONS
 	my $aut_signal 	 = AuthorExtraction($aut_features);
 
 	# Affiliations
-	my $aff_features = AffiliationFeatureExtraction($aff_lines);
+	my $aff_features = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
 	# Call CRF
-	# TODO: DO NOT NEED TO SPLIT AFFILIATION FROM DIFFERENT SECTIONS
 	my ($aff_signal, $affs) = AffiliationExtraction($aff_features);
 
 	# Do the matching
@@ -175,9 +173,33 @@ sub AffiliationExtraction
 		my $line = $_;
 		# Trim
 		$line =~ s/^\s+|\s+$//g;
-		# Skip blank line, what the heck
-		if ($line eq "") { next; }
-		
+		# Blank line mark the end of an affiliation section
+		if ($line eq "")
+		{
+			if ($prev_class eq "affiliation")
+			{
+				my $affiliation = NormalizeAffiliationName($aff_str);
+				# Save the affiliation
+				push @aff, $affiliation;
+				# and its signal
+				if ($ntl_signal ne "") { $asg{ $ntl_signal } = $affiliation; }
+			}
+			elsif ($prev_class eq "signal")
+			{
+				# Save the next to last signal
+				$ntl_signal = NormalizeAffiliationSignal($signal_str);
+			}
+
+			# Cleanup
+			$ntl_signal = "";
+			# Cleanup
+			$aff_str 	= "";
+			$signal_str = "";
+			$prev_class = "";
+
+			next ;
+		}
+
 		# Split the line
 		my @fields	= split /\t/, $line;
 		# and extract the class and the content
@@ -201,7 +223,6 @@ sub AffiliationExtraction
 		{
 			if ($prev_class eq "affiliation")
 			{
-				# TODO: How to solve the case when the signal is attached to the affiliation string, e.g. *foobar institute
 				my $affiliation = NormalizeAffiliationName($aff_str);
 				# Save the affiliation
 				push @aff, $affiliation;
@@ -234,7 +255,6 @@ sub AffiliationExtraction
 	# Final class
 	if ($prev_class eq "affiliation")
 	{
-		# TODO: How to solve the case when the signal is attached to the affiliation string, e.g. *foobar institute
 		my $affiliation = NormalizeAffiliationName($aff_str);
 		# Save the affiliation
 		push @aff, $affiliation;
@@ -335,8 +355,41 @@ sub AuthorExtraction
 		my $line = $_;
 		# Trim
 		$line =~ s/^\s+|\s+$//g;
-		# Skip blank line, what the heck
-		if ($line eq "") { next; }
+		# Blank line mark the end of an author section
+		if ($line eq "") 
+		{ 
+			if ($prev_class eq "author")
+			{
+				my $authors = ParsCit::PostProcess::NormalizeAuthorNames($author_str);
+				# Save each author
+				foreach my $author (@{ $authors })
+				{
+					$asg{ $author }		= ();		
+					$ntl_asg{ $author }	= 0;
+				}
+			}
+			elsif ($prev_class eq "signal")
+			{
+				my $signals = NormalizeAuthorSignal($signal_str);
+				# Save each signal to its corresponding author
+				foreach my $author (keys %ntl_asg)
+				{
+					foreach my $signal (@{ $signals })
+					{
+						push @{ $asg{ $author } }, $signal;
+					}
+				}
+			}
+
+			# Cleanup 
+			%ntl_asg = ();
+			# Cleanup
+			$author_str = "";
+			$signal_str = "";
+			$prev_class = "";
+
+			next; 
+		}
 		
 		# Split the line
 		my @fields	= split /\t/, $line;
@@ -361,7 +414,6 @@ sub AuthorExtraction
 		{
 			if ($prev_class eq "author")
 			{
-				# TODO: How to solve the case when the signal is attached to the author string, e.g. foobar*, more foobar
 				my $authors = ParsCit::PostProcess::NormalizeAuthorNames($author_str);
 				# Save each author
 				foreach my $author (@{ $authors })
@@ -386,7 +438,6 @@ sub AuthorExtraction
 			# Clean the next to last author list if this current class is author
 			if ($class eq "author") { %ntl_asg = (); }					
 
-
 			# Cleanup
 			$author_str = "";
 			$signal_str = "";
@@ -407,7 +458,6 @@ sub AuthorExtraction
 	# Final class
 	if ($prev_class eq "author")
 	{
-		# TODO: How to solve the case when the signal is attached to the author string, e.g. foobar*, more foobar
 		my $authors = ParsCit::PostProcess::NormalizeAuthorNames($author_str);
 		# Save each author
 		foreach my $author (@{ $authors })
@@ -468,7 +518,10 @@ sub NormalizeAuthorSignal
 # Differentiate features
 sub AffiliationFeatureExtraction
 {
-	my ($aff_lines) = @_;
+	my ($aff_lines, $aff_addrs) = @_;
+
+	# NOTE: Relational classifier features
+	my $rc_features		= "";
 
 	# Features will be stored here
 	my $features 		= "";
@@ -505,9 +558,46 @@ sub AffiliationFeatureExtraction
 	# Select the dominated font
 	$dominate_font = @sorted[ 0 ];
 
+	my $size_mismatch = undef;
+	# TODO: serious error if the size of aff_lines and the size of aff_addrs mismatch
+	if (scalar(@{ $aff_lines }) != scalar(@{ $aff_addrs })) 
+	{ 	
+		$size_mismatch = 1;
+		# Print the error but still try to continue
+		print STDERR "# Total number of affiliation lines (" . scalar(@{ $aff_lines }) . ") != Total number of affiliation addresses (" . scalar(@{ $aff_addrs }) . ")." . "\n";
+	}
+
+	my $prev_para = undef;
 	# Each line contains many runs
-	foreach my $line (@{ $aff_lines })
+	for (my $counter = 0; $counter < scalar(@{ $aff_lines }); $counter++)
 	{
+		# Get the line object
+		my $line = $aff_lines->{ $counter };
+
+		# Check the size of aff_lines and aff_addrs
+		if (! defined $size_mismatch)
+		{
+			# Check if two consecutive lines are from two different sections 
+			if (! defined $prev_para)
+			{
+				# Init
+				$prev_para = $aff_addrs->{ $counter }->{ 'L3' };
+			}
+			else
+			{
+				# Affiliations from different sections will be separated immediately
+				if ($prev_para != $aff_addrs->{ $counter }->{ 'L3' }) 
+				{ 
+					$features .= "\n"; 
+				
+					# NOTE: Relational classifier features
+					$rc_features .= "\n";
+				}
+				# Save the paragraph index
+				$prev_para = $aff_addrs->{ $counter }->{ 'L3' };
+			}
+		}
+
 		# Set first word in line
 		$is_first_line = 1;
 
@@ -556,94 +646,156 @@ sub AffiliationFeatureExtraction
 			# For each word
 			foreach my $word (@{ $words })
 			{
+				# Get word location
+				my $top 	= $word->get_top_pos();
+				my $bottom 	= $word->get_bottom_pos();
+				my $left	= $word->get_left_pos();
+				my $right	= $word->get_right_pos();
+
 				# Extract features
-				my $content = $word->get_content();
+				my $full_content = $word->get_content();
 				# Trim
-				$content	=~ s/^\s+|\s+$//g;
+				$full_content	 =~ s/^\s+|\s+$//g;
 
 				# Skip blank run
-				if ($content eq "") { next; }
+				if ($full_content eq "") { next; }
 
-				# Content
-				$features .= $content . "\t";
-			
-				# Remove punctuation
-				my $content_n	=~ s/[^\w]//g;
-				# Lower case
-				my $content_l	= lc($content);
-				# Lower case, no punctuation
-				my $content_nl	= lc($content_n);
-				# Lower case
-				$features .= $content_l . "\t";
-				# Lower case, no punctuation
-				if ($content_nl ne "")
+				my @sub_content = ();
+				# This is the tricky part, one word e.g. **affiliation will be 
+				# splitted into two parts: the signal, and the affiliation if 
+				# possible using regular expression
+				while ($full_content =~ m/([\w|-]*)(\W*)/g)
 				{
-					$features .= $content_nl . "\t";
+					my $first	= $1;
+					my $second	= $2;
+						
+					# Trim
+					$first	=~ s/^\s+|\s+$//g;
+					$second	=~ s/^\s+|\s+$//g;
+				
+					# Only keep non-blank content
+					if ($first ne "") { push @sub_content, $first; }
+
+					# Check the signal and separator
+					while ($second =~ m/([,|\.|:|;]*)([^,\.:;]*)/g)
+					{
+						my $sub_first	= $1;
+						my $sub_second	= $2;
+
+						# Trim
+						$sub_first	=~ s/^\s+|\s+$//g;
+						$sub_second	=~ s/^\s+|\s+$//g;
+						
+						# Only keep non-blank separator
+						if ($sub_first ne "") { push @sub_content, $sub_first; }
+						# Only keep non-blank signal
+						if ($sub_second ne "") { push @sub_content, $sub_second; }
+					}
 				}
-				else
+
+				foreach my $content (@sub_content)
 				{
+					# Content
+					$features .= $content . "\t";
+			
+					my $content_n	= $content;
+					# Remove punctuation
+					my $content_n	=~ s/[^\w]//g;
+					# Lower case
+					my $content_l	= lc($content);
+					# Lower case, no punctuation
+					my $content_nl	= lc($content_n);
+					# Lower case
 					$features .= $content_l . "\t";
-				}
+					# Lower case, no punctuation
+					if ($content_nl ne "")
+					{
+						$features .= $content_nl . "\t";
+					}
+					else
+					{
+						$features .= $content_l . "\t";
+					}
 
-				# Split into character
-	      		my @chars = split(//, $content);
-				# Content length
-				my $length =	(scalar(@chars) == 1)	? "1-char"	:
-								(scalar(@chars) == 2)	? "2-char"	:
-								(scalar(@chars) == 3)	? "3-char"	: "4+char";
-				$features .= $length . "\t";
+					# Split into character
+		      		my @chars = split(//, $content);
+					# Content length
+					my $length =	(scalar(@chars) == 1)	? "1-char"	:
+									(scalar(@chars) == 2)	? "2-char"	:
+									(scalar(@chars) == 3)	? "3-char"	: "4+char";
+					$features .= $length . "\t";
 							
-				# First word in line
-				if ($is_first_line == 1)
-				{
-					$features .= "begin" . "\t";
-	
-					# Next words are not the first in line anymore
-					$is_first_line = 0;
-				}
-				else	
-				{
-					$features .= "continue" . "\t";
-				}		
+					# First word in line
+					if ($is_first_line == 1)
+					{
+						$features .= "begin" . "\t";
+		
+						# Next words are not the first in line anymore
+						$is_first_line = 0;
+					}
+					else	
+					{
+						$features .= "continue" . "\t";
+					}		
 
-				###
-				# The following features are XML features
-				###
+					###
+					# The following features are XML features
+					###
 			
-				# Bold format	
-				$features .= $bold . "\t";
+					# Bold format	
+					$features .= $bold . "\t";
 			
-				# Italic format	
-				$features .= $italic . "\t";
+					# Italic format	
+					$features .= $italic . "\t";
 
-				# Underline
-				$features .= $underline . "\t";
+					# Underline
+					$features .= $underline . "\t";
 
-				# Sub-Sup-script
-				$features .= $suscript . "\t";
+					# Sub-Sup-script
+					$features .= $suscript . "\t";
 
-				# Relative font size
-				$features .= $fontsize . "\t";
+					# Relative font size
+					$features .= $fontsize . "\t";
 
-				# First word in run
-				if (($prev_bold ne $bold) || ($prev_italic ne $italic) || ($prev_underline ne $underline) || ($prev_suscript ne $suscript) || ($prev_fontsize ne $fontsize))
-				{
-					$features .= "fbegin" . "\t";
+					# First word in run
+					if (($prev_bold ne $bold) || ($prev_italic ne $italic) || ($prev_underline ne $underline) || ($prev_suscript ne $suscript) || ($prev_fontsize ne $fontsize))
+					{
+						$features .= "fbegin" . "\t";
+					}
+					else	
+					{
+						$features .= "fcontinue" . "\t";
+					}
+
+					# New token
+					$features .= "\n";
+
+					# Save the XML format
+					$prev_bold		= $bold;
+					$prev_italic	= $italic;
+					$prev_underline	= $underline;
+					$prev_suscript	= $suscript;
+					$prev_fontsize	= $fontsize;
+
+					# NOTE: Relational classifier features
+					# Content
+					$rc_features .= $content . "\t";
+					# Location
+					$rc_features .= $top 	. "\t";
+					$rc_features .= $bottom . "\t";
+					$rc_features .= $left 	. "\t";
+					$rc_features .= $right	. "\t";
+					# Index
+					if (! defined $size_mismatch)
+					{
+						$rc_features .= $aff_addrs->{ $counter }->{ 'L1' } . "\t";
+						$rc_features .= $aff_addrs->{ $counter }->{ 'L2' } . "\t";
+						$rc_features .= $aff_addrs->{ $counter }->{ 'L3' } . "\t";
+						$rc_features .= $aff_addrs->{ $counter }->{ 'L4' } . "\t";
+					}
+					# Done
+					$rc_features .= "\n";
 				}
-				else	
-				{
-					$features .= "fcontinue" . "\t";
-				}
-
-				# New token
-				$features .= "\n";
-
-				# Save the XML format
-				$prev_bold		= $bold;
-				$prev_italic	= $italic;
-				$prev_underline	= $underline;
-				$prev_suscript	= $suscript;
-				$prev_fontsize	= $fontsize;
 			}			
 		}
 	}
@@ -674,7 +826,10 @@ sub AffiliationFeatureExtraction
 # Differentiate features
 sub AuthorFeatureExtraction
 {
-	my ($aut_lines) = @_;
+	my ($aut_lines, $aut_addrs) = @_;
+
+	# NOTE: Relational classifier features
+	my $rc_features		= "";
 	
 	# Features will be stored here
 	my $features 		= "";
@@ -713,9 +868,46 @@ sub AuthorFeatureExtraction
 	# Select the dominated font
 	$dominate_font = @sorted[ 0 ];
 
+	my $size_mismatch = undef;
+	# TODO: serious error if the size of aut_lines and the size of aut_addrs mismatch
+	if (scalar(@{ $aut_lines }) != scalar(@{ $aut_addrs })) 
+	{ 	
+		$size_mismatch = 1;
+		# Print the error but still try to continue
+		print STDERR "# Total number of author lines (" . scalar(@{ $aut_lines }) . ") != Total number of author addresses (" . scalar(@{ $aut_addrs }) . ")." . "\n";
+	}
+
+	my $prev_para = undef;
 	# Each line contains many runs
-	foreach my $line (@{ $aut_lines })
+	for (my $counter = 0; $counter < scalar(@{ $aut_lines }); $counter++)
 	{
+		# Get the line object
+		my $line = $aut_lines->{ $counter };
+		
+		# Check the size of aut_line and aut_addrs
+		if (! defined $size_mismatch)
+		{
+			# Check if two consecutive lines are from two different sections 
+			if (! defined $prev_para)
+			{
+				# Init
+				$prev_para = $aut_addrs->{ $counter }->{ 'L3' };
+			}
+			else
+			{
+				# Authors from different sections will be separated immediately
+				if ($prev_para != $aut_addrs->{ $counter }->{ 'L3' }) 
+				{ 
+					$features .= "\n"; 
+
+					# NOTE: Relational classifier features
+					$rc_features .= "\n";
+				}
+				# Save the paragraph index
+				$prev_para = $aut_addrs->{ $counter }->{ 'L3' };
+			}
+		}
+
 		# Set first word in line
 		$is_first_line = 1;
 
@@ -767,155 +959,217 @@ sub AuthorFeatureExtraction
 			# For each word
 			foreach my $word (@{ $words })
 			{
+				# Get word location
+				my $top 	= $word->get_top_pos();
+				my $bottom 	= $word->get_bottom_pos();
+				my $left	= $word->get_left_pos();
+				my $right	= $word->get_right_pos();
+
 				# Extract features
-				my $content = $word->get_content();
+				my $full_content = $word->get_content();
 				# Trim
-				$content	=~ s/^\s+|\s+$//g;
+				$full_content	 =~ s/^\s+|\s+$//g;
 
 				# Skip blank run
-				if ($content eq "") { next; }
+				if ($full_content eq "") { next; }
 
-				# Content
-				$features .= $content . "\t";
-			
-				# Remove punctuation
-				my $content_n	=~ s/[^\w]//g;
-				# Lower case
-				my $content_l	= lc($content);
-				# Lower case, no punctuation
-				my $content_nl	= lc($content_n);
-				# Lower case
-				$features .= $content_l . "\t";
-				# Lower case, no punctuation
-				if ($content_nl ne "")
+				my @sub_content = ();
+				# This is the tricky part, one word e.g. name** will be splitted 
+				# into several parts: the name, the signal, and the separator if 
+				# possible using regular expression
+				while ($full_content =~ m/([\w|-]*)(\W*)/g)
 				{
-					$features .= $content_nl . "\t";
+					my $first	= $1;
+					my $second	= $2;
+						
+					# Trim
+					$first	=~ s/^\s+|\s+$//g;
+					$second	=~ s/^\s+|\s+$//g;
+				
+					# Only keep non-blank content
+					if ($first ne "") { push @sub_content, $first; }
+
+					# Check the signal and separator
+					while ($second =~ m/([,|\.|:|;]*)([^,\.:;]*)/g)
+					{
+						my $sub_first	= $1;
+						my $sub_second	= $2;
+
+						# Trim
+						$sub_first	=~ s/^\s+|\s+$//g;
+						$sub_second	=~ s/^\s+|\s+$//g;
+						
+						# Only keep non-blank separator
+						if ($sub_first ne "") { push @sub_content, $sub_first; }
+						# Only keep non-blank signal
+						if ($sub_second ne "") { push @sub_content, $sub_second; }
+					}
 				}
-				else
+
+				foreach my $content (@sub_content)
 				{
+					# Content
+					$features .= $content . "\t";
+				
+					my $content_n	= $content;
+					# Remove punctuation
+					$content_n		=~ s/[^\w]//g;
+					# Lower case
+					my $content_l	= lc($content);
+					# Lower case, no punctuation
+					my $content_nl	= lc($content_n);
+					# Lower case
 					$features .= $content_l . "\t";
-				}
+					# Lower case, no punctuation
+					if ($content_nl ne "")
+					{
+						$features .= $content_nl . "\t";
+					}
+					else
+					{
+						$features .= $content_l . "\t";
+					}
 
-				# Capitalization
-				my $ortho = ($content =~ /^[\p{IsUpper}]$/)					? "single"	:
-							($content =~ /^[\p{IsUpper}][\p{IsLower}]+/)	? "init" 	:
-							($content =~ /^[\p{IsUpper}]+$/) 				? "all" 	: "others";
-				$features .= $ortho . "\t";
+					# Capitalization
+					my $ortho = ($content =~ /^[\p{IsUpper}]$/)					? "single"	:
+								($content =~ /^[\p{IsUpper}][\p{IsLower}]+/)	? "init" 	:
+								($content =~ /^[\p{IsUpper}]+$/) 				? "all" 	: "others";
+					$features .= $ortho . "\t";
 
-				# Numeric property
-				my $num =	($content =~ /^[0-9]$/)					? "1dig" 	:
-							($content =~ /^[0-9][0-9]$/) 			? "2dig" 	:
-							($content =~ /^[0-9][0-9][0-9]$/) 		? "3dig" 	:
-							($content =~ /^[0-9]+$/) 				? "4+dig" 	:
-							($content =~ /^[0-9]+(th|st|nd|rd)$/)	? "ordinal"	:
-							($content =~ /[0-9]/) 					? "hasdig" 	: "nonnum";
-				$features .= $num . "\t";
+					# Numeric property
+					my $num =	($content =~ /^[0-9]$/)					? "1dig" 	:
+								($content =~ /^[0-9][0-9]$/) 			? "2dig" 	:
+								($content =~ /^[0-9][0-9][0-9]$/) 		? "3dig" 	:
+								($content =~ /^[0-9]+$/) 				? "4+dig" 	:
+								($content =~ /^[0-9]+(th|st|nd|rd)$/)	? "ordinal"	:
+								($content =~ /[0-9]/) 					? "hasdig" 	: "nonnum";
+					$features .= $num . "\t";
 
-				# Last punctuation
-				my $punct = ($content =~ /^[\"\'\`]/) 						? "leadq" 	:
-							($content =~ /[\"\'\`][^s]?$/) 					? "endq" 	:
-	  						($content =~ /\-.*\-/) 							? "multi"	:
-	    					($content =~ /[\-\,\:\;]$/) 					? "cont" 	:
-	      					($content =~ /[\!\?\.\"\']$/) 					? "stop" 	:
-	        				($content =~ /^[\(\[\{\<].+[\)\]\}\>].?$/)		? "braces" 	: "others";
-				$features .= $punct . "\t";
+					# Last punctuation
+					my $punct = ($content =~ /^[\"\'\`]/) 						? "leadq" 	:
+								($content =~ /[\"\'\`][^s]?$/) 					? "endq" 	:
+	  							($content =~ /\-.*\-/) 							? "multi"	:
+	    						($content =~ /[\-\,\:\;]$/) 					? "cont" 	:
+	      						($content =~ /[\!\?\.\"\']$/) 					? "stop" 	:
+	        					($content =~ /^[\(\[\{\<].+[\)\]\}\>].?$/)		? "braces" 	: "others";
+					$features .= $punct . "\t";
 
-				# Split into character
-	      		my @chars = split(//, $content);
-				# Content length
-				my $length =	(scalar(@chars) == 1)	? "1-char"	:
-								(scalar(@chars) == 2)	? "2-char"	:
-								(scalar(@chars) == 3)	? "3-char"	: "4+char";
-				$features .= $length . "\t";
-				# First n-gram
-				$features .= $chars[ 0 ] . "\t";
-				$features .= join("", @chars[ 0..1 ]) . "\t";
-				$features .= join("", @chars[ 0..2 ]) . "\t";
-				$features .= join("", @chars[ 0..3 ]) . "\t";
-      			# Last n-gram
-				$features .= $chars[ -1 ] . "\t";
-				$features .= join("", @chars[ -2..-1 ]) . "\t";
-				$features .= join("", @chars[ -3..-1 ]) . "\t";
-				$features .= join("", @chars[ -4..-1 ]) . "\t";
+					# Split into character
+		      		my @chars = split(//, $content);
+					# Content length
+					my $length =	(scalar(@chars) == 1)	? "1-char"	:
+									(scalar(@chars) == 2)	? "2-char"	:
+									(scalar(@chars) == 3)	? "3-char"	: "4+char";
+					$features .= $length . "\t";
+					# First n-gram
+					$features .= $chars[ 0 ] . "\t";
+					$features .= join("", @chars[ 0..1 ]) . "\t";
+					$features .= join("", @chars[ 0..2 ]) . "\t";
+					$features .= join("", @chars[ 0..3 ]) . "\t";
+	      			# Last n-gram
+					$features .= $chars[ -1 ] . "\t";
+					$features .= join("", @chars[ -2..-1 ]) . "\t";
+					$features .= join("", @chars[ -3..-1 ]) . "\t";
+					$features .= join("", @chars[ -4..-1 ]) . "\t";
 			
-				# Dictionary
-				my $dict_status = (defined $dict{ $content_nl }) ? $dict{ $content_nl } : 0;
-				# Possible names
-				my ($publisher_name, $place_name, $month_name, $last_name, $female_name, $male_name) = undef;
-   				# Check all case 
-				if ($dict_status >= 32) { $dict_status -= 32; 	$publisher_name	= "publisher"	} else { $publisher_name	= "no"; }
-	    		if ($dict_status >= 16)	{ $dict_status -= 16; 	$place_name 	= "place" 		} else { $place_name 		= "no"; }
-	    		if ($dict_status >= 8)	{ $dict_status -= 8; 	$month_name 	= "month" 		} else { $month_name 		= "no"; }
-    			if ($dict_status >= 4)	{ $dict_status -= 4; 	$last_name 		= "last" 		} else { $last_name 		= "no"; }
-	    		if ($dict_status >= 2) 	{ $dict_status -= 2; 	$female_name 	= "female" 		} else { $female_name 		= "no"; }
-    			if ($dict_status >= 1) 	{ $dict_status -= 1; 	$male_name 		= "male" 		} else { $male_name 		= "no"; }
-	    		# Save the feature
-				$features .= $male_name 	 . "\t";
-				$features .= $female_name 	 . "\t";
-				$features .= $last_name 	 . "\t";
-				$features .= $month_name 	 . "\t";
-				$features .= $place_name 	 . "\t";
-				$features .= $publisher_name . "\t";
+					# Dictionary
+					my $dict_status = (defined $dict{ $content_nl }) ? $dict{ $content_nl } : 0;
+					# Possible names
+					my ($publisher_name, $place_name, $month_name, $last_name, $female_name, $male_name) = undef;
+   					# Check all case 
+					if ($dict_status >= 32) { $dict_status -= 32; 	$publisher_name	= "publisher"	} else { $publisher_name	= "no"; }
+	    			if ($dict_status >= 16)	{ $dict_status -= 16; 	$place_name 	= "place" 		} else { $place_name 		= "no"; }
+		    		if ($dict_status >= 8)	{ $dict_status -= 8; 	$month_name 	= "month" 		} else { $month_name 		= "no"; }
+    				if ($dict_status >= 4)	{ $dict_status -= 4; 	$last_name 		= "last" 		} else { $last_name 		= "no"; }
+	    			if ($dict_status >= 2) 	{ $dict_status -= 2; 	$female_name 	= "female" 		} else { $female_name 		= "no"; }
+    				if ($dict_status >= 1) 	{ $dict_status -= 1; 	$male_name 		= "male" 		} else { $male_name 		= "no"; }
+		    		# Save the feature
+					$features .= $male_name 	 . "\t";
+					$features .= $female_name 	 . "\t";
+					$features .= $last_name 	 . "\t";
+					$features .= $month_name 	 . "\t";
+					$features .= $place_name 	 . "\t";
+					$features .= $publisher_name . "\t";
 
-				# First word in line
-				if ($is_first_line == 1)
-				{
-					$features .= "begin" . "\t";
+					# First word in line
+					if ($is_first_line == 1)
+					{
+						$features .= "begin" . "\t";
 	
-					# Next words are not the first in line anymore
-					$is_first_line = 0;
-				}
-				else	
-				{
-					$features .= "continue" . "\t";
-				}		
+						# Next words are not the first in line anymore
+						$is_first_line = 0;
+					}
+					else	
+					{
+						$features .= "continue" . "\t";
+					}		
 
-				###
-				# The following features are XML features
-				###
+					###
+					# The following features are XML features
+					###
 			
-				# Bold format	
-				$features .= $bold . "\t";
-			
-				# Italic format	
-				$features .= $italic . "\t";
+					# Bold format	
+					$features .= $bold . "\t";
+				
+					# Italic format	
+					$features .= $italic . "\t";
 
-				# Underline
-				$features .= $underline . "\t";
+					# Underline
+					$features .= $underline . "\t";
 
-				# Sub-Sup-script
-				$features .= $suscript . "\t";
-
-				# Relative font size
-				$features .= $fontsize . "\t";
-
-				# First word in run
-				if (($prev_bold ne $bold) || ($prev_italic ne $italic) || ($prev_underline ne $underline) || ($prev_suscript ne $suscript) || ($prev_fontsize ne $fontsize))
-				{
-					$features .= "fbegin" . "\t";
+					# Sub-Sup-script
+					$features .= $suscript . "\t";
 	
-					# Next words are not the first in line anymore
-					# $is_first_run = 0;
-				}
-				else	
-				{
-					$features .= "fcontinue" . "\t";
-				}
+					# Relative font size
+					$features .= $fontsize . "\t";
 
-				# New token
-				$features .= "\n";
+					# First word in run
+					if (($prev_bold ne $bold) || ($prev_italic ne $italic) || ($prev_underline ne $underline) || ($prev_suscript ne $suscript) || ($prev_fontsize ne $fontsize))
+					{
+						$features .= "fbegin" . "\t";
+	
+						# Next words are not the first in line anymore
+						# $is_first_run = 0;
+					}
+					else	
+					{
+						$features .= "fcontinue" . "\t";
+					}
 
-				# Save the XML format
-				$prev_bold		= $bold;
-				$prev_italic	= $italic;
-				$prev_underline	= $underline;
-				$prev_suscript	= $suscript;
-				$prev_fontsize	= $fontsize;
+					# New token
+					$features .= "\n";
+		
+					# Save the XML format
+					$prev_bold		= $bold;
+					$prev_italic	= $italic;
+					$prev_underline	= $underline;
+					$prev_suscript	= $suscript;
+					$prev_fontsize	= $fontsize;
+
+					# NOTE: Relational classifier features
+					# Content
+					$rc_features .= $content . "\t";
+					# Location
+					$rc_features .= $top 	. "\t";
+					$rc_features .= $bottom . "\t";
+					$rc_features .= $left 	. "\t";
+					$rc_features .= $right	. "\t";
+					# Index
+					if (! defined $size_mismatch)
+					{
+						$rc_features .= $aut_addrs->{ $counter }->{ 'L1' } . "\t";
+						$rc_features .= $aut_addrs->{ $counter }->{ 'L2' } . "\t";
+						$rc_features .= $aut_addrs->{ $counter }->{ 'L3' } . "\t";
+						$rc_features .= $aut_addrs->{ $counter }->{ 'L4' } . "\t";
+					}
+					# Done
+					$rc_features .= "\n";
+				}
 			}			
 		}
 	}
 
-	return $features;
+	return ($features, $rc_features);
 }
 
 sub ReadDict 
