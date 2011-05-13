@@ -14,12 +14,33 @@ use IO::File;
 use XML::Writer;
 use XML::Writer::String;
 
+use	Class::Struct;
+
 # Local libraries
 use SectLabel::Config;
 use ParsCit::PostProcess;
 
 # Dictionary
 my %dict = ();
+
+# Matching features of each author, including
+# Signals
+# Coordinations: top, bottom, left, right
+# Position: page, sections, paragraph, line
+struct aut_rcfeatures =>
+{
+	signals	=> '@',	
+
+	top		=> '$',
+	bottom	=> '$',
+	left	=> '$',
+	right	=> '$',
+
+	page 	=> '$',
+	section	=> '$',
+	para	=> '$',
+	line	=> '$'
+};
 
 # Author
 # Affiliation
@@ -37,14 +58,59 @@ sub AAMatching
 	ReadDict($SectLabel::Config::dictFile);
 
 	# Authors
-	my $aut_features = AuthorFeatureExtraction($aut_lines, $aut_addrs);
+	my ($aut_features, $aut_rc_features) = AuthorFeatureExtraction($aut_lines, $aut_addrs);
 	# Call CRF
-	my $aut_signal 	 = AuthorExtraction($aut_features);
+	my ($aut_signal, $aut_rc) = AuthorExtraction($aut_features, $aut_rc_features);
 
 	# Affiliations
-	my $aff_features = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
+	my ($aff_features, $aff_rc_features) = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
 	# Call CRF
-	my ($aff_signal, $affs) = AffiliationExtraction($aff_features);
+	my ($aff_signal, $affs) = AffiliationExtraction($aff_features, $aff_rc_features);
+
+	# DEBUG
+	my $aut_handle	= undef;
+	my $aff_handle	= undef;
+	my $aau_handle	= undef;
+	my $aaf_handle	= undef;
+	my $debug		= undef;
+
+	open $aut_handle, ">:utf8", "aut.features"; 
+	open $aff_handle, ">:utf8", "aff.features"; 
+	open $aau_handle, ">:utf8", "aau.features"; 
+	open $aaf_handle, ">:utf8", "aaf.features"; 
+	open $debug, ">:utf8", "debug.features"; 
+
+	print $aut_handle $aut_features;
+	print $aff_handle $aff_features;
+	print $aau_handle $aut_rc_features;
+	print $aaf_handle $aff_rc_features;
+
+	foreach my $author (keys %{ $aut_rc } )
+	{
+		print $debug $author, ": ", "\n";
+
+		foreach my $signal (@{ $aut_rc->{ $author }->signals })
+		{
+			print $debug "\t", $signal, "\n";
+		}
+
+		print $debug "\t", $aut_rc->{ $author }->top, "\n";
+		print $debug "\t", $aut_rc->{ $author }->bottom, "\n";
+		print $debug "\t", $aut_rc->{ $author }->left, "\n";
+		print $debug "\t", $aut_rc->{ $author }->right, "\n";
+
+		print $debug "\t", $aut_rc->{ $author }->page, "\n";
+		print $debug "\t", $aut_rc->{ $author }->section, "\n";
+		print $debug "\t", $aut_rc->{ $author }->para, "\n";
+		print $debug "\t", $aut_rc->{ $author }->line, "\n";
+	}
+
+	close $aut_handle;
+	close $aff_handle;
+	close $aau_handle;
+	close $aaf_handle;
+	close $debug;
+	# END
 
 	# Do the matching
 	# XML string
@@ -304,7 +370,7 @@ sub NormalizeAffiliationName
 # Extract author name and their signal using crf
 sub AuthorExtraction
 {
-	my ($features) = @_;
+	my ($features, $rc_features) = @_;
 
 	# Temporary input file for CRF
 	my $infile	= BuildTmpFile("aut-input");
@@ -339,14 +405,23 @@ sub AuthorExtraction
 
 	# Each author can have one or more signals
 	my %asg = ();
+	# Each author can have only one struct	
+	my %aas = ();
+
+	# Each line in the relational features string
+	my @rc_lines = split /\n/, $rc_features;
 
 	my $input_handle = undef;
 	# Read the CRF output
 	open $input_handle, "<:utf8", $outfile;
 	# Author and signal string
 	my $prev_class	= "";
-	my $author_str	= "";
+	my @author_str	= ();
 	my $signal_str	= "";
+	# Relational classifier
+	my @author_rc	= ();
+	# Line counter
+	my $counter		= 0;
 	# Next to last authors
 	my %ntl_asg 	= ();
 	# Read each line and get its label
@@ -360,12 +435,13 @@ sub AuthorExtraction
 		{ 
 			if ($prev_class eq "author")
 			{
-				my $authors = ParsCit::PostProcess::NormalizeAuthorNames($author_str);
+				my ($authors, $rcs) = NormalizeAuthorNames(\@author_str, \@author_rc);
 				# Save each author
-				foreach my $author (@{ $authors })
+				for (my $i = 0; $i < scalar(@{ $authors }); $i++)
 				{
-					$asg{ $author }		= ();		
-					$ntl_asg{ $author }	= 0;
+					$asg{ $authors->[ $i ] } 		= ();
+					$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
+					$ntl_asg{ $authors->[ $i ] }	= 0;
 				}
 			}
 			elsif ($prev_class eq "signal")
@@ -377,6 +453,7 @@ sub AuthorExtraction
 					foreach my $signal (@{ $signals })
 					{
 						push @{ $asg{ $author } }, $signal;
+						push @{ $aas{ $author }->signals }, $signal;
 					}
 				}
 			}
@@ -384,8 +461,10 @@ sub AuthorExtraction
 			# Cleanup 
 			%ntl_asg = ();
 			# Cleanup
-			$author_str = "";
+			@author_str = ();
 			$signal_str = "";
+			@author_rc	= ();
+			# Cleanup
 			$prev_class = "";
 
 			next; 
@@ -402,7 +481,8 @@ sub AuthorExtraction
 			# An author
 			if ($class eq "author")
 			{
-				$author_str .= $content . " ";
+				push @author_str, $content;
+				push @author_rc, $rc_lines[ $counter ];
 			}
 			# A signal
 			elsif ($class eq "signal")
@@ -414,12 +494,13 @@ sub AuthorExtraction
 		{
 			if ($prev_class eq "author")
 			{
-				my $authors = ParsCit::PostProcess::NormalizeAuthorNames($author_str);
+				my ($authors, $rcs) = NormalizeAuthorNames(\@author_str, \@author_rc);
 				# Save each author
-				foreach my $author (@{ $authors })
+				for (my $i = 0; $i < scalar(@{ $authors }); $i++)
 				{
-					$asg{ $author }		= ();		
-					$ntl_asg{ $author }	= 0;
+					$asg{ $authors->[ $i ] } 		= ();
+					$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
+					$ntl_asg{ $authors->[ $i ] }	= 0;
 				}
 			}
 			elsif ($prev_class eq "signal")
@@ -431,6 +512,7 @@ sub AuthorExtraction
 					foreach my $signal (@{ $signals })
 					{
 						push @{ $asg{ $author } }, $signal;
+						push @{ $aas{ $author }->signals }, $signal;
 					}
 				}
 			}
@@ -439,30 +521,37 @@ sub AuthorExtraction
 			if ($class eq "author") { %ntl_asg = (); }					
 
 			# Cleanup
-			$author_str = "";
+			@author_str = ();
 			$signal_str = "";
+			@author_rc	= ();
 			# Switch to the current class
 			$prev_class = $class;
 
 			if ($class eq "author")
 			{
-				$author_str .= $content	. " ";
+				push @author_str, $content;
+				push @author_rc, $rc_lines[ $counter ];
 			}
 			elsif ($class eq "signal")
 			{
 				$signal_str .= $content . " ";	
 			}
 		}
+
+		# Update the counter
+		$counter++;
 	}
 
 	# Final class
 	if ($prev_class eq "author")
 	{
-		my $authors = ParsCit::PostProcess::NormalizeAuthorNames($author_str);
+		my ($authors, $rcs) = NormalizeAuthorNames(\@author_str, \@author_rc);
 		# Save each author
-		foreach my $author (@{ $authors })
+		for (my $i = 0; $i < scalar(@{ $authors }); $i++)
 		{
-			$asg{ $author }	= ();		
+			$asg{ $authors->[ $i ] } 		= ();
+			$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
+			$ntl_asg{ $authors->[ $i ] }	= 0;
 		}
 	}
 	elsif ($prev_class eq "signal")
@@ -474,6 +563,7 @@ sub AuthorExtraction
 			foreach my $signal (@{ $signals })
 			{
 				push @{ $asg{ $author } }, $signal;
+				push @{ $aas{ $author }->signals }, $signal;
 			}
 		}
 	}
@@ -485,7 +575,111 @@ sub AuthorExtraction
 	unlink $infile;
 	unlink $outfile;
 	# Done
-	return \%asg;
+	return (\%asg, \%aas);
+}
+
+sub NormalizeAuthorNames
+{
+	my ($author_str, $author_rc) = @_;
+
+	# Constraint
+	if (scalar(@{ $author_str }) != scalar(@{ $author_rc })) { print STDERR "# It cannot happen, if you encounter it, please consider report it as a bug", "\n"; die; }
+
+	# Mark the beginning of an author name
+	my $begin	= 1;
+	# and its corresponding relational features
+	my $rcbegin	= 0;
+
+	my @current	= ();
+	my @authors	= ();
+	my @rcs		= ();
+	# Check all tokens in the author string
+	for (my $i = 0; $i < scalar(@{ $author_str }); $i++)
+	{
+		my $token = $author_str->[ $i ];
+	
+		# Mark the end of an author name
+		if ($token =~ m/^(&|and|,|;)$/i) 
+		{
+	    	if (scalar(@current) != 0) 
+			{ 
+				push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+
+				# Save the relational features of an author (its first word)
+				my @fields = split /\s/, $author_rc->[ $rcbegin ];
+				# Create new record
+				my $tmp	= aut_rcfeatures->new(	signals => [], 
+												top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+												page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
+				# Save the record
+				push @rcs, $tmp;
+			}
+
+			# Cleanup
+	    	@current	= ();
+	    	$begin		= 1;
+
+	    	next;
+		}
+
+		# Mark the begin of an author name
+		if ($begin == 1) 
+		{
+	    	push @current, $token;
+
+	    	$begin 	 = 0;
+			$rcbegin = $i;
+
+	    	next;
+		}
+
+		# Author name ending with a comma
+		if ($token =~ m/,$/) 
+		{
+	    	push @current, $token;
+
+			if (scalar(@current) != 0) 
+			{ 
+				push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+
+				# Save the relational features of an author (its first word)
+				my @fields = split /\s/, $author_rc->[ $rcbegin ];
+				# Create new record
+				my $tmp	= aut_rcfeatures->new(	signals => [], 
+												top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+												page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
+				# Save the record
+				push @rcs, $tmp;
+			}
+			
+			# Cleanup
+	    	@current	= ();
+	    	$begin		= 1;
+		}
+		# or it's just parts of the name
+		else 
+		{
+	    	push @current, $token;
+		}
+	}
+
+	# Last author name
+	if (scalar(@current) != 0) 
+	{
+		push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+
+		# Save the relational features of an author (its first word)
+		my @fields = split /\s/, $author_rc->[ $rcbegin ];
+		# Create new record
+		my $tmp	= aut_rcfeatures->new(	signals => [], 
+										top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+										page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
+		# Save the record
+		push @rcs, $tmp;
+    }
+
+	# Done
+	return (\@authors, \@rcs); 
 }
 
 # 
@@ -572,7 +766,7 @@ sub AffiliationFeatureExtraction
 	for (my $counter = 0; $counter < scalar(@{ $aff_lines }); $counter++)
 	{
 		# Get the line object
-		my $line = $aff_lines->{ $counter };
+		my $line = $aff_lines->[ $counter ];
 
 		# Check the size of aff_lines and aff_addrs
 		if (! defined $size_mismatch)
@@ -581,12 +775,12 @@ sub AffiliationFeatureExtraction
 			if (! defined $prev_para)
 			{
 				# Init
-				$prev_para = $aff_addrs->{ $counter }->{ 'L3' };
+				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
 			}
 			else
 			{
 				# Affiliations from different sections will be separated immediately
-				if ($prev_para != $aff_addrs->{ $counter }->{ 'L3' }) 
+				if ($prev_para != $aff_addrs->[ $counter ]->{ 'L3' }) 
 				{ 
 					$features .= "\n"; 
 				
@@ -594,7 +788,7 @@ sub AffiliationFeatureExtraction
 					$rc_features .= "\n";
 				}
 				# Save the paragraph index
-				$prev_para = $aff_addrs->{ $counter }->{ 'L3' };
+				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
 			}
 		}
 
@@ -788,10 +982,10 @@ sub AffiliationFeatureExtraction
 					# Index
 					if (! defined $size_mismatch)
 					{
-						$rc_features .= $aff_addrs->{ $counter }->{ 'L1' } . "\t";
-						$rc_features .= $aff_addrs->{ $counter }->{ 'L2' } . "\t";
-						$rc_features .= $aff_addrs->{ $counter }->{ 'L3' } . "\t";
-						$rc_features .= $aff_addrs->{ $counter }->{ 'L4' } . "\t";
+						$rc_features .= $aff_addrs->[ $counter ]->{ 'L1' } . "\t";
+						$rc_features .= $aff_addrs->[ $counter ]->{ 'L2' } . "\t";
+						$rc_features .= $aff_addrs->[ $counter ]->{ 'L3' } . "\t";
+						$rc_features .= $aff_addrs->[ $counter ]->{ 'L4' } . "\t";
 					}
 					# Done
 					$rc_features .= "\n";
@@ -800,7 +994,7 @@ sub AffiliationFeatureExtraction
 		}
 	}
 
-	return $features;
+	return ($features, $rc_features);
 
 }
 
@@ -882,7 +1076,7 @@ sub AuthorFeatureExtraction
 	for (my $counter = 0; $counter < scalar(@{ $aut_lines }); $counter++)
 	{
 		# Get the line object
-		my $line = $aut_lines->{ $counter };
+		my $line = $aut_lines->[ $counter ];
 		
 		# Check the size of aut_line and aut_addrs
 		if (! defined $size_mismatch)
@@ -891,12 +1085,12 @@ sub AuthorFeatureExtraction
 			if (! defined $prev_para)
 			{
 				# Init
-				$prev_para = $aut_addrs->{ $counter }->{ 'L3' };
+				$prev_para = $aut_addrs->[ $counter ]->{ 'L3' };
 			}
 			else
 			{
 				# Authors from different sections will be separated immediately
-				if ($prev_para != $aut_addrs->{ $counter }->{ 'L3' }) 
+				if ($prev_para != $aut_addrs->[ $counter ]->{ 'L3' }) 
 				{ 
 					$features .= "\n"; 
 
@@ -904,7 +1098,7 @@ sub AuthorFeatureExtraction
 					$rc_features .= "\n";
 				}
 				# Save the paragraph index
-				$prev_para = $aut_addrs->{ $counter }->{ 'L3' };
+				$prev_para = $aut_addrs->[ $counter ]->{ 'L3' };
 			}
 		}
 
@@ -1157,10 +1351,10 @@ sub AuthorFeatureExtraction
 					# Index
 					if (! defined $size_mismatch)
 					{
-						$rc_features .= $aut_addrs->{ $counter }->{ 'L1' } . "\t";
-						$rc_features .= $aut_addrs->{ $counter }->{ 'L2' } . "\t";
-						$rc_features .= $aut_addrs->{ $counter }->{ 'L3' } . "\t";
-						$rc_features .= $aut_addrs->{ $counter }->{ 'L4' } . "\t";
+						$rc_features .= $aut_addrs->[ $counter ]->{ 'L1' } . "\t";
+						$rc_features .= $aut_addrs->[ $counter ]->{ 'L2' } . "\t";
+						$rc_features .= $aut_addrs->[ $counter ]->{ 'L3' } . "\t";
+						$rc_features .= $aut_addrs->[ $counter ]->{ 'L4' } . "\t";
 					}
 					# Done
 					$rc_features .= "\n";
