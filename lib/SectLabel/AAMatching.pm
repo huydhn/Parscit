@@ -42,6 +42,25 @@ struct aut_rcfeatures =>
 	line	=> '$'
 };
 
+# Matching features of each affiliation, including
+# Signals
+# Coordinations: top, bottom, left, right
+# Position: page, sections, paragraph, line
+struct aff_rcfeatures =>
+{
+	signals	=> '$',	
+
+	top		=> '$',
+	bottom	=> '$',
+	left	=> '$',
+	right	=> '$',
+
+	page 	=> '$',
+	section	=> '$',
+	para	=> '$',
+	line	=> '$'
+};
+
 # Author
 # Affiliation
 sub AAMatching
@@ -65,20 +84,22 @@ sub AAMatching
 	# Affiliations
 	my ($aff_features, $aff_rc_features) = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
 	# Call CRF
-	my ($aff_signal, $affs) = AffiliationExtraction($aff_features, $aff_rc_features);
+	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features);
 
 	# DEBUG
 	my $aut_handle	= undef;
 	my $aff_handle	= undef;
 	my $aau_handle	= undef;
 	my $aaf_handle	= undef;
-	my $debug		= undef;
+	my $aut_debug	= undef;
+	my $aff_debug	= undef;
 
 	open $aut_handle, ">:utf8", "aut.features"; 
 	open $aff_handle, ">:utf8", "aff.features"; 
 	open $aau_handle, ">:utf8", "aau.features"; 
 	open $aaf_handle, ">:utf8", "aaf.features"; 
-	open $debug, ">:utf8", "debug.features"; 
+	open $aut_debug, ">:utf8", "aut.debug.features"; 
+	open $aff_debug, ">:utf8", "aff.debug.features"; 
 
 	print $aut_handle $aut_features;
 	print $aff_handle $aff_features;
@@ -87,29 +108,50 @@ sub AAMatching
 
 	foreach my $author (keys %{ $aut_rc } )
 	{
-		print $debug $author, ": ", "\n";
+		print $aut_debug $author, ": ", "\n";
 
 		foreach my $signal (@{ $aut_rc->{ $author }->signals })
 		{
-			print $debug "\t", $signal, "\n";
+			print $aut_debug "\t", $signal, "\n";
 		}
 
-		print $debug "\t", $aut_rc->{ $author }->top, "\n";
-		print $debug "\t", $aut_rc->{ $author }->bottom, "\n";
-		print $debug "\t", $aut_rc->{ $author }->left, "\n";
-		print $debug "\t", $aut_rc->{ $author }->right, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->top, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->bottom, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->left, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->right, "\n";
 
-		print $debug "\t", $aut_rc->{ $author }->page, "\n";
-		print $debug "\t", $aut_rc->{ $author }->section, "\n";
-		print $debug "\t", $aut_rc->{ $author }->para, "\n";
-		print $debug "\t", $aut_rc->{ $author }->line, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->page, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->section, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->para, "\n";
+		print $aut_debug "\t", $aut_rc->{ $author }->line, "\n";
+	}
+
+	foreach my $affiliation (keys %{ $aff_rc } )
+	{
+		print $aff_debug $affiliation, ": ", "\n";
+		
+		foreach my $signal (@{ $aff_rc->{ $affiliation }->signals })
+		{
+			print $aff_debug "\t", $signal, "\n";
+		}
+
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->top, "\n";
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->bottom, "\n";
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->left, "\n";
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->right, "\n";
+
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->page, "\n";
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->section, "\n";
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->para, "\n";
+		print $aff_debug "\t", $aff_rc->{ $affiliation }->line, "\n";
 	}
 
 	close $aut_handle;
 	close $aff_handle;
 	close $aau_handle;
 	close $aaf_handle;
-	close $debug;
+	close $aut_debug;
+	close $aff_debug;
 	# END
 
 	# Do the matching
@@ -185,7 +227,7 @@ sub AAMatching
 # Extract affiliation and their signal using crf
 sub AffiliationExtraction
 {
-	my ($features) = @_;
+	my ($features, $rc_features) = @_;
 
 	# Temporary input file for CRF
 	my $infile	= BuildTmpFile("aff-input");
@@ -220,16 +262,25 @@ sub AffiliationExtraction
 
 	# Each affiliation can have only one signal
 	my %asg = ();
+	# Each affilitiaon can have only one struct
+	my %aaf	= ();
 	# List of all affiliations
 	my @aff = ();
+
+	# Each line in the relational features string
+	my @rc_lines = split /\n/, $rc_features;
 
 	my $input_handle = undef;
 	# Read the CRF output
 	open $input_handle, "<:utf8", $outfile;
 	# Author and signal string
 	my $prev_class	= "";
-	my $aff_str		= "";
+	my @aff_str		= (); 
 	my $signal_str	= "";
+	# Relational classifier
+	my @aaf_rc		= ();
+	# Line counter
+	my $counter		= 0;
 	# Next to last signal
 	my $ntl_signal	= "";
 	# Read each line and get its label
@@ -244,11 +295,16 @@ sub AffiliationExtraction
 		{
 			if ($prev_class eq "affiliation")
 			{
-				my $affiliation = NormalizeAffiliationName($aff_str);
+				my ($affiliation, $rcs) = NormalizeAffiliationName(\@aff_str, \@aaf_rc);
 				# Save the affiliation
 				push @aff, $affiliation;
 				# and its signal
 				if ($ntl_signal ne "") { $asg{ $ntl_signal } = $affiliation; }
+
+				# Save the signal
+				push @{ $rcs->signals }, $ntl_signal;
+				# Save the record
+				$aaf{ $affiliation } = $rcs;
 			}
 			elsif ($prev_class eq "signal")
 			{
@@ -259,9 +315,11 @@ sub AffiliationExtraction
 			# Cleanup
 			$ntl_signal = "";
 			# Cleanup
-			$aff_str 	= "";
+			@aff_str 	= ();
 			$signal_str = "";
 			$prev_class = "";
+			# Cleanup
+			@aaf_rc		= ();
 
 			next ;
 		}
@@ -277,7 +335,8 @@ sub AffiliationExtraction
 			# An affiliation
 			if ($class eq "affiliation")
 			{
-				$aff_str .= $content . " ";
+				push @aff_str, $content;
+				push @aaf_rc, $rc_lines[ $counter ];
 			}
 			# A signal
 			elsif ($class eq "signal")
@@ -289,11 +348,17 @@ sub AffiliationExtraction
 		{
 			if ($prev_class eq "affiliation")
 			{
-				my $affiliation = NormalizeAffiliationName($aff_str);
+				my ($affiliation, $rcs) = NormalizeAffiliationName(\@aff_str, \@aaf_rc);
 				# Save the affiliation
 				push @aff, $affiliation;
 				# and its signal
 				if ($ntl_signal ne "") { $asg{ $ntl_signal } = $affiliation; }
+
+				# Save the signal
+				push @{ $rcs->signals }, $ntl_signal;
+				# Save the record
+				$aaf{ $affiliation } = $rcs;
+
 			}
 			elsif ($prev_class eq "signal")
 			{
@@ -302,30 +367,40 @@ sub AffiliationExtraction
 			}
 
 			# Cleanup
-			$aff_str 	= "";
+			@aff_str 	= ();
 			$signal_str = "";
+			@aaf_rc		= ();
 			# Switch to the current class
 			$prev_class = $class;
 
 			if ($class eq "affiliation")
 			{
-				$aff_str .= $content . " ";
+				push @aff_str, $content;
+				push @aaf_rc, $rc_lines[ $counter ];
 			}
 			elsif ($class eq "signal")
 			{
 				$signal_str .= $content . " ";	
 			}
 		}
+
+		# Update the counter
+		$counter++;
 	}
 
 	# Final class
 	if ($prev_class eq "affiliation")
 	{
-		my $affiliation = NormalizeAffiliationName($aff_str);
+		my ($affiliation, $rcs) = NormalizeAffiliationName(\@aff_str, \@aaf_rc);
 		# Save the affiliation
 		push @aff, $affiliation;
 		# and its signal
 		if ($ntl_signal ne "") { $asg{ $ntl_signal } = $affiliation; }
+
+		# Save the signal
+		push @{ $rcs->signals }, $ntl_signal;
+		# Save the record
+		$aaf{ $affiliation } = $rcs;
 	}
 	elsif ($prev_class eq "signal")
 	{
@@ -340,7 +415,7 @@ sub AffiliationExtraction
 	unlink $infile;
 	unlink $outfile;
 	# Done
-	return (\%asg, \@aff);
+	return (\%asg, \%aaf, \@aff);
 }
 
 sub NormalizeAffiliationSignal
@@ -358,13 +433,22 @@ sub NormalizeAffiliationSignal
 
 sub NormalizeAffiliationName
 {
-	my ($aff_str) = @_;
+	my ($aff_str, $aaf_rc) = @_;
 
-	# Trim
-	$aff_str =~ s/^\s+|\s+$//g;
-	
+	# Constraint
+	if (scalar(@{ $aff_str }) != scalar(@{ $aaf_rc })) { print STDERR "# It cannot happen, if you encounter it, please consider report it as a bug", "\n"; die; }
+
+	# Affiliation string
+	my $affiliation = join ' ', @{ $aff_str };
+
+	# First word
+	my @fields = split /\s/, $aaf_rc->[ 0 ];
+	# Save the relational features of an affiliation (its first word)
+	my $rcs	= aff_rcfeatures->new(	signals => [],
+									top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+									page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
 	# Done
-	return $aff_str;
+	return ($affiliation, $rcs);
 }
 
 # Extract author name and their signal using crf
