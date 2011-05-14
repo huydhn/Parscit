@@ -10,6 +10,7 @@ package SectLabel::AAMatching;
 use strict;
 
 # Dependencies
+use POSIX;
 use IO::File;
 use XML::Writer;
 use XML::Writer::String;
@@ -48,7 +49,7 @@ struct aut_rcfeatures =>
 # Position: page, sections, paragraph, line
 struct aff_rcfeatures =>
 {
-	signals	=> '$',	
+	signals	=> '@',	
 
 	top		=> '$',
 	bottom	=> '$',
@@ -86,6 +87,9 @@ sub AAMatching
 	# Call CRF
 	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features);
 
+	# Matching
+	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc);
+
 	# DEBUG
 	my $aut_handle	= undef;
 	my $aff_handle	= undef;
@@ -93,6 +97,7 @@ sub AAMatching
 	my $aaf_handle	= undef;
 	my $aut_debug	= undef;
 	my $aff_debug	= undef;
+	my $aa_handle	= undef;
 
 	open $aut_handle, ">:utf8", "aut.features"; 
 	open $aff_handle, ">:utf8", "aff.features"; 
@@ -100,11 +105,13 @@ sub AAMatching
 	open $aaf_handle, ">:utf8", "aaf.features"; 
 	open $aut_debug, ">:utf8", "aut.debug.features"; 
 	open $aff_debug, ">:utf8", "aff.debug.features"; 
+	open $aa_handle, ">:utf8", "aa.features"; 
 
 	print $aut_handle $aut_features;
 	print $aff_handle $aff_features;
 	print $aau_handle $aut_rc_features;
 	print $aaf_handle $aff_rc_features;
+	print $aa_handle $aa_features;
 
 	foreach my $author (keys %{ $aut_rc } )
 	{
@@ -152,6 +159,7 @@ sub AAMatching
 	close $aaf_handle;
 	close $aut_debug;
 	close $aff_debug;
+	close $aa_handle;
 	# END
 
 	# Do the matching
@@ -224,6 +232,146 @@ sub AAMatching
 	return $sxml;
 }
 
+# Features of the relational classifier between author and affiliation
+sub AAFeatureExtraction
+{
+	my ($aut_rc, $aff_rc) = @_;	
+
+	# Relational features
+	my $features = "";
+
+	# Features between x authors
+	foreach my $author (keys %{ $aut_rc })
+	{
+		my @aut_tokens	= split /\s/, $author;
+		my $author_nb	= join '|||', @aut_tokens;
+
+		my $min_aff_x	= undef;
+		my $min_dist_x	= LONG_MAX;
+		my $min_aff_y	= undef;
+		my $min_dist_y	= LONG_MAX;
+		# Find the nearest affiliation
+		foreach my $aff (keys %{ $aff_rc })
+		{
+			my $aut_x = ($aut_rc->{ $author }->left + $aut_rc->{ $author }->right) / 2;
+			my $aut_y = ($aut_rc->{ $author }->top + $aut_rc->{ $author }->bottom) / 2;
+
+			my $aff_x = ($aff_rc->{ $aff }->left + $aff_rc->{ $aff }->right) / 2;
+			my $aff_y = ($aff_rc->{ $aff }->top + $aff_rc->{ $aff }->bottom) / 2;
+
+			my $dis_x = abs( $aut_x - $aff_x );
+			my $dis_y = abs( $aut_y - $aff_y );
+			# Distance between an author and an affiliation
+			# my $distance = sqrt( $dis_x * $dis_x + $dis_y * $dis_y );
+
+			# Check if it it the minimum distance in x axis
+			if ($dis_x < $min_dist_x)
+			{
+				$min_dist_x	= $dis_x;
+				$min_aff_x	= $aff;
+			}
+
+			# Check if it it the minimum distance in y axis
+			if ($dis_y < $min_dist_y)
+			{
+				$min_dist_y	= $dis_y;
+				$min_aff_y	= $aff;
+			}
+		}
+
+		# and y affiliation
+		foreach my $aff (keys %{ $aff_rc })
+		{
+			my @aff_tokens	= split /\s/, $aff;
+			my $aff_nb		= join '|||', @aff_tokens;
+		
+			# Content
+			$features .= $author_nb . "#" . $aff_nb . "\t";
+
+			my $signal = undef;
+			# Signal
+			if ((scalar(@{ $aut_rc->{ $author }->signals }) == 0) || (scalar(@{ $aff_rc->{ $aff }->signals }) == 0))
+			{
+				$signal = "diff";
+			}
+			else
+			{
+				my $matched = undef;
+				# Check each author signal
+				foreach my $aut_sig (@{ $aut_rc->{ $author }->signals })
+				{
+					# if it match with affiliation signal
+					if ($aut_sig eq ${ $aff_rc->{ $aff }->signals }[ 0 ]) { $matched = 1; last; }
+				}
+
+				$signal = (! defined $matched) ? "diff" : "same";
+			}
+			
+			# Signal
+			$features .= $signal . "\t";
+
+			# Same page
+			my $page = ($aut_rc->{ $author }->page == $aff_rc->{ $aff }->page) ? "yes" : "no";
+			$features .= $page . "\t";
+
+			my $section = undef;
+			# Same section
+			if ($page eq "yes")
+			{
+				$section = ($aut_rc->{ $author }->section == $aff_rc->{ $aff }->section) ? "yes" : "no";
+				$features .= $section . "\t";
+			}
+			else
+			{
+				$section = "no";
+				$features .= $section . "\t";
+			}
+
+			my $para = undef;
+			# Same paragraph
+			if (($page eq "yes") && ($section eq "yes"))
+			{
+				$para = ($aut_rc->{ $author }->para == $aff_rc->{ $aff }->para) ? "yes" : "no";
+				$features .= $para . "\t";
+			}
+			else
+			{
+				$para = "no";
+				$features .= $para . "\t";
+			}
+
+			my $line = undef;
+			# Same line
+			if (($page eq "yes") && ($section eq "yes") && ($para eq "yes"))
+			{
+				$line = ($aut_rc->{ $author }->line == $aff_rc->{ $aff }->line) ? "yes" : "no";
+				$features .= $line . "\t";
+			}
+			else
+			{
+				$line = "no";
+				$features .= $line . "\t";
+			}
+
+			# Is neartest affiliation in x axis ?
+			my $nearest_x = ($aff eq $min_aff_x) ? "yes" : "no";
+			$features 	 .= $nearest_x . "\t";
+
+			# Is neartest affiliation in y axis ?
+			my $nearest_y = ($aff eq $min_aff_y) ? "yes" : "no";
+			$features 	 .= $nearest_y . "\n";
+		}
+	}
+
+	return $features; 
+}
+
+# Actually do the matching between author and affiliation
+sub AAMatchingImp
+{
+
+}
+
 # Extract affiliation and their signal using crf
 sub AffiliationExtraction
 {
@@ -241,10 +389,10 @@ sub AffiliationExtraction
 	my @lines = split /\n/, $features;
 	# and write
 	foreach my $line (@lines) 
-	{ 
+	{
 		if ($line eq "")
 		{
-			print $output_handle, "\n";	
+			print $output_handle "\n";	
 		}
 		else
 		{
@@ -320,6 +468,9 @@ sub AffiliationExtraction
 			$prev_class = "";
 			# Cleanup
 			@aaf_rc		= ();
+
+			# Update the counter
+			$counter++;
 
 			next ;
 		}
@@ -471,7 +622,7 @@ sub AuthorExtraction
 	{ 
 		if ($line eq "")
 		{
-			print $output_handle, "\n";	
+			print $output_handle "\n";	
 		}
 		else
 		{
@@ -550,6 +701,9 @@ sub AuthorExtraction
 			@author_rc	= ();
 			# Cleanup
 			$prev_class = "";
+
+			# Update the counter
+			$counter++;
 
 			next; 
 		}
