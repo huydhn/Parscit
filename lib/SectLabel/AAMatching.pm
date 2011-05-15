@@ -999,6 +999,8 @@ sub AffiliationFeatureExtraction
 		print STDERR "# Total number of affiliation lines (" . scalar(@{ $aff_lines }) . ") != Total number of affiliation addresses (" . scalar(@{ $aff_addrs }) . ")." . "\n";
 	}
 
+	my $prev_page = undef;
+	my $prev_sect = undef;
 	my $prev_para = undef;
 	# Each line contains many runs
 	for (my $counter = 0; $counter < scalar(@{ $aff_lines }); $counter++)
@@ -1010,22 +1012,29 @@ sub AffiliationFeatureExtraction
 		if (! defined $size_mismatch)
 		{
 			# Check if two consecutive lines are from two different sections 
-			if (! defined $prev_para)
+			if (! defined $prev_page)
 			{
 				# Init
+				$prev_page = $aff_addrs->[ $counter ]->{ 'L1' };
+				$prev_sect = $aff_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
 			}
 			else
 			{
 				# Affiliations from different sections will be separated immediately
-				if ($prev_para != $aff_addrs->[ $counter ]->{ 'L3' }) 
+				if (($prev_page != $aff_addrs->[ $counter ]->{ 'L1' }) ||
+					($prev_sect != $aff_addrs->[ $counter ]->{ 'L2' }) ||
+					($prev_para != $aff_addrs->[ $counter ]->{ 'L3' })) 
 				{ 
 					$features .= "\n"; 
 				
 					# NOTE: Relational classifier features
 					$rc_features .= "\n";
 				}
+
 				# Save the paragraph index
+				$prev_page = $aff_addrs->[ $counter ]->{ 'L1' };
+				$prev_sect = $aff_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
 			}
 		}
@@ -1309,6 +1318,8 @@ sub AuthorFeatureExtraction
 		print STDERR "# Total number of author lines (" . scalar(@{ $aut_lines }) . ") != Total number of author addresses (" . scalar(@{ $aut_addrs }) . ")." . "\n";
 	}
 
+	my $prev_page = undef;
+	my $prev_sect = undef;
 	my $prev_para = undef;
 	# Each line contains many runs
 	for (my $counter = 0; $counter < scalar(@{ $aut_lines }); $counter++)
@@ -1320,22 +1331,29 @@ sub AuthorFeatureExtraction
 		if (! defined $size_mismatch)
 		{
 			# Check if two consecutive lines are from two different sections 
-			if (! defined $prev_para)
+			if (! defined $prev_page)
 			{
 				# Init
+				$prev_page = $aut_addrs->[ $counter ]->{ 'L1' };
+				$prev_sect = $aut_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aut_addrs->[ $counter ]->{ 'L3' };
 			}
 			else
 			{
 				# Authors from different sections will be separated immediately
-				if ($prev_para != $aut_addrs->[ $counter ]->{ 'L3' }) 
+				if (($prev_page != $aut_addrs->[ $counter ]->{ 'L1' }) ||
+					($prev_sect != $aut_addrs->[ $counter ]->{ 'L2' }) ||
+					($prev_para != $aut_addrs->[ $counter ]->{ 'L3' }))
 				{ 
 					$features .= "\n"; 
 
 					# NOTE: Relational classifier features
 					$rc_features .= "\n";
 				}
+				
 				# Save the paragraph index
+				$prev_page = $aut_addrs->[ $counter ]->{ 'L1' };
+				$prev_sect = $aut_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aut_addrs->[ $counter ]->{ 'L3' };
 			}
 		}
