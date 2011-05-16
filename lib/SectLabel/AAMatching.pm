@@ -111,7 +111,7 @@ sub AAMatching
 	print $aff_handle $aff_features;
 	print $aau_handle $aut_rc_features;
 	print $aaf_handle $aff_rc_features;
-	print $aa_handle $aa_features;
+	print $aa_handle $aa_features, "\n";
 
 	foreach my $author (keys %{ $aut_rc } )
 	{
@@ -659,6 +659,8 @@ sub AuthorExtraction
 	my $counter		= 0;
 	# Next to last authors
 	my %ntl_asg 	= ();
+	#
+	my $is_authors	= 0;
 	# Read each line and get its label
 	while (<$input_handle>)
 	{
@@ -704,6 +706,9 @@ sub AuthorExtraction
 
 			# Update the counter
 			$counter++;
+
+			#
+			$is_authors = 0;
 
 			next; 
 		}
@@ -756,7 +761,9 @@ sub AuthorExtraction
 			}
 
 			# Clean the next to last author list if this current class is author
-			if ($class eq "author") { %ntl_asg = (); }					
+			if (($is_authors == 0) && ($class eq "author")) { %ntl_asg = (); $is_authors = 1; }
+			#
+			if ($class eq "signal") { $is_authors = 0; }
 
 			# Cleanup
 			@author_str = ();
@@ -1042,6 +1049,10 @@ sub AffiliationFeatureExtraction
 		# Set first word in line
 		$is_first_line = 1;
 
+		# Two previous words
+		my $prev_word		= undef;
+		my $prev_prev_word	= undef;
+
 		# Format of the previous word
 		my ($prev_bold, $prev_italic, $prev_underline, $prev_suscript, $prev_fontsize) = "unknown";
 
@@ -1092,6 +1103,51 @@ sub AffiliationFeatureExtraction
 				my $bottom 	= $word->get_bottom_pos();
 				my $left	= $word->get_left_pos();
 				my $right	= $word->get_right_pos();
+
+				# NOTE: heuristic rule, for words in the same line
+				# If the x-axis distance between this word and the previous word is
+				# three times larger than the distance between the previous word and
+				# the word before it, then it marks the separator.
+				# The better way to do this is to introduce it as a new feature in the
+				# author and affiliation model but this step requires re-training these
+				# two models, so ...
+				#
+				# NOTE: Assuming left to right writing
+				if (! defined $prev_word)
+				{
+					$prev_word = $word;	
+				}
+				elsif (! defined $prev_prev_word)
+				{
+					# NOTE: Words have the power to both destroy and heal, when words are both
+					# true and kind, they can change our world
+					if (($prev_word->get_left_pos() != $word->get_left_pos()) && ($prev_word->get_right_pos() != $word->get_right_pos()))
+					{
+						$prev_prev_word = $prev_word;
+						$prev_word		= $word;
+					}
+				}
+				else
+				{
+					# NOTE: Words have the power to both destroy and heal, when words are both
+					# true and kind, they can change our world
+					if (($prev_word->get_left_pos() != $word->get_left_pos()) && ($prev_word->get_right_pos() != $word->get_right_pos()))
+					{
+						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
+						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
+
+						if ($prev_dist * 3 < $curr_dist)
+						{
+							$features .= "\n"; 
+				
+							# NOTE: Relational classifier features
+							$rc_features .= "\n";
+						}
+
+						$prev_prev_word = $prev_word;
+						$prev_word		= $word;
+					}
+				}
 
 				# Extract features
 				my $full_content = $word->get_content();
@@ -1361,6 +1417,10 @@ sub AuthorFeatureExtraction
 		# Set first word in line
 		$is_first_line = 1;
 
+		# Previous word and the word before this 
+		my $prev_prev_word	= undef;
+		my $prev_word		= undef;
+
 		# Format of the previous word
 		my ($prev_bold, $prev_italic, $prev_underline, $prev_suscript, $prev_fontsize) = "unknown";
 
@@ -1414,6 +1474,52 @@ sub AuthorFeatureExtraction
 				my $bottom 	= $word->get_bottom_pos();
 				my $left	= $word->get_left_pos();
 				my $right	= $word->get_right_pos();
+
+				# NOTE: heuristic rule, for words in the same line
+				# If the x-axis distance between this word and the previous word is
+				# three times larger than the distance between the previous word and
+				# the word before it, then it marks the separator.
+				# The better way to do this is to introduce it as a new feature in the
+				# author and affiliation model but this step requires re-training these
+				# two models, so ...
+				#
+				# NOTE: Assuming left to right writing
+				if (! defined $prev_word)
+				{
+					$prev_word = $word;	
+				}
+				elsif (! defined $prev_prev_word)
+				{
+					# NOTE: Words have the power to both destroy and heal, when words are both
+					# true and kind, they can change our world
+					if (($prev_word->get_left_pos() != $word->get_left_pos()) && ($prev_word->get_right_pos() != $word->get_right_pos()))
+					{
+						$prev_prev_word = $prev_word;
+						$prev_word		= $word;
+					}
+				}
+				else
+				{
+					# NOTE: Words have the power to both destroy and heal, when words are both
+					# true and kind, they can change our world
+					if (($prev_word->get_left_pos() != $word->get_left_pos()) && ($prev_word->get_right_pos() != $word->get_right_pos()))
+					{
+
+						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
+						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
+
+						if ($prev_dist * 3 < $curr_dist)
+						{
+							$features .= "\n"; 
+					
+							# NOTE: Relational classifier features
+							$rc_features .= "\n";
+						}
+
+						$prev_prev_word = $prev_word;
+						$prev_word		= $word;
+					}
+				}
 
 				# Extract features
 				my $full_content = $word->get_content();
