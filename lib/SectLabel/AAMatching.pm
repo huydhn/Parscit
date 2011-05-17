@@ -87,9 +87,12 @@ sub AAMatching
 	# Call CRF
 	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features);
 
-	# Matching
+	# Matching features
 	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc);
+	# Matching
+	my $aa			= AAMatchingImp($aa_features);
 
+=pod
 	# DEBUG
 	my $aut_handle	= undef;
 	my $aff_handle	= undef;
@@ -161,6 +164,7 @@ sub AAMatching
 	close $aff_debug;
 	close $aa_handle;
 	# END
+=cut
 
 	# Do the matching
 	# XML string
@@ -189,7 +193,8 @@ sub AAMatching
 		$writer->characters($author);
 		$writer->endTag("fullname");
 
-		$writer->startTag("institutions");		
+		$writer->startTag("institutions");
+=pod
 		foreach my $signal (@{ $aut_signal->{ $author } })
 		{
 			$signal =~ s/^\s+|\s+$//g;
@@ -200,6 +205,15 @@ sub AAMatching
 			$writer->characters($aff_signal->{ $signal });
 			$writer->endTag("institution");
 		}
+=cut
+
+		foreach my $affiliation (@{ $aa->{ $author } })
+		{
+			$writer->startTag("institution");
+			$writer->characters($affiliation);
+			$writer->endTag("institution");			
+		}
+
 		$writer->endTag("institutions");
 
 		$writer->endTag("author");
@@ -369,7 +383,86 @@ sub AAFeatureExtraction
 # Actually do the matching between author and affiliation
 sub AAMatchingImp
 {
+	my ($features) = @_;	
 
+	# Temporary input file for CRF
+	my $infile	= BuildTmpFile("aa-input");
+	# Temporary output file for CRF
+	my $outfile	= BuildTmpFile("aa-output");
+
+	my $output_handle = undef;
+	# Split and write to temporary input
+	open $output_handle, ">:utf8", $infile;
+	# Split
+	my @lines = split /\n/, $features;
+	# and write
+	foreach my $line (@lines) 
+	{ 
+		if ($line eq "")
+		{
+			print $output_handle "\n";	
+		}
+		else
+		{
+			print $output_handle $line, "\t", "no", "\n"; 
+		}
+	}
+	# Done
+	close $output_handle;
+
+	# AA matching model
+	my $match_model = $SectLabel::Config::matFile; 
+
+	# Matching
+  	system("crf_test -m $match_model $infile > $outfile");
+
+	# List of authors and their affiliation (if exists)
+	my %aa = ();
+
+	my $input_handle = undef;
+	# Read the CRF output
+	open $input_handle, "<:utf8", $outfile;
+	# Read each line and get its label
+	while (<$input_handle>)
+	{
+		my $line = $_;
+		# Trim
+		$line =~ s/^\s+|\s+$//g;
+		# Blank linem, what the heck ?
+		if ($line eq "") { next; }
+
+		# Split the line
+		my @fields	= split /\t/, $line;
+		# and extract the class and the content
+		my $class	= $fields[ -1 ];
+		my $content	= $fields[ 0 ];
+
+		# You miss 
+		if ($class ne "yes") { next; }
+
+		# Split the content into author name and affiliation name
+		my @tmp		= split /#/, $content;
+		# Author name
+		my $author	= $tmp[ 0 ];
+		$author		=~ s/\|\|\|/ /g;
+		# Affiliation name
+		my $aff		= $tmp[ 1 ];
+		$aff		=~ s/\|\|\|/ /g;
+
+		# Save
+		if (! exists $aa{ $author }) { $aa{ $author } = (); }
+		# Save
+		push @{ $aa{ $author } }, $aff;
+	}
+	
+	# Done
+	close $input_handle;
+	
+	# Clean up
+	unlink $infile;
+	unlink $outfile;
+	# Done
+	return (\%aa);
 }
 
 # Extract affiliation and their signal using crf
@@ -1136,7 +1229,7 @@ sub AffiliationFeatureExtraction
 						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
 						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
 
-						if ($prev_dist * 3 < $curr_dist)
+						if ($prev_dist * 5 < $curr_dist)
 						{
 							$features .= "\n"; 
 				
@@ -1508,7 +1601,7 @@ sub AuthorFeatureExtraction
 						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
 						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
 
-						if ($prev_dist * 3 < $curr_dist)
+						if ($prev_dist * 5 < $curr_dist)
 						{
 							$features .= "\n"; 
 					
