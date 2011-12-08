@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 # -*- cperl -*-
 #!/usr/bin/perl -CSD
 =head1 NAME
@@ -129,7 +129,7 @@ if ($opt_h)
 }
 
 my $mode		= (!defined $opt_m) ? $default_mode : ParseMode($opt_m);
-my $ph_model	= ($opt_t == 1) ? 1 : 0;
+my $ph_model	= (defined $opt_t) ? 1 : 0;
 
 my $in		= shift;	# input file
 my $out		= shift;	# if available

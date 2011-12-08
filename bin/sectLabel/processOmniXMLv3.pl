@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 # Author: Do Hoang Nhat Huy <huydo@comp.nus.edu.sg>
 # Modified from template by Min-Yen Kan <kanmy@comp.nus.edu.sg>
@@ -900,7 +900,7 @@ sub UpdateXMLFeatures
   	push @g_italic, $italic_feature;
   
   	# Bullet feature
-  	if ($is_bullet eq "true")
+  	if ((defined $is_bullet) && ($is_bullet eq "true"))
 	{
     	push @g_bullet, "yes";
   	} 

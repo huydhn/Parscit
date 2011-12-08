@@ -482,21 +482,40 @@ sub PrepDataUnmarkedToken
 
 	# Characters
 	my @token_chars = split(//, $token);
+	my $token_len   = scalar @token_chars;
 		
 	# First char
 	push @{ $feats }, $token_chars[ 0 ];
 	$$current++;
 		
 	# First 2 chars
-	push @{ $feats }, join("", @token_chars[0..1]);
+	if ($token_len >= 2) {
+		push @{ $feats }, join("", @token_chars[0..1]);
+	} else {
+		push @{ $feats }, $token_chars[ 0 ];
+	}
 	$$current++;
 
 	# First 3 chars
-	push @{ $feats }, join("", @token_chars[0..2]);
+	if ($token_len >= 3) {
+		push @{ $feats }, join("", @token_chars[0..2]);
+	} elsif ($token_len >= 2) {
+		push @{ $feats }, join("", @token_chars[0..1]);
+	} else {
+		push @{ $feats }, $token_chars[ 0 ];
+	}
 	$$current++;
 
 	# First 4 chars
-    push @{ $feats }, join("", @token_chars[0..3]);
+    if ($token_len >= 4) {
+		push @{ $feats }, join("", @token_chars[0..3]);
+	} elsif ($token_len >= 3) {
+		push @{ $feats }, join("", @token_chars[0..2]);
+	} elsif ($token_len >= 2) {
+		push @{ $feats }, join("", @token_chars[0..1]);
+	} else {
+		push @{ $feats }, $token_chars[ 0 ];
+	}
 	$$current++;
 			
 	# Last char
@@ -504,15 +523,33 @@ sub PrepDataUnmarkedToken
 	$$current++;
 			
 	# Last 2 chars
-    push @{ $feats }, join("", @token_chars[-2..-1]);
+    if ($token_len >= 2) {
+		push @{ $feats }, join("", @token_chars[-2..-1]);
+	} else {
+    	push @{ $feats }, $token_chars[-1];
+	}
 	$$current++;
 
 	# Last 3 chars
-    push @{ $feats }, join("", @token_chars[-3..-1]);
+    if ($token_len >= 3) {
+		push @{ $feats }, join("", @token_chars[-3..-1]);
+	} elsif ($token_len >= 2) {
+		push @{ $feats }, join("", @token_chars[-2..-1]);
+	} else {
+    	push @{ $feats }, $token_chars[-1];
+	}
 	$$current++;
 
 	# Last 4 chars
-	push @{ $feats }, join("", @token_chars[-4..-1]);
+	if ($token_len >= 4) {
+		push @{ $feats }, join("", @token_chars[-4..-1]);
+	} elsif ($token_len >= 3) {
+		push @{ $feats }, join("", @token_chars[-3..-1]);
+	} elsif ($token_len >= 2) {
+		push @{ $feats }, join("", @token_chars[-2..-1]);
+	} else {
+    	push @{ $feats }, $token_chars[-1];
+	}
 	$$current++;
 
 	# Caption
@@ -711,6 +748,7 @@ sub PrepData
 	    	$feats[ $j ][ 0 ] = $word;
 
 	    	my @chars = split(//, $word);
+			my $chars_len = scalar @chars;
 
 	    	my $last_char = $chars[ -1 ];
 	    	if ($last_char =~ /[\p{IsLower}]/) 
@@ -733,25 +771,61 @@ sub PrepData
 			push(@{ $feats[ $j ] }, $chars[0]);
 
 		    # 3 = first 2 chars
-			push(@{ $feats[ $j ] }, join("", @chars[0..1]));
+			if ($chars_len >= 2) { 
+				push(@{ $feats[ $j ] }, join("", @chars[0..1]));
+			} else {
+				push(@{ $feats[ $j ] }, $chars[0]);
+			}
 
 		    # 4 = first 3 chars
-			push(@{ $feats[ $j ] }, join("", @chars[0..2]));
+			if ($chars_len >= 3) {
+				push(@{ $feats[ $j ] }, join("", @chars[0..2]));
+			} elsif ($chars_len >= 2) {
+				push(@{ $feats[ $j ] }, join("", @chars[0..1]));
+			} else {
+				push(@{ $feats[ $j ] }, $chars[0]);
+			}
 
 			# 5 = first 4 chars
-	    	push(@{ $feats[ $j ] }, join("", @chars[0..3]));
+	    	if ($chars_len >= 4) {
+				push(@{ $feats[ $j ] }, join("", @chars[0..3]));
+			} elsif ($chars_len >= 3) {
+				push(@{ $feats[ $j ] }, join("", @chars[0..2]));
+			} elsif ($chars_len >= 2) {
+				push(@{ $feats[ $j ] }, join("", @chars[0..1]));
+			} else {
+				push(@{ $feats[ $j ] }, $chars[0]);
+			}
 			
 			# 6 = last char
 	    	push(@{ $feats[ $j ] }, $chars[-1]);
 			
 			# 7 = last 2 chars
-	    	push(@{ $feats[ $j ] }, join("", @chars[-2..-1]));
+	    	if ($chars_len >= 2) {
+				push(@{ $feats[ $j ] }, join("", @chars[-2..-1]));
+			} else {
+	    		push(@{ $feats[ $j ] }, $chars[-1]);
+			}
 
 			# 8 = last 3 chars
-	    	push(@{ $feats[ $j ] }, join("", @chars[-3..-1]));
+	    	if ($chars_len >= 3) {
+				push(@{ $feats[ $j ] }, join("", @chars[-3..-1]));
+			} elsif ($chars_len >= 2) {
+				push(@{ $feats[ $j ] }, join("", @chars[-2..-1]));
+			} else {
+	    		push(@{ $feats[ $j ] }, $chars[-1]);
+			}
 
 			# 9 = last 4 chars
-		    push(@{ $feats[ $j ] }, join("", @chars[-4..-1]));
+		    if ($chars_len >= 4) {
+				push(@{ $feats[ $j ] }, join("", @chars[-4..-1]));
+			} elsif ($chars_len >= 3) {
+				push(@{ $feats[ $j ] }, join("", @chars[-3..-1]));
+			} elsif ($chars_len >= 2) {
+				push(@{ $feats[ $j ] }, join("", @chars[-2..-1]));
+			} else {
+	    		push(@{ $feats[ $j ] }, $chars[-1]);
+			}
 
 			# 10 = lowercased word, no punct
 		    push(@{ $feats[ $j ] }, $word_lc_np);  
@@ -1102,7 +1176,7 @@ sub ReadDict
 			if (/\t/) { ($key, $val) = split (/\t/,$_); }
 
       		# Already tagged (some entries may appear in same part of lexicon more than once
-			if ($dict{ $key } >= $mode) 
+			if ((defined $dict{ $key }) && ($dict{ $key } >= $mode))
 			{ 
 				next; 
 			}
