@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # -*- cperl -*-
 #!/usr/bin/perl -CSD
 =head1 NAME

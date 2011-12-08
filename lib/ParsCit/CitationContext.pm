@@ -197,6 +197,8 @@ sub MakeSafe
 {
     my $marker = shift;
 
+	if (! defined $marker) { return ""; }
+
     $marker =~ s/\\/\\\\/g;
     $marker =~ s/\-/\\\-/g;
     $marker =~ s/\[/\\\[/g;

@@ -24,7 +24,7 @@ use ParsCit::PostProcess;
 # Dictionary
 my %dict = ();
 # CRF++
-my $crft = $SectLabel::Config::crf_test;
+my $crft = $FindBin::Bin . "/../" . $SectLabel::Config::crf_test;
 
 # Matching features of each author, including
 # Signals
@@ -77,7 +77,7 @@ sub AAMatching
 	my $aff_lines	= Omni::Traversal::OmniCollector($doc, $aff_addrs, $need_object);
 	
 	# Dictionary
-	ReadDict($SectLabel::Config::dictFile);
+	ReadDict($FindBin::Bin . "/../" . $SectLabel::Config::dictFile);
 
 	# Authors
 	my ($aut_features, $aut_rc_features) = AuthorFeatureExtraction($aut_lines, $aut_addrs);

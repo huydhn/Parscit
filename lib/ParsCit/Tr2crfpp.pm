@@ -116,7 +116,8 @@ sub PrepDataUnmarked
 					if (($x == $cit_addrs->[ $addr_index ]{ 'L1' }) &&
 						($y == $cit_addrs->[ $addr_index ]{ 'L2' }) &&
 						($z == $cit_addrs->[ $addr_index ]{ 'L3' }) &&
-						($t == $cit_addrs->[ $addr_index ]{ 'L4' }))
+						($t == $cit_addrs->[ $addr_index ]{ 'L4' }) &&
+						($t < scalar(@{ $lines })))
 					{
 						# Get content
 						my $ln = $lines->[ $t ]->get_content();
@@ -224,7 +225,8 @@ sub PrepDataUnmarked
 					if (($x != $cit_addrs->[ $addr_index ]{ 'L1' }) ||
 						($y != $cit_addrs->[ $addr_index ]{ 'L2' }) ||
 						($z != $cit_addrs->[ $addr_index ]{ 'L3' }) ||
-						($t != $cit_addrs->[ $addr_index ]{ 'L4' }))
+						($t != $cit_addrs->[ $addr_index ]{ 'L4' }) ||
+						($t >= scalar(@{ $lines })))
 					{
 						next ;
 					}
