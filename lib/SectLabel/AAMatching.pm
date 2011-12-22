@@ -410,13 +410,16 @@ sub AAMatchingImp
 		}
 	}
 	# Done
-	close $output_handle;
+	close $output_handle;	
 
 	# AA matching model
 	my $match_model = $SectLabel::Config::matFile; 
 
 	# Matching
   	system("$crft -m $match_model $infile > $outfile");
+
+	# DEBUG
+	# die;
 
 	# List of authors and their affiliation (if exists)
 	my %aa = ();
@@ -461,8 +464,8 @@ sub AAMatchingImp
 	close $input_handle;
 	
 	# Clean up
-	unlink $infile;
-	unlink $outfile;
+	# unlink $infile;
+	# unlink $outfile;
 	# Done
 	return (\%aa);
 }
@@ -502,6 +505,9 @@ sub AffiliationExtraction
 
 	# Split the authors
   	system("$crft -m $aff_model $infile > $outfile");
+
+	# DEBUG
+	# die;
 
 	# Each affiliation can have only one signal
 	my %asg = ();
@@ -658,8 +664,8 @@ sub AffiliationExtraction
 	close $input_handle;
 	
 	# Clean up
-	unlink $infile;
-	unlink $outfile;
+	# unlink $infile;
+	# unlink $outfile;
 	# Done
 	return (\%asg, \%aaf, \@aff);
 }
@@ -721,7 +727,7 @@ sub AuthorExtraction
 		}
 		else
 		{
-			print $output_handle $line, "\t", "ns", "\n"; 
+			print $output_handle $line, "\t", "author", "\n"; 
 		}
 	}
 	# Done
@@ -732,6 +738,9 @@ sub AuthorExtraction
 
 	# Split the authors
   	system("$crft -m $author_model $infile > $outfile");
+
+	# DEBUG
+	# die;
 
 	# Each author can have one or more signals
 	my %asg = ();
@@ -912,8 +921,8 @@ sub AuthorExtraction
 	close $input_handle;
 	
 	# Clean up
-	unlink $infile;
-	unlink $outfile;
+	# unlink $infile;
+	# unlink $outfile;
 	# Done
 	return (\%asg, \%aas);
 }
@@ -1123,10 +1132,12 @@ sub AffiliationFeatureExtraction
 			}
 			else
 			{
-				# Affiliations from different sections will be separated immediately
+				# Affiliations from different pages, columns 
+				# or greater then one paragraph away will be 
+				# separated immediately
 				if (($prev_page != $aff_addrs->[ $counter ]->{ 'L1' }) ||
 					($prev_sect != $aff_addrs->[ $counter ]->{ 'L2' }) ||
-					($prev_para != $aff_addrs->[ $counter ]->{ 'L3' })) 
+					($prev_para <= $aff_addrs->[ $counter ]->{ 'L3' } - 0x02)) 
 				{ 
 					$features .= "\n"; 
 				
@@ -1260,7 +1271,7 @@ sub AffiliationFeatureExtraction
 				{
 					my $first	= $1;
 					my $second	= $2;
-						
+					
 					# Trim
 					$first	=~ s/^\s+|\s+$//g;
 					$second	=~ s/^\s+|\s+$//g;
@@ -1398,24 +1409,24 @@ sub AffiliationFeatureExtraction
 
 # Extract features from author lines
 # The list of features include
-# Content
-# Content, lower case, no punctuation
-# Content length
-# Capitalization
-# Numeric property
-# Last punctuation
-# First 4-gram
-# Last 4-gram
-# Dictionary
-# First word in line
+## Content
+## Content, lower case, no punctuation
+## Content length
+## Capitalization
+## Numeric property
+## Last punctuation
+## First 4-gram
+## Last 4-gram
+## Dictionary
+## First word in line
 #
 # XML features
-# Subscript, superscript
-# Bold
-# Italic
-# Underline
-# Relative font size
-# Differentiate features
+## Subscript, superscript
+## Bold
+## Italic
+## Underline
+## Relative font size
+## Differentiate features
 sub AuthorFeatureExtraction
 {
 	my ($aut_lines, $aut_addrs) = @_;
@@ -1494,7 +1505,7 @@ sub AuthorFeatureExtraction
 				# Authors from different sections will be separated immediately
 				if (($prev_page != $aut_addrs->[ $counter ]->{ 'L1' }) ||
 					($prev_sect != $aut_addrs->[ $counter ]->{ 'L2' }) ||
-					($prev_para != $aut_addrs->[ $counter ]->{ 'L3' }))
+					($prev_para <= $aut_addrs->[ $counter ]->{ 'L3' } - 0x02))
 				{ 
 					$features .= "\n"; 
 
