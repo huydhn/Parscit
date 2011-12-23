@@ -708,7 +708,12 @@ sub ProcessTable
 			if ($attr =~ /^.*alignment=\"(\d+)\".*$/) 
 			{ 
 				$align = $1; 
-			} 
+			}
+			elsif ($attr =~ /^.*alignment=\"(\w+)\".*$/)
+			{
+				#TODO
+				$align = "";
+			}
 			else 
 			{
 				print STDERR "# no table alignment \"$line\"\n";

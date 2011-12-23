@@ -85,9 +85,9 @@ sub AAMatching
 	my ($aut_signal, $aut_rc) = AuthorExtraction($aut_features, $aut_rc_features);
 
 	# Affiliations
-	my ($aff_features, $aff_rc_features) = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
+	my ($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column) = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
 	# Call CRF
-	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features);
+	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column);
 
 	# Matching features
 	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc);
@@ -473,7 +473,7 @@ sub AAMatchingImp
 # Extract affiliation and their signal using crf
 sub AffiliationExtraction
 {
-	my ($features, $rc_features) = @_;
+	my ($features, $rc_features, $sect_has_column, $sect_num_column) = @_;
 
 	# Temporary input file for CRF
 	my $infile	= BuildTmpFile("aff-input");
@@ -483,20 +483,132 @@ sub AffiliationExtraction
 	my $output_handle = undef;
 	# Split and write to temporary input
 	open $output_handle, ">:utf8", $infile;
-	# Split
-	my @lines = split /\n/, $features;
-	# and write
-	foreach my $line (@lines) 
-	{
-		if ($line eq "")
-		{
-			print $output_handle "\n";	
+
+	# Cannot enable column-wise splitting because of size mismatch
+	if (scalar(@{ $sect_has_column }) != scalar(@{ $sect_num_column })) { 	
+		# Split
+		my @lines = split /\n/, $features;
+		# and write
+		foreach my $line (@lines) {
+			if ($line eq '') {
+				print $output_handle "\n";
+			} else {
+				print $output_handle $line, "\t", "affiliation", "\n"; 
+			}
 		}
-		else
-		{
-			print $output_handle $line, "\t", "affiliation", "\n"; 
+	} else {
+		# Split into blocks of a single affiliation
+		my @blocks    = split /\n\n/, $features;
+		# Do the same for relational classifier
+		my @rc_blocks = split /\n\n/, $rc_features;
+
+		# Clear the relational classifer features temporarily
+		$rc_features = "";
+
+		# Index of the current block
+		my $block_index = 0;
+
+		# Column-wise splitting is per section
+		for (my $index = 0; $index < scalar @{ $sect_has_column }; $index++) {
+			# Check if there is any column in this section
+			my $has_column = $sect_has_column->[ $index ];
+	
+			# The total number of block inside this section
+			my $total = 0;				
+		
+			if (0x00 == $has_column) {	
+				# This section has only one block
+				$total = 1;
+
+				for (my $i = $block_index; $i < $block_index + $total; $i++) {
+					# Split
+					my @lines    = split /\n/, @blocks[ $i ];
+					my @rc_lines = split /\n/, @rc_blocks[ $i ];
+
+					# and write
+					foreach my $line (@lines) {
+						print $output_handle $line, "\t", "affiliation", "\n"; 
+					}
+					# Mark the next block
+					print $output_handle "\n";
+
+					# and write for relational classifier features too
+					foreach my $line (@rc_lines) {
+						$rc_features .= $line . "\n";
+					}
+					# Mark the next block
+					$rc_features .= "\n";
+				}
+			} else {
+				my $first = 0;
+				# This section has multiple block, the computation is quite tricky
+				for (; $first < scalar @{ $sect_num_column->[ $index ] }; $first++) {
+					if (0x00 != $sect_num_column->[ $index ][ $first ]) { last ; }
+				}
+
+				# Array of pairs
+				# First  : starting block
+				# Second : ending block
+				my @range       = ();
+				# Current index of a range
+				my @range_index = ();
+				# Maximum number of column
+				my $max_num_col = 0;
+
+				for (my $i = $first; $i < scalar @{ $sect_num_column->[ $index ] }; $i++) {
+					my @tmp = ();
+					# Update the block range
+					push @tmp, $block_index + $total;
+					
+					$total = $total + $sect_num_column->[ $index ][ $i ] + 0x01;
+
+					# Update the block range
+					push @tmp, $block_index + $total;
+					# Update the block range
+					push @range, \ @tmp;
+					# Update the index of the block range
+					push @range_index, 0;
+
+					# Update the maximum number of column
+					$max_num_col = ($max_num_col < $sect_num_column->[ $index ][ $i ] + 0x01) ? ($sect_num_column->[ $index ][ $i ] + 0x01) : $max_num_col;
+				}
+			
+				# Column-wise splitting
+				for (my $i = 0 ; $i < $max_num_col; $i++) {
+					for (my $j = 0; $j < scalar @range; $j++) {
+						if ($range_index[ $j ] < ($range[ $j ][ 0x01 ] - $range[ $j ][ 0x00 ])) {
+							# Split
+							my @lines    = split /\n/, @blocks[ $range[ $j ][ 0x00 ] + $range_index[ $j ] ];
+							my @rc_lines = split /\n/, @rc_blocks[ $range[ $j ][ 0x00 ] + $range_index[ $j ] ];
+
+							# and write
+							foreach my $line (@lines) {
+								print $output_handle $line, "\t", "affiliation", "\n"; 
+							}
+
+							# and write for rc features too
+							foreach my $line (@rc_lines) {
+								$rc_features .= $line . "\n";
+							}
+
+							# Update current index
+							$range_index[ $j ] = $range_index[ $j ] + 0x01;
+						}
+					}
+
+					# Separator
+					print $output_handle "\n";
+					# Separator
+					$rc_features .= "\n";
+				}
+
+			}
+
+			# Point to the next block
+			$block_index = $block_index + $total;
 		}
 	}
+
 	# Done
 	close $output_handle;
 
@@ -1110,9 +1222,28 @@ sub AffiliationFeatureExtraction
 		print STDERR "# Total number of affiliation lines (" . scalar(@{ $aff_lines }) . ") != Total number of affiliation addresses (" . scalar(@{ $aff_addrs }) . ")." . "\n";
 	}
 
+	# Column detection
+	# Sometime, Omnipage fails to detech the affiliation columns correctly. They bundle 
+	# eveything line by line and separate them by tab, which breaks the affiliations into
+	# many small & non-linear parts
+	#
+	# TODO I try to fix this by detect the tab character inside a single line, this could
+	# solve the problem but may introduce other issues, let's see
+	#
+	# All this information is per section
+	my @sect_has_column = ();
+	my @sect_num_column = ();
+
+	# Is there any column in this section
+	my $has_column = 0;
+	# The number of column in this section (per line)
+	my @num_column = ();
+
+	# These variables save the location of the previous line
 	my $prev_page = undef;
 	my $prev_sect = undef;
 	my $prev_para = undef;
+
 	# Each line contains many runs
 	for (my $counter = 0; $counter < scalar(@{ $aff_lines }); $counter++)
 	{
@@ -1120,29 +1251,36 @@ sub AffiliationFeatureExtraction
 		my $line = $aff_lines->[ $counter ];
 
 		# Check the size of aff_lines and aff_addrs
-		if (! defined $size_mismatch)
-		{
+		if (! defined $size_mismatch) {
 			# Check if two consecutive lines are from two different sections 
-			if (! defined $prev_page)
-			{
+			if (! defined $prev_page) {
 				# Init
 				$prev_page = $aff_addrs->[ $counter ]->{ 'L1' };
 				$prev_sect = $aff_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
-			}
-			else
-			{
+			} else {
 				# Affiliations from different pages, columns 
 				# or greater then one paragraph away will be 
 				# separated immediately
-				if (($prev_page != $aff_addrs->[ $counter ]->{ 'L1' }) ||
-					($prev_sect != $aff_addrs->[ $counter ]->{ 'L2' }) ||
-					($prev_para <= $aff_addrs->[ $counter ]->{ 'L3' } - 0x02)) 
+				if (($prev_page != $aff_addrs->[ $counter ]->{ 'L1' })		   ||
+					($prev_sect != $aff_addrs->[ $counter ]->{ 'L2' })		   ||
+					($prev_para <= $aff_addrs->[ $counter ]->{ 'L3' } - 0x02)  ||
+					(($prev_para == $aff_addrs->[ $counter ]->{ 'L3' } - 0x01) && (0x00 != $aff_addrs->[ $counter ]->{ 'L4' }))) 
 				{ 
 					$features .= "\n"; 
 				
 					# NOTE: Relational classifier features
 					$rc_features .= "\n";
+
+					# Save the column signal
+					push @sect_has_column, $has_column;
+					# Save the column counter
+					push @sect_num_column, \ @num_column; 
+
+					# Reset the column signal
+					$has_column = 0;
+					# Reset the column counter
+					@num_column = ();
 				}
 
 				# Save the paragraph index
@@ -1150,6 +1288,16 @@ sub AffiliationFeatureExtraction
 				$prev_sect = $aff_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
 			}
+		}
+
+		# The number of gap in this line
+		my $cnt_column = 0;
+		# If the column signal is on
+		if (0x01 == $has_column) {
+			$features .= "\n"; 
+				
+			# NOTE: Relational classifier features
+			$rc_features .= "\n";
 		}
 
 		# Set first word in line
@@ -1248,10 +1396,15 @@ sub AffiliationFeatureExtraction
 				
 							# NOTE: Relational classifier features
 							$rc_features .= "\n";
+
+							# This feature may signify a column
+							$has_column = 1;
+							# Increase the number of column
+							$cnt_column = $cnt_column + 1;
 						}
 
 						$prev_prev_word = $prev_word;
-						$prev_word		= $word;
+						$prev_word		= $word;						
 					}
 				}
 
@@ -1401,10 +1554,17 @@ sub AffiliationFeatureExtraction
 				}
 			}			
 		}
+	
+		# Save the number of column in this line
+		push @num_column, $cnt_column;
 	}
 
-	return ($features, $rc_features);
+	# Save the column signal in the last section
+	push @sect_has_column, $has_column;
+	# Save the column counter in the last section
+	push @sect_num_column, \ @num_column; 
 
+	return ($features, $rc_features, \@sect_has_column, \@sect_num_column);
 }
 
 # Extract features from author lines
@@ -1503,9 +1663,10 @@ sub AuthorFeatureExtraction
 			else
 			{
 				# Authors from different sections will be separated immediately
-				if (($prev_page != $aut_addrs->[ $counter ]->{ 'L1' }) ||
-					($prev_sect != $aut_addrs->[ $counter ]->{ 'L2' }) ||
-					($prev_para <= $aut_addrs->[ $counter ]->{ 'L3' } - 0x02))
+				if (($prev_page != $aut_addrs->[ $counter ]->{ 'L1' }) 		  ||
+					($prev_sect != $aut_addrs->[ $counter ]->{ 'L2' }) 		  ||
+					($prev_para <= $aut_addrs->[ $counter ]->{ 'L3' } - 0x02) ||
+					(($prev_para == $aut_addrs->[ $counter ]->{ 'L3' } - 0x01) && (0x00 != $aut_addrs->[ $counter ]->{ 'L4' })))
 				{ 
 					$features .= "\n"; 
 
