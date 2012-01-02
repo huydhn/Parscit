@@ -1,0 +1,4 @@
+Tom Kwiatkowski:School of Informatics University of Edinburgh Edinburgh, EH8 9AB, UK
+Luke Zettlemoyer:Computer Science & Engineering University of Washington Seattle, WA 98195
+Sharon Goldwater:School of Informatics University of Edinburgh Edinburgh, EH8 9AB, UK
+Mark Steedman:School of Informatics University of Edinburgh Edinburgh, EH8 9AB, UK

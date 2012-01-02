@@ -1,0 +1,6 @@
+Richard Socher:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+Cliff Chiung-Yu Lin:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+Andrew Y. Ng:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+Christopher D. Manning:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+
+

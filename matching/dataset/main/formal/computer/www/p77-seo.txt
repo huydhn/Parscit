@@ -1,0 +1,7 @@
+Jangwon Seo:University of Massachusetts Amherst, 140 Governors Drive, Amherst, MA 01003
+Fernando Diaz:Yahoo! Research, 4301 Great America Parkway, Santa Clara, CA 95054
+Evgeniy Gabrilovich:Yahoo! Research, 4301 Great America Parkway, Santa Clara, CA 95054
+Vanja Josifovski:Yahoo! Research, 4301 Great America Parkway, Santa Clara, CA 95054
+Bo Pang:Yahoo! Research, 4301 Great America Parkway, Santa Clara, CA 95054
+
+

@@ -1,0 +1,6 @@
+Antoine Bordes:Heudiasyc UMR CNRS 6599 Universitede Technologie Compiegne, France
+Jason Weston:Google 111 8th Avenue New York. NY, USA
+Ronan Collobert:IDIAP Rue Marconi 19 Martigny, Switzerland
+Yoshua Bengio:Departement IRO Universite de Montreal Montreal. QC, Canada
+
+

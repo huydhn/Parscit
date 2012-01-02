@@ -1,0 +1,6 @@
+Dani Yogatama:School of Computer Science Carnegie Mellon University Pittsburgh, PA 15213, USA
+Michael Heilman:School of Computer Science Carnegie Mellon University Pittsburgh, PA 15213, USA
+Brendan O’Connor:School of Computer Science Carnegie Mellon University Pittsburgh, PA 15213, USA
+Chris Dyer:School of Computer Science Carnegie Mellon University Pittsburgh, PA 15213, USA
+Bryan R. Routledge:Tepper School of Business Carnegie Mellon University Pittsburgh, PA 15213, USA
+Noah A. Smith:School of Computer Science Carnegie Mellon University Pittsburgh, PA 15213, USA

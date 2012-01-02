@@ -1,0 +1,7 @@
+Aditya Parameswaran:Stanford University 
+Anish Das Sarma:Yahoo! Research
+Hector Garcia-Molina:Stanford University 
+Neoklis Polyzotis:UC Santa Cruz 
+Jennifer Widom:Stanford University
+
+

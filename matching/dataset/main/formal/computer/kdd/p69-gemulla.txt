@@ -1,0 +1,4 @@
+Rainer Gemulla:Max-Planck-Institut für Informatik Saarbrücken, Germany
+Peter J. Haas:IBM Almaden Research Center San Jose, CA, USA
+Erik Nijkamp:IBM Almaden Research Center San Jose, CA, USA
+Yannis Sismanis:IBM Almaden Research Center San Jose, CA, USA

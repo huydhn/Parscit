@@ -1,0 +1,6 @@
+Gonzalo Iglesias:Department of Engineering, University of Cambridge, Cambridge, CB2 1PZ, U.K.
+Cyril Allauzen:Google Research, 76 Ninth Avenue, New York, NY 10011
+William Byrne:Department of Engineering, University of Cambridge, Cambridge, CB2 1PZ, U.K.
+Adriede Gispert:Department of Engineering, University of Cambridge, Cambridge, CB2 1PZ, U.K.
+Michael Riley:Google Research, 76 Ninth Avenue, New York, NY 10011
+

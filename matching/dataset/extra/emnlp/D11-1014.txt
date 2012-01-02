@@ -1,0 +1,6 @@
+Richard Socher:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+Jeffrey Pennington:SLAC National Accelerator Laboratory, Stanford University, Stanford, CA 94309, USA
+Eric H. Huang:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+Andrew Y. Ng:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+Christopher D. Manning:Computer Science Department, Stanford University, Stanford, CA 94305, USA
+

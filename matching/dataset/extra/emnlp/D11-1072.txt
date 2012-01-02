@@ -1,0 +1,10 @@
+Johannes Hoffart:Max Planck Institute for Informatics, Saarbrucken, Germany
+Mohamed Amir Yosef:Max Planck Institute for Informatics, Saarbrucken, Germany
+Ilaria Bordino:Yahoo! Research Lab, Barcelona, Spain
+Hagen Furstenau:Saarland University, Saarbr ̈ cken, Germany
+Manfred Pinkal:Saarland University, Saarbr ̈ cken, Germany
+Marc Spaniol:Max Planck Institute for Informatics, Saarbrucken, Germany
+Bilyana Taneva:Max Planck Institute for Informatics, Saarbrucken, Germany
+Stefan Thater:Saarland University, Saarbr ̈ cken, Germany
+Gerhard Weikum:Max Planck Institute for Informatics, Saarbrucken, Germany
+

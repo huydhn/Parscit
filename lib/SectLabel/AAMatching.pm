@@ -87,10 +87,10 @@ sub AAMatching
 	# Affiliations
 	my ($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column) = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
 	# Call CRF
-	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column);
+	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column);	
 
 	# Matching features
-	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc);
+	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc, $affs);
 	# Matching
 	my $aa			= AAMatchingImp($aa_features);
 
@@ -251,7 +251,10 @@ sub AAMatching
 # Features of the relational classifier between author and affiliation
 sub AAFeatureExtraction
 {
-	my ($aut_rc, $aff_rc) = @_;	
+	my ($aut_rc, $aff_rc, $affs) = @_;	
+
+	# Constraint
+	if (scalar(@{ $aff_rc }) != scalar(@{ $affs })) { print STDERR "# It cannot happen, if you encounter it, please consider report it as a bug", "\n"; die; }
 
 	# Relational features
 	my $features = "";
@@ -266,38 +269,77 @@ sub AAFeatureExtraction
 		my $min_dist_x	= LONG_MAX;
 		my $min_aff_y	= undef;
 		my $min_dist_y	= LONG_MAX;
-		# Find the nearest affiliation
-		foreach my $aff (keys %{ $aff_rc })
-		{
+
+		# TODO Experimental
+		my $min_dist	= LONG_MAX;
+
+		# Find the nearest affiliation (below)
+		for (my $i = 0; $i < scalar @{ $aff_rc }; $i++) {			
+			# Skip above affiliations
+			if ($aut_rc->{ $author }->page > $aff_rc->[ $i ]->page) { 
+				next ; 
+			}
+			
+			# Skip above affiliations
+			if (($aut_rc->{ $author }->page == $aff_rc->[ $i ]->page) && ($aut_rc->{ $author }->section > $aff_rc->[ $i ]->section)) {
+				next ;
+			}
+			
+			# Skip above affiliations
+			if (($aut_rc->{ $author }->page == $aff_rc->[ $i ]->page) 		&& 
+				($aut_rc->{ $author }->section == $aff_rc->[ $i ]->section)	&&
+				($aut_rc->{ $author }->para > $aff_rc->[ $i ]->para)) {
+				next ;
+			}
+				
+			# Skip above affiliations
+			if (($aut_rc->{ $author }->page == $aff_rc->[ $i ]->page) 		&& 
+				($aut_rc->{ $author }->section == $aff_rc->[ $i ]->section)	&&
+				($aut_rc->{ $author }->para == $aff_rc->[ $i ]->para)		&&
+				($aut_rc->{ $author }->line > $aff_rc->[ $i ]->line)) {
+				next ;
+			}
+
+			my $aff   = $affs->[ $i ];
+
 			my $aut_x = ($aut_rc->{ $author }->left + $aut_rc->{ $author }->right) / 2;
 			my $aut_y = ($aut_rc->{ $author }->top + $aut_rc->{ $author }->bottom) / 2;
 
-			my $aff_x = ($aff_rc->{ $aff }->left + $aff_rc->{ $aff }->right) / 2;
-			my $aff_y = ($aff_rc->{ $aff }->top + $aff_rc->{ $aff }->bottom) / 2;
+			my $aff_x = ($aff_rc->[ $i ]->left + $aff_rc->[ $i ]->right) / 2;
+			my $aff_y = ($aff_rc->[ $i ]->top + $aff_rc->[ $i ]->bottom) / 2;
 
 			my $dis_x = abs( $aut_x - $aff_x );
 			my $dis_y = abs( $aut_y - $aff_y );
 			# Distance between an author and an affiliation
-			# my $distance = sqrt( $dis_x * $dis_x + $dis_y * $dis_y );
+			my $distance = sqrt( $dis_x * $dis_x + $dis_y * $dis_y );
 
-			# Check if it it the minimum distance in x axis
-			if ($dis_x < $min_dist_x)
-			{
-				$min_dist_x	= $dis_x;
-				$min_aff_x	= $aff;
-			}
+			# Check if it is the minimum distance in x axis
+			# if ($dis_x < $min_dist_x)
+			# {
+			# 	$min_dist_x	= $dis_x;
+			# 	$min_aff_x	= $aff;
+			# }
 
-			# Check if it it the minimum distance in y axis
-			if ($dis_y < $min_dist_y)
+			# Check if it is the minimum distance in y axis
+			# if ($dis_y < $min_dist_y)
+			# {
+			# 	$min_dist_y	= $dis_y;
+			# 	$min_aff_y	= $aff;
+			# }
+
+			# Check if it is the minimum distances
+			if ($distance < $min_dist) 
 			{
-				$min_dist_y	= $dis_y;
-				$min_aff_y	= $aff;
+				$min_dist  = $distance;
+				$min_aff_y = $aff;
+				$min_aff_x = $aff;
 			}
 		}
 
 		# and y affiliation
-		foreach my $aff (keys %{ $aff_rc })
-		{
+		for (my $i = 0; $i < scalar @{ $aff_rc }; $i++) {
+			my $aff   = $affs->[ $i ];
+
 			my @aff_tokens	= split /\s/, $aff;
 			my $aff_nb		= join '|||', @aff_tokens;
 		
@@ -306,7 +348,7 @@ sub AAFeatureExtraction
 
 			my $signal = undef;
 			# Signal
-			if ((scalar(@{ $aut_rc->{ $author }->signals }) == 0) || (scalar(@{ $aff_rc->{ $aff }->signals }) == 0))
+			if ((scalar(@{ $aut_rc->{ $author }->signals }) == 0) || (scalar(@{ $aff_rc->[ $i ]->signals }) == 0))
 			{
 				$signal = "diff";
 			}
@@ -317,7 +359,7 @@ sub AAFeatureExtraction
 				foreach my $aut_sig (@{ $aut_rc->{ $author }->signals })
 				{
 					# if it match with affiliation signal
-					if ($aut_sig eq ${ $aff_rc->{ $aff }->signals }[ 0 ]) { $matched = 1; last; }
+					if ($aut_sig eq ${ $aff_rc->[ $i ]->signals }[ 0 ]) { $matched = 1; last; }
 				}
 
 				$signal = (! defined $matched) ? "diff" : "same";
@@ -327,14 +369,14 @@ sub AAFeatureExtraction
 			$features .= $signal . "\t";
 
 			# Same page
-			my $page = ($aut_rc->{ $author }->page == $aff_rc->{ $aff }->page) ? "yes" : "no";
+			my $page = ($aut_rc->{ $author }->page == $aff_rc->[ $i ]->page) ? "yes" : "no";
 			$features .= $page . "\t";
 
 			my $section = undef;
 			# Same section
 			if ($page eq "yes")
 			{
-				$section = ($aut_rc->{ $author }->section == $aff_rc->{ $aff }->section) ? "yes" : "no";
+				$section = ($aut_rc->{ $author }->section == $aff_rc->[ $i ]->section) ? "yes" : "no";
 				$features .= $section . "\t";
 			}
 			else
@@ -347,7 +389,7 @@ sub AAFeatureExtraction
 			# Same paragraph
 			if (($page eq "yes") && ($section eq "yes"))
 			{
-				$para = ($aut_rc->{ $author }->para == $aff_rc->{ $aff }->para) ? "yes" : "no";
+				$para = ($aut_rc->{ $author }->para == $aff_rc->[ $i ]->para) ? "yes" : "no";
 				$features .= $para . "\t";
 			}
 			else
@@ -360,7 +402,7 @@ sub AAFeatureExtraction
 			# Same line
 			if (($page eq "yes") && ($section eq "yes") && ($para eq "yes"))
 			{
-				$line = ($aut_rc->{ $author }->line == $aff_rc->{ $aff }->line) ? "yes" : "no";
+				$line = ($aut_rc->{ $author }->line == $aff_rc->[ $i ]->line) ? "yes" : "no";
 				$features .= $line . "\t";
 			}
 			else
@@ -370,11 +412,15 @@ sub AAFeatureExtraction
 			}
 
 			# Is neartest affiliation in x axis ?
-			my $nearest_x = ($aff eq $min_aff_x) ? "yes" : "no";
+			my $nearest_x = ((defined $min_aff_x) && ($aff eq $min_aff_x)) ? "yes" : "no";
+			# This feature is only turn on when there's no signal
+			if (scalar(@{ $aut_rc->{ $author }->signals }) != 0) { $nearest_x = "no"; }
 			$features 	 .= $nearest_x . "\t";
 
 			# Is neartest affiliation in y axis ?
-			my $nearest_y = ($aff eq $min_aff_y) ? "yes" : "no";
+			my $nearest_y = ((defined $min_aff_y) && ($aff eq $min_aff_y)) ? "yes" : "no";
+			# This feature is only turn on when there's no signal
+			if (scalar(@{ $aut_rc->{ $author }->signals }) != 0) { $nearest_y = "no"; }
 			$features 	 .= $nearest_y . "\n";
 		}
 	}
@@ -464,8 +510,8 @@ sub AAMatchingImp
 	close $input_handle;
 	
 	# Clean up
-	# unlink $infile;
-	# unlink $outfile;
+	unlink $infile;
+	unlink $outfile;
 	# Done
 	return (\%aa);
 }
@@ -623,8 +669,8 @@ sub AffiliationExtraction
 
 	# Each affiliation can have only one signal
 	my %asg = ();
-	# Each affilitiaon can have only one struct
-	my %aaf	= ();
+	# Each affiliation can have only one struct
+	my @aaf	= ();
 	# List of all affiliations
 	my @aff = ();
 
@@ -665,7 +711,7 @@ sub AffiliationExtraction
 				# Save the signal
 				push @{ $rcs->signals }, $ntl_signal;
 				# Save the record
-				$aaf{ $affiliation } = $rcs;
+				push @aaf, $rcs;
 			}
 			elsif ($prev_class eq "signal")
 			{
@@ -721,7 +767,7 @@ sub AffiliationExtraction
 				# Save the signal
 				push @{ $rcs->signals }, $ntl_signal;
 				# Save the record
-				$aaf{ $affiliation } = $rcs;
+				push @aaf, $rcs;
 
 			}
 			elsif ($prev_class eq "signal")
@@ -764,7 +810,7 @@ sub AffiliationExtraction
 		# Save the signal
 		push @{ $rcs->signals }, $ntl_signal;
 		# Save the record
-		$aaf{ $affiliation } = $rcs;
+		push @aaf, $rcs;
 	}
 	elsif ($prev_class eq "signal")
 	{
@@ -776,10 +822,10 @@ sub AffiliationExtraction
 	close $input_handle;
 	
 	# Clean up
-	# unlink $infile;
-	# unlink $outfile;
+	unlink $infile;
+	unlink $outfile;
 	# Done
-	return (\%asg, \%aaf, \@aff);
+	return (\%asg, \@aaf, \@aff);
 }
 
 sub NormalizeAffiliationSignal
@@ -805,11 +851,40 @@ sub NormalizeAffiliationName
 	# Affiliation string
 	my $affiliation = join ' ', @{ $aff_str };
 
+	my $top    = LONG_MAX;
+	my $bottom = 0;
+	my $left   = LONG_MAX;
+	my $right  = 0;
+	# Find the correct coordinate of the affiliation
+	foreach my $line_rc (@{ $aaf_rc }) {
+		# All features of a word
+		my @fs  = split /\s/, $line_rc;
+
+		# Temporary coordinate value
+		my $tmp = undef;
+
+		$tmp = $fs[ 1 ];
+		# Check the correct top coordinate
+		$top = ($tmp < $top) ? $tmp : $top;
+
+		$tmp = $fs[ 2 ];
+		# Check the correct bottom coordinate
+		$bottom = ($tmp > $bottom) ? $tmp : $bottom;
+
+		$tmp = $fs[ 3 ];
+		# Check the correct left coordinate
+		$left = ($tmp < $left) ? $tmp : $left;
+
+		$tmp = $fs[ 4 ];
+		# Check the correct right coordinate
+		$right = ($tmp > $right) ? $tmp : $right;
+	}
+
 	# First word
 	my @fields = split /\s/, $aaf_rc->[ 0 ];
 	# Save the relational features of an affiliation (its first word)
 	my $rcs	= aff_rcfeatures->new(	signals => [],
-									top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+									top => $top, bottom => $bottom, left => $left, right => $right,
 									page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
 	# Done
 	return ($affiliation, $rcs);
@@ -854,6 +929,30 @@ sub AuthorExtraction
 	# DEBUG
 	# die;
 
+	# Some stop-word in the name
+	my %stopword = (
+		'dr'		=> '1', 
+		'jr'		=> '1',
+		'rn'		=> '1',
+		'mr'		=> '1',
+		'md'		=> '1',
+		'mph'		=> '1',
+		'mpd'		=> '1',
+		'rnt'		=> '1',
+		'mrs'		=> '1',
+		'phd'		=> '1',
+		'miss'		=> '1',
+		'prof'		=> '1',
+		'dean'		=> '1',
+		'assoc'		=> '1',
+		'assit'		=> '1',
+		'doctor'	=> '1',
+		'doctoral'	=> '1',
+		'associate'	=> '1',
+		'professor'	=> '1',
+		'assistant'	=> '1'
+	);
+
 	# Each author can have one or more signals
 	my %asg = ();
 	# Each author can have only one struct	
@@ -877,6 +976,9 @@ sub AuthorExtraction
 	my %ntl_asg 	= ();
 	#
 	my $is_authors	= 0;
+	# Delete list, the following names will be deleted
+	my %delete_name	= ();
+
 	# Read each line and get its label
 	while (<$input_handle>)
 	{
@@ -894,20 +996,68 @@ sub AuthorExtraction
 				{
 					$asg{ $authors->[ $i ] } 		= ();
 					$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
-					$ntl_asg{ $authors->[ $i ] }	= 0;
+					$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
 				}
 			}
 			elsif ($prev_class eq "signal")
 			{
 				my $signals = NormalizeAuthorSignal($signal_str);
+
+				my $has_one_word = 0;
+				my @words_order  = ();
+				my $last_name	 = undef;
+				my $max_order	 = -1;
+
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					# There's a name with only one word, suppicious ?
+					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					# Always save the words' order
+					push @words_order, $ntl_asg{ $author };
+
+					# Get the last name
+					if ($max_order < $ntl_asg{ $author }) {
+						$max_order = $ntl_asg{ $author };
+						$last_name = $author;
+					}
+
 					foreach my $signal (@{ $signals })
 					{
 						push @{ $asg{ $author } }, $signal;
 						push @{ $aas{ $author }->signals }, $signal;
 					}
+				}
+
+				# Only the last name keep the signal
+				if (defined $last_name) {
+					foreach my $signal (@{ $signals }) {
+						push @{ $asg{ $last_name } }, $signal;
+						push @{ $aas{ $last_name }->signals }, $signal;
+					}
+				}
+
+				# Two names & One name has only one word is the indicator of
+				# a single name, e.g. Brown, Michael M.
+				if (0x02 == scalar (keys %ntl_asg) && (0x01 == $has_one_word)) {
+					my @name = keys %ntl_asg;
+					# First name
+					my $fname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 0 ] : $name[ 1 ];
+					# Second name
+					my $sname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 1 ] : $name[ 0 ];
+
+					# Form the new name
+					my $nname = $fname . ", " . $sname;
+					# Update the information about the new name
+					$asg{ $nname } = $asg{ $sname };
+					$aas{ $nname } = $aas{ $sname };
+					# Delete two old name
+					$delete_name{ $fname } = 0;	
+					$delete_name{ $sname } = 0;	
+					# delete $asg{ $fname };
+					# delete $aas{ $fname };
+					# delete $asg{ $sname };
+					# delete $aas{ $sname };
 				}
 			}
 
@@ -938,10 +1088,20 @@ sub AuthorExtraction
 		if ($class eq $prev_class)
 		{
 			# An author
-			if ($class eq "author")
+			if ($class eq "author") 			
 			{
-				push @author_str, $content;
-				push @author_rc, $rc_lines[ $counter ];
+				my $tmp = $content;
+				# Trimming
+				$tmp	=~ s/^\s+|\s+$//g;
+				# Only keep alphabet character
+				$tmp 	=~ s/[^\w]//g;
+				# Lower case
+				$tmp	= lc $tmp;
+
+				if (! exists $stopword{ $tmp }) {
+					push @author_str, $content;
+					push @author_rc, $rc_lines[ $counter ];
+				}
 			}
 			# A signal
 			elsif ($class eq "signal")
@@ -959,20 +1119,68 @@ sub AuthorExtraction
 				{
 					$asg{ $authors->[ $i ] } 		= ();
 					$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
-					$ntl_asg{ $authors->[ $i ] }	= 0;
+					$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
 				}
 			}
 			elsif ($prev_class eq "signal")
 			{
 				my $signals = NormalizeAuthorSignal($signal_str);
+				
+				my $has_one_word = 0;
+				my @words_order  = ();
+				my $last_name	 = undef;
+				my $max_order	 = -1;
+
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					# There's a name with only one word, suppicious ?
+					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					# Always save the words' order
+					push @words_order, $ntl_asg{ $author };
+
+					# Get the last name
+					if ($max_order < $ntl_asg{ $author }) {
+						$max_order = $ntl_asg{ $author };
+						$last_name = $author;
+					}
+
 					foreach my $signal (@{ $signals })
 					{
 						push @{ $asg{ $author } }, $signal;
 						push @{ $aas{ $author }->signals }, $signal;
 					}
+				}
+
+				# Only the last name keep the signal
+				if (defined $last_name) {
+					foreach my $signal (@{ $signals }) {
+						push @{ $asg{ $last_name } }, $signal;
+						push @{ $aas{ $last_name }->signals }, $signal;
+					}
+				}
+
+				# Two names & One name has only one word is the indicator of
+				# a single name, e.g. Brown, Michael M.
+				if (0x02 == scalar (keys %ntl_asg) && (0x01 == $has_one_word)) {
+					my @name = keys %ntl_asg;
+					# First name
+					my $fname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 0 ] : $name[ 1 ];
+					# Second name
+					my $sname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 1 ] : $name[ 0 ];
+
+					# Form the new name
+					my $nname = $fname . ", " . $sname;
+					# Update the information about the new name
+					$asg{ $nname } = $asg{ $sname };
+					$aas{ $nname } = $aas{ $sname };
+					# Delete two old name
+					$delete_name{ $fname } = 0;	
+					$delete_name{ $sname } = 0;	
+					# delete $asg{ $fname };
+					# delete $aas{ $fname };
+					# delete $asg{ $sname };
+					# delete $aas{ $sname };
 				}
 			}
 
@@ -990,8 +1198,18 @@ sub AuthorExtraction
 
 			if ($class eq "author")
 			{
-				push @author_str, $content;
-				push @author_rc, $rc_lines[ $counter ];
+				my $tmp = $content;
+				# Trimming
+				$tmp	=~ s/^\s+|\s+$//g;
+				# Only keep alphabet character
+				$tmp 	=~ s/[^\w]//g; 
+				# Lower case
+				$tmp	= lc $tmp;
+
+				if (! exists $stopword{ $tmp }) {
+					push @author_str, $content;
+					push @author_rc, $rc_lines[ $counter ];
+				}
 			}
 			elsif ($class eq "signal")
 			{
@@ -1012,29 +1230,83 @@ sub AuthorExtraction
 		{
 			$asg{ $authors->[ $i ] } 		= ();
 			$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
-			$ntl_asg{ $authors->[ $i ] }	= 0;
+			$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
 		}
 	}
 	elsif ($prev_class eq "signal")
 	{
 		my $signals = NormalizeAuthorSignal($signal_str);
+
+		my $has_one_word = 0;
+		my @words_order  = ();
+		my $last_name	 = undef;
+		my $max_order	 = -1;
+
 		# Save each signal to its corresponding author
 		foreach my $author (keys %ntl_asg)
 		{
+			# There's a name with only one word, suppicious ?
+			if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+			# Always save the words' order
+			push @words_order, $ntl_asg{ $author };
+
+			# Get the last name
+			if ($max_order < $ntl_asg{ $author }) {
+				$max_order = $ntl_asg{ $author };
+				$last_name = $author;
+			}
+
 			foreach my $signal (@{ $signals })
 			{
-				push @{ $asg{ $author } }, $signal;
-				push @{ $aas{ $author }->signals }, $signal;
+			 	push @{ $asg{ $author } }, $signal;
+			 	push @{ $aas{ $author }->signals }, $signal;
 			}
+		}
+
+		# Only the last name keep the signal
+		if (defined $last_name) {
+			foreach my $signal (@{ $signals }) {
+				push @{ $asg{ $last_name } }, $signal;
+				push @{ $aas{ $last_name }->signals }, $signal;
+			}
+		}
+
+		# Two names & One name has only one word is the indicator of
+		# a single name, e.g. Brown, Michael M.
+		if (0x02 == scalar (keys %ntl_asg) && (0x01 == $has_one_word)) {
+			my @name = keys %ntl_asg;
+			# First name
+			my $fname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 0 ] : $name[ 1 ];
+			# Second name
+			my $sname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 1 ] : $name[ 0 ];
+
+			# Form the new name
+			my $nname = $fname . ", " . $sname;
+			# Update the information about the new name
+			$asg{ $nname } = $asg{ $fname };
+			$aas{ $nname } = $aas{ $fname };
+			# Delete two old name
+			$delete_name{ $fname } = 0;	
+			$delete_name{ $sname } = 0;	
+			# delete $asg{ $fname };
+			# delete $aas{ $fname };
+			# delete $asg{ $sname };
+			# delete $aas{ $sname };
 		}
 	}
 
 	# Done
 	close $input_handle;
-	
+
+	# Delete name
+	foreach my $author (keys %delete_name) {
+		delete $asg{ $author };
+		delete $aas{ $author };
+	}
+
 	# Clean up
-	# unlink $infile;
-	# unlink $outfile;
+	unlink $infile;
+	unlink $outfile;
 	# Done
 	return (\%asg, \%aas);
 }
@@ -1274,8 +1546,10 @@ sub AffiliationFeatureExtraction
 
 					# Save the column signal
 					push @sect_has_column, $has_column;
+
+					my @tmp_array = @num_column;
 					# Save the column counter
-					push @sect_num_column, \ @num_column; 
+					push @sect_num_column, \ @tmp_array ; 
 
 					# Reset the column signal
 					$has_column = 0;
@@ -1380,6 +1654,19 @@ sub AffiliationFeatureExtraction
 						$prev_prev_word = $prev_word;
 						$prev_word		= $word;
 					}
+
+					if ($word->is_previous_tab()) 
+					{
+						$features .= "\n"; 
+				
+						# NOTE: Relational classifier features
+						$rc_features .= "\n";
+
+						# This feature may signify a column
+						$has_column = 1;
+						# Increase the number of column
+						$cnt_column = $cnt_column + 1;
+					}
 				}
 				else
 				{
@@ -1390,7 +1677,7 @@ sub AffiliationFeatureExtraction
 						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
 						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
 
-						if ($prev_dist * 5 < $curr_dist)
+						if (($prev_dist * 10 < $curr_dist) || ($word->is_previous_tab()))
 						{
 							$features .= "\n"; 
 				
@@ -1420,7 +1707,7 @@ sub AffiliationFeatureExtraction
 				# This is the tricky part, one word e.g. **affiliation will be 
 				# splitted into two parts: the signal, and the affiliation if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w|-]*)(\W*)/g)
+				while ($full_content =~ m/([\w-\.,]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;
@@ -1561,8 +1848,10 @@ sub AffiliationFeatureExtraction
 
 	# Save the column signal in the last section
 	push @sect_has_column, $has_column;
+	
+	my @tmp_array = @num_column;
 	# Save the column counter in the last section
-	push @sect_num_column, \ @num_column; 
+	push @sect_num_column, \ @tmp_array; 
 
 	return ($features, $rc_features, \@sect_has_column, \@sect_num_column);
 }
@@ -1640,9 +1929,21 @@ sub AuthorFeatureExtraction
 		print STDERR "# Total number of author lines (" . scalar(@{ $aut_lines }) . ") != Total number of author addresses (" . scalar(@{ $aut_addrs }) . ")." . "\n";
 	}
 
+	# Column detection
+	# Sometime, Omnipage fails to detech the affiliation columns correctly. They bundle 
+	# eveything line by line and separate them by tab, which breaks the affiliations into
+	# many small & non-linear parts
+	#
+	# TODO I try to fix this by detect the tab character inside a single line, this could
+	# solve the problem but may introduce other issues, let's see
+	# 	
+	# Is there any column in this section ?
+	my $has_column = 0;
+	
 	my $prev_page = undef;
 	my $prev_sect = undef;
 	my $prev_para = undef;
+
 	# Each line contains many runs
 	for (my $counter = 0; $counter < scalar(@{ $aut_lines }); $counter++)
 	{
@@ -1665,13 +1966,15 @@ sub AuthorFeatureExtraction
 				# Authors from different sections will be separated immediately
 				if (($prev_page != $aut_addrs->[ $counter ]->{ 'L1' }) 		  ||
 					($prev_sect != $aut_addrs->[ $counter ]->{ 'L2' }) 		  ||
-					($prev_para <= $aut_addrs->[ $counter ]->{ 'L3' } - 0x02) ||
-					(($prev_para == $aut_addrs->[ $counter ]->{ 'L3' } - 0x01) && (0x00 != $aut_addrs->[ $counter ]->{ 'L4' })))
+					($prev_para != $aut_addrs->[ $counter ]->{ 'L3' }))
 				{ 
 					$features .= "\n"; 
 
 					# NOTE: Relational classifier features
 					$rc_features .= "\n";
+
+					# Reset the column signal
+					$has_column = 0;
 				}
 				
 				# Save the paragraph index
@@ -1679,6 +1982,14 @@ sub AuthorFeatureExtraction
 				$prev_sect = $aut_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aut_addrs->[ $counter ]->{ 'L3' };
 			}
+		}
+
+		# If the column signal is on
+		if (0x01 == $has_column) {
+			$features .= "\n"; 
+				
+			# NOTE: Relational classifier features
+			$rc_features .= "\n";
 		}
 
 		# Set first word in line
@@ -1764,6 +2075,17 @@ sub AuthorFeatureExtraction
 						$prev_prev_word = $prev_word;
 						$prev_word		= $word;
 					}
+
+					if ($word->is_previous_tab())
+					{
+						$features .= "\n"; 
+					
+						# NOTE: Relational classifier features
+						$rc_features .= "\n";
+
+						# This feature may signify a column
+						$has_column = 1;
+					}
 				}
 				else
 				{
@@ -1775,12 +2097,15 @@ sub AuthorFeatureExtraction
 						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
 						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
 
-						if ($prev_dist * 5 < $curr_dist)
+						if (($prev_dist * 5 < $curr_dist) || ($word->is_previous_tab()))
 						{
 							$features .= "\n"; 
 					
 							# NOTE: Relational classifier features
 							$rc_features .= "\n";
+
+							# This feature may signify a column
+							$has_column = 1;
 						}
 
 						$prev_prev_word = $prev_word;
@@ -1800,7 +2125,7 @@ sub AuthorFeatureExtraction
 				# This is the tricky part, one word e.g. name** will be splitted 
 				# into several parts: the name, the signal, and the separator if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w|-]*)(\W*)/g)
+				while ($full_content =~ m/([\w-´`\.]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;
@@ -1808,12 +2133,12 @@ sub AuthorFeatureExtraction
 					# Trim
 					$first	=~ s/^\s+|\s+$//g;
 					$second	=~ s/^\s+|\s+$//g;
-				
+
 					# Only keep non-blank content
 					if ($first ne "") { push @sub_content, $first; }
 
 					# Check the signal and separator
-					while ($second =~ m/([,|\.|:|;]*)([^,\.:;]*)/g)
+					while ($second =~ m/([,\.:;]*)([^,\.:;]*)/g)
 					{
 						my $sub_first	= $1;
 						my $sub_second	= $2;

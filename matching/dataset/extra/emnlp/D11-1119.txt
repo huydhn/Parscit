@@ -1,0 +1,6 @@
+Wei Xu:New York University, NY, USA
+Joel Tetreault:Educational Testing Service, Princeton, NJ, USA
+Martin Chodorow:Hunter College of CUNY, New York, NY, USA
+Ralph Grishman:New York University, NY, USA
+Le Zhao:Carnegie Mellon University, Pittsburgh, PA, USA
+
