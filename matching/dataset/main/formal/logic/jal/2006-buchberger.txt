@@ -1,0 +1,13 @@
+Bruno Buchberger:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Adrian Craciun:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Tudor Jebelean:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Laura Kovács:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Temur Kutsi:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Koji Nakagawa:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Florina Piroi:Johann Radon Institute for Computational and Applied Mathematics, Austrian Academy of Sciences, Altenbergerstraße 69, A-4040 Linz, Austria
+Nikolaj Popov:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Judit Robu:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+Markus Rosenkranz:Johann Radon Institute for Computational and Applied Mathematics, Austrian Academy of Sciences, Altenbergerstraße 69, A-4040 Linz, Austria
+Wolfgang Windsteiger:Research Institute for Symbolic Computation, Johannes Kepler University, Altenbergerstraße 69, A-4040 Linz, Austria
+
+

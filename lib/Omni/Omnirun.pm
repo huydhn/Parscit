@@ -59,6 +59,7 @@ sub new
 					'_italic'		=> undef,
 					'_tab'			=> undef,	# the number of tab inside a run
 					'_ptab'			=> undef,	# previous character is a tab, not a space
+					'_ltab'			=> undef,	# last character is a tab, not a space
 					'_words'		=> \@words	};
 
 	bless $self, $class;
@@ -100,6 +101,7 @@ sub set_raw
 	$self->{ '_bold' }			= $tmp_bold;
 	$self->{ '_italic' }		= $tmp_italic;
 	$self->{ '_tab' }			= $tmp_tab;
+	$self->{ '_ltab' }			= $tmp_tab_flag;
 	
 	# Copy all words
 	@{ $self->{ '_words' } }	= @tmp_words;
@@ -193,9 +195,6 @@ sub parse
 			elsif ($xpath =~ m/\/$space_tag$/)
 			{
 				$tmp_content = $tmp_content . " ";	
-
-				# Tab flag - off
-				$tab_flag = 0;
 			}
 			# if this child is <tab>
 			elsif ($xpath =~ m/\/$tab_tag$/)
@@ -220,6 +219,9 @@ sub parse
 			}
 		}
 	}
+
+	# Save the tab flag
+	$tmp_tab_flag = $tab_flag;
 }
 
 sub add_word
@@ -244,6 +246,12 @@ sub is_previous_tab
 {
 	my ($self) = @_;
 	return $self->{ '_ptab' };
+}
+
+sub is_last_tab
+{
+	my ($self) = @_;
+	return $self->{ '_ltab' };
 }
 
 sub get_tab

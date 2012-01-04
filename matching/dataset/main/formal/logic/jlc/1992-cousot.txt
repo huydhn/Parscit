@@ -1,0 +1,4 @@
+Patrick Cousot:LIENS, École Normale Supérieure 45, rue d’Ulm 75230 Paris cedex 05 (France)
+Radhia Cousot:LIX, École Polytechnique 91128 Palaiseau cedex (France)
+  
+

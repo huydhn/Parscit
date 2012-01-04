@@ -1,0 +1,5 @@
+Thierry Coquand:Dept. of Computing Science Chalmers University S–41296 G ̈teborg, Swedish
+Giovanni Sambin:Dip. di Matematica Pura ed Applicata Universita di Padova via Belzoni 7, I–35131 Padova, Italy
+Jan Smith:Dept. of Computing Science Chalmers University S–41296 G ̈teborg, Swedish
+Silvio Valentini:Dip. di Matematica Pura ed Applicata Universita di Padova via Belzoni 7, I–35131 Padova, Italy
+

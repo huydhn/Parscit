@@ -414,13 +414,17 @@ sub AAFeatureExtraction
 			# Is neartest affiliation in x axis ?
 			my $nearest_x = ((defined $min_aff_x) && ($aff eq $min_aff_x)) ? "yes" : "no";
 			# This feature is only turn on when there's no signal
-			if (scalar(@{ $aut_rc->{ $author }->signals }) != 0) { $nearest_x = "no"; }
+			if ((scalar(@{ $aff_rc->[ $i ]->signals }) != 0) && (scalar(@{ $aut_rc->{ $author }->signals }) != 0)) { 
+				$nearest_x = "no"; 
+			}
 			$features 	 .= $nearest_x . "\t";
 
 			# Is neartest affiliation in y axis ?
 			my $nearest_y = ((defined $min_aff_y) && ($aff eq $min_aff_y)) ? "yes" : "no";
 			# This feature is only turn on when there's no signal
-			if (scalar(@{ $aut_rc->{ $author }->signals }) != 0) { $nearest_y = "no"; }
+			if ((scalar(@{ $aff_rc->[ $i ]->signals }) != 0) && (scalar(@{ $aut_rc->{ $author }->signals }) != 0)) { 
+				$nearest_y = "no"; 
+			}
 			$features 	 .= $nearest_y . "\n";
 		}
 	}
@@ -508,6 +512,18 @@ sub AAMatchingImp
 	
 	# Done
 	close $input_handle;
+
+	# Remove duplicate affiliations of one author
+	foreach my $author (keys %aa) {
+		# Unique affiliations
+		my %tmp = ();
+		# Get unique affiliations
+		foreach my $aff (@{ $aa{ $author } }) {
+			$tmp{ $aff } = 0;
+		}
+		# Save the unique list
+		$aa{ $author } = [ keys %tmp ];
+	}
 	
 	# Clean up
 	unlink $infile;
@@ -706,10 +722,13 @@ sub AffiliationExtraction
 				# Save the affiliation
 				push @aff, $affiliation;
 				# and its signal
-				if ($ntl_signal ne "") { $asg{ $ntl_signal } = $affiliation; }
+				if ($ntl_signal ne "") { 
+					$asg{ $ntl_signal } = $affiliation; 
 
-				# Save the signal
-				push @{ $rcs->signals }, $ntl_signal;
+					# Save the signal
+					push @{ $rcs->signals }, $ntl_signal;
+				}
+
 				# Save the record
 				push @aaf, $rcs;
 			}
@@ -762,10 +781,13 @@ sub AffiliationExtraction
 				# Save the affiliation
 				push @aff, $affiliation;
 				# and its signal
-				if ($ntl_signal ne "") { $asg{ $ntl_signal } = $affiliation; }
+				if ($ntl_signal ne "") { 
+					$asg{ $ntl_signal } = $affiliation; 				
 
-				# Save the signal
-				push @{ $rcs->signals }, $ntl_signal;
+					# Save the signal
+					push @{ $rcs->signals }, $ntl_signal;
+				}
+				
 				# Save the record
 				push @aaf, $rcs;
 
@@ -805,10 +827,13 @@ sub AffiliationExtraction
 		# Save the affiliation
 		push @aff, $affiliation;
 		# and its signal
-		if ($ntl_signal ne "") { $asg{ $ntl_signal } = $affiliation; }
+		if ($ntl_signal ne "") { 
+			$asg{ $ntl_signal } = $affiliation; 
+		
+			# Save the signal
+			push @{ $rcs->signals }, $ntl_signal;
+		}
 
-		# Save the signal
-		push @{ $rcs->signals }, $ntl_signal;
 		# Save the record
 		push @aaf, $rcs;
 	}
@@ -1338,11 +1363,40 @@ sub NormalizeAuthorNames
 			{ 
 				push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
 
+				my $top    = LONG_MAX;
+				my $bottom = 0;
+				my $left   = LONG_MAX;
+				my $right  = 0;
+				# Find the correct coordinate of the author name
+				for (my $index = $rcbegin; $index < $i; $index++) {
+					# All features of a word
+					my @fs  = split /\s/, $author_rc->[ $index ];
+
+					# Temporary coordinate value
+					my $tmp = undef;
+
+					$tmp = $fs[ 1 ];
+					# Check the correct top coordinate
+					$top = ($tmp < $top) ? $tmp : $top;
+
+					$tmp = $fs[ 2 ];
+					# Check the correct bottom coordinate
+					$bottom = ($tmp > $bottom) ? $tmp : $bottom;
+
+					$tmp = $fs[ 3 ];
+					# Check the correct left coordinate
+					$left = ($tmp < $left) ? $tmp : $left;
+
+					$tmp = $fs[ 4 ];
+					# Check the correct right coordinate
+					$right = ($tmp > $right) ? $tmp : $right;
+				}
+
 				# Save the relational features of an author (its first word)
 				my @fields = split /\s/, $author_rc->[ $rcbegin ];
 				# Create new record
 				my $tmp	= aut_rcfeatures->new(	signals => [], 
-												top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+												top => $top, bottom => $bottom, left => $left, right => $right,
 												page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
 				# Save the record
 				push @rcs, $tmp;
@@ -1374,12 +1428,41 @@ sub NormalizeAuthorNames
 			if (scalar(@current) != 0) 
 			{ 
 				push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+				
+				my $top    = LONG_MAX;
+				my $bottom = 0;
+				my $left   = LONG_MAX;
+				my $right  = 0;
+				# Find the correct coordinate of the author name
+				for (my $index = $rcbegin; $index < $i; $index++) {
+					# All features of a word
+					my @fs  = split /\s/, $author_rc->[ $index ];
+
+					# Temporary coordinate value
+					my $tmp = undef;
+
+					$tmp = $fs[ 1 ];
+					# Check the correct top coordinate
+					$top = ($tmp < $top) ? $tmp : $top;
+
+					$tmp = $fs[ 2 ];
+					# Check the correct bottom coordinate
+					$bottom = ($tmp > $bottom) ? $tmp : $bottom;
+
+					$tmp = $fs[ 3 ];
+					# Check the correct left coordinate
+					$left = ($tmp < $left) ? $tmp : $left;
+
+					$tmp = $fs[ 4 ];
+					# Check the correct right coordinate
+					$right = ($tmp > $right) ? $tmp : $right;
+				}
 
 				# Save the relational features of an author (its first word)
 				my @fields = split /\s/, $author_rc->[ $rcbegin ];
 				# Create new record
 				my $tmp	= aut_rcfeatures->new(	signals => [], 
-												top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+												top => $top, bottom => $bottom, left => $left, right => $right,
 												page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
 				# Save the record
 				push @rcs, $tmp;
@@ -1400,12 +1483,41 @@ sub NormalizeAuthorNames
 	if (scalar(@current) != 0) 
 	{
 		push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+		
+		my $top    = LONG_MAX;
+		my $bottom = 0;
+		my $left   = LONG_MAX;
+		my $right  = 0;
+		# Find the correct coordinate of the author name
+		for (my $index = $rcbegin; $index < scalar(@{ $author_str }); $index++) {
+			# All features of a word
+			my @fs  = split /\s/, $author_rc->[ $index ];
+
+			# Temporary coordinate value
+			my $tmp = undef;
+
+			$tmp = $fs[ 1 ];
+			# Check the correct top coordinate
+			$top = ($tmp < $top) ? $tmp : $top;
+
+			$tmp = $fs[ 2 ];
+			# Check the correct bottom coordinate
+			$bottom = ($tmp > $bottom) ? $tmp : $bottom;
+
+			$tmp = $fs[ 3 ];
+			# Check the correct left coordinate
+			$left = ($tmp < $left) ? $tmp : $left;
+
+			$tmp = $fs[ 4 ];
+			# Check the correct right coordinate
+			$right = ($tmp > $right) ? $tmp : $right;
+		}
 
 		# Save the relational features of an author (its first word)
 		my @fields = split /\s/, $author_rc->[ $rcbegin ];
 		# Create new record
 		my $tmp	= aut_rcfeatures->new(	signals => [], 
-										top => $fields[ 1 ], bottom => $fields[ 2 ], left => $fields[ 3 ], right => $fields[ 4 ],
+										top => $top, bottom => $bottom, left => $left, right => $right,
 										page => $fields[ 5 ], section => $fields[ 6 ], para => $fields[ 7 ], line => $fields[ 8 ]	);
 		# Save the record
 		push @rcs, $tmp;
@@ -1564,6 +1676,32 @@ sub AffiliationFeatureExtraction
 			}
 		}
 
+		# Previous word and the word before this 
+		my $prev_prev_word	= undef;
+		my $prev_word		= undef;
+
+		# Total number of gaps
+		my @distances = ();
+
+		# Compute the average distance between words in a single line
+		foreach my $run (@{ $line->get_objs_ref() }) {
+			foreach my $word (@{ $run->get_objs_ref() }) {
+				if ((defined $prev_word) && ($word->get_left_pos() > $prev_word->get_right_pos())) {
+					# Value of the distance
+					push @distances, abs ($word->get_left_pos() - $prev_word->get_right_pos());
+				}
+					
+				$prev_word = $word;
+			}
+		}
+
+		# The average distance between words
+		my $average = 0;
+		# Compute the average value
+		foreach my $dist (@distances) {	$average += $dist; }
+		# Compute the average
+		$average = (scalar @distances) ? ($average / scalar @distances) : 0;
+
 		# The number of gap in this line
 		my $cnt_column = 0;
 		# If the column signal is on
@@ -1578,8 +1716,8 @@ sub AffiliationFeatureExtraction
 		$is_first_line = 1;
 
 		# Two previous words
-		my $prev_word		= undef;
-		my $prev_prev_word	= undef;
+		$prev_word		= undef;
+		$prev_prev_word	= undef;
 
 		# Format of the previous word
 		my ($prev_bold, $prev_italic, $prev_underline, $prev_suscript, $prev_fontsize) = "unknown";
@@ -1677,7 +1815,8 @@ sub AffiliationFeatureExtraction
 						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
 						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
 
-						if (($prev_dist * 10 < $curr_dist) || ($word->is_previous_tab()))
+						# if (($prev_dist * 5 < $curr_dist) || ($word->is_previous_tab()))
+						if ((($word->get_left_pos() > $prev_word->get_right_pos()) && ($average * 2 < $curr_dist)) || ($word->is_previous_tab()))
 						{
 							$features .= "\n"; 
 				
@@ -1984,6 +2123,32 @@ sub AuthorFeatureExtraction
 			}
 		}
 
+		# Previous word and the word before this 
+		my $prev_prev_word	= undef;
+		my $prev_word		= undef;
+
+		# Total number of gaps
+		my @distances = ();
+
+		# Compute the average distance between words in a single line
+		foreach my $run (@{ $line->get_objs_ref() }) {
+			foreach my $word (@{ $run->get_objs_ref() }) {
+				if ((defined $prev_word) && ($word->get_left_pos() > $prev_word->get_right_pos)) {
+					# Value of the distance
+					push @distances, abs ($word->get_left_pos() - $prev_word->get_right_pos());
+				}
+					
+				$prev_word = $word;
+			}
+		}
+
+		# The average distance between words
+		my $average = 0;
+		# Compute the average value
+		foreach my $dist (@distances) {	$average += $dist; }
+		# Compute the average
+		$average = (scalar @distances) ? ($average / scalar @distances) : 0;
+
 		# If the column signal is on
 		if (0x01 == $has_column) {
 			$features .= "\n"; 
@@ -1995,9 +2160,8 @@ sub AuthorFeatureExtraction
 		# Set first word in line
 		$is_first_line = 1;
 
-		# Previous word and the word before this 
-		my $prev_prev_word	= undef;
-		my $prev_word		= undef;
+		$prev_prev_word	= undef;
+		$prev_word		= undef;
 
 		# Format of the previous word
 		my ($prev_bold, $prev_italic, $prev_underline, $prev_suscript, $prev_fontsize) = "unknown";
@@ -2041,6 +2205,8 @@ sub AuthorFeatureExtraction
 			# End of XML features
 			###
 
+			# Index of the word
+			my $index = 0;
 			# All words in the run
 			my $words = $run->get_objs_ref();
 
@@ -2093,25 +2259,30 @@ sub AuthorFeatureExtraction
 					# true and kind, they can change our world
 					if (($prev_word->get_left_pos() != $word->get_left_pos()) && ($prev_word->get_right_pos() != $word->get_right_pos()))
 					{
-
 						my $prev_dist = abs ($prev_word->get_left_pos() - $prev_prev_word->get_right_pos());
 						my $curr_dist = abs ($word->get_left_pos() - $prev_word->get_right_pos());
 
-						if (($prev_dist * 5 < $curr_dist) || ($word->is_previous_tab()))
-						{
-							$features .= "\n"; 
-					
-							# NOTE: Relational classifier features
-							$rc_features .= "\n";
+						# if (($prev_dist * 5 < $curr_dist) || ($word->is_previous_tab()))
+						if ((($word->get_left_pos() > $prev_word->get_right_pos) && ($average * 1.5 <= $curr_dist)) || ($word->is_previous_tab()))
+						{	
+							# A name cannot contain a single word, it's likely a mistake
+							if (($index < scalar @distances) && ($distances[ $index ] < $average * 1.5)) {
+								$features .= "\n"; 				
+								# NOTE: Relational classifier features
+								$rc_features .= "\n";
 
-							# This feature may signify a column
-							$has_column = 1;
+								# This feature may signify a column
+								$has_column = 1;
+							}
 						}
 
 						$prev_prev_word = $prev_word;
 						$prev_word		= $word;
 					}
 				}
+
+				# Next word
+				$index++;
 
 				# Extract features
 				my $full_content = $word->get_content();

@@ -211,6 +211,15 @@ sub parse
 
 				# Tab flag - off
 				$tab_flag = 0;
+
+				# Check last tab
+				if (1 == $run->is_last_tab()) {
+					# Update the total number of tab
+					$tmp_tab = $tmp_tab + 1;
+
+					# Tab flag - on
+					$tab_flag = 1;
+				}
 			}
 			# if this child is <wd>
 			elsif ($xpath =~ m/\/$word_tag$/)
@@ -278,6 +287,15 @@ sub parse
 						# Tab flag - off
 						$tab_flag = 0;
 
+						# Check last tab
+						if (1 == $run->is_last_tab()) {
+							# Update the total number of tab
+							$tmp_tab = $tmp_tab + 1;
+
+							# Tab flag - on
+							$tab_flag = 1;
+						}
+
 						# Little brother
 						if ($grand_child->is_last_child) 
 						{ 
@@ -335,15 +353,21 @@ sub parse
 
 					# Tab flag - off
 					$tab_flag = 0;
+
+					# Check last tab
+					if (1 == $run->is_last_tab()) {
+						# Update the total number of tab
+						$tmp_tab = $tmp_tab + 1;
+	
+						# Tab flag - on
+						$tab_flag = 1;
+					}
 				}				
 			}
 			elsif  ($xpath =~ m/\/$space_tag$/)
 			{
 				# Update content
 				$tmp_content = $tmp_content . " ";
-
-				# Tab flag - off
-				$tab_flag = 0;
 			}
 			elsif  ($xpath =~ m/\/$tab_tag$/)
 			{

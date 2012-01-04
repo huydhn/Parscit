@@ -1,0 +1,3 @@
+School of Computer Science & IT, University of Nottingham, Nottingham, NG8 1BB, England.
+Laboratoire Specification et Verification, ENS de Cachan, CNRS UMR 8643, 61 Avenue du President Wilson, 94235 Cachan Cedex, France.
+Language and Inference Technology group, ILLC, U. of Amsterdam, Nieuwe Achtergracht 166, 1018 WV Amsterdam, The Netherlands.

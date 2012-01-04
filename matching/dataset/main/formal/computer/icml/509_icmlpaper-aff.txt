@@ -1,0 +1,7 @@
+SequeL Project, INRIA Lille - Nord Europe, Villeneuve d’Ascq, France
+LAPS-IMS/CNRS, Universite de Bordeaux, Talence, France
+LIFL/CNRS/INRIA, Universite de Lille, Villeneuve d’Ascq, France
+LAGIS/CNRS/INRIA, Ecole Centrale de Lille, Villeneuve d’Ascq, France
+LITIS, UFR de Sciences, Universite de Rouen, St Etienne du Rouvray, France
+
+
