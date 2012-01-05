@@ -34,7 +34,7 @@ foreach my $infile (@infiles) {
 	# Parse the input filename
 	my ($filename, $directory, $suffix) = fileparse($infile, qr/\.[^.]*$/);
 	# Output
-	my $outfile_abs	= File::Spec->rel2abs($outdir . "/" . $filename . "-omni.xml");
+	my $outfile_abs	= File::Spec->rel2abs($directory. "/" . $filename . "-omni.xml");
 	# OCR
 	system("ocr $infile_abs $outfile_abs xml tpe.ddns.comp.nus.edu.sg:31586");
 }

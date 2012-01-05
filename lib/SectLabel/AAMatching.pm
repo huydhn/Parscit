@@ -335,7 +335,7 @@ sub AAFeatureExtraction
 				$min_aff_x = $aff;
 			}
 		}
-
+	
 		# and y affiliation
 		for (my $i = 0; $i < scalar @{ $aff_rc }; $i++) {
 			my $aff   = $affs->[ $i ];
@@ -526,8 +526,8 @@ sub AAMatchingImp
 	}
 	
 	# Clean up
-	unlink $infile;
-	unlink $outfile;
+	# unlink $infile;
+	# unlink $outfile;
 	# Done
 	return (\%aa);
 }
@@ -847,8 +847,8 @@ sub AffiliationExtraction
 	close $input_handle;
 	
 	# Clean up
-	unlink $infile;
-	unlink $outfile;
+	# unlink $infile;
+	# unlink $outfile;
 	# Done
 	return (\%asg, \@aaf, \@aff);
 }
@@ -1019,8 +1019,8 @@ sub AuthorExtraction
 				# Save each author
 				for (my $i = 0; $i < scalar(@{ $authors }); $i++)
 				{
-					$asg{ $authors->[ $i ] } 		= ();
-					$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
+					if (! exists $asg{ $authors->[ $i ] }) { $asg{ $authors->[ $i ] } = (); }
+					if (! exists $aas{ $authors->[ $i ] }) { $aas{ $authors->[ $i ] } = $rcs->[ $i ]; }
 					$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
 				}
 			}
@@ -1142,8 +1142,8 @@ sub AuthorExtraction
 				# Save each author
 				for (my $i = 0; $i < scalar(@{ $authors }); $i++)
 				{
-					$asg{ $authors->[ $i ] } 		= ();
-					$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
+					if (! exists $asg{ $authors->[ $i ] }) { $asg{ $authors->[ $i ] } = (); }
+					if (! exists $aas{ $authors->[ $i ] }) { $aas{ $authors->[ $i ] } = $rcs->[ $i ]; }
 					$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
 				}
 			}
@@ -1253,8 +1253,8 @@ sub AuthorExtraction
 		# Save each author
 		for (my $i = 0; $i < scalar(@{ $authors }); $i++)
 		{
-			$asg{ $authors->[ $i ] } 		= ();
-			$aas{ $authors->[ $i ] }		= $rcs->[ $i ];
+			if (! exists $asg{ $authors->[ $i ] }) { $asg{ $authors->[ $i ] } = (); }
+			if (! exists $aas{ $authors->[ $i ] }) { $aas{ $authors->[ $i ] } = $rcs->[ $i ]; }
 			$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
 		}
 	}
@@ -1330,8 +1330,8 @@ sub AuthorExtraction
 	}
 
 	# Clean up
-	unlink $infile;
-	unlink $outfile;
+	# unlink $infile;
+	# unlink $outfile;
 	# Done
 	return (\%asg, \%aas);
 }

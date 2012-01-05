@@ -44,11 +44,22 @@ my %gis  = ();
 # Not Genome Singapore
 my %ngis = ();
 
+# Countries
+my %countries	= ();
+# Places
+my %places	 	= ();
+
+# Geographical - overview
+my %geo_all	= ();
+
+# Read the dictionary
+ReadDict("/home/salem/Local/wing/GAI/gsnap/resource/parscit.dic");
+
 my @infiles = ();
 GetFilesInDir($indir, \@infiles, $pattern);
 
 foreach my $infile (@infiles) {
-#	print "# ", $infile, "\n";
+	print "# ", $infile, "\n";
 
 	my $infile_abs	= File::Spec->rel2abs($infile);
 	# Parse the input filename
@@ -69,7 +80,7 @@ foreach my $infile (@infiles) {
 				# Save the author
 				push @{ $gis{ $autlc } }, $aff;
 			} else {
-				if (! exists $ngis{ $autlc }) { $gis{ $autlc } = (); }
+				if (! exists $ngis{ $autlc }) { $ngis{ $autlc } = (); }
 
 				# Save the author
 				push @{ $ngis{ $autlc } }, $aff;
@@ -78,16 +89,138 @@ foreach my $infile (@infiles) {
 	}
 }
 
-# DEBUG
-foreach my $author (sort { $a cmp $b } keys %gis) {
-	print $author, "\n";
+open my $gis_handle, ">:utf8", "gis-2005.csv";
+
+# Unique names
+my %unique_gis = ();
+
+foreach my $author (keys %gis) {
+	# Covert a name into it canonicalize form
+	my $canon_name_short = `$canon_prog -i \"$author\" -m name -f 3`; chomp $canon_name_short;
+	# Covert a name into it canonicalize form
+	my $canon_name_long  = `$canon_prog -i \"$author\" -m name -f 2`; chomp $canon_name_long;
+	# Save it as unique name
+	if (! exists $unique_gis{ $canon_name_short }) { $unique_gis{ $canon_name_short } = (); }
+	# Save it
+	push @{ $unique_gis{ $canon_name_short } }, $canon_name_long;
 }
 
-print "--------------------------\n";
+foreach my $author (sort {$a cmp $b} keys %unique_gis) {
+	print $gis_handle $author;
 
-foreach my $author (sort { $a cmp $b } keys %ngis) {
-	print $author, "\n";
+	# Possible name
+	foreach my $name (@{ $unique_gis{ $author } }) {
+		print $gis_handle ":", $name;
+	}
+
+	# Newline
+	print $gis_handle "\n";
 }
+
+close $gis_handle;
+
+open my $ngis_handle, ">:utf8", "ngis-2005.csv";
+
+# Unique names
+my %unique_ngis		= ();
+# Affiliation
+my %unique_ngis_aff	= ();
+
+foreach my $author (keys %ngis) {
+	# Covert a name into it canonicalize form
+	my $canon_name_short = `$canon_prog -i \"$author\" -m name -f 3`; chomp $canon_name_short;
+
+	# Covert a name into it canonicalize form
+	my $canon_name_long  = `$canon_prog -i \"$author\" -m name -f 2`; chomp $canon_name_long;
+	# Save it as unique name
+	if (! exists $unique_ngis{ $canon_name_short }) { $unique_ngis{ $canon_name_short } = (); }
+	# Save it
+	push @{ $unique_ngis{ $canon_name_short } }, $canon_name_long;
+
+	foreach my $aff (@{ $ngis{ $author } }) {
+		# Save it
+		if (! exists $unique_ngis_aff{ $canon_name_short }) { $unique_ngis_aff{ $canon_name_short } = (); }
+		# Save it
+		push @{ $unique_ngis_aff{ $canon_name_short } }, $aff;
+	}
+}
+
+foreach my $author (sort {$a cmp $b} keys %unique_ngis) {
+	print $ngis_handle $author;
+
+	# Possible name
+	foreach my $name (@{ $unique_ngis{ $author } }) {
+		print $ngis_handle ":", $name;
+	}
+
+	# Possible affiliation 
+	foreach my $aff (@{ $unique_ngis_aff{ $author } }) {
+		print $ngis_handle ":", $aff;
+	}
+
+	# Newline
+	print $ngis_handle "\n";
+}
+
+close $ngis_handle;
+
+open my $geo_handle, ">:utf8", "geo-2005.csv";
+
+# Unique place or country names
+my %unique_loc = ();
+
+foreach my $author (sort {$a cmp $b} keys %unique_ngis) {
+	# Possible affiliation 
+	foreach my $aff (@{ $unique_ngis_aff{ $author } }) {
+		my @words = split /\s+/, $aff;
+		
+		my $found = 0;
+
+		# Check each word against the dictionary
+		for (my $i = 0; $i < scalar @words; $i++) {
+			my $word = $words[ $i ] ;
+
+			# Remove punctuation
+			$word =~ s/[^\w]//g;
+			# Lower case
+			$word = lc $word;
+
+			if (exists $countries{ $word }) {
+				if (! exists $unique_loc{ $word }) { $unique_loc{ $word } = 0; }
+				$unique_loc{ $word } += 1;
+				$found = 1;
+				last ;
+			}
+		}
+
+		if ($found == 1) { next ;}
+
+		# Check each word against the dictionary
+		for (my $i = 0; $i < scalar @words; $i++) {
+			my $word = $words[ $i ] ;
+
+			# Remove punctuation
+			$word =~ s/[^\w]//g;
+			# Lower case
+			$word = lc $word;
+
+			if (exists $places{ $word }) {
+				if (! exists $unique_loc{ $word }) { $unique_loc{ $word } = 0; }
+				$unique_loc{ $word } += 1;
+				$found = 1;
+				last ;
+			}
+		}
+
+	}
+
+}
+
+foreach my $place (sort {$a cmp $b} keys %unique_loc) {
+	print $geo_handle $place, ":", $unique_loc{ $place }, "\n";
+}
+
+close $geo_handle;
 
 sub GetFilesInDir
 {
@@ -164,8 +297,7 @@ sub ParseParscit
 			# Need to remove unsafe character
 			$fullname =~ s/"|'|`//g;
 			# Need to canonicalize the fullname
-			# my $canon_name = `$clean_prog -i \"$fullname\" -m name`; chomp $canon_name;
-			my $canon_name = $fullname;
+			my $canon_name = `$clean_prog -i \"$fullname\" -m name`; chomp $canon_name;
 
 			# Skip blank name
 			if ($canon_name eq '') { next ; } 
@@ -181,8 +313,7 @@ sub ParseParscit
 				# Need to remove unsafe character
 				$tmp =~ s/"|'|`//g;
 				# Need to canonicalize the insitutional name
-				# my $canon_inst = `$clean_prog -i \"$tmp\" -m org`; chomp $canon_inst;
-				my $canon_inst = $tmp;
+				my $canon_inst = `$clean_prog -i \"$tmp\" -m org`; chomp $canon_inst;
 				
 				if ($canon_inst ne '') {
 					my %tmp = ();
@@ -210,8 +341,7 @@ sub ParseParscit
 			# Need to remove unsafe character
 			$tmp =~ s/"|'|`//g;
 			# Need to canonicalize the insitutional name
-			# my $canon_inst = `$clean_prog -i \"$tmp\" -m org`; chomp $canon_inst;
-			my $canon_inst = $tmp;
+			my $canon_inst = `$clean_prog -i \"$tmp\" -m org`; chomp $canon_inst;
 			
 			if ($canon_inst ne '') {
 				# Save the institution
@@ -248,5 +378,34 @@ sub SetNodeText
 	$node->set_text($value);
 }
 
+sub ReadDict
+{
+	my ($dictfile) = @_;
+
+	my $dict_handle = undef;
+	# Open the dictionary file from Parscit
+  	open ($dict_handle, "<:utf8", $dictfile) || die "Could not open dict file $dictfile: $!";
+
+	# Which dictionary is it?
+	my $dict_pointer = undef;
+	
+	while (<$dict_handle>) 
+	{
+    	if		(/^\#\# Place/)		{ $dict_pointer = \%places; }		# Place names
+    	elsif	(/^\#\# Country/) 	{ $dict_pointer = \%countries; }	# Country names
+    	elsif	(/^\#/)				{ next; }
+    	else 
+		{
+      		chop;
+			
+			# Words in dictionary
+			my $key = $_;
+			# Save
+			$dict_pointer->{ $key } = 0;
+    	}
+  	}
+
+	close ($dict_handle);
+}
 
 
