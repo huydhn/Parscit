@@ -260,7 +260,7 @@ sub AAFeatureExtraction
 	my $features = "";
 
 	# Features between x authors
-	foreach my $author (keys %{ $aut_rc })
+	foreach my $author (keys %{ $aut_rc })	
 	{
 		my @aut_tokens	= split /\s/, $author;
 		my $author_nb	= join '|||', @aut_tokens;
@@ -272,9 +272,16 @@ sub AAFeatureExtraction
 
 		# TODO Experimental
 		my $min_dist	= LONG_MAX;
+		my $min_x		= undef;
+		my $min_y		= undef;
+		# Location of the nearst affiliation
+		my $min_page	= undef;
+		my $min_section	= undef;
+		my $min_para	= undef;
+		my $min_line	= undef;
 
 		# Find the nearest affiliation (below)
-		for (my $i = 0; $i < scalar @{ $aff_rc }; $i++) {			
+		for (my $i = 0; $i < scalar @{ $aff_rc }; $i++) {						
 			# Skip above affiliations
 			if ($aut_rc->{ $author }->page > $aff_rc->[ $i ]->page) { 
 				next ; 
@@ -301,6 +308,7 @@ sub AAFeatureExtraction
 			}
 
 			my $aff   = $affs->[ $i ];
+	
 
 			my $aut_x = ($aut_rc->{ $author }->left + $aut_rc->{ $author }->right) / 2;
 			my $aut_y = ($aut_rc->{ $author }->top + $aut_rc->{ $author }->bottom) / 2;
@@ -312,6 +320,10 @@ sub AAFeatureExtraction
 			my $dis_y = abs( $aut_y - $aff_y );
 			# Distance between an author and an affiliation
 			my $distance = sqrt( $dis_x * $dis_x + $dis_y * $dis_y );
+
+			# print "AFFILIATION: ", $aff, "\n";
+			# print "DISTANCE: ", $distance, "\n";
+			# print "DISTY: ", $dis_y, "\t", $dis_y * 1.5, "\n";
 
 			# Check if it is the minimum distance in x axis
 			# if ($dis_x < $min_dist_x)
@@ -327,15 +339,110 @@ sub AAFeatureExtraction
 			# 	$min_aff_y	= $aff;
 			# }
 
-			# Check if it is the minimum distances
-			if ($distance < $min_dist) 
-			{
-				$min_dist  = $distance;
+			# Favour logically near affiliation
+			# if ((! defined $min_page) || ($aff_rc->[ $i ]->page < $min_page)) {
+			#
+			#	$min_dist = $distance;
+			#	# Save the identity
+			#	$min_aff_y = $aff;
+			#	$min_aff_x = $aff;
+			#	# Save the logical distance
+			#	$min_page	 = $aff_rc->[ $i ]->page;
+			#	$min_section = $aff_rc->[ $i ]->section;
+			#	$min_para	 = $aff_rc->[ $i ]->para;
+			#	$min_line	 = $aff_rc->[ $i ]->line;
+			#
+			#	# Continue
+			#	next ;
+			# }
+			
+			# if (($aff_rc->[ $i ]->page == $min_page)		&& 
+			#	($aff_rc->[ $i ]->section < $min_section)) {
+			#
+			#	$min_dist = $distance;
+			#	# Save the identity
+			#	$min_aff_y = $aff;
+			#	$min_aff_x = $aff;
+			#	# Save the logical distance
+			#	$min_page	 = $aff_rc->[ $i ]->page;
+			#	$min_section = $aff_rc->[ $i ]->section;
+			#	$min_para	 = $aff_rc->[ $i ]->para;
+			#	$min_line	 = $aff_rc->[ $i ]->line;
+
+				# Continue
+			#	next ;
+			# }
+
+			# if (($aff_rc->[ $i ]->page == $min_page)		&& 
+			#	($aff_rc->[ $i ]->section == $min_section)	&&
+			#	($aff_rc->[ $i ]->para < $min_para)) {
+			#
+			#	$min_dist = $distance;
+			#	# Save the identity
+			#	$min_aff_y = $aff;
+			#	$min_aff_x = $aff;
+			#	# Save the logical distance
+			#	$min_page	 = $aff_rc->[ $i ]->page;
+			#	$min_section = $aff_rc->[ $i ]->section;
+			#	$min_para	 = $aff_rc->[ $i ]->para;
+			#	$min_line	 = $aff_rc->[ $i ]->line;
+			#
+			#	# Continue
+			#	next ;
+			# }
+
+			# if (($aff_rc->[ $i ]->page == $min_page)		&& 
+			#	($aff_rc->[ $i ]->section == $min_section)	&&
+			#	($aff_rc->[ $i ]->para == $min_para)		&&
+			#	($aff_rc->[ $i ]->line < $min_line)) {
+			#
+			#	$min_dist = $distance;
+			#	# Save the identity
+			#	$min_aff_y = $aff;
+			#	$min_aff_x = $aff;
+			#	# Save the logical distance
+			#	$min_page	 = $aff_rc->[ $i ]->page;
+			#	$min_section = $aff_rc->[ $i ]->section;
+			#	$min_para	 = $aff_rc->[ $i ]->para;
+			#	$min_line	 = $aff_rc->[ $i ]->line;
+			#
+			#	# Continue
+			#	next ;
+			# }
+
+			# Favour the distance over y axix
+			if ((! defined $min_y) || ($dis_y * 1.5 < $min_y)) {
+				$min_dist = $distance;
+				$min_x	  = $dis_x;
+				$min_y	  = $dis_y;
+				# Save the identity
 				$min_aff_y = $aff;
 				$min_aff_x = $aff;
+				# Save the logical distance
+				$min_page	 = $aff_rc->[ $i ]->page;
+				$min_section = $aff_rc->[ $i ]->section;
+				$min_para	 = $aff_rc->[ $i ]->para;
+				$min_line	 = $aff_rc->[ $i ]->line;
+
+				next ;
+			}
+
+			# Check if it is the minimum distances
+			if (($distance < $min_dist) && ($dis_y < $min_y * 1.5)) {
+				$min_dist = $distance;
+				$min_x	  = $dis_x;
+				$min_y	  = $dis_y;
+				# Save the identity
+				$min_aff_y = $aff;
+				$min_aff_x = $aff;
+				# Save the logical distance
+				$min_page	 = $aff_rc->[ $i ]->page;
+				$min_section = $aff_rc->[ $i ]->section;
+				$min_para	 = $aff_rc->[ $i ]->para;
+				$min_line	 = $aff_rc->[ $i ]->line;
 			}
 		}
-	
+
 		# and y affiliation
 		for (my $i = 0; $i < scalar @{ $aff_rc }; $i++) {
 			my $aff   = $affs->[ $i ];

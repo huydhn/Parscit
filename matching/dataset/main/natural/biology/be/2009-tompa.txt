@@ -1,0 +1,8 @@
+Peter Tompa:Institute of Enzymology, Biological Research Center, Hungarian Academy of Sciences, Budapest, Hungary
+Monika Fuxreiter:Institute of Enzymology, Biological Research Center, Hungarian Academy of Sciences, Budapest, Hungary
+Christopher J. Oldfield:Center for Computational Biology and Bioinformatics, School of Medicine, Indiana University, Indianapolis, IN, USA
+Istvan Simon:Institute of Enzymology, Biological Research Center, Hungarian Academy of Sciences, Budapest, Hungary
+A. Keith Dunker:Center for Computational Biology and Bioinformatics, School of Medicine, Indiana University, Indianapolis, IN, USA
+Vladimir N. Uversky:Center for Computational Biology and Bioinformatics, School of Medicine, Indiana University, Indianapolis, IN, USA:Institute for Biological Instrumentation, Russian Academy of Sciences, Moscow Region, Russia:Institute for Intrinsically Disordered Protein Research, Indiana University School of Medicine, Indianapolis, IN, USA
+
+

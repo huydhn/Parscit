@@ -34,11 +34,17 @@ foreach my $infile (@infiles) {
 	# Parse the input filename
 	my ($filename, $directory, $suffix) = fileparse($infile, qr/\.[^.]*$/);
 	# Output
-	my $outfile_abs	= File::Spec->rel2abs($directory . "/" . $filename . ".txt");
+	my $outfile_abs1 = File::Spec->rel2abs($directory . "/" . $filename . ".txt");
+	my $outfile_abs2 = File::Spec->rel2abs($directory . "/" . $filename . "-aff.txt");
 
-	if (! Verify($outfile_abs)) { 
+	if (! Verify($outfile_abs1)) { 
 		# Create if needed
-		system("touch $outfile_abs");
+		system("touch $outfile_abs1");
+	}
+
+	if (! Verify($outfile_abs2)) { 
+		# Create if needed
+		system("touch $outfile_abs2");
 	}
 }
 

@@ -149,9 +149,9 @@ foreach my $author (sort {$a cmp $b} keys %unique_ngis) {
 	print $ngis_handle $author;
 
 	# Possible name
-	foreach my $name (@{ $unique_ngis{ $author } }) {
-		print $ngis_handle ":", $name;
-	}
+	# foreach my $name (@{ $unique_ngis{ $author } }) {
+	#	print $ngis_handle ":", $name;
+	# }
 
 	# Possible affiliation 
 	foreach my $aff (@{ $unique_ngis_aff{ $author } }) {

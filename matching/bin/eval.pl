@@ -91,22 +91,52 @@ foreach my $infile (@infiles) {
 
 	# Get the Parscit result
 	my ($aa, $ins) = GetParscit($directory . "/" . $filename . "-omni-parscit.xml");
+	# Unique author-affiliation
+	my %unique_aa = ();
+	
+	foreach my $author (keys %{ $aa }) {
+		# Covert a name into it canonicalize form
+		my $canon_name = `$canon_prog -i \"$author\" -m name -f 3`; chomp $canon_name;
+		# Skip blank
+		if ($canon_name eq '') { next; }
+		# Save the affiliation
+		if (! exists $unique_aa{ $canon_name }) { @{ $unique_aa{ $canon_name } } = (); }
+
+		foreach my $aff (@{ $aa->{$author } }) {
+			my $found = 0;
+
+			foreach my $tmp (@{ $unique_aa{ $canon_name } }) { if ($aff eq $tmp) { $found = 1; last; } }
+
+			if (0 == $found) { push @{ $unique_aa{ $canon_name } }, $aff; }
+		}
+	}
 
 	my $tmp = undef;
-
 	# Get the number of correct author discovered by Parscit
-	$tmp = CorrectAuthor($aa_truth, $aa); 
+	$tmp = CorrectAuthor($aa_truth, $aa, \ %unique_aa); 
 	$author_correct_found += $tmp;
 	# Get the number of author discovered by Parscit
-	$author_found += scalar(keys %{ $aa });
+	if ($mode eq 'exact') {
+		$author_found += scalar(keys %{ $aa });
+	} elsif ($mode eq 'canon') {
+		$author_found += scalar(keys %unique_aa);
+	}
 	# Get the correct number of author
-	$author_true  += scalar(keys %{ $aa_truth});
+	$author_true += scalar(keys %{ $aa_truth});
 
 	if ($tmp != scalar(keys %{ $aa_truth })) { 
 		print "----------AUTHOR----------", "\n";
-		foreach my $author (sort { $a cmp $b } keys %{ $aa }) {
-			if (! exists $author_debug{ $author }) { print $author, "\n"; }
+		
+		if ($mode eq 'exact') {
+			foreach my $author (sort { $a cmp $b } keys %{ $aa }) {
+				if (! exists $author_debug{ $author }) { print $author, "\n"; }
+			}
+		} elsif ($mode eq 'canon') {
+			foreach my $author (sort { $a cmp $b } keys %unique_aa) {
+				if (! exists $author_debug{ $author }) { print $author, "\n"; }
+			}
 		}
+
 		print "--------------------------", "\n";
 		foreach my $author (sort { $a cmp $b } keys %{ $aa }) {
 			print $author, "\n";
@@ -145,19 +175,35 @@ foreach my $infile (@infiles) {
 	}
 	
 	# Get the number of correct author-affiliation discovered by Parscit
-	$tmp = CorrectMatching($aa_truth, $aa);
+	$tmp = CorrectMatching($aa_truth, $aa, \ %unique_aa);
 	$matching_correct_found += $tmp;
 	# Get the number of author-affiliation discovered by Parscit
-	foreach my $author (keys %{ $aa }) { $matching_found += scalar @{ $aa->{ $author } }; }
+	if ($mode eq 'exact') {	
+		foreach my $author (keys %{ $aa }) { $matching_found += scalar @{ $aa->{ $author } }; }
+	} elsif ($mode eq 'canon') {
+		foreach my $author (keys %unique_aa) { $matching_found += scalar @{ $unique_aa{ $author } }; }
+	}
 	# Get the correct number of author-affiliation
 	foreach my $author (keys %{ $aa_truth }) { $matching_true += scalar @{ $aa_truth->{ $author } }; }
+	# Prevent incorrect matching (happen sometimes)
+	$matching_correct_found = ($matching_correct_found > $matching_true) ? $matching_true : $matching_correct_found;
 
 	print "---------MATCHING---------", "\n";
-	foreach my $author (sort { $a cmp $b } keys %{ $aa }) {
-		foreach my $aff (sort { $a cmp $b } @{ $aa->{ $author } }) {
-			if (! exists $matching_debug{ $author . "---" . $aff }) { print $author . "---" . $aff, "\n"; }
+
+	if ($mode eq 'exact') {
+		foreach my $author (sort { $a cmp $b } keys %{ $aa }) {
+			foreach my $aff (sort { $a cmp $b } @{ $aa->{ $author } }) {
+				if (! exists $matching_debug{ $author . "---" . $aff }) { print $author . "---" . $aff, "\n"; }
+			}
+		}
+	} elsif ($mode eq 'canon') {
+		foreach my $author (sort { $a cmp $b } keys %unique_aa) {
+			foreach my $aff (sort { $a cmp $b } @{ $unique_aa{ $author } }) {
+				if (! exists $matching_debug{ $author . "---" . $aff }) { print $author . "---" . $aff, "\n"; }
+			}
 		}
 	}
+
 	print "--------------------------", "\n";
 	foreach my $author (sort { $a cmp $b } keys %{ $aa }) {
 		foreach my $aff (sort { $a cmp $b } @{ $aa->{ $author } }) {
@@ -225,20 +271,22 @@ print "F1       : ", $f1 * 100, "%", "\n";
 
 sub CorrectAuthor
 {
-	my ($aa_truth, $aa) = @_;
+	my ($aa_truth, $aa, $unique_aa) = @_;
 
 	# Number of correct author
 	my $total = 0;
 
-	foreach my $author (keys %{ $aa }) {
-		if ($mode eq 'exact') {
+	if ($mode eq 'exact') {
+		foreach my $author (keys %{ $aa }) {
 			if (exists $aa_truth->{ $author }) { 
 				$total += 1;
 				
 				# DEBUG
 				$author_debug{ $author } = 0;
 			}
-		} elsif ($mode eq 'canon') {
+		}
+	} elsif ($mode eq 'canon') {
+		foreach my $author (keys %{ $unique_aa }) {
 			foreach my $true_author (keys %{ $aa_truth }) {
 				# Need to compare these two names
 				my $cmp_result = `$compare_prog -f \"$author\" -s \"$true_author\" -m name`; chomp $cmp_result;
@@ -253,7 +301,7 @@ sub CorrectAuthor
 				}	
 			}
 		}
-	}
+	}		
 
 	# Done
 	return $total;
@@ -282,10 +330,12 @@ sub CorrectAffiliation
 				}
 			}
 		} elsif ($mode eq 'canon') {
-			my $canon_affiliation = `$canon_prog -i \"$affiliation\" -m org`; chomp $canon_affiliation;
+			# my $canon_affiliation = `$canon_prog -i \"$affiliation\" -m org`; chomp $canon_affiliation;
+			my $canon_affiliation = $affiliation;
 
 			foreach my $true_affiliation (@{ $ins_truth }) {
-				my $canon_true_affiliation = `$canon_prog -i \"$true_affiliation\" -m org`; chomp $canon_true_affiliation;
+				# my $canon_true_affiliation = `$canon_prog -i \"$true_affiliation\" -m org`; chomp $canon_true_affiliation;
+				my $canon_true_affiliation = $true_affiliation;
 
 				# Need to compare these two names
 				my $cmp_result = `$compare_prog -f \"$canon_affiliation\" -s \"$canon_true_affiliation\" -m org`; chomp $cmp_result;
@@ -309,13 +359,13 @@ sub CorrectAffiliation
 
 sub CorrectMatching
 {
-	my ($aa_truth, $aa) = @_;
+	my ($aa_truth, $aa, $unique_aa) = @_;
 
 	# Number of correct matching
 	my $total = 0;
 
-	foreach my $author (keys %{ $aa }) {
-		if ($mode eq 'exact') {
+	if ($mode eq 'exact') {
+		foreach my $author (keys %{ $aa }) {
 			if (exists $aa_truth->{ $author }) { 			
 				foreach my $affiliation (@{ $aa->{ $author } }) {
 					foreach my $true_affiliation (@{ $aa_truth->{ $author } }) {
@@ -333,36 +383,51 @@ sub CorrectMatching
 					}
 				}			
 			}
-		} elsif ($mode eq 'canon') {			
+		}
+	} elsif ($mode eq 'canon') {
+		foreach my $author (keys %{ $unique_aa }) {
+			my $sim_score = 0.0;
+			my $true_name = undef;
+			
+			# Find the best match
 			foreach my $true_author (keys %{ $aa_truth }) {
 				# Need to compare these two names
-				my $cmp_result = `$compare_prog -f \"$author\" -s \"$true_author\" -m name`; chomp $cmp_result;
+				my $cmp_result = `$compare_prog -f \"$author\" -s \"$true_author\" -m name -v`; chomp $cmp_result;
+				# Verbose mode
+				my @field = split /:/, $cmp_result;				
 
 				# A match is found
-				if ($cmp_result eq '1') {										
-					foreach my $affiliation(@{ $aa->{ $author } }) {					
-						my $canon_affiliation = `$canon_prog -i \"$affiliation\" -m org`; chomp $canon_affiliation;
+				if (($field[ 0 ] eq '1') && ($field[ 1 ] > $sim_score)) {
+					$true_name = $true_author;
+					$sim_score = $field[ 1 ];
+				}
+			}
+			
+			# A `best` match is found
+			if (defined $true_name) {
+				foreach my $affiliation(@{ $unique_aa->{ $author } }) {
+					# my $canon_affiliation = `$canon_prog -i \"$affiliation\" -m org`; chomp $canon_affiliation;
+					my $canon_affiliation = $affiliation;
 
-						foreach my $true_affiliation (@{ $aa_truth->{ $true_author } }) {
-							my $canon_true_affiliation = `$canon_prog -i \"$true_affiliation\" -m org`; chomp $canon_true_affiliation;
+					foreach my $true_affiliation (@{ $aa_truth->{ $true_name } }) {
+						# my $canon_true_affiliation = `$canon_prog -i \"$true_affiliation\" -m org`; chomp $canon_true_affiliation;
+						my $canon_true_affiliation = $true_affiliation;
 
-							# Need to compare these two names
-							my $cmp_result_aff = `$compare_prog -f \"$canon_affiliation\" -s \"$canon_true_affiliation\" -m org`; chomp $cmp_result_aff;
+						# Need to compare these two names
+						my $cmp_result_aff = `$compare_prog -f \"$canon_affiliation\" -s \"$canon_true_affiliation\" -m org`; chomp $cmp_result_aff;
 
-							# A match is found
-							if ($cmp_result_aff eq '1') {
-								# DEBUG
-								$matching_debug{ $author . "---" . $affiliation } = 0;
+						# A match is found
+						if ($cmp_result_aff eq '1') {
+							# DEBUG
+							$matching_debug{ $author . "---" . $affiliation } = 0;
 
-								$total += 1;
-								last ;
-							}
+							$total += 1;
+							last ;
 						}
 					}
-
-					last ;
-				}	
-			}
+				}
+			}	
+		
 		}
 	}
 
@@ -626,7 +691,7 @@ sub NormalizeAuthorName
     my ($name) = @_;
 
     $name =~ s/\.\-/-/g;
-	$name =~ s/[\,\.]/ /g;
+	$name =~ s/[\.]/ /g;
     $name =~ s/  +/ /g;
 	$name =~ s/^\s+|\s+$//g;
 
