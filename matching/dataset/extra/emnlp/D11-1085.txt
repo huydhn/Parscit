@@ -1,5 +1,0 @@
-Zhifei Li:Google Research Mountain View, CA 94043, USA
-Jason Eisner:Johns Hopkins University Baltimore, MD 21218, USA
-Ziyuan Wang:Johns Hopkins University Baltimore, MD 21218, USA
-Sanjeev Khudanpur:Johns Hopkins University Baltimore, MD 21218, USA
-Brian Roark:Oregon Health & Science University Beaverton, Oregon 97006, USA

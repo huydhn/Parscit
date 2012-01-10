@@ -1,6 +1,0 @@
-Zhenyong Fu:Department of Computer Science, City University of Hong Kong:Department of Computer Science and Engineering, Shanghai Jiao Tong University
-Zhiwu Lu:Institute of Computer Science and Technology, Peking University
-Horace H.S. Ip:Department of Computer Science, City University of Hong Kong
-Yuxin Peng:Institute of Computer Science and Technology, Peking University
-Hongtao Lu:Department of Computer Science and Engineering, Shanghai Jiao Tong University
-

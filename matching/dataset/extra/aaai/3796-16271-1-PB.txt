@@ -1,6 +1,0 @@
-Y.C. Law:Department of Computer Science and Engineering The Chinese University of Hong Kong, Shatin, N.T., Hong Kong
-J.H.M. Lee:Department of Computer Science and Engineering The Chinese University of Hong Kong, Shatin, N.T., Hong Kong
-M.H.C. Woo:Department of Computer Science and Engineering The Chinese University of Hong Kong, Shatin, N.T., Hong Kong
-T. Walsh:NICTA & UNSW Sydney, Australia
-
-

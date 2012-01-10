@@ -1,9 +1,0 @@
-Wenliang Chen:Human Language Technology, Institute for Infocomm Research, Singapore:National Institute of Information and Communications Technology (NICT), Japan
-Jun’ichi Kazama:National Institute of Information and Communications Technology (NICT), Japan
-Min Zhang:Human Language Technology, Institute for Infocomm Research, Singapore
-Yoshimasa Tsuruoka:School of Information Science, JAIST, Japan:National Institute of Information and Communications Technology (NICT), Japan
-Yujie Zhang:Beijing Jiaotong University, China:National Institute of Information and Communications Technology (NICT), Japan
-Yiou Wang:National Institute of Information and Communications Technology (NICT), Japan
-Kentaro Torisawa:National Institute of Information and Communications Technology (NICT), Japan
-Haizhou Li:Human Language Technology, Institute for Infocomm Research, Singapore
-

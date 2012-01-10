@@ -1,7 +1,0 @@
-Pengcheng Xiong:College of Computing, Georgia Institute of Technology 266 Ferst Dr., Atlanta, GA 30332, USA
-Zhikui Wang:Hewlett Packard Laboratories Palo Alto, CA 94304 USA
-Simon Malkowski:College of Computing, Georgia Institute of Technology 266 Ferst Dr., Atlanta, GA 30332, USA
-Qingyang Wang:College of Computing, Georgia Institute of Technology 266 Ferst Dr., Atlanta, GA 30332, USA
-Deepal Jayasinghe:College of Computing, Georgia Institute of Technology 266 Ferst Dr., Atlanta, GA 30332, USA
-Calton Pu:College of Computing, Georgia Institute of Technology 266 Ferst Dr., Atlanta, GA 30332, USA
-

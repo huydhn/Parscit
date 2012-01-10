@@ -1,6 +1,0 @@
-Daniele Quercia:Computer Laboratory, University of Cambridge, Cambridge, CB3 0FD, UK.
-Ilias Leontiadis:Computer Laboratory, University of Cambridge, Cambridge, CB3 0FD, UK.
-Liam McNamara:Computer Laboratory, University of Cambridge, Cambridge, CB3 0FD, UK.
-Cecilia Mascolo:Computer Laboratory, University of Cambridge, Cambridge, CB3 0FD, UK.
-Jon Crowcroft:Computer Laboratory, University of Cambridge, Cambridge, CB3 0FD, UK.
-

@@ -132,6 +132,9 @@ sub parse
 	# otherwise it will be off by default
 	my $tab_flag = 0;
 
+	# Fake run index
+	my $index = 1;
+
 	# Check if there's any run
 	my @all_runs = $node->descendants( $tag_list->{ 'RUN' });
 	# There is not
@@ -271,6 +274,9 @@ sub parse
 
 						# Fake run 
 						my $run = new Omni::Omnirun();
+
+						# Indicate that it is a faked run
+						$run->set_fake($index);
 						
 						# If the tab flag is on
 						$run->set_previous_tab($tab_flag);
@@ -339,6 +345,9 @@ sub parse
 					# Fake run
 					my $run = new Omni::Omnirun();
 
+					# Indicate that it is a faked run
+					$run->set_fake($index);
+
 					# If the tab flag is on
 					$run->set_previous_tab($tab_flag);
 		
@@ -362,7 +371,10 @@ sub parse
 						# Tab flag - on
 						$tab_flag = 1;
 					}
-				}				
+				}
+
+				# Update fake index
+				$index++;
 			}
 			elsif  ($xpath =~ m/\/$space_tag$/)
 			{

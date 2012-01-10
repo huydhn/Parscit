@@ -1,6 +1,0 @@
-Lukas Michelbacher:Institute for NLP University of Stuttgart
-Alok Kothari:Institute for NLP University of Stuttgart
-Martin Forst:Microsoft
-Christina Lioma:Institute for NLP University of Stuttgart
-Hinrich Schutze:Institute for NLP University of Stuttgart
-

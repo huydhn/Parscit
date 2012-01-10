@@ -1,4 +1,0 @@
-David Burkett:Computer Science Division University of California, Berkeley
-David Hall:Computer Science Division University of California, Berkeley
-Dan Klein:Computer Science Division University of California, Berkeley
-

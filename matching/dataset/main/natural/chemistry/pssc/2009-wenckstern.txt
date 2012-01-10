@@ -1,0 +1,24 @@
+H. von Wenckstern:Institut fur Experimentelle Physik II, Universitat Leipzig, Linnestr. 5, D-04103 Leipzig, Germany
+H. Schmidt:Institut fur Experimentelle Physik II, Universitat Leipzig, Linnestr. 5, D-04103 Leipzig, Germany
+M. Brandt:Institut fur Experimentelle Physik II, Universitat Leipzig, Linnestr. 5, D-04103 Leipzig, Germany
+A. Lajn:Institut fur Experimentelle Physik II, Universitat Leipzig, Linnestr. 5, D-04103 Leipzig, Germany
+R. Pickenhain:Institut fur Experimentelle Physik II, Universitat Leipzig, Linnestr. 5, D-04103 Leipzig, Germany
+M. Lorenz:Institut fur Experimentelle Physik II, Universitat Leipzig, Linnestr. 5, D-04103 Leipzig, Germany
+M. Grundmann:Institut fur Experimentelle Physik II, Universitat Leipzig, Linnestr. 5, D-04103 Leipzig, Germany
+D.M. Hofmann:I.Physikalisches Institut JLU-Giessen, Heinrich-Buff-Ring 16, D-35392 Gieben, Germany
+A. Polity:I.Physikalisches Institut JLU-Giessen, Heinrich-Buff-Ring 16, D-35392 Gieben, Germany
+B.K. Meyer:I.Physikalisches Institut JLU-Giessen, Heinrich-Buff-Ring 16, D-35392 Gieben, Germany
+H. Saal:Institut fur Anorganische Chemie, Leibniz Universitat Hannover, Callinstr. 9, 30167 Hannover, Germany
+M. Binnewies:Institut fur Anorganische Chemie, Leibniz Universitat Hannover, Callinstr. 9, 30167 Hannover, Germany
+A. Borger:Institut fur Physikalische Chemie, Technische Universitat Braunschweig, Hans-Sommer-Str. 10, 38106 Braunschweig, Germany
+K.-D. Becker:Institut fur Physikalische Chemie, Technische Universitat Braunschweig, Hans-Sommer-Str. 10, 38106 Braunschweig, Germany
+V.A. Tikhomirov:Theoretische Chemie, Leibniz Universitat Hannover, Callinstr. 3A, 30167 Hannover, Germany
+K. Jug:Theoretische Chemie, Leibniz Universitat Hannover, Callinstr. 3A, 30167 Hannover, Germany
+
+
+
+
+
+
+
+

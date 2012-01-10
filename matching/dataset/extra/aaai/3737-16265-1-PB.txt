@@ -1,5 +1,0 @@
-Robert J. Woodward:Constraint Systems Laboratory, University of Nebraska-Lincoln, USA
-Shant Karakashian:Constraint Systems Laboratory, University of Nebraska-Lincoln, USA
-Berthe Y. Choueiry:Constraint Systems Laboratory, University of Nebraska-Lincoln, USA
-Christian Bessiere:LIRMM-CNRS, University of Montpellier, France
-

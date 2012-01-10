@@ -1,6 +1,0 @@
-Wenjie Wang:IBM Research China
-Hyunseok Chang: Alcatel-Lucent Bell Labs
-Adam Goodman:University of Michigan
-Eric Wucherer:University of Michigan
-Sugih Jamin:University of Michigan
-

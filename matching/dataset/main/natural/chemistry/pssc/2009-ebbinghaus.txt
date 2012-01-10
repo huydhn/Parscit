@@ -1,0 +1,8 @@
+Stefan G. Ebbinghaus:Martin-Luther-Universitat Halle-Wittenberg, Institut fur Chemie, Kurt-Mothes-Strasse 2, D-06120 Halle (Saale), Germany
+Hans-Peter Abicht:Martin-Luther-Universitat Halle-Wittenberg, Institut fur Chemie, Kurt-Mothes-Strasse 2, D-06120 Halle (Saale), Germany
+Richard Dronskowski:RWTH Aachen, Institut fur Anorganische Chemie, Landoltweg 1, D-52056 Aachen, Germany
+Thomas Muller:Martin-Luther-Universitat Halle-Wittenberg, Institut fur Chemie, Kurt-Mothes-Strasse 2, D-06120 Halle (Saale), Germany
+Armin Reller:Universitat Augsburg, Lehrstuhl fur Festkorperchemie, Universitatsstrasse 1, D-86159 Augsburg, Germany
+Anke Weidenkaff:Empa – Swiss Federal Laboratories for Materials Testing and Research, Ueberlandstrasse 129, CH-8600 Dubendorf, Switzerland
+
+

@@ -1,6 +1,0 @@
-Alessandro Moschitti:Department of Information Engineering and Computer Science University of Trento, 38123 Povo (TN), Italy
-Jennifer Chu-Carroll:IBM T.J. Watson Research Center P.O. Box 704, Yorktown Heights, NY 10598, U.S.A.
-James Fan:IBM T.J. Watson Research Center P.O. Box 704, Yorktown Heights, NY 10598, U.S.A.
-Siddharth Patwardhan:IBM T.J. Watson Research Center P.O. Box 704, Yorktown Heights, NY 10598, U.S.A.
-Giuseppe Riccardi:Department of Information Engineering and Computer Science University of Trento, 38123 Povo (TN), Italy
-

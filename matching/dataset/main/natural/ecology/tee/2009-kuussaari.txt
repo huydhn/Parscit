@@ -1,0 +1,16 @@
+Mikko Kuussaari:Finnish Environment Institute, Research Programme for Biodiversity, P.O. Box 140, FI-00251 Helsinki, Finland
+Riccardo Bommarco:Department of Ecology, Swedish University of Agricultural Sciences, Box 7044, SE-750 07 Uppsala, Sweden
+Risto K. Heikkinen:Finnish Environment Institute, Research Programme for Biodiversity, P.O. Box 140, FI-00251 Helsinki, Finland
+Aveliina Helm:Institute of Ecology and Earth Sciences, University of Tartu, Lai St 40, Tartu 51005, Estonia
+Jochen Krauss:Population Ecology Group, Department of Animal Ecology I, University of Bayreuth, Universitatsstrasse 30, D-95447 Bayreuth, Germany
+Regina Lindborg:Department of System Ecology, Stockholm University, SE-106 91 Stockholm, Sweden
+Erik Ockinger:Department of Ecology, Swedish University of Agricultural Sciences, Box 7044, SE-750 07 Uppsala, Sweden
+Meelis Partel:Institute of Ecology and Earth Sciences, University of Tartu, Lai St 40, Tartu 51005, Estonia
+Joan Pino:CREAF (Center for Ecological Research and Forestry Applications) and Unit of Ecology, Department of Animal Biology, Plant Biology and Ecology, Autonomous University of Barcelona, E-08193 Bellaterra, Spain
+Ferran Roda:CREAF (Center for Ecological Research and Forestry Applications) and Unit of Ecology, Department of Animal Biology, Plant Biology and Ecology, Autonomous University of Barcelona, E-08193 Bellaterra, Spain
+Constanti Stefanescu:Butterfly Monitoring Scheme, Museu de Granollers de Ciencies Naturals, Francesc Macia, 51, E-08402 Granollers, Spain
+Tiit Teder:Institute of Ecology and Earth Sciences, University of Tartu, Lai St 40, Tartu 51005, Estonia
+Martin Zobel:Institute of Ecology and Earth Sciences, University of Tartu, Lai St 40, Tartu 51005, Estonia
+Ingolf Steffan-Dewenter:Population Ecology Group, Department of Animal Ecology I, University of Bayreuth, Universitatsstrasse 30, D-95447 Bayreuth, Germany
+
+

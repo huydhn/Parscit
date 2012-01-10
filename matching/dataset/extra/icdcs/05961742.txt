@@ -1,4 +1,0 @@
-Sukhyun Song:UMIACS and Department of Computer Science, University of Maryland
-Pete Keleher:UMIACS and Department of Computer Science, University of Maryland
-Alan Sussman:UMIACS and Department of Computer Science, University of Maryland
-

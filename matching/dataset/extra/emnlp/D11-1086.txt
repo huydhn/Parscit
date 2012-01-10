@@ -1,4 +1,0 @@
-Jagadeesh Jagarlamudi:University of Maryland College Park, USA
-Raghavendra Udupa:Microsoft Research Bangalore, India
-Hal Daume III:University of Maryland College Park, USA
-Abhijit Bhole:Microsoft Research Bangalore, India

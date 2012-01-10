@@ -57,6 +57,7 @@ sub new
 					'_underline'	=> undef,
 					'_bold'			=> undef,
 					'_italic'		=> undef,
+					'_fake'			=> 0,
 					'_tab'			=> undef,	# the number of tab inside a run
 					'_ptab'			=> undef,	# previous character is a tab, not a space
 					'_ltab'			=> undef,	# last character is a tab, not a space
@@ -222,6 +223,16 @@ sub parse
 
 	# Save the tab flag
 	$tmp_tab_flag = $tab_flag;
+}
+
+sub set_fake {
+	my ($self, $fake) = @_;
+	$self->{ '_fake' } = $fake;
+}
+
+sub is_fake {
+	my ($self) = @_;
+	return $self->{ '_fake' };
 }
 
 sub add_word

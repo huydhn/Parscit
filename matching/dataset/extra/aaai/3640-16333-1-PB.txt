@@ -1,5 +1,0 @@
-Peng Cui:Tsinghua National Lab. for Info. Science and Tech. Department of Computer Science and Technology Tsinghua University, Beijing 100084, China 
-Fei Wang:Healthcare Transformation Group IBM T J Watson Research Center Hawthorne, USA
-Shiqiang Yang:Department of Computer Science and Technology Tsinghua University, Beijing 100084, China
-Lifeng Sun:Department of Computer Science and Technology Tsinghua University, Beijing 100084, China
-

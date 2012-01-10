@@ -1,8 +1,0 @@
-Eyal Bin:IBM Haifa Research Lab
-Ofer Biran:IBM Haifa Research Lab
-Odellia Boni:IBM Haifa Research Lab
-Erez Hadad:IBM Haifa Research Lab
-Eliot K. Kolodner:IBM Haifa Research Lab
-Yosef Moatti:IBM Haifa Research Lab
-Dean H. Lorenz:IBM Haifa Research Lab
-

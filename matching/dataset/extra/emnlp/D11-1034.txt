@@ -1,4 +1,0 @@
-Gennadi Lembersky:Department of Computer Science, University of Haifa, 31905 Haifa, Israel
-Noam Ordan:Department of Computer Science, University of Haifa, 31905 Haifa, Israel
-Shuly Wintner:Department of Computer Science, University of Haifa, 31905 Haifa, Israel
-

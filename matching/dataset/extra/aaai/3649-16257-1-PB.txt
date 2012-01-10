@@ -1,5 +1,0 @@
-Gilles Trombettoni:INRIA, I3S, Universite Nice–Sophia (France)
-Ignacio Araya:UTFSM (Chile)
-Bertrand Neveu:Imagine LIGM Universite Paris–Est (France)
-Gilles Chabert:LINA, EMN (France)
-

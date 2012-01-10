@@ -1,6 +1,0 @@
-David Mimno:Princeton University Princeton, NJ 08540
-Hanna M. Wallach:University of Massachusetts, Amherst Amherst, MA 01003
-Edmund Talley:National Institutes of Health Bethesda, MD 20892
-Miriam Leenders:National Institutes of Health Bethesda, MD 20892
-Andrew McCallum:University of Massachusetts, Amherst Amherst, MA 01003
-

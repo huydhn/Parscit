@@ -1,7 +1,0 @@
-Zhenghua Li:Research Center for Social Computing and Information Retrieval Harbin Institute of Technology, China
-Min Zhang:Institute for Infocomm Research, Singapore
-Wanxiang Che:Research Center for Social Computing and Information Retrieval Harbin Institute of Technology, China
-Ting Liu:Research Center for Social Computing and Information Retrieval Harbin Institute of Technology, China
-Wenliang Chen:Institute for Infocomm Research, Singapore
-Haizhou Li:Institute for Infocomm Research, Singapore
-

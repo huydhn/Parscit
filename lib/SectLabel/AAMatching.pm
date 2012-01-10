@@ -80,9 +80,9 @@ sub AAMatching
 	ReadDict($FindBin::Bin . "/../" . $SectLabel::Config::dictFile);
 
 	# Authors
-	my ($aut_features, $aut_rc_features) = AuthorFeatureExtraction($aut_lines, $aut_addrs);
+	my ($aut_features, $aut_rc_features, $fake) = AuthorFeatureExtraction($aut_lines, $aut_addrs);
 	# Call CRF
-	my ($aut_signal, $aut_rc) = AuthorExtraction($aut_features, $aut_rc_features);
+	my ($aut_signal, $aut_rc) = AuthorExtraction($aut_features, $aut_rc_features, $fake);
 
 	# Affiliations
 	my ($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column) = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
@@ -1025,7 +1025,7 @@ sub NormalizeAffiliationName
 # Extract author name and their signal using crf
 sub AuthorExtraction
 {
-	my ($features, $rc_features) = @_;
+	my ($features, $rc_features, $fake) = @_;
 
 	# Temporary input file for CRF
 	my $infile	= BuildTmpFile("aut-input");
@@ -1063,11 +1063,13 @@ sub AuthorExtraction
 
 	# Some stop-word in the name
 	my %stopword = (
+		'by'		=> '1',
 		'dr'		=> '1', 
 		'jr'		=> '1',
 		'rn'		=> '1',
 		'mr'		=> '1',
 		'md'		=> '1',
+		'and'		=> '1',
 		'mph'		=> '1',
 		'mpd'		=> '1',
 		'rnt'		=> '1',
@@ -1104,6 +1106,8 @@ sub AuthorExtraction
 	my @author_rc	= ();
 	# Line counter
 	my $counter		= 0;
+	# Word counter or non-blank line
+	my $wrd_counter	= 0;
 	# Next to last authors
 	my %ntl_asg 	= ();
 	#
@@ -1209,6 +1213,8 @@ sub AuthorExtraction
 			$is_authors = 0;
 
 			next; 
+		} else {
+			$wrd_counter++;
 		}
 		
 		# Split the line
@@ -1230,10 +1236,15 @@ sub AuthorExtraction
 				# Lower case
 				$tmp	= lc $tmp;
 
-				if (! exists $stopword{ $tmp }) {
-					push @author_str, $content;
-					push @author_rc, $rc_lines[ $counter ];
-				}
+				# Check if these two words are actually in the same word
+				if (($fake->[ $wrd_counter - 1 ] == $fake->[ $wrd_counter - 2 ]) && ($fake->[ $wrd_counter - 1] != 0x00)) {
+					$author_str[ -1 ] = $author_str[ -1 ] . $content;
+				} else {
+					if (! exists $stopword{ $tmp }) {
+						push @author_str, $content;
+						push @author_rc, $rc_lines[ $counter ];
+					}
+				}				
 			}
 			# A signal
 			elsif ($class eq "signal")
@@ -1450,6 +1461,32 @@ sub NormalizeAuthorNames
 	# Constraint
 	if (scalar(@{ $author_str }) != scalar(@{ $author_rc })) { print STDERR "# It cannot happen, if you encounter it, please consider report it as a bug", "\n"; die; }
 
+	# Some stop-word in the name
+	my %stopword = (
+		'by'		=> '1',
+		'dr'		=> '1', 
+		'jr'		=> '1',
+		'rn'		=> '1',
+		'mr'		=> '1',
+		'md'		=> '1',
+		'and'		=> '1',
+		'mph'		=> '1',
+		'mpd'		=> '1',
+		'rnt'		=> '1',
+		'mrs'		=> '1',
+		'phd'		=> '1',
+		'miss'		=> '1',
+		'prof'		=> '1',
+		'dean'		=> '1',
+		'assoc'		=> '1',
+		'assit'		=> '1',
+		'doctor'	=> '1',
+		'doctoral'	=> '1',
+		'associate'	=> '1',
+		'professor'	=> '1',
+		'assistant'	=> '1'
+	);
+
 	# Mark the beginning of an author name
 	my $begin	= 1;
 	# and its corresponding relational features
@@ -1514,6 +1551,19 @@ sub NormalizeAuthorNames
 	    	$begin		= 1;
 
 	    	next;
+		}
+	
+		my $tmp = $token;
+		# Trimming
+		$tmp	=~ s/^\s+|\s+$//g;
+		# Only keep alphabet character
+		$tmp 	=~ s/[^\w]//g; 
+		# Lower case
+		$tmp	= lc $tmp;
+
+		# Skip stopword
+		if (exists $stopword{ $tmp }) {
+			next ;
 		}
 
 		# Mark the begin of an author name
@@ -2190,6 +2240,9 @@ sub AuthorFeatureExtraction
 	my $prev_sect = undef;
 	my $prev_para = undef;
 
+	# Fake run or not
+	my @fake = ();
+
 	# Each line contains many runs
 	for (my $counter = 0; $counter < scalar(@{ $aut_lines }); $counter++)
 	{
@@ -2317,6 +2370,9 @@ sub AuthorFeatureExtraction
 			# All words in the run
 			my $words = $run->get_objs_ref();
 
+			# Check if it's a faked run
+			my $is_faked = $run->is_fake();
+
 			# For each word
 			foreach my $word (@{ $words })
 			{
@@ -2397,7 +2453,7 @@ sub AuthorFeatureExtraction
 				$full_content	 =~ s/^\s+|\s+$//g;
 
 				# Skip blank run
-				if ($full_content eq "") { next; }
+				if ($full_content eq "") { next; }				
 
 				my @sub_content = ();
 				# This is the tricky part, one word e.g. name** will be splitted 
@@ -2434,6 +2490,9 @@ sub AuthorFeatureExtraction
 
 				foreach my $content (@sub_content)
 				{
+					# Indicate that this word belongs to a fake run or not
+					push @fake, $is_faked;
+
 					# Content
 					$features .= $content . "\t";
 				
@@ -2632,7 +2691,7 @@ sub AuthorFeatureExtraction
 		}
 	}
 
-	return ($features, $rc_features);
+	return ($features, $rc_features, \ @fake);
 }
 
 sub ReadDict 

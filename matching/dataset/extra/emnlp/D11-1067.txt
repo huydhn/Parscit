@@ -1,4 +1,0 @@
-Spence Green:Computer Science Department, Stanford University
-Marie-Catherine de Marneffe:Linguistics Department, Stanford University
-John Bauer:Computer Science Department, Stanford University
-Christopher D. Manning:Computer Science Department, Stanford University:Linguistics Department, Stanford University

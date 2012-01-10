@@ -1,5 +1,0 @@
-Andre F. T. Martins:School of Computer Science, Carnegie Mellon University, Pittsburgh, PA 15213, USA:Instituto de Telecomunicacoes Instituto Superior Tecnico, Lisboa, Portugal
-Noah A. Smith:School of Computer Science, Carnegie Mellon University, Pittsburgh, PA 15213, USA
-Pedro M. Q. Aguiar:Instituto de Sistemas e Robotica, Instituto Superior T ́ cnico, Lisboa, Portugal
-Mario A. T. Figueiredo:Instituto de Telecomunicacoes Instituto Superior Tecnico, Lisboa, Portugal
-

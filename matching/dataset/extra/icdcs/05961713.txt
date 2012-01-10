@@ -1,4 +1,0 @@
-Leonardo Fialho:Department of Computer Architecture and Operating Systems University Autonoma of Barcelona, 08193, Barcelona, Spain
-Dolores Rexachs:Department of Computer Architecture and Operating Systems University Autonoma of Barcelona, 08193, Barcelona, Spain
-Emilio Luque:Department of Computer Architecture and Operating Systems University Autonoma of Barcelona, 08193, Barcelona, Spain
-

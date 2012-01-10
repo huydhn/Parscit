@@ -1,4 +1,0 @@
-Meir Goldenberg:ISE Department Ben-Gurion University (Israel)
-Nathan Sturtevant:CS Department University of Denver (USA)
-Ariel Felner:ISE Department Ben-Gurion University (Israel)
-Jonathan Schaeffer:CS Department University of Alberta (Canada)
