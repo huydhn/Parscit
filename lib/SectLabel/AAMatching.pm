@@ -85,7 +85,7 @@ sub AAMatching
 	my ($aut_signal, $aut_rc) = AuthorExtraction($aut_features, $aut_rc_features, $fake);
 
 	# Affiliations
-	my ($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column) = AffiliationFeatureExtraction($aff_lines, $aff_addrs);
+	my ($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column) = AffiliationFeatureExtraction($aff_lines, $aff_addrs, $aut_addrs);
 	# Call CRF
 	my ($aff_signal, $aff_rc, $affs) = AffiliationExtraction($aff_features, $aff_rc_features, $sect_has_column, $sect_num_column);	
 
@@ -1714,7 +1714,7 @@ sub NormalizeAuthorSignal
 # Differentiate features
 sub AffiliationFeatureExtraction
 {
-	my ($aff_lines, $aff_addrs) = @_;
+	my ($aff_lines, $aff_addrs, $aut_addrs) = @_;
 
 	# NOTE: Relational classifier features
 	my $rc_features		= "";
@@ -1784,6 +1784,7 @@ sub AffiliationFeatureExtraction
 	my $prev_page = undef;
 	my $prev_sect = undef;
 	my $prev_para = undef;
+	my $prev_line = undef;
 
 	# Each line contains many runs
 	for (my $counter = 0; $counter < scalar(@{ $aff_lines }); $counter++)
@@ -1799,14 +1800,29 @@ sub AffiliationFeatureExtraction
 				$prev_page = $aff_addrs->[ $counter ]->{ 'L1' };
 				$prev_sect = $aff_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
+				$prev_line = $aff_addrs->[ $counter ]->{ 'L4' };
 			} else {
+				my $has_author = 0;
+				# Is there any author line in between two affiliations
+				foreach my $author (@{ $aut_addrs }) {
+					if (($author->{ 'L1' } == $prev_page) &&
+						($author->{ 'L2' } == $prev_sect) &&
+						($author->{ 'L3' } == $prev_para) &&
+						($author->{ 'L4' } > $prev_line)) {
+						# Found an author line
+						$has_author = 1;
+						last ;
+					}
+				}
+
 				# Affiliations from different pages, columns 
 				# or greater then one paragraph away will be 
 				# separated immediately
 				if (($prev_page != $aff_addrs->[ $counter ]->{ 'L1' })		   ||
 					($prev_sect != $aff_addrs->[ $counter ]->{ 'L2' })		   ||
 					($prev_para <= $aff_addrs->[ $counter ]->{ 'L3' } - 0x02)  ||
-					(($prev_para == $aff_addrs->[ $counter ]->{ 'L3' } - 0x01) && (0x00 != $aff_addrs->[ $counter ]->{ 'L4' }))) 
+					(($prev_para == $aff_addrs->[ $counter ]->{ 'L3' } - 0x01) && (0x00 != $aff_addrs->[ $counter ]->{ 'L4' })) ||
+					(0x01 == $has_author)) 
 				{ 
 					$features .= "\n"; 
 				
@@ -1830,6 +1846,7 @@ sub AffiliationFeatureExtraction
 				$prev_page = $aff_addrs->[ $counter ]->{ 'L1' };
 				$prev_sect = $aff_addrs->[ $counter ]->{ 'L2' };
 				$prev_para = $aff_addrs->[ $counter ]->{ 'L3' };
+				$prev_line = $aff_addrs->[ $counter ]->{ 'L4' };
 			}
 		}
 
