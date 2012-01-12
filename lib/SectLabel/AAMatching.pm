@@ -7,6 +7,8 @@ package SectLabel::AAMatching;
 # Do Hoang Nhat Huy 21 Apr, 11
 ###
 
+use utf8;
+
 use strict;
 
 # Dependencies
@@ -1065,7 +1067,7 @@ sub AuthorExtraction
 	my %stopword = (
 		'by'		=> '1',
 		'dr'		=> '1', 
-		'jr'		=> '1',
+		#'jr'		=> '1',
 		'rn'		=> '1',
 		'mr'		=> '1',
 		'md'		=> '1',
@@ -1133,6 +1135,47 @@ sub AuthorExtraction
 					if (! exists $asg{ $authors->[ $i ] }) { $asg{ $authors->[ $i ] } = (); }
 					if (! exists $aas{ $authors->[ $i ] }) { $aas{ $authors->[ $i ] } = $rcs->[ $i ]; }
 					$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
+				}
+
+				my $has_one_word = 0;
+				my @words_order  = ();
+				my $max_order	 = -1;
+
+				# Save each signal to its corresponding author
+				foreach my $author (keys %ntl_asg)
+				{
+					# There's a name with only one word, suppicious ?
+					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					# Always save the words' order
+					push @words_order, $ntl_asg{ $author };
+
+					# Get the last name
+					if ($max_order < $ntl_asg{ $author }) {
+						$max_order = $ntl_asg{ $author };
+					}
+				}
+
+				# Two names & One name has only one word is the indicator of
+				# a single name, e.g. Brown, Michael M.
+				if (0x02 == scalar (keys %ntl_asg) && (0x01 == $has_one_word)) {
+					my @name = keys %ntl_asg;
+					# First name
+					my $fname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 0 ] : $name[ 1 ];
+					# Second name
+					my $sname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 1 ] : $name[ 0 ];
+
+					# Form the new name
+					my $nname = $fname . ", " . $sname;
+					# Update the information about the new name
+					$asg{ $nname } = $asg{ $fname };
+					$aas{ $nname } = $aas{ $fname };
+					# Delete two old name
+					$delete_name{ $fname } = 0;	
+					$delete_name{ $sname } = 0;	
+					# delete $asg{ $fname };
+					# delete $aas{ $fname };
+					# delete $asg{ $sname };
+					# delete $aas{ $sname };
 				}
 			}
 			elsif ($prev_class eq "signal")
@@ -1257,6 +1300,7 @@ sub AuthorExtraction
 			if ($prev_class eq "author")
 			{
 				my ($authors, $rcs) = NormalizeAuthorNames(\@author_str, \@author_rc);
+
 				# Save each author
 				for (my $i = 0; $i < scalar(@{ $authors }); $i++)
 				{
@@ -1375,6 +1419,47 @@ sub AuthorExtraction
 			if (! exists $aas{ $authors->[ $i ] }) { $aas{ $authors->[ $i ] } = $rcs->[ $i ]; }
 			$ntl_asg{ $authors->[ $i ] }	= scalar(keys %ntl_asg);
 		}
+
+		my $has_one_word = 0;
+		my @words_order  = ();
+		my $max_order	 = -1;
+
+		# Save each signal to its corresponding author
+		foreach my $author (keys %ntl_asg)
+		{
+			# There's a name with only one word, suppicious ?
+			if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+			# Always save the words' order
+			push @words_order, $ntl_asg{ $author };
+
+			# Get the last name
+			if ($max_order < $ntl_asg{ $author }) {
+				$max_order = $ntl_asg{ $author };
+			}
+		}
+
+		# Two names & One name has only one word is the indicator of
+		# a single name, e.g. Brown, Michael M.
+		if (0x02 == scalar (keys %ntl_asg) && (0x01 == $has_one_word)) {
+			my @name = keys %ntl_asg;
+			# First name
+			my $fname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 0 ] : $name[ 1 ];
+			# Second name
+			my $sname = ($words_order[ 0 ] < $words_order [ 1 ]) ? $name[ 1 ] : $name[ 0 ];
+
+			# Form the new name
+			my $nname = $fname . ", " . $sname;
+			# Update the information about the new name
+			$asg{ $nname } = $asg{ $fname };
+			$aas{ $nname } = $aas{ $fname };
+			# Delete two old name
+			$delete_name{ $fname } = 0;	
+			$delete_name{ $sname } = 0;	
+			# delete $asg{ $fname };
+			# delete $aas{ $fname };
+			# delete $asg{ $sname };
+			# delete $aas{ $sname };
+		}
 	}
 	elsif ($prev_class eq "signal")
 	{
@@ -1465,7 +1550,7 @@ sub NormalizeAuthorNames
 	my %stopword = (
 		'by'		=> '1',
 		'dr'		=> '1', 
-		'jr'		=> '1',
+		#'jr'		=> '1',
 		'rn'		=> '1',
 		'mr'		=> '1',
 		'md'		=> '1',
@@ -1505,7 +1590,7 @@ sub NormalizeAuthorNames
 		{
 	    	if (scalar(@current) != 0) 
 			{ 
-				push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+				push @authors, ParsCit::PostProcess::NormalizeAuthorName2(@current);
 
 				my $top    = LONG_MAX;
 				my $bottom = 0;
@@ -1584,7 +1669,7 @@ sub NormalizeAuthorNames
 
 			if (scalar(@current) != 0) 
 			{ 
-				push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+				push @authors, ParsCit::PostProcess::NormalizeAuthorName2(@current);
 				
 				my $top    = LONG_MAX;
 				my $bottom = 0;
@@ -1639,7 +1724,7 @@ sub NormalizeAuthorNames
 	# Last author name
 	if (scalar(@current) != 0) 
 	{
-		push @authors, ParsCit::PostProcess::NormalizeAuthorName(@current);
+		push @authors, ParsCit::PostProcess::NormalizeAuthorName2(@current);
 		
 		my $top    = LONG_MAX;
 		my $bottom = 0;
@@ -2020,7 +2105,7 @@ sub AffiliationFeatureExtraction
 				# This is the tricky part, one word e.g. **affiliation will be 
 				# splitted into two parts: the signal, and the affiliation if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w-\.,]*)(\W*)/g)
+				while ($full_content =~ m/([\w-\.‘’‛,“”‟'"]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;
@@ -2028,7 +2113,7 @@ sub AffiliationFeatureExtraction
 					# Trim
 					$first	=~ s/^\s+|\s+$//g;
 					$second	=~ s/^\s+|\s+$//g;
-				
+
 					# Only keep non-blank content
 					if ($first ne "") { push @sub_content, $first; }
 
@@ -2476,7 +2561,7 @@ sub AuthorFeatureExtraction
 				# This is the tricky part, one word e.g. name** will be splitted 
 				# into several parts: the name, the signal, and the separator if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w-´`\.]*)(\W*)/g)
+				while ($full_content =~ m/([\w-´`\.‘’‛“”‟'"]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;
