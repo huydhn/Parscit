@@ -243,7 +243,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 
 		my $address_file = $text_file . ".feature" . ".address";
 		if (! open(IN, "<:utf8", $address_file)) { return (-1, "Could not open address file " . $address_file . ": " . $!); }
-		
+
 		my @omni_address = ();
 		# Read the address file provided by process OmniXML script
 		while (<IN>)
@@ -290,7 +290,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		}
 
 		# Remove XML feature file
-		# unlink($sect_label_input);
+		unlink($sect_label_input);
 	}
 	else
 	{

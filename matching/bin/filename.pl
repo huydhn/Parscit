@@ -47,7 +47,7 @@ foreach my $infile (@infiles) {
 	{ 
 		# Create if needed
 		system("touch $outfile_abs2");
-	} 
+	}
 }
 
 ## END

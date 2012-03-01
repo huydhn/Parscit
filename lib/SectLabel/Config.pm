@@ -20,6 +20,7 @@ $configXmlFile	= "resources/sectLabel/sectLabel.configXml";
 $autFile		= "resources/sectLabel/author.model";
 $affFile		= "resources/sectLabel/affiliation.model";
 $matFile		= "resources/sectLabel/aamatch.model";
+$matSVMFile		= "resources/sectLabel/aamatch.svm.model";
 
 ###
 # Thang v100401: note the keyword feature and configs below are not currently 

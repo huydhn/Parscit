@@ -94,7 +94,7 @@ sub AAMatching
 	# Matching features
 	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc, $affs);
 	# Matching
-	my $aa			= AAMatchingImp($aa_features);
+	my $aa			= AAMatchingImpCRF($aa_features);
 
 =pod
 	# DEBUG
@@ -542,7 +542,7 @@ sub AAFeatureExtraction
 }
 
 # Actually do the matching between author and affiliation
-sub AAMatchingImp
+sub AAMatchingImpCRF
 {
 	my ($features) = @_;	
 
@@ -592,7 +592,7 @@ sub AAMatchingImp
 		my $line = $_;
 		# Trim
 		$line =~ s/^\s+|\s+$//g;
-		# Blank linem, what the heck ?
+		# Blank line, what the heck ?
 		if ($line eq "") { next; }
 
 		# Split the line
@@ -635,8 +635,140 @@ sub AAMatchingImp
 	}
 	
 	# Clean up
-	# unlink $infile;
-	# unlink $outfile;
+	unlink $infile;
+	unlink $outfile;
+	# Done
+	return (\%aa);
+}
+
+# Actually do the matching between author and affiliation
+sub AAMatchingImpSVM
+{
+	my ($features) = @_;	
+
+	# List of authors and their affiliation (if exists)
+	my %aa = ();
+
+	# AA matching model
+	my $match_model = $SectLabel::Config::matSVMFile;
+
+	# Load the model stored in the file 'sample.model'
+	my $svm = new Algorithm::SVM(Model => $match_model);
+
+	my @lines = split /\n/, $features;
+	# and write
+	foreach my $line (@lines) { 
+		if ($line eq "") { next ; }
+	
+		# Split the line
+		my @fields	= split /\t/, $line;
+
+		# Checking
+		if (8 != scalar(@fields)) { print STDERR "# Inconsistence SVM features", "\n"; next; }
+	
+		# Extract the content
+		my $content	 = $fields[ 0 ];
+		# The signal
+		my $same_sig = $fields[ 1 ];
+		# Same page
+		my $same_pag = $fields[ 2 ];
+		# Same section
+		my $same_sec = $fields[ 3 ];
+		# Same paragraph
+		my $same_par = $fields[ 4 ];
+		# Same line
+		my $same_lin = $fields[ 5 ];
+		# Nearest in x-axis
+		my $near_x	 = $fields[ 6 ];
+		# Nearest in y-axis
+		my $near_y	 = $fields[ 7 ];
+
+		# New data point
+		my $ds = new Algorithm::SVM::DataSet(	Label => 0,
+    	   		                              	Data  => [ 0, 0, 0, 0, 0, 0, 0 ]	);
+
+		# Set signal feature
+		if ($same_sig eq 'same') {
+			$ds->attribute(0, 1);
+		} else {
+			$ds->attribute(0, 0);
+		}
+		
+		# Set same page feature
+		if ($same_pag eq 'yes') {
+			$ds->attribute(1, 1);
+		} else {
+			$ds->attribute(1, 0);
+		}
+
+		# Set same section feature
+		if ($same_sec eq 'yes') {
+			$ds->attribute(2, 1);
+		} else {
+			$ds->attribute(2, 0);
+		}
+
+		# Set same paragraph feature
+		if ($same_par eq 'yes') {
+			$ds->attribute(3, 1);
+		} else {
+			$ds->attribute(3, 0);
+		}
+
+		# Set same line feature
+		if ($same_lin eq 'yes') {
+			$ds->attribute(4, 1);
+		} else {
+			$ds->attribute(4, 0);
+		}
+
+		# Nearest x
+		if ($near_x eq 'yes') {
+			$ds->attribute(5, 1);
+		} else {
+			$ds->attribute(5, 0);
+		}
+
+		# Nearest y
+		if ($near_y eq 'yes') {
+			$ds->attribute(6, 1);
+		} else {
+			$ds->attribute(6, 0);
+		}
+
+		# Predicting
+		my $res = $svm->predict($ds);
+
+		# You miss 
+		if ($res != 1) { next; }
+		
+		# Split the content into author name and affiliation name
+		my @tmp		= split /#/, $content;
+		# Author name
+		my $author	= $tmp[ 0 ];
+		$author		=~ s/\|\|\|/ /g;
+		# Affiliation name
+		my $aff		= $tmp[ 1 ];
+		$aff		=~ s/\|\|\|/ /g;
+
+		# Save
+		if (! exists $aa{ $author }) { $aa{ $author } = (); }
+		# Save
+		push @{ $aa{ $author } }, $aff;
+	}
+
+	# Remove duplicate affiliations of one author
+	foreach my $author (keys %aa) {
+		# Unique affiliations
+		my %tmp = ();
+		# Get unique affiliations
+		foreach my $aff (@{ $aa{ $author } }) {
+			$tmp{ $aff } = 0;
+		}
+		# Save the unique list
+		$aa{ $author } = [ keys %tmp ];
+	}
+	
 	# Done
 	return (\%aa);
 }
@@ -693,8 +825,8 @@ sub AffiliationExtraction
 
 				for (my $i = $block_index; $i < $block_index + $total; $i++) {
 					# Split
-					my @lines    = split /\n/, @blocks[ $i ];
-					my @rc_lines = split /\n/, @rc_blocks[ $i ];
+					my @lines    = split /\n/, $blocks[ $i ];
+					my @rc_lines = split /\n/, $rc_blocks[ $i ];
 
 					# and write
 					foreach my $line (@lines) {
@@ -956,8 +1088,8 @@ sub AffiliationExtraction
 	close $input_handle;
 	
 	# Clean up
-	# unlink $infile;
-	# unlink $outfile;
+	unlink $infile;
+	unlink $outfile;
 	# Done
 	return (\%asg, \@aaf, \@aff);
 }
@@ -1074,6 +1206,7 @@ sub AuthorExtraction
 		'and'		=> '1',
 		'mph'		=> '1',
 		'mpd'		=> '1',
+		'mps'		=> '1',
 		'rnt'		=> '1',
 		'mrs'		=> '1',
 		'phd'		=> '1',
@@ -1533,8 +1666,8 @@ sub AuthorExtraction
 	}
 
 	# Clean up
-	# unlink $infile;
-	# unlink $outfile;
+	unlink $infile;
+	unlink $outfile;
 	# Done
 	return (\%asg, \%aas);
 }
@@ -1557,6 +1690,7 @@ sub NormalizeAuthorNames
 		'and'		=> '1',
 		'mph'		=> '1',
 		'mpd'		=> '1',
+		'mps'		=> '1',
 		'rnt'		=> '1',
 		'mrs'		=> '1',
 		'phd'		=> '1',
@@ -2105,7 +2239,7 @@ sub AffiliationFeatureExtraction
 				# This is the tricky part, one word e.g. **affiliation will be 
 				# splitted into two parts: the signal, and the affiliation if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w-\.‘’‛,“”‟'"]*)(\W*)/g)
+				while ($full_content =~ m/([\w\-\.‘’‛,“”‟'"]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;
@@ -2561,7 +2695,7 @@ sub AuthorFeatureExtraction
 				# This is the tricky part, one word e.g. name** will be splitted 
 				# into several parts: the name, the signal, and the separator if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w-´`\.‘’‛“”‟'"]*)(\W*)/g)
+				while ($full_content =~ m/([\w\-´`\.‘’‛“”‟'"\(\)]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;

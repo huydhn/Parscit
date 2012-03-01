@@ -267,6 +267,7 @@ print "Recall   : ", $recall * 100, "%", "\n";
 
 $f1 = (2 * $precision * $recall) / ($precision + $recall);
 print "F1       : ", $f1 * 100, "%", "\n";
+
 ## END
 
 sub CorrectAuthor
@@ -288,8 +289,11 @@ sub CorrectAuthor
 	} elsif ($mode eq 'canon') {
 		foreach my $author (keys %{ $unique_aa }) {
 			foreach my $true_author (keys %{ $aa_truth }) {
+				# Covert a name into it canonicalize form
+				my $canon_name = `$canon_prog -i \"$true_author\" -m name -f 3`; chomp $canon_name;
+
 				# Need to compare these two names
-				my $cmp_result = `$compare_prog -f \"$author\" -s \"$true_author\" -m name`; chomp $cmp_result;
+				my $cmp_result = `$compare_prog -f \"$author\" -s \"$canon_name\" -m name`; chomp $cmp_result;
 
 				# A match is found
 				if ($cmp_result eq '1') {
@@ -391,8 +395,11 @@ sub CorrectMatching
 			
 			# Find the best match
 			foreach my $true_author (keys %{ $aa_truth }) {
+				# Covert a name into it canonicalize form
+				my $canon_name = `$canon_prog -i \"$true_author\" -m name -f 3`; chomp $canon_name;
+
 				# Need to compare these two names
-				my $cmp_result = `$compare_prog -f \"$author\" -s \"$true_author\" -m name -v`; chomp $cmp_result;
+				my $cmp_result = `$compare_prog -f \"$author\" -s \"$canon_name\" -m name -v`; chomp $cmp_result;
 				# Verbose mode
 				my @field = split /:/, $cmp_result;				
 

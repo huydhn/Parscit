@@ -14,6 +14,8 @@ use CSXUtil::SafeText qw(cleanXML);
 use ParsCit::Config;
 use ParsCit::PostProcess;
 
+use URI::Escape;
+
 ###
 # Main method for processing header data. Specifically, it reads CRF
 # output, performs normalization to individual fields, and outputs to
@@ -195,7 +197,7 @@ sub generateOutput
       		foreach my $author (@{ $content })
 			{
 				cleanXML(\$author);
-				$output .= "<author$conf_str>$author</author>\n";
+				$output .= "<author$conf_str>" . uri_escape($author) . "</author>\n";
       		}
     	}
 		# Handle multiple emails at a time
@@ -203,7 +205,7 @@ sub generateOutput
 		{
       		foreach my $email (@{ $content })
 			{
-				$output .= "<email$conf_str>$email</email>\n";
+				$output .= "<email$conf_str>" . uri_escape($email) . "</email>\n";
       		}
     	} 
 		else 
