@@ -642,6 +642,141 @@ sub AAMatchingImpCRF
 }
 
 # Actually do the matching between author and affiliation
+sub AAMatchingImpMaxEnt
+{
+	my ($features) = @_;
+
+	# List of authors and their affiliation (if exists)
+	my %aa = ();
+
+	# AA matching model
+	my $match_model = $SectLabel::Config::matMEFile;
+
+	# Don't know if this is the correct way to do thing
+	my $maxent = AI::MaxEntropy->new;
+	# Get the model handle
+	my $model = $maxent->learn;
+	# Load the model
+	$model->load($match_model);	
+
+	my @lines = split /\n/, $features;
+	# and write
+	foreach my $line (@lines) { 
+		if ($line eq "") { next ; }
+	
+		# Split the line
+		my @fields	= split /\t/, $line;
+
+		# Checking
+		if (8 != scalar(@fields)) { print STDERR "# Inconsistence MaxEnt features", "\n"; next; }
+	
+		# Extract the content
+		my $content	 = $fields[ 0 ];
+		# The signal
+		my $same_sig = $fields[ 1 ];
+		# Same page
+		my $same_pag = $fields[ 2 ];
+		# Same section
+		my $same_sec = $fields[ 3 ];
+		# Same paragraph
+		my $same_par = $fields[ 4 ];
+		# Same line
+		my $same_lin = $fields[ 5 ];
+		# Nearest in x-axis
+		my $near_x	 = $fields[ 6 ];
+		# Nearest in y-axis
+		my $near_y	 = $fields[ 7 ];
+
+		# New training data
+		my @features = ();
+
+		# Set signal feature
+		if ($same_sig eq 'same') {
+			push @features, 'same-sig';
+		} else {
+			push @features, 'diff-sig';
+		}
+		
+		# Set same page feature
+		if ($same_pag eq 'yes') {
+			push @features, 'same-page';
+		} else {
+			push @features, 'diff-page';
+		}
+
+		# Set same section feature
+		if ($same_sec eq 'yes') {
+			push @features, 'same-sect';
+		} else {
+			push @features, 'diff-sect';
+		}
+
+		# Set same paragraph feature
+		if ($same_par eq 'yes') {
+			push @features, 'same-para';
+		} else {
+			push @features, 'diff-para';
+		}
+
+		# Set same line feature
+		if ($same_lin eq 'yes') {
+			push @features, 'same-line';
+		} else {
+			push @features, 'diff-line';
+		}
+
+		# Nearest x
+		if ($near_x eq 'yes') {
+			push @features, 'nearest-x';
+		} else {
+			push @features, 'far-x';
+		}
+
+		# Nearest y
+		if ($near_y eq 'yes') {
+			push @features, 'nearest-y';
+		} else {
+			push @features, 'far-y';
+		}
+
+		# Predicting
+		my $res = $model->predict([ @features ]);
+
+		# You miss 
+		if ($res ne 'yes') { next; }
+		
+		# Split the content into author name and affiliation name
+		my @tmp		= split /#/, $content;
+		# Author name
+		my $author	= $tmp[ 0 ];
+		$author		=~ s/\|\|\|/ /g;
+		# Affiliation name
+		my $aff		= $tmp[ 1 ];
+		$aff		=~ s/\|\|\|/ /g;
+
+		# Save
+		if (! exists $aa{ $author }) { $aa{ $author } = (); }
+		# Save
+		push @{ $aa{ $author } }, $aff;
+	}
+
+	# Remove duplicate affiliations of one author
+	foreach my $author (keys %aa) {
+		# Unique affiliations
+		my %tmp = ();
+		# Get unique affiliations
+		foreach my $aff (@{ $aa{ $author } }) {
+			$tmp{ $aff } = 0;
+		}
+		# Save the unique list
+		$aa{ $author } = [ keys %tmp ];
+	}
+
+	# Done
+	return (\%aa);
+}
+
+# Actually do the matching between author and affiliation
 sub AAMatchingImpSVM
 {
 	my ($features) = @_;	
@@ -652,7 +787,7 @@ sub AAMatchingImpSVM
 	# AA matching model
 	my $match_model = $SectLabel::Config::matSVMFile;
 
-	# Load the model stored in the file 'sample.model'
+	# Load the model 
 	my $svm = new Algorithm::SVM(Model => $match_model);
 
 	my @lines = split /\n/, $features;
