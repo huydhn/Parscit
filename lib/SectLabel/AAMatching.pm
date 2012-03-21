@@ -176,7 +176,7 @@ sub AAMatching
 	# and XML writer
 	my $writer	= new XML::Writer(OUTPUT => \$sxml, ENCODING => 'utf-8', DATA_MODE => 'true', DATA_INDENT => 2);	
 
-	# Algorithm
+	# Algorithm tag
 	$writer->startTag("algorithm", "name" => "AAMatching", "version" => $SectLabel::Config::algorithmVersion);	
 
 	# XML header
@@ -641,7 +641,7 @@ sub AAMatchingImpCRF
 	return (\%aa);
 }
 
-# Actually do the matching between author and affiliation
+# Actually do the matching between author and affiliation using Maximum Entropy
 sub AAMatchingImpMaxEnt
 {
 	my ($features) = @_;
@@ -776,7 +776,7 @@ sub AAMatchingImpMaxEnt
 	return (\%aa);
 }
 
-# Actually do the matching between author and affiliation
+# Actually do the matching between author and affiliation using SVM
 sub AAMatchingImpSVM
 {
 	my ($features) = @_;	
@@ -1412,8 +1412,9 @@ sub AuthorExtraction
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					my @tmp = split /\s+/, $author;
 					# There's a name with only one word, suppicious ?
-					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 					# Always save the words' order
 					push @words_order, $ntl_asg{ $author };
 
@@ -1458,8 +1459,9 @@ sub AuthorExtraction
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					my @tmp = split /\s+/, $author;
 					# There's a name with only one word, suppicious ?
-					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 					# Always save the words' order
 					push @words_order, $ntl_asg{ $author };
 
@@ -1589,8 +1591,9 @@ sub AuthorExtraction
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					my @tmp = split /\s+/, $author;
 					# There's a name with only one word, suppicious ?
-					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 					# Always save the words' order
 					push @words_order, $ntl_asg{ $author };
 
@@ -1695,8 +1698,9 @@ sub AuthorExtraction
 		# Save each signal to its corresponding author
 		foreach my $author (keys %ntl_asg)
 		{
+			my @tmp = split /\s+/, $author;
 			# There's a name with only one word, suppicious ?
-			if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+			if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 			# Always save the words' order
 			push @words_order, $ntl_asg{ $author };
 
@@ -1741,8 +1745,9 @@ sub AuthorExtraction
 		# Save each signal to its corresponding author
 		foreach my $author (keys %ntl_asg)
 		{
+			my @tmp = split /\s+/, $author;
 			# There's a name with only one word, suppicious ?
-			if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+			if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 			# Always save the words' order
 			push @words_order, $ntl_asg{ $author };
 
@@ -2038,7 +2043,6 @@ sub NormalizeAuthorNames
 	return (\@authors, \@rcs); 
 }
 
-# 
 sub NormalizeAuthorSignal
 {
 	my ($signal_str) = @_;
@@ -2122,7 +2126,7 @@ sub AffiliationFeatureExtraction
 	# eveything line by line and separate them by tab, which breaks the affiliations into
 	# many small & non-linear parts
 	#
-	# TODO I try to fix this by detect the tab character inside a single line, this could
+	# I try to fix this by detect the tab character inside a single line, this could
 	# solve the problem but may introduce other issues, let's see
 	#
 	# All this information is per section
