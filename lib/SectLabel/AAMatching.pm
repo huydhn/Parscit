@@ -14,6 +14,8 @@ use strict;
 # Dependencies
 use POSIX;
 use IO::File;
+use Algorithm::SVM;
+use Algorithm::SVM::DataSet;
 use XML::Writer;
 use XML::Writer::String;
 
@@ -94,7 +96,7 @@ sub AAMatching
 	# Matching features
 	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc, $affs);
 	# Matching
-	my $aa			= AAMatchingImpCRF($aa_features);
+	my $aa			= AAMatchingImpSVM($aa_features);
 
 =pod
 	# DEBUG
@@ -322,10 +324,6 @@ sub AAFeatureExtraction
 			my $dis_y = abs( $aut_y - $aff_y );
 			# Distance between an author and an affiliation
 			my $distance = sqrt( $dis_x * $dis_x + $dis_y * $dis_y );
-
-			# print "AFFILIATION: ", $aff, "\n";
-			# print "DISTANCE: ", $distance, "\n";
-			# print "DISTY: ", $dis_y, "\t", $dis_y * 1.5, "\n";
 
 			# Check if it is the minimum distance in x axis
 			# if ($dis_x < $min_dist_x)

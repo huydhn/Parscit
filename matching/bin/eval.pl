@@ -17,6 +17,8 @@ BEGIN
 use File::Spec;
 use File::Basename;
 
+use Unicode::Normalize;
+
 use XML::Twig;
 
 $0 =~ /([^\/]+)$/; 
@@ -26,10 +28,12 @@ my $pattern	= undef;
 my $indir	= undef;
 my $outdir	= undef;
 my $mode	= undef;
+my $pdfbox	= undef;
 
 GetOptions(	'i=s'	=> \$indir,
 			'm=s'	=> \$mode,
-			'p=s'	=> \$pattern );
+			'p=s'	=> \$pattern,
+			'b'		=> \$pdfbox	);
 
 if (! defined $indir) {
 	exit(0);
@@ -90,11 +94,26 @@ foreach my $infile (@infiles) {
 	my ($aa_truth, $ins_truth) = GetGroundTruth($directory . "/" . $filename . ".txt", $directory . "/" . $filename . "-aff.txt");
 
 	# Get the Parscit result
-	my ($aa, $ins) = GetParscit($directory . "/" . $filename . "-omni-parscit.xml");
+	my ($aa, $ins) = undef; 
+
+	if (defined $pdfbox) {
+		my $seer_path = $directory . "/" . $filename . "-pdfbox-seersuite.txt";
+		
+		# Skip missing file
+		if (! -e $seer_path) { next ; }
+		
+		# Evaluate SeerSuite
+		($aa, $ins) = GetSeerSuite($seer_path);
+	} else {
+		($aa, $ins) = GetParscit($directory . "/" . $filename . "-omni-parscit.xml");
+	}
+	
 	# Unique author-affiliation
 	my %unique_aa = ();
 	
 	foreach my $author (keys %{ $aa }) {
+		print $author, "\n";
+
 		# Covert a name into it canonicalize form
 		my $canon_name = `$canon_prog -i \"$author\" -m name -f 3`; chomp $canon_name;
 		# Skip blank
@@ -238,6 +257,7 @@ print "Recall   : ", $recall * 100, "%", "\n";
 my $f1 = (2 * $precision * $recall) / ($precision + $recall);
 print "F1       : ", $f1 * 100, "%", "\n";
 
+=pod
 print "--------------------------------------\n";
 print "-------------Affiliation--------------\n";
 print "--------------------------------------\n";
@@ -252,6 +272,7 @@ print "Recall   : ", $recall * 100, "%", "\n";
 
 $f1 = (2 * $precision * $recall) / ($precision + $recall);
 print "F1       : ", $f1 * 100, "%", "\n";
+=cut
 
 print "--------------------------------------\n";
 print "---------------Matching---------------\n";
@@ -470,6 +491,91 @@ sub GetParscit
 	return (\%aa, \@ins);
 }
 
+sub GetSeerSuite 
+{
+	my ($path) = @_;
+
+	# Dummy array 
+	my @dummy = ();
+
+	# Temporary hash
+	my %tmp = ();
+
+	# Parse XML output from SeerSuite
+	my $seer_roots		= { 'algorithm' => 1 };
+	
+	# Each <algorithm> portion of parscit xml output will be handle by ParscitProcess func
+	my $seer_handlers	= { 'algorithm'  => sub { ParseSeer(@_, \%tmp); } };
+
+	# XML::Twig 
+	my $seer_twig = new XML::Twig(	twig_roots 		=> $seer_roots,
+									twig_handlers	=> $seer_handlers,
+									pretty_print	=> 'indented' );
+
+	
+	# Start the XML parsing
+	$seer_twig->parsefile($path);
+	$seer_twig->purge;
+
+	# Done
+	return (\ %tmp, \ @dummy);
+}
+
+sub ParseSeer 
+{
+	my ($twig, $node, $tmp) = @_;
+
+	# The list of all authors and their affiliations
+	my $child = $node->first_child("authors");
+	# Is it exist?
+	if (defined $child) {
+		# The list of all authors and their affiliations
+		my @authors	= $child->descendants("author");
+
+		foreach my $author_node ( @authors ) {
+			# Get the name of the author
+			my $name_node = $author_node->first_child("name");
+			# Check it first
+			if (! defined $name_node) { next ; }
+			# It's ok
+			my $name = GetNodeText( $name_node );
+			# Unicode normalization
+			$name = NFKD($name);
+			# Normalize - match with Parscit
+			$name = NormalizeAuthorName($name);
+
+			my $have_info = 0;
+
+			# Get the affiliation of the author
+			my $affiliation_node = $author_node->first_child("affiliation");
+			# Check it first
+			if (defined $affiliation_node) { $have_info = 1; }
+			# Get the affiliation
+			my $affiliation = (defined $affiliation_node) ? GetNodeText($affiliation_node) : "";
+
+			# Get the address
+			my $address_node = $author_node->first_child("address");
+			# Check it first
+			if (defined $address_node) { $have_info = 1; }
+			# Get the affiliation
+			my $address = (defined $address_node) ? GetNodeText($address_node) : "";
+
+			if (0x00 == $have_info) { next ; }
+
+			$affiliation = $affiliation . " " . $address;
+			# Unicode normalization
+			$affiliation = NFKD($affiliation);
+
+			if (! exists $tmp->{ $name }) { $tmp->{ $name } = (); }
+			# Save the author - affiliation from SeerSuite
+			push @{ $tmp->{ $name } }, $affiliation;
+		}
+	}
+
+	# Done
+	$twig->purge;
+}
+
 sub ParseParscit
 {
 	my ($twig, $node, $aa, $ins) = @_;
@@ -493,6 +599,9 @@ sub ParseParscit
 			# Check for consistency
 			if ($fullname eq "") { next ; }
 
+			# Unicode normalization
+			$fullname = NFKD($fullname);
+
 			# Need to remove unsafe character
 			$fullname =~ s/"|'|`//g;
 			# Need to canonicalize the fullname
@@ -508,6 +617,9 @@ sub ParseParscit
 			# Save the list of corresponding institutions
 			foreach my $institute (@ins) {
 				my $tmp = GetNodeText($institute);
+
+				# Unicode normalization
+				$tmp = NFKD($tmp);
 
 				# Need to remove unsafe character
 				$tmp =~ s/"|'|`//g;
@@ -536,6 +648,9 @@ sub ParseParscit
 		# Save the instituion one by one
 		foreach my $institute (@institutions) {
 			my $tmp = GetNodeText($institute);
+
+			# Unicode normalization
+			$tmp = NFKD($tmp);
 
 			# Need to remove unsafe character
 			$tmp =~ s/"|'|`//g;
@@ -581,6 +696,9 @@ sub GetGroundTruth
 		# Trim
 		$author =~ s/^\s+|\s+$//g;
 
+		# Unicode normalization
+		$author = NFKD($author);
+
 		# Remove all illegal character in the name
 		$author =~ s/`|'|"//g;
 		# Clean up the author name
@@ -595,6 +713,9 @@ sub GetGroundTruth
 			my $aff = $parts[ $i ];
 			# Trim
 			$aff =~ s/^\s+|\s+$//g;
+
+			# Unicode normalization
+			$aff = NFKD($aff);
 
 			# Remove all illegal character in the name
 			$aff =~ s/`|'|"//g;
@@ -629,6 +750,9 @@ sub GetGroundTruth
 
 		# Trim
 		$line =~ s/^\s+|\s+$//g;
+
+		# Unicode normalization
+		$line = NFKD($line);
 
 		# Remove all illegal character in the name
 		$line =~ s/`|'|"//g;

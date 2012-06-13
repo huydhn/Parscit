@@ -45,7 +45,7 @@ foreach my $infile (@infiles) {
 	# Parse the input filename
 	my ($filename, $directory, $suffix) = fileparse($infile, qr/\.[^.]*$/);
 	# Output
-	my $outfile_abs	= File::Spec->rel2abs($directory . "/" . $filename . "-parscit-nodis.xml");
+	my $outfile_abs	= File::Spec->rel2abs($directory . "/" . $filename . "-parscit-svm.xml");
 	
 	# Change to Parscit directory
 	chdir "/home/salem/Local/wing/ParsCit/";
