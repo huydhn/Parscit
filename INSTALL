@@ -19,6 +19,7 @@ You must have ruby and perl and a working C++ compiler on your local
 machine.
 
 ParsCit use the following Perl libraries from CPAN
+- Algorithm::SVM
 - Class::Struct
 - Getopt::Long
 - Getopt::Std
