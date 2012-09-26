@@ -290,7 +290,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 		}
 
 		# Remove XML feature file
-		# unlink($sect_label_input);
+		unlink($sect_label_input);
 	}
 	else
 	{

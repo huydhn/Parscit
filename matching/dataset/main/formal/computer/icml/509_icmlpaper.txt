@@ -1,5 +1,0 @@
-Hachem Kadri:SequeL Project, INRIA Lille - Nord Europe, Villeneuve d’Ascq, France
-Asma Rabaoui:LAPS-IMS/CNRS, Universit ́ de Bordeaux, Talence, France
-Philippe Preux:LIFL/CNRS/INRIA, Universit ́ de Lille, Villeneuve d’Ascq, France
-Emmanuel Duflos:LAGIS/CNRS/INRIA, Ecole Centrale de Lille, Villeneuve d’Ascq, France
-Alain Rakotomamonjy:LITIS, UFR de Sciences, Universit ́ de Rouen, St Etienne du Rouvray, France

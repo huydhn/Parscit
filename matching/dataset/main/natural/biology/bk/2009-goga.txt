@@ -1,6 +1,0 @@
-C. GOGA:Institut de Mathematiques de Bourgogne, Universite de Bourgogne, 9 Avenue Alain Savary, 21078 Dijon, France
-J.-C. DEVILLE:Laboratoire de Statistique d’Enquete, ENSAI/CREST, rue Blaise Pascal, Campus de Ker Lann, 35170 Bruz, France
-A. RUIZ-GAZEN:Toulouse School of Economics, Universite Toulouse 1, 21 allee de Brienne, 31000 Toulouse, France
-
-
-

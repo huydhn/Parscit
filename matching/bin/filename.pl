@@ -37,12 +37,14 @@ foreach my $infile (@infiles) {
 	my $outfile_abs1 = File::Spec->rel2abs($directory . "/" . $filename . ".txt");
 	my $outfile_abs2 = File::Spec->rel2abs($directory . "/" . $filename . "-aff.txt");
 
-	if (! Verify($outfile_abs1)) { 
+	if (! Verify($outfile_abs1)) 
+	{ 
 		# Create if needed
 		system("touch $outfile_abs1");
-	}
+	} 
 
-	if (! Verify($outfile_abs2)) { 
+	if (! Verify($outfile_abs2)) 
+	{ 
 		# Create if needed
 		system("touch $outfile_abs2");
 	}

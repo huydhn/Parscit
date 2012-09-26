@@ -1,0 +1,6 @@
+Matthias Luber:Department for Computer Science, Albert-Ludwigs-University Freiburg, 79110 Freiburg, Germany
+Kai O. Arras:Department for Computer Science, Albert-Ludwigs-University Freiburg, 79110 Freiburg, Germany
+Christian Plagemann:Department for Computer Science, Albert-Ludwigs-University Freiburg, 79110 Freiburg, Germany
+Wolfram Burgard:Department for Computer Science, Albert-Ludwigs-University Freiburg, 79110 Freiburg, Germany
+
+

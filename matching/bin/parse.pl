@@ -47,7 +47,7 @@ foreach my $infile (@infiles) {
 	my $outfile_abs	= File::Spec->rel2abs($directory . "/" . $filename . "-parscit.xml");
 	
 	# Change to Parscit directory
-	chdir "/home/salem/Local/wing/ParsCit/";
+	chdir "/home/salem/Local/wing/parscit/";
 	# Call Parscit
 	system("bin/citeExtract.pl -a -i xml -m extract_section $infile_abs $outfile_abs");	
 	# Return

@@ -267,6 +267,7 @@ print "Recall   : ", $recall * 100, "%", "\n";
 
 $f1 = (2 * $precision * $recall) / ($precision + $recall);
 print "F1       : ", $f1 * 100, "%", "\n";
+
 ## END
 
 sub CorrectAuthor
