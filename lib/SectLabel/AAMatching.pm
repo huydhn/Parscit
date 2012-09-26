@@ -14,6 +14,8 @@ use strict;
 # Dependencies
 use POSIX;
 use IO::File;
+use Algorithm::SVM;
+use Algorithm::SVM::DataSet;
 use XML::Writer;
 use XML::Writer::String;
 
@@ -94,7 +96,7 @@ sub AAMatching
 	# Matching features
 	my $aa_features = AAFeatureExtraction($aut_rc, $aff_rc, $affs);
 	# Matching
-	my $aa			= AAMatchingImp($aa_features);
+	my $aa			= AAMatchingImpSVM($aa_features);
 
 =pod
 	# DEBUG
@@ -176,7 +178,7 @@ sub AAMatching
 	# and XML writer
 	my $writer	= new XML::Writer(OUTPUT => \$sxml, ENCODING => 'utf-8', DATA_MODE => 'true', DATA_INDENT => 2);	
 
-	# Algorithm
+	# Algorithm tag
 	$writer->startTag("algorithm", "name" => "AAMatching", "version" => $SectLabel::Config::algorithmVersion);	
 
 	# XML header
@@ -322,10 +324,6 @@ sub AAFeatureExtraction
 			my $dis_y = abs( $aut_y - $aff_y );
 			# Distance between an author and an affiliation
 			my $distance = sqrt( $dis_x * $dis_x + $dis_y * $dis_y );
-
-			# print "AFFILIATION: ", $aff, "\n";
-			# print "DISTANCE: ", $distance, "\n";
-			# print "DISTY: ", $dis_y, "\t", $dis_y * 1.5, "\n";
 
 			# Check if it is the minimum distance in x axis
 			# if ($dis_x < $min_dist_x)
@@ -542,7 +540,7 @@ sub AAFeatureExtraction
 }
 
 # Actually do the matching between author and affiliation
-sub AAMatchingImp
+sub AAMatchingImpCRF
 {
 	my ($features) = @_;	
 
@@ -592,7 +590,7 @@ sub AAMatchingImp
 		my $line = $_;
 		# Trim
 		$line =~ s/^\s+|\s+$//g;
-		# Blank linem, what the heck ?
+		# Blank line, what the heck ?
 		if ($line eq "") { next; }
 
 		# Split the line
@@ -637,6 +635,273 @@ sub AAMatchingImp
 	# Clean up
 	unlink $infile;
 	unlink $outfile;
+	# Done
+	return (\%aa);
+}
+
+# Actually do the matching between author and affiliation using Maximum Entropy
+sub AAMatchingImpMaxEnt
+{
+	my ($features) = @_;
+
+	# List of authors and their affiliation (if exists)
+	my %aa = ();
+
+	# AA matching model
+	my $match_model = $SectLabel::Config::matMEFile;
+
+	# Don't know if this is the correct way to do thing
+	my $maxent = AI::MaxEntropy->new;
+	# Get the model handle
+	my $model = $maxent->learn;
+	# Load the model
+	$model->load($match_model);	
+
+	my @lines = split /\n/, $features;
+	# and write
+	foreach my $line (@lines) { 
+		if ($line eq "") { next ; }
+	
+		# Split the line
+		my @fields	= split /\t/, $line;
+
+		# Checking
+		if (8 != scalar(@fields)) { print STDERR "# Inconsistence MaxEnt features", "\n"; next; }
+	
+		# Extract the content
+		my $content	 = $fields[ 0 ];
+		# The signal
+		my $same_sig = $fields[ 1 ];
+		# Same page
+		my $same_pag = $fields[ 2 ];
+		# Same section
+		my $same_sec = $fields[ 3 ];
+		# Same paragraph
+		my $same_par = $fields[ 4 ];
+		# Same line
+		my $same_lin = $fields[ 5 ];
+		# Nearest in x-axis
+		my $near_x	 = $fields[ 6 ];
+		# Nearest in y-axis
+		my $near_y	 = $fields[ 7 ];
+
+		# New training data
+		my @features = ();
+
+		# Set signal feature
+		if ($same_sig eq 'same') {
+			push @features, 'same-sig';
+		} else {
+			push @features, 'diff-sig';
+		}
+		
+		# Set same page feature
+		if ($same_pag eq 'yes') {
+			push @features, 'same-page';
+		} else {
+			push @features, 'diff-page';
+		}
+
+		# Set same section feature
+		if ($same_sec eq 'yes') {
+			push @features, 'same-sect';
+		} else {
+			push @features, 'diff-sect';
+		}
+
+		# Set same paragraph feature
+		if ($same_par eq 'yes') {
+			push @features, 'same-para';
+		} else {
+			push @features, 'diff-para';
+		}
+
+		# Set same line feature
+		if ($same_lin eq 'yes') {
+			push @features, 'same-line';
+		} else {
+			push @features, 'diff-line';
+		}
+
+		# Nearest x
+		if ($near_x eq 'yes') {
+			push @features, 'nearest-x';
+		} else {
+			push @features, 'far-x';
+		}
+
+		# Nearest y
+		if ($near_y eq 'yes') {
+			push @features, 'nearest-y';
+		} else {
+			push @features, 'far-y';
+		}
+
+		# Predicting
+		my $res = $model->predict([ @features ]);
+
+		# You miss 
+		if ($res ne 'yes') { next; }
+		
+		# Split the content into author name and affiliation name
+		my @tmp		= split /#/, $content;
+		# Author name
+		my $author	= $tmp[ 0 ];
+		$author		=~ s/\|\|\|/ /g;
+		# Affiliation name
+		my $aff		= $tmp[ 1 ];
+		$aff		=~ s/\|\|\|/ /g;
+
+		# Save
+		if (! exists $aa{ $author }) { $aa{ $author } = (); }
+		# Save
+		push @{ $aa{ $author } }, $aff;
+	}
+
+	# Remove duplicate affiliations of one author
+	foreach my $author (keys %aa) {
+		# Unique affiliations
+		my %tmp = ();
+		# Get unique affiliations
+		foreach my $aff (@{ $aa{ $author } }) {
+			$tmp{ $aff } = 0;
+		}
+		# Save the unique list
+		$aa{ $author } = [ keys %tmp ];
+	}
+
+	# Done
+	return (\%aa);
+}
+
+# Actually do the matching between author and affiliation using SVM
+sub AAMatchingImpSVM
+{
+	my ($features) = @_;	
+
+	# List of authors and their affiliation (if exists)
+	my %aa = ();
+
+	# AA matching model
+	my $match_model = $SectLabel::Config::matSVMFile;
+
+	# Load the model 
+	my $svm = new Algorithm::SVM(Model => $match_model);
+
+	my @lines = split /\n/, $features;
+	# and write
+	foreach my $line (@lines) { 
+		if ($line eq "") { next ; }
+	
+		# Split the line
+		my @fields	= split /\t/, $line;
+
+		# Checking
+		if (8 != scalar(@fields)) { print STDERR "# Inconsistence SVM features", "\n"; next; }
+	
+		# Extract the content
+		my $content	 = $fields[ 0 ];
+		# The signal
+		my $same_sig = $fields[ 1 ];
+		# Same page
+		my $same_pag = $fields[ 2 ];
+		# Same section
+		my $same_sec = $fields[ 3 ];
+		# Same paragraph
+		my $same_par = $fields[ 4 ];
+		# Same line
+		my $same_lin = $fields[ 5 ];
+		# Nearest in x-axis
+		my $near_x	 = $fields[ 6 ];
+		# Nearest in y-axis
+		my $near_y	 = $fields[ 7 ];
+
+		# New data point
+		my $ds = new Algorithm::SVM::DataSet(	Label => 0,
+    	   		                              	Data  => [ 0, 0, 0, 0, 0, 0, 0 ]	);
+
+		# Set signal feature
+		if ($same_sig eq 'same') {
+			$ds->attribute(0, 1);
+		} else {
+			$ds->attribute(0, 0);
+		}
+		
+		# Set same page feature
+		if ($same_pag eq 'yes') {
+			$ds->attribute(1, 1);
+		} else {
+			$ds->attribute(1, 0);
+		}
+
+		# Set same section feature
+		if ($same_sec eq 'yes') {
+			$ds->attribute(2, 1);
+		} else {
+			$ds->attribute(2, 0);
+		}
+
+		# Set same paragraph feature
+		if ($same_par eq 'yes') {
+			$ds->attribute(3, 1);
+		} else {
+			$ds->attribute(3, 0);
+		}
+
+		# Set same line feature
+		if ($same_lin eq 'yes') {
+			$ds->attribute(4, 1);
+		} else {
+			$ds->attribute(4, 0);
+		}
+
+		# Nearest x
+		if ($near_x eq 'yes') {
+			$ds->attribute(5, 1);
+		} else {
+			$ds->attribute(5, 0);
+		}
+
+		# Nearest y
+		if ($near_y eq 'yes') {
+			$ds->attribute(6, 1);
+		} else {
+			$ds->attribute(6, 0);
+		}
+
+		# Predicting
+		my $res = $svm->predict($ds);
+
+		# You miss 
+		if ($res != 1) { next; }
+		
+		# Split the content into author name and affiliation name
+		my @tmp		= split /#/, $content;
+		# Author name
+		my $author	= $tmp[ 0 ];
+		$author		=~ s/\|\|\|/ /g;
+		# Affiliation name
+		my $aff		= $tmp[ 1 ];
+		$aff		=~ s/\|\|\|/ /g;
+
+		# Save
+		if (! exists $aa{ $author }) { $aa{ $author } = (); }
+		# Save
+		push @{ $aa{ $author } }, $aff;
+	}
+
+	# Remove duplicate affiliations of one author
+	foreach my $author (keys %aa) {
+		# Unique affiliations
+		my %tmp = ();
+		# Get unique affiliations
+		foreach my $aff (@{ $aa{ $author } }) {
+			$tmp{ $aff } = 0;
+		}
+		# Save the unique list
+		$aa{ $author } = [ keys %tmp ];
+	}
+	
 	# Done
 	return (\%aa);
 }
@@ -693,8 +958,8 @@ sub AffiliationExtraction
 
 				for (my $i = $block_index; $i < $block_index + $total; $i++) {
 					# Split
-					my @lines    = split /\n/, @blocks[ $i ];
-					my @rc_lines = split /\n/, @rc_blocks[ $i ];
+					my @lines    = split /\n/, $blocks[ $i ];
+					my @rc_lines = split /\n/, $rc_blocks[ $i ];
 
 					# and write
 					foreach my $line (@lines) {
@@ -1145,8 +1410,9 @@ sub AuthorExtraction
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					my @tmp = split /\s+/, $author;
 					# There's a name with only one word, suppicious ?
-					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 					# Always save the words' order
 					push @words_order, $ntl_asg{ $author };
 
@@ -1191,8 +1457,9 @@ sub AuthorExtraction
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					my @tmp = split /\s+/, $author;
 					# There's a name with only one word, suppicious ?
-					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 					# Always save the words' order
 					push @words_order, $ntl_asg{ $author };
 
@@ -1322,8 +1589,9 @@ sub AuthorExtraction
 				# Save each signal to its corresponding author
 				foreach my $author (keys %ntl_asg)
 				{
+					my @tmp = split /\s+/, $author;
 					# There's a name with only one word, suppicious ?
-					if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+					if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 					# Always save the words' order
 					push @words_order, $ntl_asg{ $author };
 
@@ -1428,8 +1696,9 @@ sub AuthorExtraction
 		# Save each signal to its corresponding author
 		foreach my $author (keys %ntl_asg)
 		{
+			my @tmp = split /\s+/, $author;
 			# There's a name with only one word, suppicious ?
-			if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+			if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 			# Always save the words' order
 			push @words_order, $ntl_asg{ $author };
 
@@ -1474,8 +1743,9 @@ sub AuthorExtraction
 		# Save each signal to its corresponding author
 		foreach my $author (keys %ntl_asg)
 		{
+			my @tmp = split /\s+/, $author;
 			# There's a name with only one word, suppicious ?
-			if (0x01 == scalar(split /\s+/, $author)) { $has_one_word = 1; }
+			if (0x01 == scalar(@tmp)) { $has_one_word = 1; }
 			# Always save the words' order
 			push @words_order, $ntl_asg{ $author };
 
@@ -1771,7 +2041,6 @@ sub NormalizeAuthorNames
 	return (\@authors, \@rcs); 
 }
 
-# 
 sub NormalizeAuthorSignal
 {
 	my ($signal_str) = @_;
@@ -1855,7 +2124,7 @@ sub AffiliationFeatureExtraction
 	# eveything line by line and separate them by tab, which breaks the affiliations into
 	# many small & non-linear parts
 	#
-	# TODO I try to fix this by detect the tab character inside a single line, this could
+	# I try to fix this by detect the tab character inside a single line, this could
 	# solve the problem but may introduce other issues, let's see
 	#
 	# All this information is per section
@@ -2107,7 +2376,7 @@ sub AffiliationFeatureExtraction
 				# This is the tricky part, one word e.g. **affiliation will be 
 				# splitted into two parts: the signal, and the affiliation if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w-\.‘’‛,“”‟'"]*)(\W*)/g)
+				while ($full_content =~ m/([\w\-\.‘’‛,“”‟'"]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;
@@ -2563,7 +2832,7 @@ sub AuthorFeatureExtraction
 				# This is the tricky part, one word e.g. name** will be splitted 
 				# into several parts: the name, the signal, and the separator if 
 				# possible using regular expression
-				while ($full_content =~ m/([\w-´`\.‘’‛“”‟'"\(\)]*)(\W*)/g)
+				while ($full_content =~ m/([\w\-´`\.‘’‛“”‟'"\(\)]*)(\W*)/g)
 				{
 					my $first	= $1;
 					my $second	= $2;

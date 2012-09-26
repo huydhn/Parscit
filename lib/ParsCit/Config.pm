@@ -26,8 +26,8 @@ $modelFile		= "resources/parsCit.model";
 $splitModelFile	= "resources/parsCit.split.model";
 
 ## Citation Context
-$contextRadius	= 200;
-$maxContexts	= 5;
+$contextRadius	= 600;
+$maxContexts	= 10;
 
 ## Write citation and body file components
 $bWriteSplit	= 1;

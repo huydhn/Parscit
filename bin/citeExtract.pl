@@ -40,6 +40,7 @@ use File::Basename;
 # Local libraries
 use Omni::Omnidoc;
 use Omni::Traversal;
+use ParsCit::Config;
 use ParsCit::Controller;
 use SectLabel::AAMatching;
 	
@@ -77,7 +78,7 @@ sub Help
 {
 	print STDERR "usage: $progname -h\t\t\t\t[invokes help]\n";
 	print STDERR "       $progname -v\t\t\t\t[invokes version]\n";
-	print STDERR "       $progname [-qt] [-m <mode>] [-i <inputType>] [-e <exportType>] <filename> [outfile]\n";
+	print STDERR "       $progname [-qt] [-m <mode>] [-i <inputType>] [-e <exportType>] [-r <contextRadius>] <filename> [outfile]\n";
 	print STDERR "Options:\n";
 	print STDERR "\t-q\tQuiet Mode (don't echo license)\n";
 
@@ -85,6 +86,7 @@ sub Help
 	print STDERR "\t-m <mode>	   \tMode (extract_citations, extract_header, extract_section, extract_meta, extract_all, default: extract_citations)\n";
 	print STDERR "\t-i <inputType> \tType (raw, xml, default: raw)\n";
 	print STDERR "\t-e <exportType>\tExport citations into multiple types (ads|bib|end|isi|ris|wordbib). Multiple types could be specified by contatenating with \"-\" e.g., bib-end-ris. Output files will be named as outfile.exportFormat, with outfile being the input argument, and exportFormat being each individual format supplied by -e option.\n";
+	print STDERR "\t-r <contextRadius>\tAmount of content included in the context of a citation\n";
 	print STDERR "\t-t\tUse token level model instead\n";
 	print STDERR "\n";
 	print STDERR "Will accept input on STDIN as a single file.\n";
@@ -109,23 +111,29 @@ if ($#ARGV == -1)
 }
 
 $SIG{'INT'} = 'quitHandler';
-getopts ('hqm:i:e:tva');
+getopts ('hqm:i:e:r:tva');
 
-our ($opt_q, $opt_v, $opt_h, $opt_m, $opt_i, $opt_e, $opt_t, $opt_a);
+our ($opt_q, $opt_v, $opt_h, $opt_m, $opt_i, $opt_e, $opt_t, $opt_a, $opt_r);
 
 # Use (!defined $opt_X) for options with arguments
 if ($opt_v) 
 { 
-	# call Version, if asked for
+	# Call Version, if asked for
 	Version(); 
 	exit(0); 
 }
 
 if ($opt_h) 
 { 
-	# call help, if asked for
+	# Call help, if asked for
 	Help(); 
 	exit (0); 
+}
+
+if ($opt_r)
+{
+	# Flexible context radius
+	$ParsCit::Config::contextRadius = $opt_r;
 }
 
 my $mode		= (!defined $opt_m) ? $default_mode : ParseMode($opt_m);
@@ -243,7 +251,7 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 
 		my $address_file = $text_file . ".feature" . ".address";
 		if (! open(IN, "<:utf8", $address_file)) { return (-1, "Could not open address file " . $address_file . ": " . $!); }
-		
+
 		my @omni_address = ();
 		# Read the address file provided by process OmniXML script
 		while (<IN>)
