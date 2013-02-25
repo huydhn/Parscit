@@ -701,7 +701,7 @@ sub PrepData
 		if (/^\s*$/) { next; }
 
 		my $tag		= "";
-        # QIAN FIND ME
+        # QIAN FIND ME..
 		my @tokens	= split(/ +/);
 		my @feats	= ();
 
