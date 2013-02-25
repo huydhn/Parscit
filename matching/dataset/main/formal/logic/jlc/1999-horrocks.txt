@@ -1,4 +1,0 @@
-Ian Horrocks:Department of Computer Science, University of Manchester
-Ulrike Sattler:LuFG Theoretical Computer Science, RWTH Aachen
-
-

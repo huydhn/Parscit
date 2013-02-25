@@ -1,6 +1,0 @@
-A. SCHLIESSER:Max-Planck-Institut fur Quantenoptik, Hans-Kopfermann-Straße 1, 85748 Garching, Germany
-R. RIVIERE:Max-Planck-Institut fur Quantenoptik, Hans-Kopfermann-Straße 1, 85748 Garching, Germany
-G. ANETSBERGER:Max-Planck-Institut fur Quantenoptik, Hans-Kopfermann-Straße 1, 85748 Garching, Germany
-O. ARCIZET:Max-Planck-Institut fur Quantenoptik, Hans-Kopfermann-Straße 1, 85748 Garching, Germany
-T. J. KIPPENBERG:Max-Planck-Institut fur Quantenoptik, Hans-Kopfermann-Straße 1, 85748 Garching, Germany
-

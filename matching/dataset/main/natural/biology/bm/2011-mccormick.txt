@@ -1,8 +1,0 @@
-Tyler H. McCormick:Department of Statistics, Columbia University, 1255 Amsterdam Ave, New York, NY 10025, USA
-Adrian E. Raftery:Department of Statistics, University of Washington, Box 354322, Seattle, WA 98195-4322, USA
-David Madigan:Department of Statistics, Columbia University, 1255 Amsterdam Ave, New York, NY 10025, USA
-Randall S. Burd:Children’s National Medical Center, 111 Michigan Avenue NW, Washington, DC 20010, USA
-
-
-
-

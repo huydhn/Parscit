@@ -1,5 +1,0 @@
-Jonathan Leidig:Network Dynamics and Simulation Science Laboratory, VBI; CS Virginia Tech, USA
-Edward A. Fox:Dept. of Computer Science Virginia Tech, USA
-Kevin Hall:Network Dynamics and Simulation Science Laboratory, VBI Virginia Tech, USA
-Madhav Marathe:Network Dynamics and Simulation Science Laboratory, VBI Virginia Tech, USA
-Henning Mortveit:Network Dynamics and Simulation Science Laboratory, VBI Virginia Tech, USA

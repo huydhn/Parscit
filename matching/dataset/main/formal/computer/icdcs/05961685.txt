@@ -1,6 +1,0 @@
-Rubao Lee:Department of Computer Science and Engineering, The Ohio State University
-Tian Luo:Department of Computer Science and Engineering, The Ohio State University
-Yin Huai:Department of Computer Science and Engineering, The Ohio State University
-Fusheng Wang:Center for Comprehensive Informatics, Emory University
-Yongqiang He:Facebook Data Infrastructure Team
-Xiaodong Zhang:Department of Computer Science and Engineering, The Ohio State University

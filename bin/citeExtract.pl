@@ -43,9 +43,9 @@ use Omni::Traversal;
 use ParsCit::Config;
 use ParsCit::Controller;
 use SectLabel::AAMatching;
-	
+
 # USER customizable section
-my $tmpfile	.= $0; 
+my $tmpfile	.= $0;
 $tmpfile	=~ s/[\.\/]//g;
 $tmpfile	.= $$ . time;
 
@@ -67,14 +67,14 @@ my $default_mode		= $PARSCIT;
 # END user customizable section
 
 # Ctrl-C handler
-sub quitHandler 
+sub quitHandler
 {
 	print STDERR "\n# $progname fatal\t\tReceived a 'SIGINT'\n# $progname - exiting cleanly\n";
 	exit;
 }
 
 # HELP sub-procedure
-sub Help 
+sub Help
 {
 	print STDERR "usage: $progname -h\t\t\t\t[invokes help]\n";
 	print STDERR "       $progname -v\t\t\t\t[invokes version]\n";
@@ -93,7 +93,7 @@ sub Help
 }
 
 # VERSION sub-procedure
-sub Version 
+sub Version
 {
 	if (system ("perldoc $0")) { die "Need \"perldoc\" in PATH to print version information"; }
 	exit;
@@ -104,7 +104,7 @@ my $cmd_line = $0 . " " . join (" ", @ARGV);
 
 # Invoked with no arguments, error in execution
 if ($#ARGV == -1)
-{ 		        
+{
 	print STDERR "# $progname info\t\tNo arguments detected, waiting for input on command line.		\n";
 	print STDERR "# $progname info\t\tIf you need help, stop this program and reinvoke with \"-h\".	\n";
 	exit(-1);
@@ -116,18 +116,18 @@ getopts ('hqm:i:e:r:tva');
 our ($opt_q, $opt_v, $opt_h, $opt_m, $opt_i, $opt_e, $opt_t, $opt_a, $opt_r);
 
 # Use (!defined $opt_X) for options with arguments
-if ($opt_v) 
-{ 
+if ($opt_v)
+{
 	# Call Version, if asked for
-	Version(); 
-	exit(0); 
+	Version();
+	exit(0);
 }
 
-if ($opt_h) 
-{ 
+if ($opt_h)
+{
 	# Call help, if asked for
-	Help(); 
-	exit (0); 
+	Help();
+	exit (0);
 }
 
 if ($opt_r)
@@ -152,9 +152,9 @@ my $is_xml_input = 0;
 if (defined $opt_i && $opt_i !~ /^(xml|raw)$/)
 {
 	print STDERR "#! Input type needs to be either \"raw\" or \"xml\"\n";
-	Help(); 
+	Help();
 	exit (0);
-} 
+}
 elsif (defined $opt_i && $opt_i eq "xml")
 {
 	$is_xml_input = 1;
@@ -168,12 +168,12 @@ if (defined $opt_e && $opt_e ne "")
 {
 	# Sanity checks
 	# No call to extract_citation
-	if (($mode & $PARSCIT) != $PARSCIT) 
-	{ 
+	if (($mode & $PARSCIT) != $PARSCIT)
+	{
 		print STDERR "#! Export type option is only available for the following modes: extract_citations, extract_meta and extract_all\n";
 		Help(); exit(0);
 	}
-	
+
 	if (! defined $out)
 	{
 		print STDERR "#! Export type option requires output file name to be specified\n";
@@ -183,15 +183,15 @@ if (defined $opt_e && $opt_e ne "")
 	# Get individual export types
 	my %type_hash	= ();
 	my @tokens		= split(/\-/, $opt_e);
-	foreach my $token (@tokens) 
+	foreach my $token (@tokens)
 	{
 		if($token !~ /^(ads|bib|end|isi|ris|wordbib)$/)
 		{
 			print STDERR "#! Invalid export type \"$token\"\n";
-			Help(); 
+			Help();
 			exit (0);
 		}
-		
+
 		$type_hash{ $token } = 1;
 	}
 
@@ -232,15 +232,15 @@ if ($is_xml_input)
 	# New document
 	$doc = new Omni::Omnidoc();
 	$doc->set_raw($xml);
-} 
-else 
+}
+else
 {
 	$text_file	= $in;
 }
 
 # SECTLABEL
 if (($mode & $SECTLABEL) == $SECTLABEL)
-{ 
+{
 	my $sect_label_input = $text_file;
 
 	# Get XML features and append to $text_file
@@ -279,20 +279,20 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 
 		# Remove first line <?xml/>
 		$rxml .= RemoveTopLines($sl_xml, 1) . "\n";
-	
+
 		# Only run author - affiliation if "something" is provided
 		if ($opt_a)
 		{
 			my @aut_addrs = ();
 			my @aff_addrs = ();
-			# Address of author section	
+			# Address of author section
 			for my $lindex (@{ $aut_lines }) { push @aut_addrs, $omni_address[ $lindex ]; }
 			# Address of affiliation section
 			for my $lindex (@{ $aff_lines }) { push @aff_addrs, $omni_address[ $lindex ]; }
 
 			# The tarpit
 			my $aa_xml = SectLabel::AAMatching::AAMatching($doc, \@aut_addrs, \@aff_addrs);
-		
+
 			# Author-Affiliation Matching result
 			$rxml .= $aa_xml . "\n";
 		}
@@ -310,13 +310,13 @@ if (($mode & $SECTLABEL) == $SECTLABEL)
 }
 
 # PARSHED
-if (($mode & $PARSHED) == $PARSHED) 
+if (($mode & $PARSHED) == $PARSHED)
 {
 	use ParsHed::Controller;
 
-	my $ph_xml	= ParsHed::Controller::extractHeader($text_file, $ph_model); 
-	
-	# Remove first line <?xml/> 
+	my $ph_xml	= ParsHed::Controller::extractHeader($text_file, $ph_model);
+
+	# Remove first line <?xml/>
 	$rxml		.= RemoveTopLines($$ph_xml, 1) . "\n";
 }
 
@@ -330,7 +330,7 @@ if (($mode & $PARSCIT) == $PARSCIT)
 
 		my $address_file = $text_file . ".feature" . ".address";
 		if (! open(IN, "<:utf8", $address_file)) { return (-1, "Could not open address file " . $address_file . ": " . $!); }
-		
+
 		my @omni_address = ();
 		# Read the address file provided by process OmniXML script
 		while (<IN>)
@@ -342,9 +342,13 @@ if (($mode & $PARSCIT) == $PARSCIT)
 
 			my %addr		= ();
 			# Address
+            # Page
 			$addr{ 'L1' }	= $element[ 0 ];
+            # Column
 			$addr{ 'L2' }	= $element[ 1 ];
+            # Paragraph
 			$addr{ 'L3' }	= $element[ 2 ];
+            # Line
 			$addr{ 'L4' }	= $element[ 3 ];
 
 			# Save the address
@@ -355,19 +359,19 @@ if (($mode & $PARSCIT) == $PARSCIT)
 
 		my $sect_label_input = $text_file . ".feature";
 		# Output of sectlabel becomes input for parscit
-		my ($all_text, $cit_lines) = SectLabel($sect_label_input, $is_xml_input, 1);	
+		my ($all_text, $cit_lines) = SectLabel($sect_label_input, $is_xml_input, 1);
 		# Remove XML feature file
 		unlink($sect_label_input);
 
 		my @cit_addrs = ();
-		# Address of reference section	
+		# Address of reference section
 		for my $lindex (@{ $cit_lines }) { push @cit_addrs, $omni_address[ $lindex ]; }
 
 		my $pc_xml = undef;
 		# Huydhn: add xml features to parscit in case of unmarked reference
 		$pc_xml = ParsCit::Controller::ExtractCitations2(\$all_text, $cit_lines, $is_xml_input, $doc, \@cit_addrs);
 
-		# Remove first line <?xml/> 
+		# Remove first line <?xml/>
 		$rxml .= RemoveTopLines($$pc_xml, 1) . "\n";
 
 		# Thang v100901: call to BiblioScript
@@ -376,8 +380,8 @@ if (($mode & $PARSCIT) == $PARSCIT)
 	else
 	{
 		my $pc_xml = ParsCit::Controller::ExtractCitations($text_file, $in, $is_xml_input);
-	
-		# Remove first line <?xml/> 
+
+		# Remove first line <?xml/>
 		$rxml .= RemoveTopLines($$pc_xml, 1) . "\n";
 
 		# Thang v100901: call to BiblioScript
@@ -387,13 +391,13 @@ if (($mode & $PARSCIT) == $PARSCIT)
 
 $rxml .= "</algorithms>";
 
-if (defined $out) 
+if (defined $out)
 {
 	open (OUT, ">:utf8", $out) or die $progname . " fatal\tCould not open \"" . $out . "\" for writing: $!";
 	print OUT $rxml;
 	close OUT;
-} 
-else 
+}
+else
 {
 	print $rxml;
 }
@@ -402,8 +406,8 @@ else
 if ($is_xml_input)
 {
 	# PARSCIT
-	if (($mode & $PARSCIT) == $PARSCIT) 
-	{ 
+	if (($mode & $PARSCIT) == $PARSCIT)
+	{
 		# Get the normal .body .cite files
 		system("mv $text_file.body $in.body");
 		system("mv $text_file.cite $in.cite");
@@ -414,31 +418,31 @@ if ($is_xml_input)
 
 # END of main program
 
-sub ParseMode 
+sub ParseMode
 {
 	my $arg = shift;
 
-	if ($arg eq "extract_meta") 
+	if ($arg eq "extract_meta")
 	{
 		return ($PARSCIT | $PARSHED);
-	} 
-	elsif ($arg eq "extract_header") 
+	}
+	elsif ($arg eq "extract_header")
 	{
 		return $PARSHED;
-	} 
-	elsif ($arg eq "extract_citations") 
+	}
+	elsif ($arg eq "extract_citations")
 	{
 		return $PARSCIT;
-	} 
-	elsif ($arg eq "extract_section") 
+	}
+	elsif ($arg eq "extract_section")
 	{
 		return $SECTLABEL;
-	} 
-	elsif ($arg eq "extract_all") 
+	}
+	elsif ($arg eq "extract_all")
 	{
 		return ($PARSHED | $PARSCIT | $SECTLABEL);
-	} 
-	else 
+	}
+	else
 	{
 		Help();
 		exit(-1);
@@ -446,11 +450,11 @@ sub ParseMode
 }
 
 # Remove top n lines
-sub RemoveTopLines 
+sub RemoveTopLines
 {
 	my ($input, $top_n) = @_;
 
-	# Remove first line <?xml/> 
+	# Remove first line <?xml/>
 	my @lines = split (/\n/, $input);
 	for(my $i = 0; $i < $top_n; $i++)
 	{
@@ -463,7 +467,7 @@ sub RemoveTopLines
 ###
 # Thang v100401: generate section info
 ###
-sub SectLabel 
+sub SectLabel
 {
 	my ($text_file, $is_xml_input, $for_parscit) = @_;
 
@@ -488,13 +492,13 @@ sub SectLabel
 	# Classify section
 	if (! $for_parscit)
 	{
-		my ($sl_xml, $aut_lines, $aff_lines) = SectLabel::Controller::ExtractSection(	$text_file, 
-																						$is_xml_output, 
-																						$model_file, 
-																						$dict_file, 
-																						$func_file, 
-																						$config_file, 
-																						$is_xml_input, 
+		my ($sl_xml, $aut_lines, $aff_lines) = SectLabel::Controller::ExtractSection(	$text_file,
+																						$is_xml_output,
+																						$model_file,
+																						$dict_file,
+																						$func_file,
+																						$config_file,
+																						$is_xml_input,
 																						$is_debug,
 																						$for_parscit	);
 		return ($$sl_xml, $aut_lines, $aff_lines);
@@ -502,13 +506,13 @@ sub SectLabel
 	# Huydhn: sectlabel output -> parscit input
 	else
 	{
-		my ($all_text, $cit_lines) = SectLabel::Controller::ExtractSection(	$text_file, 
-																			$is_xml_output, 
-																			$model_file, 
-																			$dict_file, 
-																			$func_file, 
-																			$config_file, 
-																			$is_xml_input, 
+		my ($all_text, $cit_lines) = SectLabel::Controller::ExtractSection(	$text_file,
+																			$is_xml_output,
+																			$model_file,
+																			$dict_file,
+																			$func_file,
+																			$config_file,
+																			$is_xml_input,
 																			$is_debug,
 																			$for_parscit	);
 
@@ -519,7 +523,7 @@ sub SectLabel
 ###
 # Thang v100901: incorporate BiblioScript
 ###
-sub BiblioScript 
+sub BiblioScript
 {
 	my ($types, $pc_xml, $outfile) = @_;
 
@@ -556,7 +560,7 @@ sub BiblioScript
 }
 
 # Method to generate tmp file name
-sub NewTmpFile 
+sub NewTmpFile
 {
 	my $tmpfile	= `date '+%Y%m%d-%H%M%S-$$'`;
 	chomp  $tmpfile;

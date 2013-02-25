@@ -21,7 +21,7 @@ my $tmp_content 	= undef;
 my @tmp_pages		= ();
 
 ###
-# A whole document object in Omnipage xml: a document contains many pages 
+# A whole document object in Omnipage xml: a document contains many pages
 #
 # Do Hoang Nhat Huy, 09 Jan 2011
 ###
@@ -43,7 +43,7 @@ sub new
 	return $self;
 }
 
-# 
+#
 sub set_raw
 {
 	my ($self, $raw) = @_;
@@ -60,7 +60,7 @@ sub set_raw
 	my $twig_roots		= { $tag_list->{ 'DOCUMENT' }	=> 1 };
 	my $twig_handlers 	= { $tag_list->{ 'DOCUMENT' }	=> \&parse};
 
-	# XML::Twig 
+	# XML::Twig
 	my $twig = new XML::Twig(	twig_roots 		=> $twig_roots,
 						 	 	twig_handlers	=> $twig_handlers,
 						 	 	pretty_print 	=> 'indented'	);
@@ -73,7 +73,7 @@ sub set_raw
 
 	# Copy all pages
 	@{$self->{ '_pages' } }	= @tmp_pages;
-	
+
 	# Copy content
 	$self->{ '_content' }	= $tmp_content;
 }
@@ -126,13 +126,13 @@ sub get_content
 }
 
 # Support functions
-sub GetNodeAttr 
+sub GetNodeAttr
 {
 	my ($node, $attr) = @_;
 	return ($node->att($attr) ? $node->att($attr) : "");
 }
 
-sub SetNodeAttr 
+sub SetNodeAttr
 {
 	my ($node, $attr, $value) = @_;
 	$node->set_att($attr, $value);

@@ -1,7 +1,0 @@
-B. Konev:Department of Computer Science University of Liverpool, UK
-R. Kontchakov:Department of CS & IS Birkbeck College London, UK
-M. Ludwig:Department of Computer Science University of Liverpool, UK
-T. Schneider:Department of Computer Science Universitat Bremen, Germany
-F. Wolter:Department of Computer Science University of Liverpool, UK
-M. Zakharyaschev:Department of CS & IS Birkbeck College London, UK
-

@@ -1,5 +1,0 @@
-Davide Scaramuzza:Swiss Federal Institute of Technology (ETH), Tannenstrasse 3, 8092 Zurich, Switzerland
-Roland Siegwart:Swiss Federal Institute of Technology (ETH), Tannenstrasse 3, 8092 Zurich, Switzerland
-Agostino Martinelli:INRIA Rhône-Alpes, 655 avenue de l’Europe Montbonnot, 38334 Saint Ismier Cedex, France
-
-

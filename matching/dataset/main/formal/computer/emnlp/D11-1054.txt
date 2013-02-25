@@ -1,3 +1,0 @@
-Alan Ritter:Computer Sci. & Eng. University of Washington Seattle, WA 98195
-Colin Cherry:National Research Council Canada Ottawa, Ontario, K1A 0R6
-William B. Dolan:Microsoft Research Redmond, WA 98052

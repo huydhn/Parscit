@@ -1,4 +1,0 @@
-Zhuang Wang:Knowledge and Decision Systems Siemens Corporate Research Princeton, NJ, USA
-Nemanja Djuric:Department of Computer and Information Sciences Temple University Philadelphia, PA, USA
-Koby Crammer:Department of Electrical Engineering The Technion Haifa, Israel
-Slobodan Vucetic:Department of Computer and Information Sciences Temple University Philadelphia, PA, USA

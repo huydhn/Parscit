@@ -1,8 +1,0 @@
-W. Shyy:Department of Aerospace Engineering, University of Michigan, FXB 1320 Beal Avenue, Ann Arbor, MI 48109, USA
-H. Aono:Department of Aerospace Engineering, University of Michigan, FXB 1320 Beal Avenue, Ann Arbor, MI 48109, USA
-S.K. Chimakurthi:Department of Aerospace Engineering, University of Michigan, FXB 1320 Beal Avenue, Ann Arbor, MI 48109, USA
-P. Trizila:Department of Aerospace Engineering, University of Michigan, FXB 1320 Beal Avenue, Ann Arbor, MI 48109, USA
-C.-K. Kang:Department of Aerospace Engineering, University of Michigan, FXB 1320 Beal Avenue, Ann Arbor, MI 48109, USA
-C.E.S. CesnikDepartment of Aerospace Engineering, University of Michigan, FXB 1320 Beal Avenue, Ann Arbor, MI 48109, USA
-H. Liu:Graduate School of Engineering, Chiba University, 1-33 Yayoi-cho, Chiba, Chiba 263-8522, Japan
-

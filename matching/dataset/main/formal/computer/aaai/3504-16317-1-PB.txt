@@ -1,7 +1,0 @@
-Si Liu:National Lab of Pattern Recognition, Institute of Automation, Chinese Academy of Science
-Hairong Liu:Department of Electrical and Computer Engineering, National University of Singapore
-Longin Jan Latecki:Department of Computer and Information Sciences, Temple University, Philadelphia, USA
-Shuicheng Yan:Department of Electrical and Computer Engineering, National University of Singapore
-Changsheng Xu:National Lab of Pattern Recognition, Institute of Automation, Chinese Academy of Science:China-Singapore Institute of Digital Media
-Hanqing Lu:National Lab of Pattern Recognition, Institute of Automation, Chinese Academy of Science
-

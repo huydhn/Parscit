@@ -1,5 +1,0 @@
-Institute of Computer Science, Academy of Sciences of the Czech Republic, Pod vodárenskou věží 2, Prague, 182 07, Czech Republic
-Artificial Intelligence Research Institute (IIIA - CSIC), Campus de la UAB, 08193 Bellaterra, Catalonia, Spain
-Department of Probability, Logic and Statistics, University of Barcelona, Gran Via de les Corts Catalanes 585, 08007 Barcelona, Catalonia, Spain
-Department of Mathematics and Computer Science, University of Siena, Pian dei Mantellini 44, 53100 Siena, Italy
-

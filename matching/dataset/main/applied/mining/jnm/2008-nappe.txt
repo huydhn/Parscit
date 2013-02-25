@@ -1,8 +1,0 @@
-J.C. Nappé:École Nationale Supérieure des Mines, SPIN/PMMC, LPMG UMR CNRS 5148, 158 cours Fauriel, 42023 Saint-Étienne cedex 2, France
-Ph. Grosseau:École Nationale Supérieure des Mines, SPIN/PMMC, LPMG UMR CNRS 5148, 158 cours Fauriel, 42023 Saint-Étienne cedex 2, France
-F. Audubert:CEA, DEN, DEC/SPUA/LTEC, Cadarache, 13108 St Paul lez Durance, France
-B. Guilhot:École Nationale Supérieure des Mines, Centre CIS, 158 cours Fauriel, 42023 Saint-Étienne cedex 2, France
-M. Beauvy:CEA, DEN, DEC/SPUA/LTEC, Cadarache, 13108 St Paul lez Durance, France
-M. Benabdesselam:Université de Nice - Sophia Antipolis, LPMC UMR CNRS 6622, Parc Valrose, 06108 Nice cedex 2, France
-I. Monnet:GANIL/CIMAP/CIRIL, bd. Henri Becquerel, BP 55027, 14076 Caen cedex 5, France
-

@@ -57,12 +57,12 @@ sub PrepDataUnmarked
 
 	# Open the temporary file, prepare to write
 	my $output_tmp = undef;
-	unless (open($output_tmp, ">:utf8", $tmpfile)) 
+	unless (open($output_tmp, ">:utf8", $tmpfile))
 	{
 		fatal("Could not open tmp file " . $tmp_dir . "/" . $tmpfile . " for writing.");
       	return;
     }
-	
+
 	# Calculate the average length in character and in word of the whole cite text
 	my @avg_chars = ();
 	my @avg_words = ();
@@ -75,34 +75,34 @@ sub PrepDataUnmarked
 	my $pages		= $omnidoc->get_objs_ref();
 	my $start_page	= $cit_addrs->[ 0 ]->{ 'L1' };
 	my $end_page	= $cit_addrs->[ -1 ]->{ 'L1' };
-	# 
+	#
 	my $addr_index	= 0;
 
 	for (my $x = $start_page; $x <= $end_page; $x++)
 	{
 		my $columns 	 = $pages->[ $x ]->get_objs_ref();
-		my $start_column =	($x == $cit_addrs->[ 0 ]->{ 'L1' })		? 
+		my $start_column =	($x == $cit_addrs->[ 0 ]->{ 'L1' })		?
 							$cit_addrs->[ 0 ]->{ 'L2' }		: 0;
-		my $end_column	 =	($x == $cit_addrs->[ -1 ]->{ 'L1' })	? 
+		my $end_column	 =	($x == $cit_addrs->[ -1 ]->{ 'L1' })	?
 							$cit_addrs->[ -1 ]->{ 'L2' }	: (scalar(@{ $columns }) - 1);
 
 		for (my $y = $start_column; $y <= $end_column; $y++)
 		{
 			my $paras		= $columns->[ $y ]->get_objs_ref();
-			my $start_para	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }))	? 
+			my $start_para	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }))	?
 								$cit_addrs->[ 0 ]->{ 'L3' }		: 0;
-			my $end_para	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }))	? 
+			my $end_para	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }))	?
 								$cit_addrs->[ -1 ]->{ 'L3' }	: (scalar(@{ $paras }) - 1);
 
 			for (my $z = $start_para; $z <= $end_para; $z++)
 			{
 				my $lines = $paras->[ $z ]->get_objs_ref();
 
-				my $start_line	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }) && ($z == $cit_addrs->[ 0 ]->{ 'L3' }))		? 
+				my $start_line	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }) && ($z == $cit_addrs->[ 0 ]->{ 'L3' }))		?
 									$cit_addrs->[ 0 ]->{ 'L4' }		: 0;
-				my $end_line	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }) && ($z == $cit_addrs->[ -1 ]->{ 'L3' }))	? 
+				my $end_line	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }) && ($z == $cit_addrs->[ -1 ]->{ 'L3' }))	?
 									$cit_addrs->[ -1 ]->{ 'L4' }	: (scalar(@{ $lines }) - 1);
-			
+
 				# Total number of line in the paragraph
 				my $total_ln	= 0;
 				# Average per paragraph
@@ -128,7 +128,7 @@ sub PrepDataUnmarked
 						if (($ln =~ m/^\s*$/) || ($lines->[ $t ]->get_name() ne $obj_list->{ 'OMNILINE' }))
 						{
 							$addr_index++;
-							next; 
+							next;
 						}
 
 						# Total length in char
@@ -184,33 +184,33 @@ sub PrepDataUnmarked
 	$pages		= $omnidoc->get_objs_ref();
 	$start_page	= $cit_addrs->[ 0 ]->{ 'L1' };
 	$end_page	= $cit_addrs->[ -1 ]->{ 'L1' };
-	# 
+	#
 	$addr_index	= 0;
 
 	for (my $x = $start_page; $x <= $end_page; $x++)
 	{
 		my $columns 	 = $pages->[ $x ]->get_objs_ref();
-		my $start_column =	($x == $cit_addrs->[ 0 ]->{ 'L1' })		? 
+		my $start_column =	($x == $cit_addrs->[ 0 ]->{ 'L1' })		?
 							$cit_addrs->[ 0 ]->{ 'L2' }		: 0;
-		my $end_column	 =	($x == $cit_addrs->[ -1 ]->{ 'L1' })	? 
+		my $end_column	 =	($x == $cit_addrs->[ -1 ]->{ 'L1' })	?
 							$cit_addrs->[ -1 ]->{ 'L2' }	: (scalar(@{ $columns }) - 1);
 
 		for (my $y = $start_column; $y <= $end_column; $y++)
 		{
 			my $paras		= $columns->[ $y ]->get_objs_ref();
-			my $start_para	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }))	? 
+			my $start_para	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }))	?
 								$cit_addrs->[ 0 ]->{ 'L3' }		: 0;
-			my $end_para	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }))	? 
+			my $end_para	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }))	?
 								$cit_addrs->[ -1 ]->{ 'L3' }	: (scalar(@{ $paras }) - 1);
-			
+
 			my $prev_para	= (-1);
 			for (my $z = $start_para; $z <= $end_para; $z++)
 			{
 				my $lines = $paras->[ $z ]->get_objs_ref();
 
-				my $start_line	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }) && ($z == $cit_addrs->[ 0 ]->{ 'L3' }))		? 
+				my $start_line	=	(($x == $cit_addrs->[ 0 ]->{ 'L1' }) && ($y == $cit_addrs->[ 0 ]->{ 'L2' }) && ($z == $cit_addrs->[ 0 ]->{ 'L3' }))		?
 									$cit_addrs->[ 0 ]->{ 'L4' }		: 0;
-				my $end_line	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }) && ($z == $cit_addrs->[ -1 ]->{ 'L3' }))	? 
+				my $end_line	=	(($x == $cit_addrs->[ -1 ]->{ 'L1' }) && ($y == $cit_addrs->[ -1 ]->{ 'L2' }) && ($z == $cit_addrs->[ -1 ]->{ 'L3' }))	?
 									$cit_addrs->[ -1 ]->{ 'L4' }	: (scalar(@{ $lines }) - 1);
 
 				# Average value
@@ -237,15 +237,15 @@ sub PrepDataUnmarked
 					# Trim line
 					$ln	=~ s/^\s+|\s+$//g;
 					# Skip blank lines
-					if ($ln =~ m/^\s*$/) 
-					{ 
+					if ($ln =~ m/^\s*$/)
+					{
 						$addr_index++;
-						next; 
+						next;
 					}
 
 					# All words in a line
 					my @tokens	= split(/\s+/, $ln);
-				
+
 					# Features will be stored here
 					my @feats	= ();
 					# Current feature
@@ -275,8 +275,8 @@ sub PrepDataUnmarked
 					$current++;
 
 					# The line contains many authors and doesn't has number
-					if ($ln =~ m/\d/) 
-					{ 
+					if ($ln =~ m/\d/)
+					{
 						push @feats, "noLongAuthorLine";
 					}
 					else
@@ -287,11 +287,11 @@ sub PrepDataUnmarked
 						# Have enough author, this line is a long author line
 						if ($n_sep >= 3)
 						{
-							push @feats, "isLongAuthorLine";		
+							push @feats, "isLongAuthorLine";
 						}
 						else
 						{
-							push @feats, "noLongAuthorLine";	
+							push @feats, "noLongAuthorLine";
 						}
 					}
 					$current++;
@@ -301,7 +301,7 @@ sub PrepDataUnmarked
 					# Last character
 					my @last_word_chars	= split(//, $last_word);
 					my $last_char		= $last_word_chars[ scalar(@last_word_chars) - 1 ];
-					# Last char is a dot					
+					# Last char is a dot
 					if ($last_char eq ".")
 					{
 						push @feats, "period";
@@ -352,14 +352,14 @@ sub PrepDataUnmarked
 					PrepDataUnmarkedToken($second_word, \@feats, \$current);
 					# Last word
 					PrepDataUnmarkedToken($last_word, \@feats, \$current);
-	
+
 					# XML features
 					# Bullet
 					my $bullet = undef;
 					if ($lines->[ $t ]->get_name() eq $obj_list->{ 'OMNILINE' }) { $bullet = $lines->[ $t ]->get_bullet(); }
 					if ((defined $bullet) && ($bullet eq 'true'))
 					{
-						push @feats, 'xmlBullet_yes';	
+						push @feats, 'xmlBullet_yes';
 					}
 					else
 					{
@@ -370,17 +370,17 @@ sub PrepDataUnmarked
 					# First word format: bold, italic, font size
 					my $xml_runs = undef;
 					if (($lines->[ $t ]->get_name() eq $obj_list->{ 'OMNILINE' })) { $xml_runs = $lines->[ $t ]->get_objs_ref(); }
-			
+
 					# First word format: bold
 					my $bold = undef;
 					if (defined $xml_runs) { $bold = $xml_runs->[ 0 ]->get_bold(); }
 					if ((defined $bold) && ($bold eq 'true'))
-					{	
-						push @feats, 'xmlBold_yes'; 
+					{
+						push @feats, 'xmlBold_yes';
 					}
 					else
 					{
-						push @feats, 'xmlBold_no';	
+						push @feats, 'xmlBold_no';
 					}
 					$current++;
 
@@ -389,11 +389,11 @@ sub PrepDataUnmarked
 					if (defined $xml_runs) { $italic = $xml_runs->[ 0 ]->get_italic(); }
 					if ((defined $italic) && ($italic eq 'true'))
 					{
-						push @feats, 'xmlItalic_yes'; 
-					}	
+						push @feats, 'xmlItalic_yes';
+					}
 					else
 					{
-						push @feats, 'xmlItalic_no';	
+						push @feats, 'xmlItalic_no';
 					}
 					$current++;
 
@@ -471,13 +471,13 @@ sub PrepDataUnmarked
 sub PrepDataUnmarkedToken
 {
 	my ($token, $feats, $current) = @_;
-	
+
 	# No punctuation
 	my $token_np	= $token;
    	$token_np		=~ s/[^\w]//g;
 
 	# and in lower case
-	my $token_lc_np	= lc($token_np);    
+	my $token_lc_np	= lc($token_np);
 
 	push @{ $feats }, "TOKEN-" . $token;
 	$$current++;
@@ -485,11 +485,11 @@ sub PrepDataUnmarkedToken
 	# Characters
 	my @token_chars = split(//, $token);
 	my $token_len   = scalar @token_chars;
-		
+
 	# First char
 	push @{ $feats }, $token_chars[ 0 ];
 	$$current++;
-		
+
 	# First 2 chars
 	if ($token_len >= 2) {
 		push @{ $feats }, join("", @token_chars[0..1]);
@@ -519,11 +519,11 @@ sub PrepDataUnmarkedToken
 		push @{ $feats }, $token_chars[ 0 ];
 	}
 	$$current++;
-			
+
 	# Last char
     push @{ $feats }, $token_chars[-1];
 	$$current++;
-			
+
 	# Last 2 chars
     if ($token_len >= 2) {
 		push @{ $feats }, join("", @token_chars[-2..-1]);
@@ -561,8 +561,8 @@ sub PrepDataUnmarkedToken
 	}
 	else
 	{
-		my $ortho =	($token_np =~ /^[\p{IsUpper}]$/)				? "singleCap"	:				
-					($token_np =~ /^[\p{IsUpper}][\p{IsLower}]+/)	? "InitCap"		: 
+		my $ortho =	($token_np =~ /^[\p{IsUpper}]$/)				? "singleCap"	:
+					($token_np =~ /^[\p{IsUpper}][\p{IsLower}]+/)	? "InitCap"		:
 					($token_np =~ /^[\p{IsUpper}]+$/)				? "AllCap"		: "others";
     	push @{ $feats }, $ortho;
 	}
@@ -587,62 +587,62 @@ sub PrepDataUnmarkedToken
 
 	my ($publisher_name, $place_name, $month_name, $last_name, $female_name, $male_name) = undef;
 
-   	if ($dict_status >= 32) 
+   	if ($dict_status >= 32)
 	{
 		$dict_status	-= 32;
 		$publisher_name	= "publisherName";
-   	} 
-	else 
+   	}
+	else
 	{
 		$publisher_name	= "no";
    	}
-	
-	if ($dict_status >= 16) 
+
+	if ($dict_status >= 16)
 	{
 		$dict_status	-= 16;
 		$place_name		= "placeName";
-	} 
-	else 
+	}
+	else
 	{
 		$place_name		= "no";
 	}
 
-   	if ($dict_status >= 8) 
+   	if ($dict_status >= 8)
 	{
 		$dict_status	-= 8;
 		$month_name		= "monthName";
-   	} 
-	else 
+   	}
+	else
 	{
 		$month_name		= "no";
    	}
 
-	if ($dict_status >= 4) 
+	if ($dict_status >= 4)
 	{
 		$dict_status	-= 4;
 		$last_name		= "lastName";
-	} 
-	else 
+	}
+	else
 	{
 		$last_name		= "no";
 	}
 
-   	if ($dict_status >= 2) 
+   	if ($dict_status >= 2)
 	{
 		$dict_status	-= 2;
 		$female_name	= "femaleName";
-   	} 
-	else 
+   	}
+	else
 	{
 		$female_name	= "no";
    	}
-			
-	if ($dict_status >= 1) 
+
+	if ($dict_status >= 1)
 	{
 		$dict_status	-= 1;
 		$male_name		= "maleName";
-   	} 
-	else 
+   	}
+	else
 	{
 		$male_name		= "no";
    	}
@@ -658,7 +658,7 @@ sub PrepDataUnmarkedToken
 	# Female name
 	push @{ $feats }, $female_name;
 	$$current++;
-			
+
 	# Last name
 	push @{ $feats }, $last_name;
 	$$current++;
@@ -670,14 +670,14 @@ sub PrepDataUnmarkedToken
 	# Place name
 	push @{ $feats }, $place_name;
 	$$current++;
-			
+
 	# Publisher name
  	push @{ $feats }, $publisher_name;
 	$$current++;
 }
 
 # Prepare data for trfpp
-sub PrepData 
+sub PrepData
 {
     my ($rcite_text, $filename) = @_;
 
@@ -687,33 +687,34 @@ sub PrepData
 	###
 	# Thang Mar 10: move inside the method, only load when running
 	###
-    ReadDict($dict_file); 
+    ReadDict($dict_file);
 
-    unless (open(TMP, ">:utf8", $tmpfile)) 
+    unless (open(TMP, ">:utf8", $tmpfile))
 	{
 		fatal("Could not open tmp file " . $tmp_dir . "/" . $tmpfile . " for writing.");
       	return;
     }
 
-    foreach (split "\n", $$rcite_text) 
-	{	
+    foreach (split "\n", $$rcite_text)
+	{
 		# Skip blank lines
 		if (/^\s*$/) { next; }
 
 		my $tag		= "";
+        # QIAN FIND ME
 		my @tokens	= split(/ +/);
 		my @feats	= ();
-		
+
 		###
-		# Modified by Artemy Kolchinsky (v090625): 'ed.' also matches things like 'Med.', 
-		# which are found extremely often in my document database. To avoid this situation, 
-		# I changed this string to match 'ed.', 'editor', 'editors', and 'eds.' if *not* 
+		# Modified by Artemy Kolchinsky (v090625): 'ed.' also matches things like 'Med.',
+		# which are found extremely often in my document database. To avoid this situation,
+		# I changed this string to match 'ed.', 'editor', 'editors', and 'eds.' if *not*
 		# preceeded by an alphabetic character.
 		###
 		my $has_possible_editor = (/[^A-Za-z](ed\.|editor|editors|eds\.)/) ? "possibleEditors" : "noEditors";
 
 		my $j = 0;
-		for (my $i = 0; $i <= $#tokens; $i++) 
+		for (my $i = 0; $i <= $#tokens; $i++)
 		{
 	    	if ($tokens[$i] =~ /^\s*$/) { next; }
 
@@ -721,11 +722,11 @@ sub PrepData
 			# Thang v100401: /^\<\/([\p{IsLower}]+)/)
 			###
 	    	if ($tokens[$i] =~ /^<\/[a-zA-Z]+/) { next; }
-			
+
 			###
 			# Thang v100401: /^\<([\p{IsLower}]+)/)
 			###
-	    	if ($tokens[$i] =~ /^<([a-zA-Z]+)/) 
+	    	if ($tokens[$i] =~ /^<([a-zA-Z]+)/)
 			{
 				$tag = $1;
 				next;
@@ -733,14 +734,14 @@ sub PrepData
 
 	    	# Prep
 	    	my $word	= $tokens[$i];
-			
+
 			# No punctuation
-	    	my $word_np	 = $tokens[$i];			      
+	    	my $word_np	 = $tokens[$i];
 	    	$word_np	 =~ s/[^\w]//g;
 	    	if ($word_np =~ /^\s*$/) { $word_np	= "EMPTY"; }
 
 			# Lowercased word, no punctuation
-			my $word_lc_np	= lc($word_np);    
+			my $word_lc_np	= lc($word_np);
 	    	if ($word_lc_np	=~ /^\s*$/) { $word_lc_np = "EMPTY"; }
 
 	    	# Feature generation
@@ -753,17 +754,17 @@ sub PrepData
 			my $chars_len = scalar @chars;
 
 	    	my $last_char = $chars[ -1 ];
-	    	if ($last_char =~ /[\p{IsLower}]/) 
-			{ 
-				$last_char = 'a'; 
+	    	if ($last_char =~ /[\p{IsLower}]/)
+			{
+				$last_char = 'a';
 			}
-	    	elsif ($last_char =~ /[\p{IsUpper}]/) 
-			{ 
-				$last_char = 'A'; 
+	    	elsif ($last_char =~ /[\p{IsUpper}]/)
+			{
+				$last_char = 'A';
 			}
-	    	elsif ($last_char =~ /[0-9]/) 
-			{ 
-				$last_char = '0'; 
+	    	elsif ($last_char =~ /[0-9]/)
+			{
+				$last_char = '0';
 			}
 
 			# 1 = last char
@@ -773,7 +774,7 @@ sub PrepData
 			push(@{ $feats[ $j ] }, $chars[0]);
 
 		    # 3 = first 2 chars
-			if ($chars_len >= 2) { 
+			if ($chars_len >= 2) {
 				push(@{ $feats[ $j ] }, join("", @chars[0..1]));
 			} else {
 				push(@{ $feats[ $j ] }, $chars[0]);
@@ -798,10 +799,10 @@ sub PrepData
 			} else {
 				push(@{ $feats[ $j ] }, $chars[0]);
 			}
-			
+
 			# 6 = last char
 	    	push(@{ $feats[ $j ] }, $chars[-1]);
-			
+
 			# 7 = last 2 chars
 	    	if ($chars_len >= 2) {
 				push(@{ $feats[ $j ] }, join("", @chars[-2..-1]));
@@ -830,11 +831,11 @@ sub PrepData
 			}
 
 			# 10 = lowercased word, no punct
-		    push(@{ $feats[ $j ] }, $word_lc_np);  
+		    push(@{ $feats[ $j ] }, $word_lc_np);
 
 	    	# 11 - capitalization
-	    	my $ortho = ($word_np =~ /^[\p{IsUpper}]$/) ? "singleCap" : 
-						($word_np =~ /^[\p{IsUpper}][\p{IsLower}]+/) ? "InitCap" : 
+	    	my $ortho = ($word_np =~ /^[\p{IsUpper}]$/) ? "singleCap" :
+						($word_np =~ /^[\p{IsUpper}][\p{IsLower}]+/) ? "InitCap" :
 						($word_np =~ /^[\p{IsUpper}]+$/) ? "AllCap" : "others";
 	    	push(@{ $feats[ $j ] }, $ortho);
 
@@ -856,62 +857,62 @@ sub PrepData
 
 	    	my ($publisher_name, $place_name, $month_name, $last_name, $female_name, $male_name);
 
-	    	if ($dict_status >= 32) 
+	    	if ($dict_status >= 32)
 			{
 				$dict_status	-= 32;
 				$publisher_name	= "publisherName";
-	    	} 
-			else 
+	    	}
+			else
 			{
 				$publisher_name	= "no";
 	    	}
 
-	    	if ($dict_status >= 16) 
+	    	if ($dict_status >= 16)
 			{
 				$dict_status	-= 16;
 				$place_name		= "placeName";
-	    	} 
-			else 
+	    	}
+			else
 			{
 				$place_name		= "no";
 	    	}
 
-	    	if ($dict_status >= 8) 
+	    	if ($dict_status >= 8)
 			{
 				$dict_status	-= 8;
 				$month_name		= "monthName";
-	    	} 
-			else 
+	    	}
+			else
 			{
 				$month_name		= "no";
 	    	}
 
-	    	if ($dict_status >= 4) 
+	    	if ($dict_status >= 4)
 			{
 				$dict_status	-= 4;
 				$last_name		= "lastName";
-	    	} 
-			else 
+	    	}
+			else
 			{
 				$last_name		= "no";
 	    	}
 
-	    	if ($dict_status >= 2) 
+	    	if ($dict_status >= 2)
 			{
 				$dict_status	-= 2;
 				$female_name	= "femaleName";
-	    	} 
-			else 
+	    	}
+			else
 			{
 				$female_name	= "no";
 	    	}
-			
-			if ($dict_status >= 1) 
+
+			if ($dict_status >= 1)
 			{
 				$dict_status	-= 1;
 				$male_name		= "maleName";
-	    	} 
-			else 
+	    	}
+			else
 			{
 				$male_name		= "no";
 	    	}
@@ -924,7 +925,7 @@ sub PrepData
 
 			# 15 = female name
 			push(@{ $feats[ $j ] }, $female_name);
-			
+
 			# 16 = last name
 	    	push(@{ $feats[ $j ] }, $last_name);
 
@@ -933,7 +934,7 @@ sub PrepData
 
 			# 18 = place name
 	    	push(@{ $feats[ $j ] }, $place_name);
-			
+
 			# 19 = publisher name
 	    	push(@{ $feats[ $j ] }, $publisher_name);
 
@@ -944,9 +945,9 @@ sub PrepData
 	    	if ($#tokens <= 0) { next; }
 
 	    	my $location = int ($j / $#tokens * 12);
-			
+
 			# 21 = relative location
-	    	push(@{ $feats[ $j ]}, $location);	      
+	    	push(@{ $feats[ $j ]}, $location);
 
 	    	# 22 - punctuation
 	    	my $punct =	($word	=~ /^[\"\'\`]/) ? "leadQuote" :
@@ -966,7 +967,7 @@ sub PrepData
 		}
 
 		# Export output: print
-		for (my $j = 0; $j <= $#feats; $j++) 
+		for (my $j = 0; $j <= $#feats; $j++)
 		{
 	    	print TMP join (" ", @{ $feats[ $j ] });
 	    	print TMP "\n";
@@ -980,7 +981,7 @@ sub PrepData
     return $tmpfile;
 }
 
-sub BuildTmpFile 
+sub BuildTmpFile
 {
     my ($filename) = @_;
 
@@ -990,15 +991,15 @@ sub BuildTmpFile
 
 	# Untaint tmpfile variable
     if ($tmpfile =~ /^([-\@\w.]+)$/) { $tmpfile = $1; }
-    
+
 	###
 	# Altered by Min (Thu Feb 28 13:08:59 SGT 2008)
 	###
-    return "/tmp/$tmpfile"; 
+    return "/tmp/$tmpfile";
     # return $tmpfile;
 }
 
-sub Fatal 
+sub Fatal
 {
     my $msg = shift;
     print STDERR "Fatal Exception: $msg\n";
@@ -1011,7 +1012,7 @@ sub SplitReference
 {
 	my ($infile, $outfile) = @_;
 
-	unless (open(PIPE, "$crf_test -m $split_model_file $infile |")) 
+	unless (open(PIPE, "$crf_test -m $split_model_file $infile |"))
 	{
 		Fatal("Could not open pipe from crf call: $!");
 		return;
@@ -1024,15 +1025,15 @@ sub SplitReference
     }
     close PIPE;
 
-    unless(open(IN, "<:utf8", $infile)) 
+    unless(open(IN, "<:utf8", $infile))
 	{
 		Fatal("Could not open input file: $!");
 		return;
     }
-    
+
 	my @code_lines = ();
 
-	while(<IN>) 
+	while(<IN>)
 	{
 		chomp();
 		push @code_lines, $_;
@@ -1040,11 +1041,11 @@ sub SplitReference
     close IN;
 
     my @output_lines = split "\n", $output;
-    for (my $i = 0; $i <= $#output_lines; $i++) 
+    for (my $i = 0; $i <= $#output_lines; $i++)
 	{
 		# Remove blank line
 		if ($output_lines[$i] =~ m/^\s*$/) { next; }
-	
+
 		my @output_tokens	= split(/\s+/, $output_lines[$i]);
 		my $class			= $output_tokens[ $#output_tokens ];
 		my @code_tokens		= split(/\s+/, $code_lines[ $i ]);
@@ -1055,13 +1056,13 @@ sub SplitReference
 		$code_lines[$i]	= join " ", @code_tokens;
     }
 
-    unless (open(OUT, ">:utf8", $outfile)) 
+    unless (open(OUT, ">:utf8", $outfile))
 	{
 		Fatal("Could not open crf output file for writing: $!");
 		return;
     }
 
-    foreach my $line (@code_lines) 
+    foreach my $line (@code_lines)
 	{
 		###
 		# Thang v100401: add this to avoid double decoding
@@ -1069,8 +1070,8 @@ sub SplitReference
       	if (!Encode::is_utf8($line))
 		{
 			print OUT Encode::decode_utf8($line), "\n";
-		} 
-		else 
+		}
+		else
 		{
 			print OUT $line, "\n";
       	}
@@ -1079,11 +1080,11 @@ sub SplitReference
 	return 1;
 }
 
-sub Decode 
+sub Decode
 {
     my ($infile, $outfile) = @_;
 
-    unless (open(PIPE, "$crf_test -m $model_file $infile |")) 
+    unless (open(PIPE, "$crf_test -m $model_file $infile |"))
 	{
 		Fatal("Could not open pipe from crf call: $!");
 		return;
@@ -1096,7 +1097,7 @@ sub Decode
     }
     close PIPE;
 
-    unless(open(IN, "<:utf8", $infile)) 
+    unless(open(IN, "<:utf8", $infile))
 	{
 		Fatal("Could not open input file: $!");
 		return;
@@ -1104,7 +1105,7 @@ sub Decode
 
     my @code_lines = ();
 
-	while(<IN>) 
+	while(<IN>)
 	{
 		chomp();
 		push @code_lines, $_;
@@ -1112,11 +1113,11 @@ sub Decode
     close IN;
 
     my @output_lines = split "\n", $output;
-    for (my $i = 0; $i <= $#output_lines; $i++) 
+    for (my $i = 0; $i <= $#output_lines; $i++)
 	{
 		# Remove blank line
 		if ($output_lines[$i] =~ m/^\s*$/) { next; }
-	
+
 		my @output_tokens	= split(/\s+/, $output_lines[$i]);
 		my $class			= $output_tokens[ $#output_tokens ];
 		my @code_tokens		= split(/\s+/, $code_lines[ $i ]);
@@ -1127,13 +1128,13 @@ sub Decode
 		$code_lines[$i]	= join "\t", @code_tokens;
     }
 
-    unless (open(OUT, ">:utf8", $outfile)) 
+    unless (open(OUT, ">:utf8", $outfile))
 	{
 		Fatal("Could not open crf output file for writing: $!");
 		return;
     }
 
-    foreach my $line (@code_lines) 
+    foreach my $line (@code_lines)
 	{
 		###
 		# Thang v100401: add this to avoid double decoding
@@ -1141,8 +1142,8 @@ sub Decode
       	if (!Encode::is_utf8($line))
 		{
 			print OUT Encode::decode_utf8($line), "\n";
-		} 
-		else 
+		}
+		else
 		{
 			print OUT $line, "\n";
       	}
@@ -1151,14 +1152,14 @@ sub Decode
 	return 1;
 }
 
-sub ReadDict 
+sub ReadDict
 {
 	my $dict_file_loc = shift @_;
 
   	my $mode = 0;
   	open (DATA, "<:utf8", $dict_file_loc) || die "Could not open dict file $dict_file_loc: $!";
 
-	while (<DATA>) 
+	while (<DATA>)
 	{
     	if		(/^\#\# Male/) 		{ $mode = 1; }		# male names
     	elsif	(/^\#\# Female/)	{ $mode = 2; }		# female names
@@ -1168,7 +1169,7 @@ sub ReadDict
     	elsif	(/^\#\# Place/)		{ $mode = 16; }		# place names
     	elsif	(/^\#\# Publisher/)	{ $mode = 32; }		# publisher names
     	elsif	(/^\#/)				{ next; }
-    	else 
+    	else
 		{
       		chop;
       		my $key = $_;
@@ -1179,13 +1180,13 @@ sub ReadDict
 
       		# Already tagged (some entries may appear in same part of lexicon more than once
 			if ((defined $dict{ $key }) && ($dict{ $key } >= $mode))
-			{ 
-				next; 
+			{
+				next;
 			}
 			# not yet tagged
-      		else 
-			{ 
-				$dict{ $key } += $mode; 
+      		else
+			{
+				$dict{ $key } += $mode;
 			}
     	}
   	}

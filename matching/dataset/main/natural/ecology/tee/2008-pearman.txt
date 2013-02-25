@@ -1,5 +1,0 @@
-Peter B. Pearman:University of Lausanne, Department of Ecology and Evolution, CH-1015 Lausanne, Switzerland
-Antoine Guisan:University of Lausanne, Department of Ecology and Evolution, CH-1015 Lausanne, Switzerland
-Olivier Broennimann:University of Lausanne, Department of Ecology and Evolution, CH-1015 Lausanne, Switzerland
-Christophe F. Randin:University of Lausanne, Department of Ecology and Evolution, CH-1015 Lausanne, Switzerland
-

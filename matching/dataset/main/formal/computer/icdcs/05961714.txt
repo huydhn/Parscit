@@ -1,8 +1,0 @@
-Raimondas Sasnauskas:Communication and Distributed Systems (ComSys) RWTH Aachen University, Germany
-Benjamin Lucien Kaminski:Communication and Distributed Systems (ComSys) RWTH Aachen University, Germany
-Klaus Wehrle:Communication and Distributed Systems (ComSys) RWTH Aachen University, Germany
-Oscar Soria Dustmann:Communication and Distributed Systems (ComSys) RWTH Aachen University, Germany
-Carsten Weise:Embedded Software Laboratory RWTH Aachen University, Germany
-Stefan Kowalewski:Embedded Software Laboratory RWTH Aachen University, Germany
-
-

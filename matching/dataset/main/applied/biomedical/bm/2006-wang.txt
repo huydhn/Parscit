@@ -1,5 +1,0 @@
-Yongzhong Wang:Departments of Chemical and Biological Engineering and Biomedical Engineering, Tufts University, 4 Colby Street, Medford, MA 02155, USA
-Hyeon-Joo Kim:Departments of Chemical and Biological Engineering and Biomedical Engineering, Tufts University, 4 Colby Street, Medford, MA 02155, USA
-Gordana Vunjak-Novakovic:Department of Biomedical Engineering, Columbia University, 351 Engineering Terrace, 1210 Amsterdam Ave, MC 8904, New York, NY 10027, USA
-David L. Kaplan:Departments of Chemical and Biological Engineering and Biomedical Engineering, Tufts University, 4 Colby Street, Medford, MA 02155, USA
-
