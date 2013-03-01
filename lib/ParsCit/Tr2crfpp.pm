@@ -742,7 +742,16 @@ sub PrepData
 			# Lowercased word, no punctuation
 			my $word_lc_np	= lc($word_np);
 	    	if ($word_lc_np	=~ /^\s*$/) { $word_lc_np = "EMPTY"; }
-
+			
+			# Muthu Jan, 2013 BEGIN
+			# handles occurance of volume with : foll. by a page number
+			# or range of pages
+			if ( $word =~ /([0-9]+\([0-9]+\)):([0-9]+\-?[0-9]*)/ ) {
+				$word = $1;
+				push @tokens, $2;
+			}
+			# END
+			
 	    	# Feature generation
 
 			# 0 = lexical word	# 20 = possible editor
@@ -837,10 +846,13 @@ sub PrepData
 						($word_np =~ /^[\p{IsUpper}][\p{IsLower}]+/) ? "InitCap" :
 						($word_np =~ /^[\p{IsUpper}]+$/) ? "AllCap" : "others";
 	    	push(@{ $feats[ $j ] }, $ortho);
-
+			
 	    	# 12 - numbers
 	    	my $num =	($word_np	=~ /^(19|20)[0-9][0-9]$/) ? "year" :
-						($word		=~ /[0-9]\-[0-9]/) ? "possiblePage" :
+						# Muthu Jan, 2013 BEGIN. making second part of pagenumber range optional
+						#($word		=~ /[0-9]\-[0-9]/) ? "possiblePage" :
+						($word		=~ /[0-9]\-[0-9]*/) ? "possiblePage" :
+						# END
 						($word		=~ /[0-9]\([0-9]+\)/) ? "possibleVol" :
 						($word_np	=~ /^[0-9]$/) ? "1dig" :
 						($word_np	=~ /^[0-9][0-9]$/) ? "2dig" :
