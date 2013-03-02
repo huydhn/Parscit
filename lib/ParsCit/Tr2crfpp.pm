@@ -748,7 +748,9 @@ sub PrepData
 			# or range of pages
 			if ( $word =~ /([0-9]+\([0-9]+\)):([0-9]+\-?[0-9]*)/ ) {
 				$word = $1;
-				push @tokens, $2;
+				my @tokens_slice = splice(@tokens,$i-$#tokens);
+				unshift @tokens_slice, $2;
+				push @tokens, @tokens_slice;
 			}
 			# END
 			
