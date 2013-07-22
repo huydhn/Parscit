@@ -107,12 +107,17 @@ using <CODE>perl</CODE> (must be in your path).
 
 <ul>
 
-  <li> Current version <A HREF="parscit-110505b.zip">110505b</A>: Added XML::Twig for XML processing. ParsCit now uses input provided by SectLabel. See <A HREF="CHANGELOG.txt"> CHANGELOG.txt </A>;<BR/>
+  <li> Current version <A HREF="parscit-110505b.zip">110505b</A>: Added XML::Twig for XML processing. ParsCit now uses input provided by SectLabel. See <A HREF="CHANGELOG.txt"> CHANGELOG.txt </A>.<BR/>
+  The (partially ported) <A HREF="parscit-110505b-win.zip">Windows</A> version is here (provided by Yumichika).  See the <A HREF="CHANGES%20FOR%20WINDOWS.txt">CHANGES FOR WINDOWS.txt</A>
+<BR/>
   <BR/> 
-  We have also pushed a copy of the ParsCit current distribution into <A HREF="http://www.github.com/knmnyn/parscit">GitHub</A>.  While we'll strive to keep the GitHub version as updated as possible, the versions on this page will remain the most authoritative for major updates. 
+  We have also pushed a copy of the ParsCit current distribution into <A HREF="http://www.github.com/knmnyn/parscit">GitHub:knmnyn/parscit</A>.
+  The Windows version has also been pushed to <A HREF="http://www.github.com/wing-nus/parscit">GitHub:wing-nus/parscit</A>.
+
+  While we'll strive to keep the GitHub version as updated as possible, the versions on this page will remain the most authoritative for major updates. 
   <BR/>
   <li> Other versions: <BR/>
-<A HREF="parscit-101101.zip">101101</A>: Incorporate <A HREF="http://github.com/mromanello/BiblioScript">BiblioScript</A> and <A HREF=http://www.scripps.edu/~cdputnam/software/bibutils>BibUtils</A> software. See CHANGELOG.txt; <BR/> 
+<A HREF="parscit-101101.zip">101101</A>: Incorporated <A HREF="http://github.com/mromanello/BiblioScript">BiblioScript</A> and <A HREF=http://www.scripps.edu/~cdputnam/software/bibutils>BibUtils</A> software. See CHANGELOG.txt; <BR/> 
 <A HREF="parscit-100401.zip">100401d</A>: Added SectLabel (logical structure parsing) software from the NUS team, and Iconip training data from Cheong Chi Hong for ParsCit with new ParsCit model retrained. See CHANGELOG.txt; <BR/> 
 <A HREF="parscit-090625.zip">090625b</A>: Added documentation for complete re-installation. Improved ParsHed with added line-level CRF model together and post-processing module by NUS team, WSDL file and client for service at NUS and minor bug fixes for ParsCit. See CHANGELOG.txt; <BR/>
 <A HREF="parscit-090316.zip">090316</A>: Incorporation of ParsHed (header parsing) software from the NUS team. See CHANGELOG.txt; <BR/>
@@ -217,7 +222,7 @@ Note that if system loads gets high, your demo call may not be executed.  If you
 </FORM>
 </DIV>
 
-<P><B>Demo #2a: As above but using XML input (XML must conform to Omnipage output). This demo is slow so please be patient.</B></P>
+<P><B>Demo #2: As above but using XML input (XML must conform to Omnipage output). This demo is slow so please be patient.</B></P>
 <DIV STYLE="background-color:D0D0FF; padding: 1em">
 <FORM ENCTYPE="multipart/form-data" METHOD="post" ACTION="parsCit.cgi">
 <INPUT TYPE="text" SIZE="80" NAME="demo" value="2" style="display:none;">
@@ -262,6 +267,7 @@ Note that if system loads gets high, your demo call may not be executed.  If you
 </FORM>
 </DIV>
 
+<!--
 <P><B>Demo #2b: OCR a PDF file using Omnipage (less than 50 pages & smaller than 10MB).</B></P>
 <DIV STYLE="background-color:D0D0FF; padding: 1em">
 <FORM ENCTYPE="multipart/form-data" METHOD="post" ACTION="upload.cgi">
@@ -270,6 +276,7 @@ Note that if system loads gets high, your demo call may not be executed.  If you
 <br/><CENTER><INPUT TYPE="SUBMIT" VALUE="OCR this file!"></CENTER>
 </FORM>
 </DIV>
+-->
 
 <P><B>Demo #3: Parsing individual reference strings only (just <CODE>extract_citations</CODE>)</B></P>
 <DIV STYLE="background-color:D0D0FF; padding: 1em">
@@ -308,14 +315,22 @@ HREF="http://wing.comp.nus.edu.sg/~wing.nus/samples/W06-0102.cite">http://wing.c
 <A name="p"></a><H2>Publications</H2>
 <P><B>Journal Papers:</B>
 <UL>
-  <LI> Minh-Thang Luong, Thuy Dung Nguyen and Min-Yen Kan (forthcoming)
+  <LI> Minh-Thang Luong, Thuy Dung Nguyen and Min-Yen Kan (2010)
        <U>Logical Structure Recovery in Scholarly Articles with Rich
-       Document Features</U>.  Forthcoming in the International
-       Journal of Digital Library Systems.  <BR/>
+       Document Features</U>. International
+       Journal of Digital Library Systems (IJDLS), 1(4), 1-23.  <BR/>
        [ <A HREF="ijdls-SectLabel.pdf">pre-print .pdf</A> ]
 </UL>
 
+
 <P><B>International Referreed Conference Publications:</B>
+<UL>
+  <LI> Huy Hoang Nhat Do, Muthu Kumar Chandrasekaran, Philip S. Cho, 
+	  and Min-Yen Kan.(2013) <U>Extracting and Matching Authors and Affiliations 
+	  in Scholarly Documents.</U> To appear in Proceedings of the Thirteenth Annual International 
+	  ACM/IEEE Joint Conference on Digital Libraries (JCDL'13), Indianapolis: ACM. 2013. <BR/>
+	  [ <A HREF="jcdl2013.pdf">pre-print .pdf</A> ]
+</UL>
 <UL>
   <LI> Isaac G. Councill, C. Lee Giles, Min-Yen Kan. (2008)
        <U>ParsCit: An open-source CRF reference string parsing
@@ -367,10 +382,11 @@ HREF="http://wing.comp.nus.edu.sg/~wing.nus/samples/W06-0102.cite">http://wing.c
   <LI> <A HREF="http://www.comp.nus.edu.sg/~kanmy">Min-Yen Kan</A> - Project leader, NUS
   <LI> <A HREF="http://www.personal.psu.edu/igc2/">Isaac G. Councill</A>, The Pennsylvania State University
   <LI> <A HREF="http://clgiles.ist.psu.edu/">C. Lee Giles</A>, The Pennsylvania State University
-  <LI> <A HREF="http://wing.comp.nus.edu.sg/~lmthang">Minh-Thang Luong</A> - Research Assistant (Alumnus), NUS
+  <LI> <A HREF="http://wing.comp.nus.edu.sg/~lmthang">Minh-Thang Luong</A> - Research Assistant (alumnus), NUS
   <LI> Yong Kiat Ng - Final year undergraduate student (graduated, 2004), NUS
-  <LI> Thuy Dung Nguyen - Research Assistant (Alumnus), NUS
+  <LI> Thuy Dung Nguyen - Research Assistant (alumnus), NUS
   <LI> Huy Nhat Hoang Do - Research Assistant, NUS
+  <LI> <A HREF="http://wing.comp.nus.edu.sg/~cmkumar">Muthu Kumar Chandrasekaran</A> - Research Assistant, NUS
 </UL>
 
 <!-- FAQ ---------------------------------------------------------------------- -->
@@ -394,13 +410,32 @@ HREF="http://wing.comp.nus.edu.sg/~wing.nus/samples/W06-0102.cite">http://wing.c
      tables, equations, footnotes and captions. <BR/> For compatibility
      issues, the ParsHed module is still retained in our source code
      and command line options.  </DD>
-  <DT>What is the "genericHeader" in the output of SectLabel?</DT>
+
+  <DT>How do I retrain ParsCit for a different language? I saw code in
+    lib/ParsCit/PreProcess' to find the beginning of the bibliography
+    section, and changed that but it doesn't work.</DT>
+  <DD>The current version does not depend on those regular expressions
+    anymore, they are for previous versions (e.g., v101101).  ParsCit
+    now first labels each line using the SectLabel module and
+    discovers which lines to parse references for based on the first
+    step's output.  You need to retrain SectLabel for this, by
+    providing labeled data about what class of line each line in your
+    training data is.  It's also possible to "downgrade" the current
+    version to go back to use the rule-based method for identifying
+    the reference section.</DD>
+  <DT>What is the "genericHeader" in the output of SectLabel?  What is
+  the difference between "genericSect.tagged" and "SectLabel.tagged"?</DT>
   <DD>Generic headers, such as introduction, methodology, and
      evaluation, represent generic purposes of different sections in a
      scholarly article.  We map all section names to generic ones
      (i.e., "5. Text Features" to "Methodology").  This promotes
      comparative viewing of sections with identical purpose across
-     articles.  </DD>
+     articles.  For the second question, actually, Generic section is
+     a component of SectLabel.  It is responsible for classifying the
+     section headers of a paper into the generic categories such as
+     Introduction, Methodology, Result, etc.  For details refer to our
+     IJDLS journal paper.
+ </DD>
   <DT>Why is there an option to input file in XML format? Which DTD
     should it follow?</DT>
   <DD>SectLabel is a robust logical document structure inference
@@ -413,6 +448,13 @@ HREF="http://wing.comp.nus.edu.sg/~wing.nus/samples/W06-0102.cite">http://wing.c
     should follows the DTD by OmniPage.  Note: The ParsCit team is not
     affiliated with Nuance in any way nor does it endorse
     OmniPage.</DD>
+  <DT> I need to run ParsCit but I can't get well-formed text from my
+    PDF documents.  Can you help?</DT>
+  <DD> No, we cannot help you with this.  We don't perform OCR or text
+    extraction from PDF documents.  You will have to find your own
+    source for doing the extraction or conversion.  We've found
+    Omnipage useful in our own project work (hence the possibility of
+    XML input), but we don't endorse any product.</DD>
   <DT> The OmniPage XML doesn't seem to be well-formed.  Is that OK?</DT>
   <DD> Yes. The sample "XML" provided in the links (for Demo 2) are
     actual outputs for a sequence of XML pages (one XML file per
@@ -450,19 +492,44 @@ are some common problems people have encountered.
   processing correctly, rather than do it ad-hoc ourselves, but this
   requires constructing an exhaustive DOM tree for the Omnipage input.
   This is the timesink that you are experiencing.</DD>
+  <DT>I'm running ParsCit on Windows but I can't get it to work, even
+  after installing a perl interpreter.  Specifically, the
+  citeExtract.pl program dies complaining that it Can't open
+  "/tmp/...." at line 175.  </DT>
+  <DD>ParsCit hasn't been fully tested on windows at NUS, so we can't
+  vouch for whether it will run correctly. In this specific error
+  case, the "/tmp/" directory (a standard place for temporary files in
+  UNIX systems) is normally not available in Windows, and may generate
+  problems.  You may need to change the code and/or create an
+  appropriate directory for ParsCit to generate such files.</DD>
   <DT>I tried downloading and running ParsCit but I get complaints
     about /bin/sed and crf not being found.  Help?</DT>
   <DD>Please read the INSTALL.txt directions.  You need to recompile
     CRF++ for your platform.  The paths included with the install are
     for our version, you need to recompile to have the paths point
     correctly.</DD>
-  <DT>When running citeExtract.pl I get some errors complaining about the wrong ELF class of the binaries.  How can I fix this?</DT>
-  <DD>This seems to be a problem with the compiled executables of CRF++ bundled with the software.  Follow the INSTALL instructions but after step 1 do:
+  <DT>When running citeExtract.pl I get some errors complaining about
+  the wrong ELF class of the binaries.  How can I fix this?</DT>
+  <DD>This seems to be a problem with the compiled executables of
+  CRF++ bundled with the software.  Follow the INSTALL instructions
+  but after step 1 do:
 <P>
 <CODE>$ cp -Rf * ../../.libs
 $ cp crf_learn ../../.libs/lt-crf_learn<BR/>
 $ cp crf_test ../../.libs/lt-crf_test<BR/>
 </CODE></DD>
+  <DT>I'm trying to install parscit v110505 using the instructions in the install file, and when I get to the point where you're supposed to recompile CRF, it exists with an error:<BR/>
+
+<PRE>In file included from node.h:13:0,
+                   from node.cpp:9:
+		   path.h:26:52: error: 'size_t' has not been declared
+		   make[1]: *** [node.lo] Error 1
+		   make[1]: Leaving directory `/home/agarnett/parscit/crfpp/CRF++-0.51'
+		   make: *** [all] Error 2</PRE><BR/>
+The install file mentions that this may fail the first time; unfortunately for me, it keeps failing. any help?</DT>
+  <DD>The error is from CRF++ package (not from ParsCit), there are two ways to fix it:<BR/>
+  1.  Add the line.  <CODE>#include&lt;iostream&gt;</CODE> in node.cpp and compile crf++ again, or;<BR/>
+  2.  Go to <A HREF="http://crfpp.googlecode.com/svn/trunk/doc/index.html">http://crfpp.googlecode.com/svn/trunk/doc/index.html</A> and download the latest version.  The instruction is the same.  Hope this helps.</DD>
   <DT>Issue numbers don't get extracted.</DT>
   <DD><SPAN CLASS="red">This issue should be fixed as of the v110505
   release.</SPAN> There is now some heuristic postprocessing code to
@@ -536,6 +603,28 @@ $ mv model ../../resources/parsCit.model
     0.51 and place the libraries and the executables in the proper
     place. See the README for details.</DD>
 
+	<DT> I am trying to install CRF++(CRFPP).
+		 When I executed the following in the terminal,
+		 <BR><BR>
+		 <CODE>
+		 $ /opt/parscit2/bin/citeExtract.pl -m extract_all
+		 <BR>$ /var/www/internal/indra/uploads_batch/proses.txt
+		 <BR>$ /var/www/internal/indra/uploads_batch/hasiltemp.xml	
+		 </CODE>
+		 <BR><BR>the following error was thrown.
+		 <CODE>
+		 <BR>$ /opt/parscit2/crfpp/.libs/lt-crf_test: error while loading shared libraries:
+		 <BR>libcrfpp.so.0: cannot open shared object file: No such file or directory
+		</CODE>
+	</DT>
+	<DD> The file libcrfpp.so.0 is not in your library path. Normally, a successful 
+		reinstallation of CRF++ (following the instructions above) will also solve this 
+		problem. If it is still persists, you can try setting the LD_LIBRARY_PATH variable to the location of libcrfpp.so.0 file :
+		<BR>
+		<CODE>
+		$ export LD_LIBRARY_PATH=&lt;PATH-TO-LIBCRFPP.SO.0-FILE&gt;
+		</CODE>	
+	</DD>
 </DL>
 
 <!-- Kudos ---------------------------------------------------------------------- -->
@@ -544,28 +633,37 @@ $ mv model ../../resources/parsCit.model
 <p>ParsCit owes its continued maintenance and support from its user
 base.  Here we'd like to thank them for their help.</p>
 
-<P>Thanks to Behrang Qasemizadeh for reporting problems with
-truncation of XML entities in XML output (v110505).  Thanks Tim Brody
-for his BiblioScript patch.  Thanks to David Jurgens for suggesting
-that remove temporary files after runs (v110505).  Thanks Nikolay
-Nikolov for suggesting the conversion of OmniPage XML results from
-UTF-16 to UTF-8 to avoid encoding problems. Thanks to Matteo Romanello
-for the suggestion and permission to incorporate BiblioScript software
-(v101101). Many thanks to Kris Jack for pointing out problems with the
-ELF binaries and an appropriate fix.  Thanks to Cheong Chi Hong for
-fixing problems with Preprocess.pm (v100401) and contributing the
-ICONIP training data and XML entity problems in reference string
-parsing (v100401).  Thanks to Priya Venkateshan for pointing out
-sudo/root installation possibilities (v100401).  Thanks to Mario
-Lipinski for reporting punctuation stripping problems in reference
-string parsing (v100401).  Thanks to Artemy Kolchinsky for fixes in
-Preprocess.pm (v090625). Thanks to Matteo Romanello for the humanities
-training datasets.  Thanks to Dain Kaplan for helping us fix the
-Preprocess.pm bug.  Thanks to Ayeh Bandeh-Ahmadi for correcting the
-warning in parseRefString.pl.  Thanks to Nick Friedrich and J&ouml;ran
-Beel of scienstein.org for all fixes in the v081201 version of
-ParsCit.  Also thanks to Madian Khabsa for indicating problems with
-installation to MacOS.</p>
+<P>Thanks to David Judd who reconfigured how CRF++ is located with
+respect to the main code.  Thanks to Alex Garnett in spotting more
+problems with CRF dependencies.  Thanks to George E. Raptis and Eric
+Tran for the port to Windows.  Thanks to Zhu Ying-Bo
+(yumichika@163.com) from the Language Computing and Web Mining Group,
+Institute of Computer Science and Technology of Peking University for
+the partial port to Windows.  Thanks to Yustus Oktian for questions
+about training for another language.  Thanks to Madhur Kapoor for
+asking questions about PDF conversion.  Thanks to Behrang Qasemizadeh
+for reporting problems with truncation of XML entities in XML output
+(v110505).  Thanks Tim Brody for his BiblioScript patch.  Thanks to
+David Jurgens for suggesting that remove temporary files after runs
+(v110505).  Thanks Nikolay Nikolov for suggesting the conversion of
+OmniPage XML results from UTF-16 to UTF-8 to avoid encoding
+problems. Thanks to Matteo Romanello for the suggestion and permission
+to incorporate BiblioScript software (v101101). Many thanks to Kris
+Jack for pointing out problems with the ELF binaries and an
+appropriate fix.  Thanks to Cheong Chi Hong for fixing problems with
+Preprocess.pm (v100401) and contributing the ICONIP training data and
+XML entity problems in reference string parsing (v100401).  Thanks to
+Priya Venkateshan for pointing out sudo/root installation
+possibilities (v100401).  Thanks to Mario Lipinski for reporting
+punctuation stripping problems in reference string parsing (v100401).
+Thanks to Artemy Kolchinsky for fixes in Preprocess.pm
+(v090625). Thanks to Matteo Romanello for the humanities training
+datasets.  Thanks to Dain Kaplan for helping us fix the Preprocess.pm
+bug.  Thanks to Ayeh Bandeh-Ahmadi for correcting the warning in
+parseRefString.pl.  Thanks to Nick Friedrich and J&ouml;ran Beel of
+scienstein.org for all fixes in the v081201 version of ParsCit.  Also
+thanks to Madian Khabsa for indicating problems with installation to
+MacOS.</p>
 
 <P>ParsCit is used by many projects worldwide, and not just in
 experimental, research and academic places, but in commercial
@@ -618,7 +716,7 @@ Created on: Fri Dec 24 01:48:05 SGT 2004
 | Version: 1.0
 
 | Last modified: 
-Sat May  7 21:38:46 SGT 2011
+Tue Jul 23 00:28:05 SGT 2013
 <!-- hhmts end -->
 </H5>
 </div>
